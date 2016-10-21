@@ -1,0 +1,33 @@
+{
+    "grainAdminApp": {
+        "bid" : {
+            "home": {
+                "title": "Bids",
+                "createLabel": "Create a new Bid",
+                "createOrEditLabel": "Create or edit a Bid",
+                "search": "Search for Bid"
+            },
+            "created": "A new Bid is created with identifier {{ param }}",
+            "updated": "A Bid is updated with identifier {{ param }}",
+            "deleted": "A Bid is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Bid {{ id }}?"
+            },
+            "detail": {
+                "title": "Bid"
+            },
+            "creationDate": "Creation Date",
+            "qualityClass": "Quality Class",
+            "qualityPassport": "Quality Passport",
+            "volume": "Volume",
+            "price": "Price",
+            "nds": "Nds",
+            "isActive": "Is Active",
+            "archiveDate": "Archive Date",
+            "agentContact": "Agent Contact",
+            "qualityParameters": "Quality Parameters",
+            "agent": "Agent",
+            "elevator": "Elevator"
+        }
+    }
+}

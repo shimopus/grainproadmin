@@ -1,0 +1,69 @@
+
+<div>
+    <h2><span data-translate="grainAdminApp.bid.detail.title">Bid</span> {{vm.bid.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span></dt>
+        <dd>
+            <span>{{vm.bid.creationDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.qualityClass">Quality Class</span></dt>
+        <dd>
+            <span data-translate="{{'grainAdminApp.QualityClass.' + vm.bid.qualityClass}}">{{vm.bid.qualityClass}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.qualityPassport">Quality Passport</span></dt>
+        <dd>
+            <span>{{vm.bid.qualityPassport}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.volume">Volume</span></dt>
+        <dd>
+            <span>{{vm.bid.volume}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.price">Price</span></dt>
+        <dd>
+            <span>{{vm.bid.price}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.nds">Nds</span></dt>
+        <dd>
+            <span data-translate="{{'grainAdminApp.NDS.' + vm.bid.nds}}">{{vm.bid.nds}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.isActive">Is Active</span></dt>
+        <dd>
+            <span>{{vm.bid.isActive}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.archiveDate">Archive Date</span></dt>
+        <dd>
+            <span>{{vm.bid.archiveDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.agentContact">Agent Contact</span></dt>
+        <dd>
+            <a ui-sref="contact-detail({id:vm.bid.agentContactId})">{{vm.bid.agentContactId}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.qualityParameters">Quality Parameters</span></dt>
+        <dd>
+            <span ng-repeat="qualityParameters in vm.bid.qualityParameters">
+                <a ui-sref="quality-value-detail({id: qualityParameters.id})">{{qualityParameters.id}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.agent">Agent</span></dt>
+        <dd>
+            <a ui-sref="partner-detail({id:vm.bid.agentId})">{{vm.bid.agentName}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.bid.elevator">Elevator</span></dt>
+        <dd>
+            <a ui-sref="partner-detail({id:vm.bid.elevatorId})">{{vm.bid.elevatorName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="bid-detail.edit({id:vm.bid.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

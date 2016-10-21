@@ -1,0 +1,37 @@
+{
+    "grainAdminApp": {
+        "partner" : {
+            "home": {
+                "title": "Partners",
+                "createLabel": "Создать новый Partner",
+                "createOrEditLabel": "Создать или отредактировать Partner",
+                "search": "Найти Partner"
+            },
+            "created": "Новый Partner создан с идентификатором {{ param }}",
+            "updated": "Partner обновлен с идентификатором {{ param }}",
+            "deleted": "Partner удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Partner {{ id }}?"
+            },
+            "detail": {
+                "title": "Partner"
+            },
+            "name": "Name",
+            "shortName": "Short Name",
+            "inn": "Inn",
+            "nds": "Nds",
+            "card": "Card",
+            "agentBids": "Agent Bids",
+            "elevatorBids": "Elevator Bids",
+            "ownedBy": "Owned By",
+            "organisationType": "Organisation Type",
+            "district": "District",
+            "region": "Region",
+            "locality": "Locality",
+            "station": "Station",
+            "contacts": "Contacts",
+            "servicePrices": "Service Prices",
+            "ownerFor": "Owner For"
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "grainAdminApp": {
+        "station" : {
+            "home": {
+                "title": "Stations",
+                "createLabel": "Создать новый Station",
+                "createOrEditLabel": "Создать или отредактировать Station",
+                "search": "Найти Station"
+            },
+            "created": "Новый Station создан с идентификатором {{ param }}",
+            "updated": "Station обновлен с идентификатором {{ param }}",
+            "deleted": "Station удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Station {{ id }}?"
+            },
+            "detail": {
+                "title": "Station"
+            },
+            "name": "Name",
+            "code": "Code",
+            "district": "District",
+            "region": "Region",
+            "locality": "Locality"
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "grainAdminApp": {
+        "locality" : {
+            "home": {
+                "title": "Localities",
+                "createLabel": "Создать новый Locality",
+                "createOrEditLabel": "Создать или отредактировать Locality",
+                "search": "Найти Locality"
+            },
+            "created": "Новый Locality создан с идентификатором {{ param }}",
+            "updated": "Locality обновлен с идентификатором {{ param }}",
+            "deleted": "Locality удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Locality {{ id }}?"
+            },
+            "detail": {
+                "title": "Locality"
+            },
+            "name": "Name"
+        }
+    }
+}

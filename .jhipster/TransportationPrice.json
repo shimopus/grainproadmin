@@ -1,0 +1,35 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "stationFrom",
+            "otherEntityName": "station",
+            "otherEntityField": "code",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "transportationPrice"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "stationTo",
+            "otherEntityName": "station",
+            "otherEntityField": "code",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "transportationPrice"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "price",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20161018221026",
+    "entityTableName": "transportation_price",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass"
+}

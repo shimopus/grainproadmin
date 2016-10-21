@@ -1,0 +1,24 @@
+{
+    "grainAdminApp": {
+        "qualityParameter" : {
+            "home": {
+                "title": "Quality Parameters",
+                "createLabel": "Create a new Quality Parameter",
+                "createOrEditLabel": "Create or edit a Quality Parameter",
+                "search": "Search for Quality Parameter"
+            },
+            "created": "A new Quality Parameter is created with identifier {{ param }}",
+            "updated": "A Quality Parameter is updated with identifier {{ param }}",
+            "deleted": "A Quality Parameter is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Quality Parameter {{ id }}?"
+            },
+            "detail": {
+                "title": "Quality Parameter"
+            },
+            "name": "Name",
+            "availableValues": "Available Values",
+            "unit": "Unit"
+        }
+    }
+}

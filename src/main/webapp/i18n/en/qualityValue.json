@@ -1,0 +1,23 @@
+{
+    "grainAdminApp": {
+        "qualityValue" : {
+            "home": {
+                "title": "Quality Values",
+                "createLabel": "Create a new Quality Value",
+                "createOrEditLabel": "Create or edit a Quality Value",
+                "search": "Search for Quality Value"
+            },
+            "created": "A new Quality Value is created with identifier {{ param }}",
+            "updated": "A Quality Value is updated with identifier {{ param }}",
+            "deleted": "A Quality Value is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Quality Value {{ id }}?"
+            },
+            "detail": {
+                "title": "Quality Value"
+            },
+            "value": "Value",
+            "qualityParameter": "Quality Parameter"
+        }
+    }
+}

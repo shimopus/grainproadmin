@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span data-translate="grainAdminApp.station.detail.title">Station</span> {{vm.station.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="grainAdminApp.station.name">Name</span></dt>
+        <dd>
+            <span>{{vm.station.name}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.station.code">Code</span></dt>
+        <dd>
+            <span>{{vm.station.code}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.station.district">District</span></dt>
+        <dd>
+            <a ui-sref="district-detail({id:vm.station.districtId})">{{vm.station.districtName}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.station.region">Region</span></dt>
+        <dd>
+            <a ui-sref="region-detail({id:vm.station.regionId})">{{vm.station.regionName}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.station.locality">Locality</span></dt>
+        <dd>
+            <a ui-sref="locality-detail({id:vm.station.localityId})">{{vm.station.localityName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="station-detail.edit({id:vm.station.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

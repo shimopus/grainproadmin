@@ -1,0 +1,22 @@
+{
+    "grainAdminApp": {
+        "serviceType" : {
+            "home": {
+                "title": "Service Types",
+                "createLabel": "Создать новый Service Type",
+                "createOrEditLabel": "Создать или отредактировать Service Type",
+                "search": "Найти Service Type"
+            },
+            "created": "Новый Service Type создан с идентификатором {{ param }}",
+            "updated": "Service Type обновлен с идентификатором {{ param }}",
+            "deleted": "Service Type удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Service Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Service Type"
+            },
+            "name": "Name"
+        }
+    }
+}

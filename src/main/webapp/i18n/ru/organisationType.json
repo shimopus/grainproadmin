@@ -1,0 +1,22 @@
+{
+    "grainAdminApp": {
+        "organisationType" : {
+            "home": {
+                "title": "Organisation Types",
+                "createLabel": "Создать новый Organisation Type",
+                "createOrEditLabel": "Создать или отредактировать Organisation Type",
+                "search": "Найти Organisation Type"
+            },
+            "created": "Новый Organisation Type создан с идентификатором {{ param }}",
+            "updated": "Organisation Type обновлен с идентификатором {{ param }}",
+            "deleted": "Organisation Type удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Organisation Type {{ id }}?"
+            },
+            "detail": {
+                "title": "Organisation Type"
+            },
+            "type": "Type"
+        }
+    }
+}

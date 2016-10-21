@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         name="CM1"
+         updateCheck="false"
+         maxBytesLocalHeap="16M">
+
+    <!--
+      This is a default configuration, it is re-configured by the CacheConfiguration Spring Bean, using the
+      properties from the resources/config/*.yml files.
+    -->
+
+    <diskStore path="java.io.tmpdir"/>
+
+    <defaultCache
+            eternal="false"
+            overflowToDisk="false"
+            />
+
+    <cache name="pro.grain.admin.domain.User"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Authority"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.User.authorities"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.PersistentToken"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.User.persistentTokens"
+           timeToLiveSeconds="3600">
+    </cache>
+    
+
+    <cache name="pro.grain.admin.social.SocialUserConnection"
+           timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Bid"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Partner"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Partner.agentBids"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Partner.elevatorBids"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Partner.ownedBies"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Partner.contacts"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Partner.servicePrices"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Contact"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Station"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.TransportationPrice"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.QualityParameter"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.QualityValue"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.ServicePrice"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.OrganisationType"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.District"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Region"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Locality"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.ServiceType"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Email"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <cache name="pro.grain.admin.domain.Bid.qualityParameters"
+        timeToLiveSeconds="3600">
+    </cache>
+
+    <!-- jhipster-needle-ehcache-add-entry -->
+</ehcache>

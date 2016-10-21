@@ -1,0 +1,24 @@
+{
+    "grainAdminApp": {
+        "transportationPrice" : {
+            "home": {
+                "title": "Transportation Prices",
+                "createLabel": "Создать новый Transportation Price",
+                "createOrEditLabel": "Создать или отредактировать Transportation Price",
+                "search": "Найти Transportation Price"
+            },
+            "created": "Новый Transportation Price создан с идентификатором {{ param }}",
+            "updated": "Transportation Price обновлен с идентификатором {{ param }}",
+            "deleted": "Transportation Price удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Transportation Price {{ id }}?"
+            },
+            "detail": {
+                "title": "Transportation Price"
+            },
+            "price": "Price",
+            "stationFrom": "Station From",
+            "stationTo": "Station To"
+        }
+    }
+}

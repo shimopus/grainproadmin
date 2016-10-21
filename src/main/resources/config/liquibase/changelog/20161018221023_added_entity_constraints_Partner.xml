@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity Partner.
+    -->
+    <changeSet id="20161018221023-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="organisation_type_id"
+                                 baseTableName="partner"
+                                 constraintName="fk_partner_organisation_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="organisation_type"/>
+
+        <addForeignKeyConstraint baseColumnNames="district_id"
+                                 baseTableName="partner"
+                                 constraintName="fk_partner_district_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="district"/>
+
+        <addForeignKeyConstraint baseColumnNames="region_id"
+                                 baseTableName="partner"
+                                 constraintName="fk_partner_region_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="region"/>
+
+        <addForeignKeyConstraint baseColumnNames="locality_id"
+                                 baseTableName="partner"
+                                 constraintName="fk_partner_locality_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="locality"/>
+
+        <addForeignKeyConstraint baseColumnNames="station_id"
+                                 baseTableName="partner"
+                                 constraintName="fk_partner_station_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="station"/>
+
+        <addForeignKeyConstraint baseColumnNames="partners_id"
+                                 baseTableName="partner_contacts"
+                                 constraintName="fk_partner_contacts_partners_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="partner"/>
+        <addForeignKeyConstraint baseColumnNames="contacts_id"
+                                 baseTableName="partner_contacts"
+                                 constraintName="fk_partner_contacts_contacts_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="contact"/>
+        
+        <addForeignKeyConstraint baseColumnNames="partners_id"
+                                 baseTableName="partner_service_prices"
+                                 constraintName="fk_partner_service_prices_partners_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="partner"/>
+        <addForeignKeyConstraint baseColumnNames="service_prices_id"
+                                 baseTableName="partner_service_prices"
+                                 constraintName="fk_partner_service_prices_service_prices_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="service_price"/>
+        
+        <addForeignKeyConstraint baseColumnNames="owner_for_id"
+                                 baseTableName="partner"
+                                 constraintName="fk_partner_owner_for_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="partner"/>
+
+    </changeSet>
+</databaseChangeLog>

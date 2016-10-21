@@ -1,0 +1,23 @@
+{
+    "grainAdminApp": {
+        "servicePrice" : {
+            "home": {
+                "title": "Service Prices",
+                "createLabel": "Создать новый Service Price",
+                "createOrEditLabel": "Создать или отредактировать Service Price",
+                "search": "Найти Service Price"
+            },
+            "created": "Новый Service Price создан с идентификатором {{ param }}",
+            "updated": "Service Price обновлен с идентификатором {{ param }}",
+            "deleted": "Service Price удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Service Price {{ id }}?"
+            },
+            "detail": {
+                "title": "Service Price"
+            },
+            "price": "Price",
+            "serviceType": "Service Type"
+        }
+    }
+}

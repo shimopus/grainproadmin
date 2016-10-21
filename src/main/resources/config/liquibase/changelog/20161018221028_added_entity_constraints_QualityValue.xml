@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity QualityValue.
+    -->
+    <changeSet id="20161018221028-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="quality_parameter_id"
+                                 baseTableName="quality_value"
+                                 constraintName="fk_quality_value_quality_parameter_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="quality_parameter"/>
+
+    </changeSet>
+</databaseChangeLog>

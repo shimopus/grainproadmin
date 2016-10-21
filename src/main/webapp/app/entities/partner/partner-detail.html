@@ -1,0 +1,75 @@
+
+<div>
+    <h2><span data-translate="grainAdminApp.partner.detail.title">Partner</span> {{vm.partner.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="grainAdminApp.partner.name">Name</span></dt>
+        <dd>
+            <span>{{vm.partner.name}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.shortName">Short Name</span></dt>
+        <dd>
+            <span>{{vm.partner.shortName}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.inn">Inn</span></dt>
+        <dd>
+            <span>{{vm.partner.inn}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.nds">Nds</span></dt>
+        <dd>
+            <span data-translate="{{'grainAdminApp.NDS.' + vm.partner.nds}}">{{vm.partner.nds}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.card">Card</span></dt>
+        <dd>
+            <span>{{vm.partner.card}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.organisationType">Organisation Type</span></dt>
+        <dd>
+            <a ui-sref="organisation-type-detail({id:vm.partner.organisationTypeId})">{{vm.partner.organisationTypeId}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.district">District</span></dt>
+        <dd>
+            <a ui-sref="district-detail({id:vm.partner.districtId})">{{vm.partner.districtName}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.region">Region</span></dt>
+        <dd>
+            <a ui-sref="region-detail({id:vm.partner.regionId})">{{vm.partner.regionName}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.locality">Locality</span></dt>
+        <dd>
+            <a ui-sref="locality-detail({id:vm.partner.localityId})">{{vm.partner.localityName}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.station">Station</span></dt>
+        <dd>
+            <a ui-sref="station-detail({id:vm.partner.stationId})">{{vm.partner.stationCode}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.contacts">Contacts</span></dt>
+        <dd>
+            <span ng-repeat="contacts in vm.partner.contacts">
+                <a ui-sref="contact-detail({id: contacts.id})">{{contacts.id}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.servicePrices">Service Prices</span></dt>
+        <dd>
+            <span ng-repeat="servicePrices in vm.partner.servicePrices">
+                <a ui-sref="service-price-detail({id: servicePrices.id})">{{servicePrices.id}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.partner.ownerFor">Owner For</span></dt>
+        <dd>
+            <a ui-sref="partner-detail({id:vm.partner.ownerForId})">{{vm.partner.ownerForName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="partner-detail.edit({id:vm.partner.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

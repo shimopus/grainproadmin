@@ -1,0 +1,23 @@
+{
+    "grainAdminApp": {
+        "qualityValue" : {
+            "home": {
+                "title": "Quality Values",
+                "createLabel": "Создать новый Quality Value",
+                "createOrEditLabel": "Создать или отредактировать Quality Value",
+                "search": "Найти Quality Value"
+            },
+            "created": "Новый Quality Value создан с идентификатором {{ param }}",
+            "updated": "Quality Value обновлен с идентификатором {{ param }}",
+            "deleted": "Quality Value удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Quality Value {{ id }}?"
+            },
+            "detail": {
+                "title": "Quality Value"
+            },
+            "value": "Value",
+            "qualityParameter": "Quality Parameter"
+        }
+    }
+}

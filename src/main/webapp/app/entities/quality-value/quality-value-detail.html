@@ -1,0 +1,27 @@
+
+<div>
+    <h2><span data-translate="grainAdminApp.qualityValue.detail.title">Quality Value</span> {{vm.qualityValue.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="grainAdminApp.qualityValue.value">Value</span></dt>
+        <dd>
+            <span>{{vm.qualityValue.value}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.qualityValue.qualityParameter">Quality Parameter</span></dt>
+        <dd>
+            <a ui-sref="quality-parameter-detail({id:vm.qualityValue.qualityParameterId})">{{vm.qualityValue.qualityParameterName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="quality-value-detail.edit({id:vm.qualityValue.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

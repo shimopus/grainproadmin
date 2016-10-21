@@ -1,0 +1,10 @@
+{
+    "grainAdminApp": {
+        "NDS" : {
+            "null": "",
+            "INCLUDED": "INCLUDED",
+            "EXCLUDED": "EXCLUDED",
+            "BOTH": "BOTH"
+        }
+    }
+}

@@ -1,0 +1,39 @@
+
+<div>
+    <h2><span data-translate="grainAdminApp.contact.detail.title">Contact</span> {{vm.contact.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="grainAdminApp.contact.personName">Person Name</span></dt>
+        <dd>
+            <span>{{vm.contact.personName}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.contact.status">Status</span></dt>
+        <dd>
+            <span>{{vm.contact.status}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.contact.phone">Phone</span></dt>
+        <dd>
+            <span>{{vm.contact.phone}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.contact.skype">Skype</span></dt>
+        <dd>
+            <span>{{vm.contact.skype}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.contact.email">Email</span></dt>
+        <dd>
+            <a ui-sref="email-detail({id:vm.contact.emailId})">{{vm.contact.emailEmail}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="contact-detail.edit({id:vm.contact.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

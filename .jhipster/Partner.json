@@ -1,0 +1,106 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "agentBids",
+            "otherEntityName": "bid",
+            "otherEntityRelationshipName": "agent"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "elevatorBids",
+            "otherEntityName": "bid",
+            "otherEntityRelationshipName": "elevator"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "ownedBy",
+            "otherEntityName": "partner",
+            "otherEntityRelationshipName": "ownerFor"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "organisationType",
+            "otherEntityName": "organisationType",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "district",
+            "otherEntityName": "district",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "region",
+            "otherEntityName": "region",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "locality",
+            "otherEntityName": "locality",
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "station",
+            "otherEntityName": "station",
+            "otherEntityField": "code"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "contacts",
+            "otherEntityName": "contact",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "servicePrices",
+            "otherEntityName": "servicePrice",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "ownerFor",
+            "otherEntityName": "partner",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "shortName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "inn",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "nds",
+            "fieldType": "NDS",
+            "fieldValues": "INCLUDED,EXCLUDED,BOTH"
+        },
+        {
+            "fieldName": "card",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20161018221023",
+    "entityTableName": "partner",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceClass"
+}

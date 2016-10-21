@@ -1,0 +1,10 @@
+{
+    "grainAdminApp": {
+        "NDS" : {
+            "null": "",
+            "INCLUDED": "с НДС",
+            "EXCLUDED": "без НДС",
+            "BOTH": "с НДС и без"
+        }
+    }
+}

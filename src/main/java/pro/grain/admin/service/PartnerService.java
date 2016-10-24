@@ -28,7 +28,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class PartnerService {
 
     private final Logger log = LoggerFactory.getLogger(PartnerService.class);
-    
+
     @Inject
     private PartnerRepository partnerRepository;
 
@@ -55,11 +55,11 @@ public class PartnerService {
 
     /**
      *  Get all the partners.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<PartnerDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Partners");
         Page<Partner> result = partnerRepository.findAll(pageable);
@@ -72,7 +72,7 @@ public class PartnerService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public PartnerDTO findOne(Long id) {
         log.debug("Request to get Partner : {}", id);
         Partner partner = partnerRepository.findOneWithEagerRelationships(id);
@@ -100,7 +100,8 @@ public class PartnerService {
     @Transactional(readOnly = true)
     public Page<PartnerDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Partners for query {}", query);
-        Page<Partner> result = partnerSearchRepository.search(queryStringQuery(query), pageable);
+//        Page<Partner> result = partnerSearchRepository.search(queryStringQuery(query), pageable);
+        Page<Partner> result = partnerSearchRepository.queryByNameContainingOrInnContainingOrCardContaining(query, query, query, pageable);
         return result.map(partner -> partnerMapper.partnerToPartnerDTO(partner));
     }
 }

@@ -18,6 +18,7 @@
         vm.contacts = Contact.query();
         vm.qualityvalues = QualityValue.query();
         vm.partners = Partner.query();
+        vm.formatSelection = formatSelection;
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -51,6 +52,12 @@
 
         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;
+        }
+
+        function formatSelection(value) {
+            return vm.contacts.find(function (contact) {
+                return contact.id === value;
+            }).personName;
         }
     }
 })();

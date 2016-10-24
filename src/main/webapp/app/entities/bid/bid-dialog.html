@@ -131,7 +131,7 @@
             <input class="form-control" id="field_agentContact" name="agentContact" ng-model="vm.bid.agentContactId"
                    uib-typeahead="contact.id as contact.personName for contact in vm.contacts | filter:$viewValue"
                    typeahead-editable="false"
-                   typeahead-input-formatter="vm.formatSelection($model)"
+                   typeahead-input-formatter="vm.formatAgentContactSelection($model)"
                 >
         </div>
         <div class="form-group">

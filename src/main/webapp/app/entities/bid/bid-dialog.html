@@ -128,9 +128,11 @@
 
         <div class="form-group">
             <label data-translate="grainAdminApp.bid.agentContact" for="field_agentContact">Agent Contact</label>
-            <select class="form-control" id="field_agentContact" name="agentContact" ng-model="vm.bid.agentContactId" ng-options="contact.id as contact.id for contact in vm.contacts"            >
-                <option value=""></option>
-            </select>
+            <input class="form-control" id="field_agentContact" name="agentContact" ng-model="vm.bid.agentContactId"
+                   uib-typeahead="contact.id as contact.personName for contact in vm.contacts | filter:$viewValue"
+                   typeahead-editable="false"
+                   typeahead-input-formatter="vm.formatSelection($model)"
+                >
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.bid.qualityParameters" for="field_qualityParameters">Quality Parameters</label>

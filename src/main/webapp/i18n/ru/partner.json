@@ -2,36 +2,36 @@
     "grainAdminApp": {
         "partner" : {
             "home": {
-                "title": "Partners",
-                "createLabel": "Создать новый Partner",
-                "createOrEditLabel": "Создать или отредактировать Partner",
-                "search": "Найти Partner"
+                "title": "Контрагенты",
+                "createLabel": "Создать нового Контрагента",
+                "createOrEditLabel": "Создать или отредактировать Контрагента",
+                "search": "Найти Контрагента"
             },
-            "created": "Новый Partner создан с идентификатором {{ param }}",
-            "updated": "Partner обновлен с идентификатором {{ param }}",
+            "created": "Новый Контрагент номер {{ param }} создан",
+            "updated": "Контрагент номер {{ param }} обновлен",
             "deleted": "Partner удален с идентификатором {{ param }}",
             "delete": {
-                "question": "Вы уверены что хотите удалить Partner {{ id }}?"
+                "question": "Вы уверены что хотите удалить Контрагента номер {{ id }}?"
             },
             "detail": {
-                "title": "Partner"
+                "title": "Контрагент"
             },
-            "name": "Name",
-            "shortName": "Short Name",
-            "inn": "Inn",
-            "nds": "Nds",
-            "card": "Card",
-            "agentBids": "Agent Bids",
-            "elevatorBids": "Elevator Bids",
-            "ownedBy": "Owned By",
-            "organisationType": "Organisation Type",
-            "district": "District",
-            "region": "Region",
-            "locality": "Locality",
-            "station": "Station",
-            "contacts": "Contacts",
-            "servicePrices": "Service Prices",
-            "ownerFor": "Owner For"
+            "name": "Полное название",
+            "shortName": "Сокращеное название",
+            "inn": "ИНН",
+            "nds": "НДС",
+            "card": "Карточка Контрагента",
+            "agentBids": "Заявки как Агента",
+            "elevatorBids": "Заявки как Элеватора",
+            "ownedBy": "Родительская компания",
+            "organisationType": "Организационная форма",
+            "district": "Район",
+            "region": "Регион",
+            "locality": "Населенный пункт",
+            "station": "Станция",
+            "contacts": "Контакты",
+            "servicePrices": "Стоимость услуг",
+            "ownerFor": "Дочерние предприятия"
         }
     }
 }

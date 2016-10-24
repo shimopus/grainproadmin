@@ -29,6 +29,9 @@ public class PartnerDTO implements Serializable {
 
     private Long organisationTypeId;
     
+
+    private String organisationTypeType;
+
     private Long districtId;
     
 
@@ -107,6 +110,15 @@ public class PartnerDTO implements Serializable {
 
     public void setOrganisationTypeId(Long organisationTypeId) {
         this.organisationTypeId = organisationTypeId;
+    }
+
+
+    public String getOrganisationTypeType() {
+        return organisationTypeType;
+    }
+
+    public void setOrganisationTypeType(String organisationTypeType) {
+        this.organisationTypeType = organisationTypeType;
     }
 
     public Long getDistrictId() {

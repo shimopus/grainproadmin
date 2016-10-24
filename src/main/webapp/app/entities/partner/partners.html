@@ -35,47 +35,47 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <!--<th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>-->
                     <th jh-sort-by="name"><span data-translate="grainAdminApp.partner.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="shortName"><span data-translate="grainAdminApp.partner.shortName">Short Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="inn"><span data-translate="grainAdminApp.partner.inn">Inn</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="nds"><span data-translate="grainAdminApp.partner.nds">Nds</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="card"><span data-translate="grainAdminApp.partner.card">Card</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="organisationTypeId"><span data-translate="grainAdminApp.partner.organisationType">Organisation Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="districtName"><span data-translate="grainAdminApp.partner.district">District</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <!--<th jh-sort-by="shortName"><span data-translate="grainAdminApp.partner.shortName">Short Name</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="inn"><span data-translate="grainAdminApp.partner.inn">Inn</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="nds"><span data-translate="grainAdminApp.partner.nds">Nds</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="card"><span data-translate="grainAdminApp.partner.card">Card</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="organisationTypeType"><span data-translate="grainAdminApp.partner.organisationType">Organisation Type</span> <span class="glyphicon glyphicon-sort"></span></th>-->
                     <th jh-sort-by="regionName"><span data-translate="grainAdminApp.partner.region">Region</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="localityName"><span data-translate="grainAdminApp.partner.locality">Locality</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="stationCode"><span data-translate="grainAdminApp.partner.station">Station</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="ownerForName"><span data-translate="grainAdminApp.partner.ownerFor">Owner For</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="districtName"><span data-translate="grainAdminApp.partner.district">District</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <!--<th jh-sort-by="localityName"><span data-translate="grainAdminApp.partner.locality">Locality</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="stationCode"><span data-translate="grainAdminApp.partner.station">Station</span> <span class="glyphicon glyphicon-sort"></span></th>-->
+                    <!--<th jh-sort-by="ownerForName"><span data-translate="grainAdminApp.partner.ownerFor">Owner For</span> <span class="glyphicon glyphicon-sort"></span></th>-->
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="partner in vm.partners track by partner.id">
-                    <td><a ui-sref="partner-detail({id:partner.id})">{{partner.id}}</a></td>
-                    <td>{{partner.name}}</td>
-                    <td>{{partner.shortName}}</td>
-                    <td>{{partner.inn}}</td>
-                    <td data-translate="{{'grainAdminApp.NDS.' + partner.nds}}">{{partner.nds}}</td>
-                    <td>{{partner.card}}</td>
-                    <td>
-                        <a ui-sref="organisation-type-detail({id:partner.organisationTypeId})">{{partner.organisationTypeId}}</a>
-                    </td>
-                    <td>
-                        <a ui-sref="district-detail({id:partner.districtId})">{{partner.districtName}}</a>
-                    </td>
+                    <!--<td><a ui-sref="partner-detail({id:partner.id})">{{partner.id}}</a></td>-->
+                    <td><a ui-sref="partner-detail({id:partner.id})">{{partner.name + " " + partner.organisationTypeType}}</a></td>
+                    <!--<td>{{partner.shortName}}</td>-->
+                    <!--<td>{{partner.inn}}</td>-->
+                    <!--<td data-translate="{{'grainAdminApp.NDS.' + partner.nds}}">{{partner.nds}}</td>-->
+                    <!--<td>{{partner.card}}</td>-->
+                    <!--<td>-->
+                        <!--<a ui-sref="organisation-type-detail({id:partner.organisationTypeId})">{{partner.organisationTypeType}}</a>-->
+                    <!--</td>-->
                     <td>
                         <a ui-sref="region-detail({id:partner.regionId})">{{partner.regionName}}</a>
                     </td>
                     <td>
-                        <a ui-sref="locality-detail({id:partner.localityId})">{{partner.localityName}}</a>
+                        <a ui-sref="district-detail({id:partner.districtId})">{{partner.districtName}}</a>
                     </td>
-                    <td>
-                        <a ui-sref="station-detail({id:partner.stationId})">{{partner.stationCode}}</a>
-                    </td>
-                    <td>
-                        <a ui-sref="partner-detail({id:partner.ownerForId})">{{partner.ownerForName}}</a>
-                    </td>
+                    <!--<td>-->
+                        <!--<a ui-sref="locality-detail({id:partner.localityId})">{{partner.localityName}}</a>-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<a ui-sref="station-detail({id:partner.stationId})">{{partner.stationCode}}</a>-->
+                    <!--</td>-->
+                    <!--<td>-->
+                        <!--<a ui-sref="partner-detail({id:partner.ownerForId})">{{partner.ownerForName}}</a>-->
+                    <!--</td>-->
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

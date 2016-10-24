@@ -54,7 +54,7 @@
 
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.organisationType" for="field_organisationType">Organisation Type</label>
-            <select class="form-control" id="field_organisationType" name="organisationType" ng-model="vm.partner.organisationTypeId" ng-options="organisationType.id as organisationType.id for organisationType in vm.organisationtypes"            >
+            <select class="form-control" id="field_organisationType" name="organisationType" ng-model="vm.partner.organisationTypeId" ng-options="organisationType.id as organisationType.type for organisationType in vm.organisationtypes"            >
                 <option value=""></option>
             </select>
         </div>

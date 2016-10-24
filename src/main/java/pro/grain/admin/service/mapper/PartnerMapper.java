@@ -13,6 +13,7 @@ import java.util.List;
 public interface PartnerMapper {
 
     @Mapping(source = "organisationType.id", target = "organisationTypeId")
+    @Mapping(source = "organisationType.type", target = "organisationTypeType")
     @Mapping(source = "district.id", target = "districtId")
     @Mapping(source = "district.name", target = "districtName")
     @Mapping(source = "region.id", target = "regionId")

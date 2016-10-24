@@ -23,7 +23,7 @@
             "relationshipType": "many-to-one",
             "relationshipName": "organisationType",
             "otherEntityName": "organisationType",
-            "otherEntityField": "id"
+            "otherEntityField": "type"
         },
         {
             "relationshipType": "many-to-one",

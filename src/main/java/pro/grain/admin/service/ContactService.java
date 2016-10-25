@@ -2,7 +2,9 @@ package pro.grain.admin.service;
 
 import pro.grain.admin.domain.Contact;
 import pro.grain.admin.repository.ContactRepository;
+import pro.grain.admin.repository.PartnerRepository;
 import pro.grain.admin.repository.search.ContactSearchRepository;
+import pro.grain.admin.repository.search.PartnerSearchRepository;
 import pro.grain.admin.service.dto.ContactDTO;
 import pro.grain.admin.service.mapper.ContactMapper;
 import org.slf4j.Logger;
@@ -28,7 +30,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ContactService {
 
     private final Logger log = LoggerFactory.getLogger(ContactService.class);
-    
+
     @Inject
     private ContactRepository contactRepository;
 
@@ -37,6 +39,12 @@ public class ContactService {
 
     @Inject
     private ContactSearchRepository contactSearchRepository;
+
+    @Inject
+    private PartnerSearchRepository partnerSearchRepository;
+
+    @Inject
+    private PartnerRepository partnerRepository;
 
     /**
      * Save a contact.
@@ -53,13 +61,17 @@ public class ContactService {
         return result;
     }
 
+    public void updateRelatedObjectsForSearch() {
+        partnerSearchRepository.save(partnerRepository.findAll());
+    }
+
     /**
      *  Get all the contacts.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<ContactDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Contacts");
         Page<Contact> result = contactRepository.findAll(pageable);
@@ -72,7 +84,7 @@ public class ContactService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public ContactDTO findOne(Long id) {
         log.debug("Request to get Contact : {}", id);
         Contact contact = contactRepository.findOne(id);

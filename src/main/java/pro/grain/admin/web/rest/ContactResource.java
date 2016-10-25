@@ -35,7 +35,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class ContactResource {
 
     private final Logger log = LoggerFactory.getLogger(ContactResource.class);
-        
+
     @Inject
     private ContactService contactService;
 
@@ -56,6 +56,7 @@ public class ContactResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("contact", "idexists", "A new contact cannot already have an ID")).body(null);
         }
         ContactDTO result = contactService.save(contactDTO);
+        contactService.updateRelatedObjectsForSearch();
         return ResponseEntity.created(new URI("/api/contacts/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("contact", result.getId().toString()))
             .body(result);
@@ -80,6 +81,7 @@ public class ContactResource {
             return createContact(contactDTO);
         }
         ContactDTO result = contactService.save(contactDTO);
+        contactService.updateRelatedObjectsForSearch();
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert("contact", contactDTO.getId().toString()))
             .body(result);
@@ -144,7 +146,7 @@ public class ContactResource {
      * SEARCH  /_search/contacts?query=:query : search for the contact corresponding
      * to the query.
      *
-     * @param query the query of the contact search 
+     * @param query the query of the contact search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

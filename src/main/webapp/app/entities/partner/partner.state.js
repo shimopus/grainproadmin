@@ -131,6 +131,7 @@
                                 inn: null,
                                 nds: null,
                                 card: null,
+                                lastUpdate: null,
                                 id: null
                             };
                         }

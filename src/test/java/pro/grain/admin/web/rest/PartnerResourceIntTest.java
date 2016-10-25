@@ -27,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,6 +59,9 @@ public class PartnerResourceIntTest {
 
     private static final String DEFAULT_CARD = "AAAAA";
     private static final String UPDATED_CARD = "BBBBB";
+
+    private static final LocalDate DEFAULT_LAST_UPDATE = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_LAST_UPDATE = LocalDate.now(ZoneId.systemDefault());
 
     @Inject
     private PartnerRepository partnerRepository;
@@ -105,7 +110,8 @@ public class PartnerResourceIntTest {
                 .shortName(DEFAULT_SHORT_NAME)
                 .inn(DEFAULT_INN)
                 .nds(DEFAULT_NDS)
-                .card(DEFAULT_CARD);
+                .card(DEFAULT_CARD)
+                .lastUpdate(DEFAULT_LAST_UPDATE);
         return partner;
     }
 
@@ -137,6 +143,7 @@ public class PartnerResourceIntTest {
         assertThat(testPartner.getInn()).isEqualTo(DEFAULT_INN);
         assertThat(testPartner.getNds()).isEqualTo(DEFAULT_NDS);
         assertThat(testPartner.getCard()).isEqualTo(DEFAULT_CARD);
+        assertThat(testPartner.getLastUpdate()).isEqualTo(DEFAULT_LAST_UPDATE);
 
         // Validate the Partner in ElasticSearch
         Partner partnerEs = partnerSearchRepository.findOne(testPartner.getId());
@@ -177,7 +184,8 @@ public class PartnerResourceIntTest {
                 .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME.toString())))
                 .andExpect(jsonPath("$.[*].inn").value(hasItem(DEFAULT_INN.toString())))
                 .andExpect(jsonPath("$.[*].nds").value(hasItem(DEFAULT_NDS.toString())))
-                .andExpect(jsonPath("$.[*].card").value(hasItem(DEFAULT_CARD.toString())));
+                .andExpect(jsonPath("$.[*].card").value(hasItem(DEFAULT_CARD.toString())))
+                .andExpect(jsonPath("$.[*].lastUpdate").value(hasItem(DEFAULT_LAST_UPDATE.toString())));
     }
 
     @Test
@@ -195,7 +203,8 @@ public class PartnerResourceIntTest {
             .andExpect(jsonPath("$.shortName").value(DEFAULT_SHORT_NAME.toString()))
             .andExpect(jsonPath("$.inn").value(DEFAULT_INN.toString()))
             .andExpect(jsonPath("$.nds").value(DEFAULT_NDS.toString()))
-            .andExpect(jsonPath("$.card").value(DEFAULT_CARD.toString()));
+            .andExpect(jsonPath("$.card").value(DEFAULT_CARD.toString()))
+            .andExpect(jsonPath("$.lastUpdate").value(DEFAULT_LAST_UPDATE.toString()));
     }
 
     @Test
@@ -221,7 +230,8 @@ public class PartnerResourceIntTest {
                 .shortName(UPDATED_SHORT_NAME)
                 .inn(UPDATED_INN)
                 .nds(UPDATED_NDS)
-                .card(UPDATED_CARD);
+                .card(UPDATED_CARD)
+                .lastUpdate(UPDATED_LAST_UPDATE);
         PartnerDTO partnerDTO = partnerMapper.partnerToPartnerDTO(updatedPartner);
 
         restPartnerMockMvc.perform(put("/api/partners")
@@ -238,6 +248,7 @@ public class PartnerResourceIntTest {
         assertThat(testPartner.getInn()).isEqualTo(UPDATED_INN);
         assertThat(testPartner.getNds()).isEqualTo(UPDATED_NDS);
         assertThat(testPartner.getCard()).isEqualTo(UPDATED_CARD);
+        assertThat(testPartner.getLastUpdate()).isEqualTo(UPDATED_LAST_UPDATE);
 
         // Validate the Partner in ElasticSearch
         Partner partnerEs = partnerSearchRepository.findOne(testPartner.getId());
@@ -282,6 +293,7 @@ public class PartnerResourceIntTest {
             .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME.toString())))
             .andExpect(jsonPath("$.[*].inn").value(hasItem(DEFAULT_INN.toString())))
             .andExpect(jsonPath("$.[*].nds").value(hasItem(DEFAULT_NDS.toString())))
-            .andExpect(jsonPath("$.[*].card").value(hasItem(DEFAULT_CARD.toString())));
+            .andExpect(jsonPath("$.[*].card").value(hasItem(DEFAULT_CARD.toString())))
+            .andExpect(jsonPath("$.[*].lastUpdate").value(hasItem(DEFAULT_LAST_UPDATE.toString())));
     }
 }

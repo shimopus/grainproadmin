@@ -12,6 +12,8 @@
 
         vm.partner = entity;
         vm.clear = clear;
+        vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
         vm.save = save;
         vm.bids = Bid.query();
         vm.partners = Partner.query();
@@ -33,6 +35,7 @@
 
         function save () {
             vm.isSaving = true;
+            vm.partner.lastUpdate = new Date();
             if (vm.partner.id !== null) {
                 Partner.update(vm.partner, onSaveSuccess, onSaveError);
             } else {
@@ -50,6 +53,10 @@
             vm.isSaving = false;
         }
 
+        vm.datePickerOpenStatus.lastUpdate = false;
 
+        function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
+        }
     }
 })();

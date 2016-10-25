@@ -8,6 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -45,6 +46,9 @@ public class Partner implements Serializable {
 
     @Column(name = "card")
     private String card;
+
+    @Column(name = "last_update")
+    private LocalDate lastUpdate;
 
     @OneToMany(mappedBy = "agent")
     @JsonIgnore
@@ -164,6 +168,19 @@ public class Partner implements Serializable {
 
     public void setCard(String card) {
         this.card = card;
+    }
+
+    public LocalDate getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public Partner lastUpdate(LocalDate lastUpdate) {
+        this.lastUpdate = lastUpdate;
+        return this;
+    }
+
+    public void setLastUpdate(LocalDate lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public Set<Bid> getAgentBids() {
@@ -394,6 +411,7 @@ public class Partner implements Serializable {
             ", inn='" + inn + "'" +
             ", nds='" + nds + "'" +
             ", card='" + card + "'" +
+            ", lastUpdate='" + lastUpdate + "'" +
             '}';
     }
 }

@@ -1,5 +1,6 @@
 package pro.grain.admin.service.dto;
 
+import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -25,6 +26,8 @@ public class PartnerDTO implements Serializable {
     private NDS nds;
 
     private String card;
+
+    private LocalDate lastUpdate;
 
 
     private Long organisationTypeId;
@@ -102,6 +105,13 @@ public class PartnerDTO implements Serializable {
 
     public void setCard(String card) {
         this.card = card;
+    }
+    public LocalDate getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(LocalDate lastUpdate) {
+        this.lastUpdate = lastUpdate;
     }
 
     public Long getOrganisationTypeId() {
@@ -252,6 +262,7 @@ public class PartnerDTO implements Serializable {
             ", inn='" + inn + "'" +
             ", nds='" + nds + "'" +
             ", card='" + card + "'" +
+            ", lastUpdate='" + lastUpdate + "'" +
             '}';
     }
 }

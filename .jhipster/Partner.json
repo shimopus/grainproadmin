@@ -96,6 +96,10 @@
         {
             "fieldName": "card",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "lastUpdate",
+            "fieldType": "LocalDate"
         }
     ],
     "changelogDate": "20161018221023",

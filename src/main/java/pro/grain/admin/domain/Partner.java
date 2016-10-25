@@ -13,6 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import pro.grain.admin.domain.enumeration.NDS;
 
 /**
@@ -85,6 +87,7 @@ public class Partner implements Serializable {
     @JoinTable(name = "partner_contacts",
                joinColumns = @JoinColumn(name="partners_id", referencedColumnName="ID"),
                inverseJoinColumns = @JoinColumn(name="contacts_id", referencedColumnName="ID"))
+    @Field( type = FieldType.Nested)
     private Set<Contact> contacts = new HashSet<>();
 
     @ManyToMany

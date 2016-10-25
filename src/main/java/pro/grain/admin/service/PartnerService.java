@@ -1,5 +1,6 @@
 package pro.grain.admin.service;
 
+import org.elasticsearch.index.query.QueryBuilder;
 import pro.grain.admin.domain.Partner;
 import pro.grain.admin.repository.PartnerRepository;
 import pro.grain.admin.repository.search.PartnerSearchRepository;
@@ -13,10 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -101,7 +98,22 @@ public class PartnerService {
     public Page<PartnerDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Partners for query {}", query);
 //        Page<Partner> result = partnerSearchRepository.search(queryStringQuery(query), pageable);
-        Page<Partner> result = partnerSearchRepository.queryByNameContainingOrInnContainingOrCardContaining(query, query, query, pageable);
+
+        QueryBuilder nestedQuery = nestedQuery("contacts",
+            boolQuery()
+                .should(
+                    queryStringQuery("*" + query + "*").analyzeWildcard(true)
+                        .field("contacts.personName")
+                        .field("contacts.phone")
+                        .field("contacts.skype"))
+        );
+
+        QueryBuilder myQuery = boolQuery().should(queryStringQuery("*" + query + "*").analyzeWildcard(true).field("name").field("inn").field("card"))
+            .should(nestedQuery);
+
+        log.debug("My Query: " + myQuery);
+
+        Page<Partner> result = partnerSearchRepository.search(myQuery, pageable);
         return result.map(partner -> partnerMapper.partnerToPartnerDTO(partner));
     }
 }

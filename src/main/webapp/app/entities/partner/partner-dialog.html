@@ -52,7 +52,8 @@
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.region" for="field_region">Region</label>
-            <input class="form-control" id="field_region" name="region" ng-if="vm.regions.$resolved" ng-model="vm.partner.regionId"
+            <input class="form-control" id="field_region" name="region" ng-if="vm.regions.$resolved"
+                   ng-model="vm.partner.regionId"
                    uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
@@ -60,7 +61,8 @@
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.district" for="field_district">District</label>
-            <input class="form-control" id="field_district" name="district" ng-if="vm.districts.$resolved" ng-model="vm.partner.districtId"
+            <input class="form-control" id="field_district" name="district" ng-if="vm.districts.$resolved"
+                   ng-model="vm.partner.districtId"
                    uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
@@ -68,7 +70,8 @@
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
-            <input class="form-control" id="field_locality" name="locality" ng-if="vm.localities.$resolved" ng-model="vm.partner.localityId"
+            <input class="form-control" id="field_locality" name="locality" ng-if="vm.localities.$resolved"
+                   ng-model="vm.partner.localityId"
                    uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
@@ -84,10 +87,16 @@
         </div>
 
 
-        <!--
-            Children of this partner
-        -->
-
+        <div class="form-group">
+            <label data-translate="grainAdminApp.partner.ownedBy">Owned by</label>
+            <ol>
+                <li ng-repeat="partner in vm.children track by partner.id">
+                    <span><a ui-sref="partner-detail({id:partner.id})">{{partner.name + " " +
+                        partner.organisationTypeType}}</a></span>
+                    <span>{{partner.regionName}},{{partner.districtName}}</span>
+                </li>
+            </ol>
+        </div>
 
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.station" for="field_station">Station</label>

@@ -35,7 +35,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class PartnerResource {
 
     private final Logger log = LoggerFactory.getLogger(PartnerResource.class);
-        
+
     @Inject
     private PartnerService partnerService;
 
@@ -141,10 +141,27 @@ public class PartnerResource {
     }
 
     /**
+     * GET  /partners/children/:id : get all children partners by the "id" partner.
+     *
+     * @param id the id of the partnerDTO with children
+     * @return the ResponseEntity with status 200 (OK) and with body the partnerDTO, or with status 404 (Not Found)
+     */
+    @RequestMapping(value = "/partners/children/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<PartnerDTO>> getAllPartnerChildren(@PathVariable Long id)
+        throws URISyntaxException {
+        log.debug("REST request to get a set of Children for Partner");
+        List<PartnerDTO> page = partnerService.children(id);
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    /**
      * SEARCH  /_search/partners?query=:query : search for the partner corresponding
      * to the query.
      *
-     * @param query the query of the partner search 
+     * @param query the query of the partner search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

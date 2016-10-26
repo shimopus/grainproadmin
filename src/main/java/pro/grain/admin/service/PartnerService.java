@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
@@ -51,10 +54,10 @@ public class PartnerService {
     }
 
     /**
-     *  Get all the partners.
+     * Get all the partners.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<PartnerDTO> findAll(Pageable pageable) {
@@ -64,10 +67,10 @@ public class PartnerService {
     }
 
     /**
-     *  Get one partner by id.
+     * Get one partner by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public PartnerDTO findOne(Long id) {
@@ -78,9 +81,9 @@ public class PartnerService {
     }
 
     /**
-     *  Delete the  partner by id.
+     * Delete the  partner by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Partner : {}", id);
@@ -88,11 +91,17 @@ public class PartnerService {
         partnerSearchRepository.delete(id);
     }
 
+    public List<PartnerDTO> children(Long id) {
+        log.debug("Request to get children for Partner : {}", id);
+        List<Partner> children = partnerRepository.findAllChildren(id);
+        return children.stream().map(partner -> partnerMapper.partnerToPartnerDTO(partner)).collect(Collectors.toList());
+    }
+
     /**
      * Search for the partner corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<PartnerDTO> search(String query, Pageable pageable) {

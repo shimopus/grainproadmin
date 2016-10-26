@@ -285,7 +285,7 @@ public class PartnerResourceIntTest {
         partnerSearchRepository.save(partner);
 
         // Search the partner
-        restPartnerMockMvc.perform(get("/api/_search/partners?query=id:" + partner.getId()))
+        restPartnerMockMvc.perform(get("/api/_search/partners?query=" + partner.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(partner.getId().intValue())))

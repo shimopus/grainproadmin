@@ -5,9 +5,13 @@
         .module('grainAdminApp')
         .controller('PartnerDialogController', PartnerDialogController);
 
-    PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner', 'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice'];
+    PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
+        'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', 'PartnerChildren'
+    ];
 
-    function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner, Bid, OrganisationType, District, Region, Locality, Station, Contact, ServicePrice) {
+    function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
+                                     Bid, OrganisationType, District, Region, Locality, Station,
+                                     Contact, ServicePrice, PartnerChildren) {
         var vm = this;
 
         vm.partner = entity;
@@ -24,6 +28,7 @@
         vm.stations = Station.query();
         vm.contacts = Contact.query();
         vm.serviceprices = ServicePrice.query();
+        vm.children = PartnerChildren.query(entity);
         vm.formatSelection = formatSelection;
 
         $timeout(function () {

@@ -1,6 +1,7 @@
 package pro.grain.admin.service;
 
 import pro.grain.admin.domain.Contact;
+import pro.grain.admin.domain.Partner;
 import pro.grain.admin.repository.ContactRepository;
 import pro.grain.admin.repository.PartnerRepository;
 import pro.grain.admin.repository.search.ContactSearchRepository;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,7 +64,10 @@ public class ContactService {
     }
 
     public void updateRelatedObjectsForSearch() {
-        partnerSearchRepository.save(partnerRepository.findAll());
+        List<Partner> partners = partnerRepository.findAll();
+        if (partners != null && partners.size() > 0) {
+            partnerSearchRepository.save(partners);
+        }
     }
 
     /**

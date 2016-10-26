@@ -93,9 +93,21 @@
                 <li ng-repeat="partner in vm.children track by partner.id">
                     <span><a ui-sref="partner-detail({id:partner.id})">{{partner.name + " " +
                         partner.organisationTypeType}}</a></span>
-                    <span>{{partner.regionName}},{{partner.districtName}}</span>
+                    <span class="pull-right">{{partner.regionName}}, {{partner.districtName}}</span>
                 </li>
             </ol>
+            <button ng-if="!vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.isAddChild = true">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
+            </button>
+            <select ng-if="vm.isAddChild" class="form-control" ng-model="vm.selectedChild"
+                    ng-options="partner as partner.name for partner in vm.partners">
+                <option value=""></option>
+            </select>
+            <button ng-if="vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.addChild()">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
+            </button>
         </div>
 
         <div class="form-group">

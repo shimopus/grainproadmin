@@ -12,14 +12,12 @@
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
-            'get': {
-                method: 'GET',
-                transformResponse: function (data) {
-                    if (data) {
-                        data = angular.fromJson(data);
-                        data.lastUpdate = DateUtils.convertLocalDateFromServer(data.lastUpdate);
-                    }
-                    return data;
+            'save': {
+                method: 'POST',
+                transformRequest: function (data) {
+                    var copy = angular.copy(data);
+                    copy.lastUpdate = DateUtils.convertLocalDateToServer(copy.lastUpdate);
+                    return angular.toJson(copy);
                 }
             }
         });

@@ -1,7 +1,9 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import pro.grain.admin.domain.Partner;
 import pro.grain.admin.service.PartnerService;
+import pro.grain.admin.service.mapper.PartnerMapper;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
 import pro.grain.admin.service.dto.PartnerDTO;
@@ -38,6 +40,9 @@ public class PartnerResource {
 
     @Inject
     private PartnerService partnerService;
+
+    @Inject
+    private PartnerMapper partnerMapper;
 
     /**
      * POST  /partners : Create a new partner.
@@ -155,6 +160,32 @@ public class PartnerResource {
         log.debug("REST request to get a set of Children for Partner");
         List<PartnerDTO> page = partnerService.children(id);
         return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    /**
+     * POST  /partners/children : create new children.
+     *
+     * @param childDTO the partnerDTO to create
+     * @return the ResponseEntity with status 201 (Created) and with body the new partnerDTO, or with status 400 (Bad Request) if the partner has already an ID
+     * @throws URISyntaxException if the Location URI syntax is incorrect
+     */
+    @RequestMapping(value = "/partners/children",
+        method = RequestMethod.POST,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<PartnerDTO> addPartnerChild(@Valid @RequestBody PartnerDTO childDTO) throws URISyntaxException {
+        log.debug("REST request to add Partner's Child : {}", childDTO);
+
+        Partner parent = partnerMapper.partnerDTOToPartner(partnerService.findOne(childDTO.getOwnerForId()));
+        Partner child = partnerMapper.partnerDTOToPartner(childDTO);
+        parent.addOwnedBy(child);
+
+        partnerService.save(partnerMapper.partnerToPartnerDTO(parent));
+        PartnerDTO result = partnerService.save(childDTO);
+
+        return ResponseEntity.created(new URI("/api/partners/children/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert("partner", result.getId().toString()))
+            .body(result);
     }
 
     /**

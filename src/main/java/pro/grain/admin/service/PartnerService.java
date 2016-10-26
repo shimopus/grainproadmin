@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -93,8 +94,14 @@ public class PartnerService {
 
     public List<PartnerDTO> children(Long id) {
         log.debug("Request to get children for Partner : {}", id);
-        List<Partner> children = partnerRepository.findAllChildren(id);
+        Set<Partner> children = partnerRepository.getOne(id).getOwnedBies();
         return children.stream().map(partner -> partnerMapper.partnerToPartnerDTO(partner)).collect(Collectors.toList());
+    }
+
+    public void addChild(Long childId) {
+        log.debug("Request to add children for Partner : {}", childId);
+        Partner parent = partnerRepository.findOneWithEagerRelationships(childId);
+
     }
 
     /**

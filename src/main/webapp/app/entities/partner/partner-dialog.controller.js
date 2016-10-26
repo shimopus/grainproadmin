@@ -30,6 +30,9 @@
         vm.serviceprices = ServicePrice.query();
         vm.children = PartnerChildren.query(entity);
         vm.formatSelection = formatSelection;
+        vm.isAddChild = false;
+        vm.selectedChild = null;
+        vm.addChild = addChild;
 
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
@@ -71,6 +74,15 @@
             return objects.find(function (object) {
                 return object.id === selectedValue;
             })[parameterName];
+        }
+
+        function addChild() {
+            if (vm.selectedChild !== null && vm.partner.id) {
+                var copy = angular.copy(vm.selectedChild);
+                copy.ownerForId = vm.partner.id;
+                PartnerChildren.save(copy);
+                vm.isAddChild = false;
+            }
         }
     }
 })();

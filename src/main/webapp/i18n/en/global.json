@@ -96,6 +96,7 @@
         "action": {
             "addblob": "Add blob",
             "addimage": "Add image",
+            "add": "Add",
             "back": "Back",
             "cancel": "Cancel",
             "delete": "Delete",

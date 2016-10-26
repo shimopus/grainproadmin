@@ -9,7 +9,8 @@
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
         <div class="form-group">
-            <label data-translate="grainAdminApp.partner.organisationType" for="field_organisationType">Organisation
+            <label class="control-label" data-translate="grainAdminApp.partner.organisationType"
+                   for="field_organisationType">Organisation
                 Type</label>
             <select class="form-control" id="field_organisationType" name="organisationType"
                     ng-model="vm.partner.organisationTypeId"
@@ -22,6 +23,7 @@
             <input type="text" class="form-control" name="name" id="field_name"
                    ng-model="vm.partner.name"
                    required/>
+
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
                    ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
@@ -34,13 +36,13 @@
                 Name</label>
             <input type="text" class="form-control" name="shortName" id="field_shortName"
                    ng-model="vm.partner.shortName"
-            />
+                />
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.inn" for="field_inn">Inn</label>
             <input type="text" class="form-control" name="inn" id="field_inn"
                    ng-model="vm.partner.inn"
-            />
+                />
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.nds" for="field_nds">Nds</label>
@@ -57,7 +59,7 @@
                    uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
-            >
+                >
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.district" for="field_district">District</label>
@@ -66,7 +68,7 @@
                    uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
-            >
+                >
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
@@ -75,23 +77,25 @@
                    uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
-            >
+                >
         </div>
 
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.ownerFor" for="field_ownerFor">Owner For</label>
-            <select class="form-control" id="field_ownerFor" name="ownerFor" ng-model="vm.partner.ownerForId"
-                    ng-options="partner.id as partner.name for partner in vm.partners">
-                <option value=""></option>
-            </select>
+            <input class="form-control" id="field_ownerFor" name="ownerFor" ng-if="vm.partners.$resolved"
+                   ng-model="vm.partner.ownerForId"
+                   uib-typeahead="partner.id as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
+                   typeahead-editable="false"
+                   typeahead-input-formatter="vm.formatSelection($model, vm.partners, 'name')"
+                >
         </div>
 
 
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.ownedBy">Owned by</label>
             <ol>
-                <li ng-repeat="partner in vm.children track by partner.id">
-                    <span><a ui-sref="partner-detail({id:partner.id})">{{partner.name + " " +
+                <li ng-repeat="partner in vm.partner.ownedBies track by partner.id">
+                    <span><a ui-sref="partner-detail({id:partner.id})" target="_blank">{{partner.name + " " +
                         partner.organisationTypeType}}</a></span>
                     <span class="pull-right">{{partner.regionName}}, {{partner.districtName}}</span>
                 </li>
@@ -100,10 +104,12 @@
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
             </button>
-            <select ng-if="vm.isAddChild" class="form-control" ng-model="vm.selectedChild"
-                    ng-options="partner as partner.name for partner in vm.partners">
-                <option value=""></option>
-            </select>
+            <input class="form-control" ng-if="vm.partners.$resolved && vm.isAddChild"
+                   ng-model="vm.selectedChild"
+                   uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
+                   typeahead-editable="false"
+                   typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
+            >
             <button ng-if="vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.addChild()">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
@@ -135,7 +141,7 @@
             <label class="control-label" data-translate="grainAdminApp.partner.card" for="field_card">Card</label>
             <input type="text" class="form-control" name="card" id="field_card"
                    ng-model="vm.partner.card"
-            />
+                />
         </div>
     </div>
 

@@ -6,12 +6,12 @@
         .controller('PartnerDialogController', PartnerDialogController);
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
-        'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', 'PartnerChildren'
+        'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', "$q"
     ];
 
     function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
                                      Bid, OrganisationType, District, Region, Locality, Station,
-                                     Contact, ServicePrice, PartnerChildren) {
+                                     Contact, ServicePrice, $q) {
         var vm = this;
 
         vm.partner = entity;
@@ -21,6 +21,7 @@
         vm.save = save;
         vm.bids = Bid.query();
         vm.partners = Partner.query();
+        vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.organisationtypes = OrganisationType.query();
         vm.districts = District.query();
         vm.regions = Region.query();
@@ -28,7 +29,6 @@
         vm.stations = Station.query();
         vm.contacts = Contact.query();
         vm.serviceprices = ServicePrice.query();
-        vm.children = PartnerChildren.query(entity);
         vm.formatSelection = formatSelection;
         vm.isAddChild = false;
         vm.selectedChild = null;
@@ -50,6 +50,22 @@
             } else {
                 Partner.save(vm.partner, onSaveSuccess, onSaveError);
             }
+
+            vm.partner.ownedBies.forEach(function (child) {
+                var previouseOwnerForId = child.ownerForId;
+                child.ownerForId = vm.partner.id;
+                Partner.update(child);
+
+                Partner.get({id : previouseOwnerForId}).$promise.then(
+                    function(previouseParent)  {
+                        previouseParent.ownedBies = previouseParent.ownedBies.filter(function(parentsChild) {
+                            return parentsChild.id !== child.id;
+                        });
+                        Partner.update(previouseParent);
+                    }
+                );
+
+            });
         }
 
         function onSaveSuccess(result) {
@@ -78,11 +94,22 @@
 
         function addChild() {
             if (vm.selectedChild !== null && vm.partner.id) {
-                var copy = angular.copy(vm.selectedChild);
-                copy.ownerForId = vm.partner.id;
-                PartnerChildren.save(copy);
+                vm.partner.ownedBies.push(vm.selectedChild);
                 vm.isAddChild = false;
+                vm.selectedChild = null;
             }
+        }
+
+        function getPartnersSuggestions() {
+            return vm.partners.filter(function (partner) {
+                return partner.id !== vm.partner.id &&
+                    partner.id !== vm.partner.ownerForId &&
+                    vm.partner.ownedBies.filter(
+                        function (child) {
+                            return child.id === partner.id;
+                        }
+                    ).length <= 0;
+            });
         }
     }
 })();

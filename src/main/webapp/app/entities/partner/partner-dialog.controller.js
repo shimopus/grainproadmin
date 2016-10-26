@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -7,7 +7,7 @@
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner', 'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice'];
 
-    function PartnerDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner, Bid, OrganisationType, District, Region, Locality, Station, Contact, ServicePrice) {
+    function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner, Bid, OrganisationType, District, Region, Locality, Station, Contact, ServicePrice) {
         var vm = this;
 
         vm.partner = entity;
@@ -24,16 +24,17 @@
         vm.stations = Station.query();
         vm.contacts = Contact.query();
         vm.serviceprices = ServicePrice.query();
+        vm.formatSelection = formatSelection;
 
-        $timeout(function (){
+        $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
         });
 
-        function clear () {
+        function clear() {
             $uibModalInstance.dismiss('cancel');
         }
 
-        function save () {
+        function save() {
             vm.isSaving = true;
             vm.partner.lastUpdate = new Date();
             if (vm.partner.id !== null) {
@@ -43,20 +44,28 @@
             }
         }
 
-        function onSaveSuccess (result) {
+        function onSaveSuccess(result) {
             $scope.$emit('grainAdminApp:partnerUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }
 
-        function onSaveError () {
+        function onSaveError() {
             vm.isSaving = false;
         }
 
         vm.datePickerOpenStatus.lastUpdate = false;
 
-        function openCalendar (date) {
+        function openCalendar(date) {
             vm.datePickerOpenStatus[date] = true;
+        }
+
+        function formatSelection(selectedValue, objects, parameterName) {
+            if (!selectedValue) return "";
+
+            return objects.find(function (object) {
+                return object.id === selectedValue;
+            })[parameterName];
         }
     }
 })();

@@ -1,41 +1,46 @@
-
 <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myPartnerLabel" data-translate="grainAdminApp.partner.home.createOrEditLabel">Create or edit a Partner</h4>
+        <h4 class="modal-title" id="myPartnerLabel" data-translate="grainAdminApp.partner.home.createOrEditLabel">Create
+            or edit a Partner</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.partner.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.partner.id" readonly />
+        <div class="form-group">
+            <label data-translate="grainAdminApp.partner.organisationType" for="field_organisationType">Organisation
+                Type</label>
+            <select class="form-control" id="field_organisationType" name="organisationType"
+                    ng-model="vm.partner.organisationTypeId"
+                    ng-options="organisationType.id as organisationType.type for organisationType in vm.organisationtypes">
+                <option value=""></option>
+            </select>
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.name" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
-                    ng-model="vm.partner.name"
-                    required />
+                   ng-model="vm.partner.name"
+                   required/>
             <div ng-show="editForm.name.$invalid">
                 <p class="help-block"
-                    ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
+                   ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
                     This field is required.
                 </p>
             </div>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.shortName" for="field_shortName">Short Name</label>
+            <label class="control-label" data-translate="grainAdminApp.partner.shortName" for="field_shortName">Short
+                Name</label>
             <input type="text" class="form-control" name="shortName" id="field_shortName"
-                    ng-model="vm.partner.shortName"
-                     />
+                   ng-model="vm.partner.shortName"
+            />
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.inn" for="field_inn">Inn</label>
             <input type="text" class="form-control" name="inn" id="field_inn"
-                    ng-model="vm.partner.inn"
-                     />
+                   ng-model="vm.partner.inn"
+            />
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.nds" for="field_nds">Nds</label>
@@ -46,70 +51,78 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.card" for="field_card">Card</label>
-            <input type="text" class="form-control" name="card" id="field_card"
-                    ng-model="vm.partner.card"
-                     />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.lastUpdate" for="field_lastUpdate">Last Update</label>
-                <div class="input-group">
-                    <input id="field_lastUpdate" type="text" class="form-control" name="lastUpdate" uib-datepicker-popup="{{dateformat}}" ng-model="vm.partner.lastUpdate" is-open="vm.datePickerOpenStatus.lastUpdate"
-                    />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('lastUpdate')"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </div>
-        </div>
-
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.organisationType" for="field_organisationType">Organisation Type</label>
-            <select class="form-control" id="field_organisationType" name="organisationType" ng-model="vm.partner.organisationTypeId" ng-options="organisationType.id as organisationType.type for organisationType in vm.organisationtypes"            >
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
             <label data-translate="grainAdminApp.partner.region" for="field_region">Region</label>
-            <select class="form-control" id="field_region" name="region" ng-model="vm.partner.regionId" ng-options="region.id as region.name for region in vm.regions"            >
-                <option value=""></option>
-            </select>
+            <input class="form-control" id="field_region" name="region" ng-if="vm.regions.$resolved" ng-model="vm.partner.regionId"
+                   uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
+                   typeahead-editable="false"
+                   typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
+            >
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.district" for="field_district">District</label>
-            <select class="form-control" id="field_district" name="district" ng-model="vm.partner.districtId" ng-options="district.id as district.name for district in vm.districts"            >
-                <option value=""></option>
-            </select>
+            <input class="form-control" id="field_district" name="district" ng-if="vm.districts.$resolved" ng-model="vm.partner.districtId"
+                   uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
+                   typeahead-editable="false"
+                   typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
+            >
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
-            <select class="form-control" id="field_locality" name="locality" ng-model="vm.partner.localityId" ng-options="locality.id as locality.name for locality in vm.localities"            >
+            <input class="form-control" id="field_locality" name="locality" ng-if="vm.localities.$resolved" ng-model="vm.partner.localityId"
+                   uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
+                   typeahead-editable="false"
+                   typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
+            >
+        </div>
+
+        <div class="form-group">
+            <label data-translate="grainAdminApp.partner.ownerFor" for="field_ownerFor">Owner For</label>
+            <select class="form-control" id="field_ownerFor" name="ownerFor" ng-model="vm.partner.ownerForId"
+                    ng-options="partner.id as partner.name for partner in vm.partners">
                 <option value=""></option>
             </select>
         </div>
+
+
+        <!--
+            Children of this partner
+        -->
+
+
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.station" for="field_station">Station</label>
-            <select class="form-control" id="field_station" name="station" ng-model="vm.partner.stationId" ng-options="station.id as station.code for station in vm.stations"            >
+            <select class="form-control" id="field_station" name="station" ng-model="vm.partner.stationId"
+                    ng-options="station.id as station.code for station in vm.stations">
                 <option value=""></option>
             </select>
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.contacts" for="field_contacts">Contacts</label>
-            <select class="form-control" id="field_contacts" multiple name="contacts" ng-model="vm.partner.contacts" ng-options="contact as contact.id for contact in vm.contacts track by contact.id"></select>
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.servicePrices" for="field_servicePrices">Service Prices</label>
-            <select class="form-control" id="field_servicePrices" multiple name="servicePrices" ng-model="vm.partner.servicePrices" ng-options="servicePrice as servicePrice.id for servicePrice in vm.serviceprices track by servicePrice.id"></select>
+            <select class="form-control" id="field_servicePrices" multiple name="servicePrices"
+                    ng-model="vm.partner.servicePrices"
+                    ng-options="servicePrice as servicePrice.id for servicePrice in vm.serviceprices track by servicePrice.id"></select>
         </div>
+
+
         <div class="form-group">
-            <label data-translate="grainAdminApp.partner.ownerFor" for="field_ownerFor">Owner For</label>
-            <select class="form-control" id="field_ownerFor" name="ownerFor" ng-model="vm.partner.ownerForId" ng-options="partner.id as partner.name for partner in vm.partners"            >
-                <option value=""></option>
-            </select>
+            <label data-translate="grainAdminApp.partner.contacts" for="field_contacts">Contacts</label>
+            <select class="form-control" id="field_contacts" multiple name="contacts" ng-model="vm.partner.contacts"
+                    ng-options="contact as contact.id for contact in vm.contacts track by contact.id"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" data-translate="grainAdminApp.partner.card" for="field_card">Card</label>
+            <input type="text" class="form-control" name="card" id="field_card"
+                   ng-model="vm.partner.card"
+            />
         </div>
     </div>
+
+
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+            data-translate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
             <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>

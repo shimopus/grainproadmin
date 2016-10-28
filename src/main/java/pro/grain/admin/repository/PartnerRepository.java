@@ -18,10 +18,4 @@ public interface PartnerRepository extends JpaRepository<Partner,Long> {
 
     @Query("select partner from Partner partner left join fetch partner.contacts left join fetch partner.servicePrices where partner.id =:id")
     Partner findOneWithEagerRelationships(@Param("id") Long id);
-
-    @Query("select partner from Partner partner " +
-        "left join fetch partner.contacts " +
-        "left join fetch partner.servicePrices " +
-        "where partner.ownerFor.id = :id")
-    List<Partner> findAllChildren(@Param("id") Long id);
 }

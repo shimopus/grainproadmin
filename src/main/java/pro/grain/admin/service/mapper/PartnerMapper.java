@@ -30,7 +30,7 @@ public interface PartnerMapper {
 
     @Mapping(target = "agentBids", ignore = true)
     @Mapping(target = "elevatorBids", ignore = true)
-    @Mapping(target = "ownedBies", ignore = true)
+//    @Mapping(target = "ownedBies", ignore = true)
     @Mapping(source = "organisationTypeId", target = "organisationType")
     @Mapping(source = "districtId", target = "district")
     @Mapping(source = "regionId", target = "region")

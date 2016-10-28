@@ -31,27 +31,27 @@ public class PartnerDTO implements Serializable {
 
 
     private Long organisationTypeId;
-    
+
 
     private String organisationTypeType;
 
     private Long districtId;
-    
+
 
     private String districtName;
 
     private Long regionId;
-    
+
 
     private String regionName;
 
     private Long localityId;
-    
+
 
     private String localityName;
 
     private Long stationId;
-    
+
 
     private String stationCode;
 
@@ -59,8 +59,10 @@ public class PartnerDTO implements Serializable {
 
     private Set<ServicePriceDTO> servicePrices = new HashSet<>();
 
+    private Set<PartnerDTO> ownedBies = new HashSet<>();
+
     private Long ownerForId;
-    
+
 
     private String ownerForName;
 
@@ -213,6 +215,14 @@ public class PartnerDTO implements Serializable {
 
     public void setServicePrices(Set<ServicePriceDTO> servicePrices) {
         this.servicePrices = servicePrices;
+    }
+
+    public Set<PartnerDTO> getOwnedBies() {
+        return ownedBies;
+    }
+
+    public void setOwnedBies (Set<PartnerDTO> ownedBy) {
+        this.ownedBies = ownedBy;
     }
 
     public Long getOwnerForId() {

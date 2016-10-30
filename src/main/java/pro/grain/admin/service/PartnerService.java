@@ -1,10 +1,12 @@
 package pro.grain.admin.service;
 
 import org.elasticsearch.index.query.QueryBuilder;
+import org.springframework.dao.DataIntegrityViolationException;
 import pro.grain.admin.domain.Partner;
 import pro.grain.admin.repository.PartnerRepository;
 import pro.grain.admin.repository.search.PartnerSearchRepository;
 import pro.grain.admin.service.dto.PartnerDTO;
+import pro.grain.admin.service.error.EntityConstrainViolation;
 import pro.grain.admin.service.mapper.PartnerMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import pro.grain.admin.web.rest.errors.FieldErrorVM;
 
 import javax.inject.Inject;
 
@@ -48,7 +51,11 @@ public class PartnerService {
     public PartnerDTO save(PartnerDTO partnerDTO) {
         log.debug("Request to save Partner : {}", partnerDTO);
         Partner partner = partnerMapper.partnerDTOToPartner(partnerDTO);
-        partner = partnerRepository.save(partner);
+        try {
+            partner = partnerRepository.save(partner);
+        } catch (DataIntegrityViolationException ex) {
+            throw new EntityConstrainViolation("Partner", "inn", "unique");
+        }
         PartnerDTO result = partnerMapper.partnerToPartnerDTO(partner);
         partnerSearchRepository.save(partner);
         return result;

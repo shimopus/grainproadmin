@@ -29,4 +29,5 @@
     <include file="classpath:config/liquibase/changelog/20161018221029_added_entity_constraints_ServicePrice.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="classpath:config/liquibase/changelog/20161025221036_changed_entity_Partner_lastUpdate.xml" relativeToChangelogFile="false"/>
+    <include file="classpath:config/liquibase/changelog/20161025221037_changed_entity_Partner_Inn_Constraint.xml" relativeToChangelogFile="false"/>
 </databaseChangeLog>

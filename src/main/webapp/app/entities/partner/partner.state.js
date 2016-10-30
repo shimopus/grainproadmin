@@ -48,6 +48,9 @@
                     $translatePartialLoader.addPart('partner');
                     $translatePartialLoader.addPart('nDS');
                     $translatePartialLoader.addPart('global');
+                    $translatePartialLoader.addPart('contact');
+                    $translatePartialLoader.addPart('servicePrice');
+                    $translatePartialLoader.addPart('email');
                     return $translate.refresh();
                 }]
             }
@@ -70,6 +73,9 @@
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('partner');
                     $translatePartialLoader.addPart('nDS');
+                    $translatePartialLoader.addPart('contact');
+                    $translatePartialLoader.addPart('servicePrice');
+                    $translatePartialLoader.addPart('email');
                     return $translate.refresh();
                 }],
                 entity: ['$stateParams', 'Partner', function($stateParams, Partner) {
@@ -134,7 +140,8 @@
                                 lastUpdate: null,
                                 id: null,
                                 servicePrices: [],
-                                ownedBies: []
+                                ownedBies: [],
+                                contacts: []
                             };
                         }
                     }

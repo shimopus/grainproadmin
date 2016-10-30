@@ -42,7 +42,14 @@
             <label class="control-label" data-translate="grainAdminApp.partner.inn" for="field_inn">Inn</label>
             <input type="text" class="form-control" name="inn" id="field_inn"
                    ng-model="vm.partner.inn"
-                />
+                   required/>
+
+            <div ng-show="editForm.inn.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.inn.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.nds" for="field_nds">Nds</label>
@@ -111,7 +118,8 @@
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
                 >
-            <button type="button" ng-if="vm.isAddChild" class="btn btn-default" data-dismiss="modal" ng-click="vm.cancelAddChild()">
+            <button type="button" ng-if="vm.isAddChild" class="btn btn-default" data-dismiss="modal"
+                    ng-click="vm.cancelAddChild()">
                 <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
                 data-translate="entity.action.cancel">Cancel</span>
             </button>
@@ -132,7 +140,7 @@
             <label data-translate="grainAdminApp.partner.servicePrices">Service Prices</label>
             <ol>
                 <li ng-repeat="servicePrice in vm.partner.servicePrices">
-                    <span>{{servicePrice.serviceTypeName}} - {{servicePrice.price}} &#x20bd;</span>
+                    <span><b>{{servicePrice.serviceTypeName}}</b> - {{servicePrice.price}} &#x20bd;</span>
                 </li>
             </ol>
             <button ng-if="!vm.isAddServicePrice" class="btn btn-info btn-sm" ng-click="vm.isAddServicePrice = true">
@@ -152,7 +160,8 @@
                            ng-model="vm.selectedservicePriceValue" min="1" placeholder="0" required>
                 </div>
             </div>
-            <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-default" data-dismiss="modal" ng-click="vm.cancelAddServicePrice()">
+            <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-default" data-dismiss="modal"
+                    ng-click="vm.cancelAddServicePrice()">
                 <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
                 data-translate="entity.action.cancel">Cancel</span>
             </button>
@@ -164,16 +173,77 @@
         </div>
 
         <div class="form-group">
-            <label data-translate="grainAdminApp.partner.contacts" for="field_contacts">Contacts</label>
-            <select class="form-control" id="field_contacts" multiple name="contacts" ng-model="vm.partner.contacts"
-                    ng-options="contact as contact.id for contact in vm.contacts track by contact.id"></select>
+            <label data-translate="grainAdminApp.partner.contacts">Contacts</label>
+            <ol>
+                <li ng-repeat="contact in vm.partner.contacts">
+                    <span><b>{{contact.personName}}</b> -
+                        {{contact.phone ? contact.phone : 'no phone'}} /
+                        skype: {{contact.skype ? contact.skype : '-'}} /
+                        {{contact.emailEmail ? contact.emailEmail : 'no email'}}</span>
+                    <span class="pull-right">{{contact.status}}</span>
+                </li>
+            </ol>
+            <button ng-if="!vm.isAddContact" class="btn btn-info btn-sm" ng-click="vm.isAddContact = true">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
+            </button>
+            <div class="form-group" ng-if="vm.contacts.$resolved && vm.isAddContact">
+                <label data-translate="grainAdminApp.contact.detail.newContactTitle">New Contact</label>
+
+                <div class="row">
+                    <div class="col-xs-3">
+                        <label for="field_contactName" data-translate="grainAdminApp.contact.personName">Person
+                            Name</label>
+                        <input class="form-control" id="field_contactName" name="contactName"
+                               ng-model="vm.selectedContact.personName"
+                               required>
+                    </div>
+                    <div class="col-xs-3">
+                        <label for="field_contactStatus" data-translate="grainAdminApp.contact.status">Status</label>
+                        <input class="form-control" id="field_contactStatus" name="contactStatus"
+                               ng-model="vm.selectedContact.status"
+                               required>
+                    </div>
+                    <div class="col-xs-3">
+                        <label for="field_contactPhone" data-translate="grainAdminApp.contact.phone">Phone</label>
+                        <input class="form-control" id="field_contactPhone" name="contactPhone"
+                               ng-model="vm.selectedContact.phone"
+                               required>
+                    </div>
+                    <div class="col-xs-3">
+                        <label for="field_contactSkype" data-translate="grainAdminApp.contact.skype">Skype</label>
+                        <input class="form-control" id="field_contactSkype" name="contactSkype"
+                               ng-model="vm.selectedContact.skype"
+                               required>
+                    </div>
+                </div>
+                <div ng-if="vm.contacts.$resolved && vm.isAddContact" class="row">
+                    <div class="col-xs-3">
+                        <label for="field_contactEmail" data-translate="grainAdminApp.contact.email">Email</label>
+                        <input class="form-control" id="field_contactEmail" name="contactEmail"
+                               ng-model="vm.selectedContact.emailEmail"
+                               required>
+                    </div>
+                </div>
+            </div>
+            <button ng-if="vm.isAddContact" type="button" class="btn btn-default" data-dismiss="modal"
+                    ng-click="vm.cancelAddContact()">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                data-translate="entity.action.cancel">Cancel</span>
+            </button>
+
+            <button ng-if="vm.isAddContact" type="button" class="btn btn-info btn-sm"
+                    ng-click="vm.addContact()">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
+            </button>
         </div>
 
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.card" for="field_card">Card</label>
-            <input type="text" class="form-control" name="card" id="field_card"
-                   ng-model="vm.partner.card"
-                />
+            <textarea type="text" class="form-control" style="height: 150px" name="card" id="field_card"
+                      ng-model="vm.partner.card"
+                ></textarea>
         </div>
     </div>
 

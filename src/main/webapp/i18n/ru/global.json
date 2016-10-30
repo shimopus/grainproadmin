@@ -7,19 +7,19 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Сущности",
-                "bid": "Bid",
-                "partner": "Partner",
-                "contact": "Contact",
-                "station": "Station",
-                "transportationPrice": "Transportation Price",
-                "qualityParameter": "Quality Parameter",
-                "qualityValue": "Quality Value",
-                "servicePrice": "Service Price",
-                "organisationType": "Organisation Type",
-                "district": "District",
-                "region": "Region",
-                "locality": "Locality",
-                "serviceType": "Service Type",
+                "bid": "Заявка",
+                "partner": "Контрагент",
+                "contact": "Контакт",
+                "station": "Станция",
+                "transportationPrice": "Цена перевозки",
+                "qualityParameter": "Параметр качества",
+                "qualityValue": "Значение параметра качества",
+                "servicePrice": "Цена услуги",
+                "organisationType": "Организационная форма",
+                "district": "Район",
+                "region": "Регион",
+                "locality": "Населенный пункт",
+                "serviceType": "Тип услуги",
                 "email": "Email",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
@@ -132,7 +132,9 @@
         "Size": "Поле {{fieldName}} не отвечает требованиям мин/макс.го размера!",
         "userexists": "Имя пользователя уже используется!",
         "emailexists": "Эл. почта уже используется!!",
-        "idexists": "Новый {{entityName}} не может иметь данный ID"
+        "idexists": "Новый {{entityName}} не может иметь данный ID",
+        "smthwentwrong": "Что-то пошло не так с {{ entityName }}",
+        "uniqe": "Такой {{ entityName }} уже существует"
     },
     "footer": "Это ваш футтер"
 }

@@ -14,7 +14,8 @@
                 "question": "Are you sure you want to delete Contact {{ id }}?"
             },
             "detail": {
-                "title": "Contact"
+                "title": "Contact",
+                "newContactTitle": "New Contact"
             },
             "personName": "Person Name",
             "status": "Status",

@@ -1,8 +1,8 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import pro.grain.admin.domain.Partner;
 import pro.grain.admin.service.PartnerService;
+import pro.grain.admin.service.error.EntityConstrainViolation;
 import pro.grain.admin.service.mapper.PartnerMapper;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
@@ -21,13 +21,8 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing Partner.
@@ -60,10 +55,23 @@ public class PartnerResource {
         if (partnerDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("partner", "idexists", "A new partner cannot already have an ID")).body(null);
         }
-        PartnerDTO result = partnerService.save(partnerDTO);
-        return ResponseEntity.created(new URI("/api/partners/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("partner", result.getId().toString()))
-            .body(result);
+        PartnerDTO result = null;
+
+        try {
+            result = partnerService.save(partnerDTO);
+        } catch (EntityConstrainViolation ex) {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("partner", "uniqe", "The same Partner is already exists")).body(null);
+        }
+
+        if (result != null) {
+            return ResponseEntity.created(new URI("/api/partners/" + result.getId()))
+                .headers(HeaderUtil.createEntityCreationAlert("partner", result.getId().toString()))
+                .body(result);
+        } else {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("partner", "smthwentwrong", "Something went wrong")).body(null);
+        }
     }
 
     /**

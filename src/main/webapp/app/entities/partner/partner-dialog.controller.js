@@ -46,30 +46,37 @@
             vm.isSaving = true;
             vm.partner.lastUpdate = new Date();
             if (vm.partner.id !== null) {
+                updateAllRelatedPartnersOnUpdate(vm.partner);
                 Partner.update(vm.partner, onSaveSuccess, onSaveError);
             } else {
                 Partner.save(vm.partner, onSaveSuccess, onSaveError);
             }
+        }
 
-            vm.partner.ownedBies.forEach(function (child) {
-                var previouseOwnerForId = child.ownerForId;
-                child.ownerForId = vm.partner.id;
-                Partner.update(child);
+        function updateAllRelatedPartnersOnUpdate(partner) {
+            //if any child has ben added/removed
+            partner.ownedBies.forEach(function (child) {
+                var previousOwnerForId = child.ownerForId;
+                if (child.ownerForId !== partner.id) {
+                    child.ownerForId = partner.id;
+                    Partner.update(child);
 
-                Partner.get({id : previouseOwnerForId}).$promise.then(
-                    function(previouseParent)  {
-                        previouseParent.ownedBies = previouseParent.ownedBies.filter(function(parentsChild) {
-                            return parentsChild.id !== child.id;
-                        });
-                        Partner.update(previouseParent);
-                    }
-                );
-
+                    /*Partner.get({id: previouseOwnerForId}).$promise.then(
+                        function (previousParent) {
+                            previousParent.ownedBies = previousParent.ownedBies.filter(function (parentsChild) {
+                                return parentsChild.id !== child.id;
+                            });
+                            Partner.update(previousParent);
+                        }
+                    );*/
+                }
             });
         }
 
         function onSaveSuccess(result) {
             $scope.$emit('grainAdminApp:partnerUpdate', result);
+            updateAllRelatedPartnersOnUpdate(result);
+
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }

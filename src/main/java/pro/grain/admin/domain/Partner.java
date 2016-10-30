@@ -64,7 +64,7 @@ public class Partner implements Serializable {
 
     @OneToMany(mappedBy = "ownerFor")
     @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @Cache(usage = CacheConcurrencyStrategy.NONE)
     private Set<Partner> ownedBies = new HashSet<>();
 
     @ManyToOne

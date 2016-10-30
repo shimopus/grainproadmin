@@ -134,7 +134,8 @@
         "emailexists": "Эл. почта уже используется!!",
         "idexists": "Новый {{entityName}} не может иметь данный ID",
         "smthwentwrong": "Что-то пошло не так с {{ entityName }}",
-        "uniqe": "Такой {{ entityName }} уже существует"
+        "uniqe": "Такой {{ entityName }} уже существует",
+        "asminimumone": "Как минимум один {{ entityName }} должен быть создан"
     },
     "footer": "Это ваш футтер"
 }

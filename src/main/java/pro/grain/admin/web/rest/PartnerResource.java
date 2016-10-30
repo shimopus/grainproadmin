@@ -2,8 +2,8 @@ package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import pro.grain.admin.service.PartnerService;
+import pro.grain.admin.service.error.AsMinimumOneValidationException;
 import pro.grain.admin.service.error.EntityConstrainViolation;
-import pro.grain.admin.service.mapper.PartnerMapper;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
 import pro.grain.admin.service.dto.PartnerDTO;
@@ -36,8 +36,11 @@ public class PartnerResource {
     @Inject
     private PartnerService partnerService;
 
-    @Inject
-    private PartnerMapper partnerMapper;
+    private void validateBeforeUpdate(PartnerDTO partner) throws AsMinimumOneValidationException {
+        if (partner.getContacts().size() < 1) {
+            throw new AsMinimumOneValidationException();
+        }
+    }
 
     /**
      * POST  /partners : Create a new partner.
@@ -55,7 +58,15 @@ public class PartnerResource {
         if (partnerDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("partner", "idexists", "A new partner cannot already have an ID")).body(null);
         }
-        PartnerDTO result = null;
+
+        try {
+            validateBeforeUpdate(partnerDTO);
+        } catch (AsMinimumOneValidationException ex){
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("contact", "asminimumone", "As minimum one Contact should be created for Partner")).body(null);
+        }
+
+        PartnerDTO result;
 
         try {
             result = partnerService.save(partnerDTO);
@@ -92,10 +103,30 @@ public class PartnerResource {
         if (partnerDTO.getId() == null) {
             return createPartner(partnerDTO);
         }
-        PartnerDTO result = partnerService.save(partnerDTO);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("partner", partnerDTO.getId().toString()))
-            .body(result);
+
+        try {
+            validateBeforeUpdate(partnerDTO);
+        } catch (AsMinimumOneValidationException ex){
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("contact", "asminimumone", "As minimum one Contact should be created for Partner")).body(null);
+        }
+
+        PartnerDTO result;
+        try {
+            result = partnerService.save(partnerDTO);
+        } catch (EntityConstrainViolation ex) {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("partner", "uniqe", "The same Partner is already exists")).body(null);
+        }
+
+        if (result != null) {
+            return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert("partner", partnerDTO.getId().toString()))
+                .body(result);
+        } else {
+            return ResponseEntity.badRequest()
+                .headers(HeaderUtil.createFailureAlert("partner", "smthwentwrong", "Something went wrong")).body(null);
+        }
     }
 
     /**

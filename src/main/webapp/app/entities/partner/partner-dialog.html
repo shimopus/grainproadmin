@@ -24,12 +24,12 @@
                    ng-model="vm.partner.name"
                    required/>
 
-            <div ng-show="editForm.name.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
+                <div ng-show="editForm.name.$invalid">
+                    <p class="help-block"
+                       ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
+                        This field is required.
+                    </p>
+                </div>
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.shortName" for="field_shortName">Short
@@ -61,30 +61,54 @@
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.region" for="field_region">Region</label>
-            <input class="form-control" id="field_region" name="region" ng-if="vm.regions.$resolved"
+            <input class="form-control" autocomplete="off" id="field_region" name="region" ng-if="vm.regions.$resolved"
                    ng-model="vm.partner.regionId"
                    uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
+                   required
                 >
+
+            <div ng-show="editForm.region.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.region.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.district" for="field_district">District</label>
-            <input class="form-control" id="field_district" name="district" ng-if="vm.districts.$resolved"
+            <input class="form-control" autocomplete="off" id="field_district" name="district" ng-if="vm.districts.$resolved"
                    ng-model="vm.partner.districtId"
                    uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
+                   required
                 >
+
+            <div ng-show="editForm.district.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.district.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
-            <input class="form-control" id="field_locality" name="locality" ng-if="vm.localities.$resolved"
+            <input class="form-control" autocomplete="off" id="field_locality" name="locality" ng-if="vm.localities.$resolved"
                    ng-model="vm.partner.localityId"
                    uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
+                   required
                 >
+
+            <div ng-show="editForm.locality.$invalid">
+                <p class="help-block"
+                   ng-show="editForm.locality.$error.required" data-translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
         </div>
 
         <div class="form-group">
@@ -187,7 +211,7 @@
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
             </button>
-            <div class="form-group" ng-if="vm.contacts.$resolved && vm.isAddContact">
+            <div class="form-group" ng-if="vm.contacts.$resolved && vm.isAddContact" min="1" asminimum>
                 <label data-translate="grainAdminApp.contact.detail.newContactTitle">New Contact</label>
 
                 <div class="row">
@@ -222,6 +246,7 @@
                         <label for="field_contactEmail" data-translate="grainAdminApp.contact.email">Email</label>
                         <input class="form-control" id="field_contactEmail" name="contactEmail"
                                ng-model="vm.selectedContact.emailEmail"
+                               type="email"
                                required>
                     </div>
                 </div>

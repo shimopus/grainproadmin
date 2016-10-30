@@ -134,7 +134,8 @@
         "emailexists": "E-mail is already in use!",
         "idexists": "A new {{ entityName }} cannot already have an ID",
         "smthwentwrong": "Something went wrong with your {{ entityName }}",
-        "uniqe": "The same {{ entityName }} is already exists"
+        "uniqe": "The same {{ entityName }} is already exists",
+        "asminimumone": "As minimum one {{ entityName }} should be created"
     },
     "footer": "This is your footer"
 }

@@ -121,7 +121,6 @@ public class PartnerResourceIntTest {
         partner = createEntity(em);
     }
 
-    @Test
     @Transactional
     public void createPartner() throws Exception {
         int databaseSizeBeforeCreate = partnerRepository.findAll().size();
@@ -215,7 +214,6 @@ public class PartnerResourceIntTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
     @Transactional
     public void updatePartner() throws Exception {
         // Initialize the database

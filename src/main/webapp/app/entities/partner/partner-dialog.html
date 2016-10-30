@@ -1,4 +1,4 @@
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate ng-submit="vm.save()" angular-validator>
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -19,17 +19,11 @@
             </select>
         </div>
         <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.name" for="field_name">Name</label>
-            <input type="text" class="form-control" name="name" id="field_name"
+            <label class="control-label" data-translate="grainAdminApp.partner.name" for="field_fullname">Name</label>
+            <input type="text" class="form-control" name="fullname" id="field_fullname"
                    ng-model="vm.partner.name"
+                   validate-on="dirty"
                    required/>
-
-                <div ng-show="editForm.name.$invalid">
-                    <p class="help-block"
-                       ng-show="editForm.name.$error.required" data-translate="entity.validation.required">
-                        This field is required.
-                    </p>
-                </div>
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.shortName" for="field_shortName">Short
@@ -42,14 +36,9 @@
             <label class="control-label" data-translate="grainAdminApp.partner.inn" for="field_inn">Inn</label>
             <input type="text" class="form-control" name="inn" id="field_inn"
                    ng-model="vm.partner.inn"
+                   validate-on="dirty"
+                   required-message="'{{'entity.validation.required' | translate}}'"
                    required/>
-
-            <div ng-show="editForm.inn.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.inn.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.nds" for="field_nds">Nds</label>
@@ -66,15 +55,10 @@
                    uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
+                   validate-on="dirty"
+                   required-message="'{{'entity.validation.required' | translate}}'"
                    required
                 >
-
-            <div ng-show="editForm.region.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.region.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.district" for="field_district">District</label>
@@ -83,15 +67,10 @@
                    uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
+                   validate-on="dirty"
+                   required-message="'{{'entity.validation.required' | translate}}'"
                    required
                 >
-
-            <div ng-show="editForm.district.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.district.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
@@ -100,15 +79,10 @@
                    uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
+                   validate-on="dirty"
+                   required-message="'{{'entity.validation.required' | translate}}'"
                    required
                 >
-
-            <div ng-show="editForm.locality.$invalid">
-                <p class="help-block"
-                   ng-show="editForm.locality.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
         </div>
 
         <div class="form-group">
@@ -220,25 +194,29 @@
                             Name</label>
                         <input class="form-control" id="field_contactName" name="contactName"
                                ng-model="vm.selectedContact.personName"
+                               validate-on="dirty"
+                               required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'ФИО/Наименование\'}'}}'"
                                required>
                     </div>
                     <div class="col-xs-3">
                         <label for="field_contactStatus" data-translate="grainAdminApp.contact.status">Status</label>
                         <input class="form-control" id="field_contactStatus" name="contactStatus"
                                ng-model="vm.selectedContact.status"
-                               required>
+                               >
                     </div>
                     <div class="col-xs-3">
                         <label for="field_contactPhone" data-translate="grainAdminApp.contact.phone">Phone</label>
                         <input class="form-control" id="field_contactPhone" name="contactPhone"
                                ng-model="vm.selectedContact.phone"
+                               validate-on="dirty"
+                               required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'Телефон\'}'}}'"
                                required>
                     </div>
                     <div class="col-xs-3">
                         <label for="field_contactSkype" data-translate="grainAdminApp.contact.skype">Skype</label>
                         <input class="form-control" id="field_contactSkype" name="contactSkype"
                                ng-model="vm.selectedContact.skype"
-                               required>
+                               >
                     </div>
                 </div>
                 <div ng-if="vm.contacts.$resolved && vm.isAddContact" class="row">
@@ -247,6 +225,8 @@
                         <input class="form-control" id="field_contactEmail" name="contactEmail"
                                ng-model="vm.selectedContact.emailEmail"
                                type="email"
+                               validate-on="blur"
+                               required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'Email\'}'}}'"
                                required>
                     </div>
                 </div>
@@ -258,7 +238,8 @@
             </button>
 
             <button ng-if="vm.isAddContact" type="button" class="btn btn-info btn-sm"
-                    ng-click="vm.addContact()">
+                    ng-click="vm.addContact()"
+                    ng-disabled="editForm.contactName.$invalid || editForm.contactPhone.$invalid || editForm.contactEmail.$invalid">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
             </button>
@@ -278,7 +259,8 @@
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
             data-translate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+        <!--<button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">-->
+        <button type="submit" ng-disabled="vm.isSaving" class="btn btn-primary">
             <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
         </button>
     </div>

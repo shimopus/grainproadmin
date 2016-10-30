@@ -21,7 +21,10 @@
             "status": "Status",
             "phone": "Phone",
             "skype": "Skype",
-            "email": "Email"
+            "email": "Email",
+            "validations": {
+                "fieldShouldBeFilled": "The field {{ field }} should not be empty"
+            }
         }
     }
 }

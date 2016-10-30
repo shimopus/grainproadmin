@@ -21,7 +21,10 @@
             "status": "Статус",
             "phone": "Телефон",
             "skype": "Skype",
-            "email": "Email"
+            "email": "Email",
+            "validations": {
+                "fieldShouldBeFilled": "Поле {{ field }} должно быть заполнено"
+            }
         }
     }
 }

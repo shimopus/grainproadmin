@@ -82,7 +82,8 @@
 
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.ownerFor" for="field_ownerFor">Owner For</label>
-            <input class="form-control" autocomplete="off" id="field_ownerFor" name="ownerFor" ng-if="vm.partners.$resolved"
+            <input class="form-control" autocomplete="off" id="field_ownerFor" name="ownerFor"
+                   ng-if="vm.partners.$resolved"
                    ng-model="vm.partner.ownerForId"
                    uib-typeahead="partner.id as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
                    typeahead-editable="false"
@@ -104,13 +105,17 @@
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
             </button>
-            <input class="form-control" autocomplete="off" ng-if="vm.partners.$resolved && vm.isAddChild"
+            <input class="form-control" autocomplete="off" ng-if="vm.partners.$resolved && vm.isAddChild" required
                    ng-model="vm.selectedChild"
                    uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
                    typeahead-editable="false"
                    typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
-            >
-            <button ng-if="vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.addChild()">
+                >
+            <button type="button" ng-if="vm.isAddChild" class="btn btn-default" data-dismiss="modal" ng-click="vm.cancelAddChild()">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                data-translate="entity.action.cancel">Cancel</span>
+            </button>
+            <button type="button" ng-if="vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.addChild()">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
             </button>
@@ -124,12 +129,39 @@
             </select>
         </div>
         <div class="form-group">
-            <label data-translate="grainAdminApp.partner.servicePrices" for="field_servicePrices">Service Prices</label>
-            <select class="form-control" id="field_servicePrices" multiple name="servicePrices"
-                    ng-model="vm.partner.servicePrices"
-                    ng-options="servicePrice as servicePrice.id for servicePrice in vm.serviceprices track by servicePrice.id"></select>
-        </div>
+            <label data-translate="grainAdminApp.partner.servicePrices">Service Prices</label>
+            <ol>
+                <li ng-repeat="servicePrice in vm.partner.servicePrices">
+                    <span>{{servicePrice.serviceTypeName}} - {{servicePrice.price}} &#x20bd;</span>
+                </li>
+            </ol>
+            <button ng-if="!vm.isAddServicePrice" class="btn btn-info btn-sm" ng-click="vm.isAddServicePrice = true">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
+            </button>
 
+            <div ng-if="vm.servicePriceTypes.$resolved && vm.isAddServicePrice" class="row">
+                <div class="col-xs-3">
+                    <select class="form-control" id="field_servicePriceType" name="servicePricesType"
+                            ng-model="vm.selectedServicePriceType"
+                            ng-options="servicePriceType as servicePriceType.name for servicePriceType in vm.servicePriceTypes"
+                            required></select>
+                </div>
+                <div class="col-xs-2">
+                    <input type="number" class="form-control" id="field_servicePriceValue" name="servicePriceValue"
+                           ng-model="vm.selectedservicePriceValue" min="1" placeholder="0" required>
+                </div>
+            </div>
+            <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-default" data-dismiss="modal" ng-click="vm.cancelAddServicePrice()">
+                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                data-translate="entity.action.cancel">Cancel</span>
+            </button>
+            <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-info btn-sm"
+                    ng-click="vm.addServicePrice()">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
+            </button>
+        </div>
 
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.contacts" for="field_contacts">Contacts</label>

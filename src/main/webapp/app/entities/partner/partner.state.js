@@ -132,7 +132,9 @@
                                 nds: null,
                                 card: null,
                                 lastUpdate: null,
-                                id: null
+                                id: null,
+                                servicePrices: [],
+                                ownedBies: []
                             };
                         }
                     }

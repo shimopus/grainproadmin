@@ -6,12 +6,13 @@
         .controller('PartnerDialogController', PartnerDialogController);
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
-        'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', "$q"
+        'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', 'ServiceType',
+        '$q'
     ];
 
     function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
-                                     Bid, OrganisationType, District, Region, Locality, Station,
-                                     Contact, ServicePrice, $q) {
+                                     OrganisationType, District, Region, Locality, Station,
+                                     Contact, ServicePrice, ServiceType, $q) {
         var vm = this;
 
         vm.partner = entity;
@@ -19,7 +20,7 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.bids = Bid.query();
+        //vm.bids = Bid.query();
         vm.partners = Partner.query();
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.organisationtypes = OrganisationType.query();
@@ -28,11 +29,17 @@
         vm.localities = Locality.query();
         vm.stations = Station.query();
         vm.contacts = Contact.query();
-        vm.serviceprices = ServicePrice.query();
+        vm.servicePriceTypes = ServiceType.query();
         vm.formatSelection = formatSelection;
         vm.isAddChild = false;
         vm.selectedChild = null;
         vm.addChild = addChild;
+        vm.cancelAddChild = cancelAddChild;
+        vm.isAddServicePrice = false;
+        vm.selectedServicePriceType = null;
+        vm.selectedservicePriceValue = null;
+        vm.addServicePrice = addServicePrice;
+        vm.cancelAddServicePrice = cancelAddServicePrice;
 
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
@@ -44,13 +51,15 @@
 
         function save() {
             vm.isSaving = true;
-            vm.partner.lastUpdate = new Date();
-            if (vm.partner.id !== null) {
-                updateAllRelatedPartnersOnUpdate(vm.partner);
-                Partner.update(vm.partner, onSaveSuccess, onSaveError);
-            } else {
-                Partner.save(vm.partner, onSaveSuccess, onSaveError);
-            }
+            updateAllRelatedServicePricesOnUpdate(vm.partner).then(function(partner){
+                partner.lastUpdate = new Date();
+                if (partner.id !== null) {
+                    updateAllRelatedPartnersOnUpdate(partner);
+                    Partner.update(partner, onSaveSuccess, onSaveError);
+                } else {
+                    Partner.save(partner, onSaveSuccess, onSaveError);
+                }
+            });
         }
 
         function updateAllRelatedPartnersOnUpdate(partner) {
@@ -60,17 +69,34 @@
                 if (child.ownerForId !== partner.id) {
                     child.ownerForId = partner.id;
                     Partner.update(child);
-
-                    /*Partner.get({id: previouseOwnerForId}).$promise.then(
-                        function (previousParent) {
-                            previousParent.ownedBies = previousParent.ownedBies.filter(function (parentsChild) {
-                                return parentsChild.id !== child.id;
-                            });
-                            Partner.update(previousParent);
-                        }
-                    );*/
                 }
             });
+        }
+
+        function updateAllRelatedServicePricesOnUpdate(partner) {
+            var returnDeferred = $q.defer();
+            var promises = [];
+            var returnPartner = angular.copy(partner);
+            returnPartner.servicePrices = [];
+            partner.servicePrices.forEach(function (servicePrice) {
+                if (!servicePrice.id) {
+                    promises.push(
+                        ServicePrice.save(servicePrice, function(updatedServicePrice) {
+                            returnPartner.servicePrices.push(updatedServicePrice);
+                        }).$promise
+                    );
+                } else {
+                    returnPartner.servicePrices.push(servicePrice);
+                }
+            });
+
+            $q.all(promises).then(function(){
+               returnDeferred.resolve(returnPartner);
+            }, function(reason) {
+                returnDeferred.reject(reason);
+            });
+
+            return returnDeferred.promise;
         }
 
         function onSaveSuccess(result) {
@@ -100,11 +126,16 @@
         }
 
         function addChild() {
-            if (vm.selectedChild !== null && vm.partner.id) {
+            if (vm.selectedChild !== null) {
                 vm.partner.ownedBies.push(vm.selectedChild);
                 vm.isAddChild = false;
                 vm.selectedChild = null;
             }
+        }
+
+        function cancelAddChild() {
+            vm.selectedChild = null;
+            vm.isAddChild = false;
         }
 
         function getPartnersSuggestions() {
@@ -117,6 +148,27 @@
                         }
                     ).length <= 0;
             });
+        }
+
+        function addServicePrice() {
+            if (vm.selectedServicePriceType != null && vm.selectedservicePriceValue != null) {
+                vm.partner.servicePrices.push(
+                    {
+                        serviceTypeId: angular.copy(vm.selectedServicePriceType.id),
+                        serviceTypeName: angular.copy(vm.selectedServicePriceType.name),
+                        price: angular.copy(vm.selectedservicePriceValue)
+                    }
+                );
+                vm.isAddServicePrice = false;
+                vm.selectedServicePriceType = null;
+                vm.selectedservicePriceValue = null;
+            }
+        }
+
+        function cancelAddServicePrice() {
+            vm.selectedServicePriceType = null;
+            vm.selectedservicePriceValue = null;
+            vm.isAddServicePrice = false;
         }
     }
 })();

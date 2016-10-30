@@ -3,7 +3,7 @@
         "bid" : {
             "home": {
                 "title": "Bids",
-                "createLabel": "Создать новый Bid",
+                "createLabel": "Добавть Заявку",
                 "createOrEditLabel": "Создать или отредактировать Bid",
                 "search": "Найти Bid"
             },

@@ -5,12 +5,14 @@
         .module('grainAdminApp')
         .controller('BidDialogController', BidDialogController);
 
-    BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Bid', 'Contact', 'QualityValue', 'Partner'];
+    BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner', 'Bid', 'Contact', 'QualityValue', 'Partner'];
 
-    function BidDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, Bid, Contact, QualityValue, Partner) {
+    function BidDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, partner, Bid, Contact, QualityValue, Partner) {
         var vm = this;
 
         vm.bid = entity;
+        vm.currentPartner = partner;
+        alert(vm.currentPartner);
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;

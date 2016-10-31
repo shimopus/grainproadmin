@@ -18,7 +18,9 @@
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar',
             'angularValidator',
-            'ui.mask'
+            'ui.mask',
+            'ui.select',
+            'ngSanitize'
         ])
         .run(run);
 

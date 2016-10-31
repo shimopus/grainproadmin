@@ -25,10 +25,10 @@ spring:
         username: grainAdmin
         password:
     jpa:
-#        database-platform: pro.grain.admin.domain.util.FixedPostgreSQL82Dialect
-#        database: POSTGRESQL
-        database-platform: pro.grain.admin.domain.util.FixedH2Dialect
-        database: H2
+        database-platform: pro.grain.admin.domain.util.FixedPostgreSQL82Dialect
+        database: POSTGRESQL
+#        database-platform: pro.grain.admin.domain.util.FixedH2Dialect
+#        database: H2
         show-sql: false
         properties:
             hibernate.cache.use_second_level_cache: true
@@ -38,12 +38,11 @@ spring:
     data:
         elasticsearch:
             cluster-name:
-#            cluster-nodes: localhost:9300
             cluster-nodes:
             properties:
                 path:
-                  logs: target/elasticsearch/log
-                  data: target/elasticsearch/data
+                    logs: /tmp/elasticsearch/log
+                    data: /tmp/elasticsearch/data
     mail:
         host: localhost
         port: 25

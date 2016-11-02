@@ -12,16 +12,16 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {})
 public interface TransportationPriceMapper {
 
-    @Mapping(source = "stationFrom.id", target = "stationFromId")
+//    @Mapping(source = "stationFrom.id", target = "stationFromId")
     @Mapping(source = "stationFrom.code", target = "stationFromCode")
-    @Mapping(source = "stationTo.id", target = "stationToId")
+//    @Mapping(source = "stationTo.id", target = "stationToId")
     @Mapping(source = "stationTo.code", target = "stationToCode")
     TransportationPriceDTO transportationPriceToTransportationPriceDTO(TransportationPrice transportationPrice);
 
     List<TransportationPriceDTO> transportationPricesToTransportationPriceDTOs(List<TransportationPrice> transportationPrices);
 
-    @Mapping(source = "stationFromId", target = "stationFrom")
-    @Mapping(source = "stationToId", target = "stationTo")
+    @Mapping(source = "stationFromCode", target = "stationFrom")
+    @Mapping(source = "stationToCode", target = "stationTo")
     TransportationPrice transportationPriceDTOToTransportationPrice(TransportationPriceDTO transportationPriceDTO);
 
     List<TransportationPrice> transportationPriceDTOsToTransportationPrices(List<TransportationPriceDTO> transportationPriceDTOs);

@@ -29,7 +29,7 @@ public class Station implements Serializable {
     private String name;
 
     @NotNull
-    @Column(name = "code", nullable = false)
+    @Column(name = "code", nullable = false, unique = true)
     private String code;
 
     @ManyToOne

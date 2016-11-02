@@ -4,31 +4,33 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <include file="classpath:config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221022_added_entity_Bid.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221023_added_entity_Partner.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221024_added_entity_Contact.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221025_added_entity_Station.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221026_added_entity_TransportationPrice.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221027_added_entity_QualityParameter.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221028_added_entity_QualityValue.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221029_added_entity_ServicePrice.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221030_added_entity_OrganisationType.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221031_added_entity_District.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221032_added_entity_Region.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221033_added_entity_Locality.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221034_added_entity_ServiceType.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221035_added_entity_Email.xml" relativeToChangelogFile="false"/>
+    <include file="changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221022_added_entity_Bid.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221023_added_entity_Partner.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221024_added_entity_Contact.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221025_added_entity_Station.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221026_added_entity_TransportationPrice.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221027_added_entity_QualityParameter.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221028_added_entity_QualityValue.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221029_added_entity_ServicePrice.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221030_added_entity_OrganisationType.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221031_added_entity_District.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221032_added_entity_Region.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221033_added_entity_Locality.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221034_added_entity_ServiceType.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221035_added_entity_Email.xml" relativeToChangelogFile="true"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="classpath:config/liquibase/changelog/20161018221022_added_entity_constraints_Bid.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221023_added_entity_constraints_Partner.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221024_added_entity_constraints_Contact.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221025_added_entity_constraints_Station.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221026_added_entity_constraints_TransportationPrice.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221028_added_entity_constraints_QualityValue.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161018221029_added_entity_constraints_ServicePrice.xml" relativeToChangelogFile="false"/>
+    <include file="changelog/20161018221022_added_entity_constraints_Bid.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221023_added_entity_constraints_Partner.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221024_added_entity_constraints_Contact.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221025_added_entity_constraints_Station.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221026_added_entity_constraints_TransportationPrice.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221028_added_entity_constraints_QualityValue.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161018221029_added_entity_constraints_ServicePrice.xml" relativeToChangelogFile="true"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
-    <include file="classpath:config/liquibase/changelog/20161025221036_changed_entity_Partner_lastUpdate.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161025221037_changed_entity_Partner_Inn_Constraint.xml" relativeToChangelogFile="false"/>
-    <include file="classpath:config/liquibase/changelog/20161102221038_changed_entity_TransportationPrice_addedColumns.xml" relativeToChangelogFile="false"/>
+    <include file="changelog/20161025221036_changed_entity_Partner_lastUpdate.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161025221037_changed_entity_Partner_Inn_Constraint.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161102221038_changed_entity_TransportationPrice_addedColumns.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161102221039_changed_entity_TransportationPrice_changeLinkWithStation.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161102221040_changed_entity_Station_changeLinkWithTranspPrice.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

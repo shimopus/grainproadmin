@@ -21,14 +21,7 @@ public class TransportationPriceDTO implements Serializable {
 
     private Integer distance;
 
-
-    private Long stationFromId;
-    
-
     private String stationFromCode;
-
-    private Long stationToId;
-    
 
     private String stationToCode;
 
@@ -61,15 +54,6 @@ public class TransportationPriceDTO implements Serializable {
         this.distance = distance;
     }
 
-    public Long getStationFromId() {
-        return stationFromId;
-    }
-
-    public void setStationFromId(Long stationId) {
-        this.stationFromId = stationId;
-    }
-
-
     public String getStationFromCode() {
         return stationFromCode;
     }
@@ -77,15 +61,6 @@ public class TransportationPriceDTO implements Serializable {
     public void setStationFromCode(String stationCode) {
         this.stationFromCode = stationCode;
     }
-
-    public Long getStationToId() {
-        return stationToId;
-    }
-
-    public void setStationToId(Long stationId) {
-        this.stationToId = stationId;
-    }
-
 
     public String getStationToCode() {
         return stationToCode;
@@ -123,6 +98,8 @@ public class TransportationPriceDTO implements Serializable {
             ", price='" + price + "'" +
             ", priceNds='" + priceNds + "'" +
             ", distance='" + distance + "'" +
+            ", stationFromCode='" + stationFromCode + "'" +
+            ", stationToCode='" + stationToCode + "'" +
             '}';
     }
 }

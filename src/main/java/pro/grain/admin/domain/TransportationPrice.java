@@ -34,12 +34,14 @@ public class TransportationPrice implements Serializable {
     @Column(name = "distance")
     private Integer distance;
 
+    @NotNull
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(name="station_from_code", referencedColumnName = "code", nullable = false)
     private Station stationFrom;
 
+    @NotNull
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn(name="station_to_code", referencedColumnName = "code", nullable = false)
     private Station stationTo;
 
     public Long getId() {

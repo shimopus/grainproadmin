@@ -8,6 +8,14 @@
         <dd>
             <span>{{vm.transportationPrice.price}}</span>
         </dd>
+        <dt><span data-translate="grainAdminApp.transportationPrice.priceNds">Price Nds</span></dt>
+        <dd>
+            <span>{{vm.transportationPrice.priceNds}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.transportationPrice.distance">Distance</span></dt>
+        <dd>
+            <span>{{vm.transportationPrice.distance}}</span>
+        </dd>
         <dt><span data-translate="grainAdminApp.transportationPrice.stationFrom">Station From</span></dt>
         <dd>
             <a ui-sref="station-detail({id:vm.transportationPrice.stationFromId})">{{vm.transportationPrice.stationFromCode}}</a>

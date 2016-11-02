@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
-import pro.grain.admin.web.rest.errors.FieldErrorVM;
 
 import javax.inject.Inject;
 

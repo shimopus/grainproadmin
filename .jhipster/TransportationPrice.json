@@ -25,6 +25,14 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "priceNds",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "distance",
+            "fieldType": "Integer"
         }
     ],
     "changelogDate": "20161018221026",

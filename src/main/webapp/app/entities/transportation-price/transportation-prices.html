@@ -37,6 +37,8 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="price"><span data-translate="grainAdminApp.transportationPrice.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="priceNds"><span data-translate="grainAdminApp.transportationPrice.priceNds">Price Nds</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="distance"><span data-translate="grainAdminApp.transportationPrice.distance">Distance</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="stationFromCode"><span data-translate="grainAdminApp.transportationPrice.stationFrom">Station From</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="stationToCode"><span data-translate="grainAdminApp.transportationPrice.stationTo">Station To</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
@@ -46,6 +48,8 @@
                 <tr ng-repeat="transportationPrice in vm.transportationPrices track by transportationPrice.id">
                     <td><a ui-sref="transportation-price-detail({id:transportationPrice.id})">{{transportationPrice.id}}</a></td>
                     <td>{{transportationPrice.price}}</td>
+                    <td>{{transportationPrice.priceNds}}</td>
+                    <td>{{transportationPrice.distance}}</td>
                     <td>
                         <a ui-sref="station-detail({id:transportationPrice.stationFromId})">{{transportationPrice.stationFromCode}}</a>
                     </td>

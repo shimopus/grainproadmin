@@ -12,7 +12,6 @@
 
         vm.bid = entity;
         vm.currentPartner = partner;
-        alert(vm.currentPartner);
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;

@@ -28,6 +28,12 @@ public class TransportationPrice implements Serializable {
     @Column(name = "price", nullable = false)
     private Long price;
 
+    @Column(name = "price_nds")
+    private Long priceNds;
+
+    @Column(name = "distance")
+    private Integer distance;
+
     @OneToOne
     @JoinColumn(unique = true)
     private Station stationFrom;
@@ -55,6 +61,32 @@ public class TransportationPrice implements Serializable {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public Long getPriceNds() {
+        return priceNds;
+    }
+
+    public TransportationPrice priceNds(Long priceNds) {
+        this.priceNds = priceNds;
+        return this;
+    }
+
+    public void setPriceNds(Long priceNds) {
+        this.priceNds = priceNds;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public TransportationPrice distance(Integer distance) {
+        this.distance = distance;
+        return this;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
     public Station getStationFrom() {
@@ -108,6 +140,8 @@ public class TransportationPrice implements Serializable {
         return "TransportationPrice{" +
             "id=" + id +
             ", price='" + price + "'" +
+            ", priceNds='" + priceNds + "'" +
+            ", distance='" + distance + "'" +
             '}';
     }
 }

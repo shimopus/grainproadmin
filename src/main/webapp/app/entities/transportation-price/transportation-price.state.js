@@ -125,6 +125,8 @@
                         entity: function () {
                             return {
                                 price: null,
+                                priceNds: null,
+                                distance: null,
                                 id: null
                             };
                         }

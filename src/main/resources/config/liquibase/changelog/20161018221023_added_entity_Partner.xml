@@ -24,23 +24,23 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            
+
             <column name="short_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="inn" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="nds" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="card" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="organisation_type_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -67,7 +67,7 @@
 
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
         <createTable tableName="partner_contacts">
             <column name="contacts_id" type="bigint">
                 <constraints nullable="false"/>
@@ -78,7 +78,7 @@
         </createTable>
 
         <addPrimaryKey columnNames="partners_id, contacts_id" tableName="partner_contacts"/>
-        
+
         <createTable tableName="partner_service_prices">
             <column name="service_prices_id" type="bigint">
                 <constraints nullable="false"/>
@@ -89,6 +89,6 @@
         </createTable>
 
         <addPrimaryKey columnNames="partners_id, service_prices_id" tableName="partner_service_prices"/>
-        
+
     </changeSet>
 </databaseChangeLog>

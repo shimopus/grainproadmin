@@ -24,13 +24,14 @@
             <column name="price" type="bigint">
                 <constraints nullable="false" />
             </column>
-                        <column name="station_from_id" type="bigint">
+            <column name="station_from_id" type="bigint">
                 <constraints unique="true" nullable="true" />
-            </column>            <column name="station_to_id" type="bigint">
+            </column>
+            <column name="station_to_id" type="bigint">
                 <constraints unique="true" nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>

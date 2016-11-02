@@ -17,6 +17,8 @@
                 "title": "Transportation Price"
             },
             "price": "Price",
+            "priceNds": "Price Nds",
+            "distance": "Distance",
             "stationFrom": "Station From",
             "stationTo": "Station To"
         }

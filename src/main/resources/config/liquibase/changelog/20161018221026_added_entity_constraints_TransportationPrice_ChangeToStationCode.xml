@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <!--
+        Added the constraints for entity TransportationPrice.
+    -->
+    <changeSet id="20161018221026-2" author="jhipster">
+        <dropAllForeignKeyConstraints baseTableName="transportation_price"/>
+
+        <addForeignKeyConstraint baseColumnNames="station_from_code"
+                                 baseTableName="transportation_price"
+                                 constraintName="fk_transportation_price_station_from_code"
+                                 referencedColumnNames="code"
+                                 referencedTableName="station"/>
+
+        <addForeignKeyConstraint baseColumnNames="station_to_code"
+                                 baseTableName="transportation_price"
+                                 constraintName="fk_transportation_price_station_to_code"
+                                 referencedColumnNames="code"
+                                 referencedTableName="station"/>
+
+    </changeSet>
+</databaseChangeLog>

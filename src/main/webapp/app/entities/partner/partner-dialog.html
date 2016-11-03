@@ -8,181 +8,214 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.organisationType"
-                   for="field_organisationType">Organisation
-                Type</label>
-            <select class="form-control" id="field_organisationType" name="organisationType"
-                    ng-model="vm.partner.organisationTypeId"
-                    ng-options="organisationType.id as organisationType.type for organisationType in vm.organisationtypes">
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.name" for="field_fullname">Name</label>
-            <input type="text" class="form-control" name="fullname" id="field_fullname"
-                   ng-model="vm.partner.name"
-                   validate-on="dirty"
-                   required/>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.shortName" for="field_shortName">Short
-                Name</label>
-            <input type="text" class="form-control" name="shortName" id="field_shortName"
-                   ng-model="vm.partner.shortName"
-                />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.inn" for="field_inn">Inn</label>
-            <input type="text" class="form-control" name="inn" id="field_inn"
-                   ng-model="vm.partner.inn"
-                   validate-on="dirty"
-                   required-message="'{{'entity.validation.required' | translate}}'"
-                   ui-mask="99 99 99999 9 ?9?9"
-                   model-view-value="true"
-                   ui-mask-placeholder
-                   ui-mask-placeholder-char="space"
-                   required/>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.partner.nds" for="field_nds">Nds</label>
-            <select class="form-control" name="nds" ng-model="vm.partner.nds" id="field_nds">
-                <option value="INCLUDED" data-translate="grainAdminApp.NDS.INCLUDED">INCLUDED</option>
-                <option value="EXCLUDED" data-translate="grainAdminApp.NDS.EXCLUDED">EXCLUDED</option>
-                <option value="BOTH" data-translate="grainAdminApp.NDS.BOTH">BOTH</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.region" for="field_region">Region</label>
-            <input class="form-control" autocomplete="off" id="field_region" name="region" ng-if="vm.regions.$resolved"
-                   ng-model="vm.partner.regionId"
-                   uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
-                   typeahead-editable="false"
-                   typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
-                   validate-on="dirty"
-                   required-message="'{{'entity.validation.required' | translate}}'"
-                   required
-                >
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.district" for="field_district">District</label>
-            <input class="form-control" autocomplete="off" id="field_district" name="district" ng-if="vm.districts.$resolved"
-                   ng-model="vm.partner.districtId"
-                   uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
-                   typeahead-editable="false"
-                   typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
-                   validate-on="dirty"
-                   required-message="'{{'entity.validation.required' | translate}}'"
-                   required
-                >
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
-            <input class="form-control" autocomplete="off" id="field_locality" name="locality" ng-if="vm.localities.$resolved"
-                   ng-model="vm.partner.localityId"
-                   uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
-                   typeahead-editable="false"
-                   typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
-                   validate-on="dirty"
-                   required-message="'{{'entity.validation.required' | translate}}'"
-                   required
-                >
-        </div>
-
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.ownerFor" for="field_ownerFor">Owner For</label>
-            <input class="form-control" autocomplete="off" id="field_ownerFor" name="ownerFor"
-                   ng-if="vm.partners.$resolved"
-                   ng-model="vm.partner.ownerForId"
-                   uib-typeahead="partner.id as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
-                   typeahead-editable="false"
-                   typeahead-input-formatter="vm.formatSelection($model, vm.partners, 'name')"
-                >
-        </div>
-
-
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.ownedBy">Owned by</label>
-            <ol>
-                <li ng-repeat="partner in vm.partner.ownedBies track by partner.id">
-                    <span><a ui-sref="partner-detail({id:partner.id})" target="_blank">{{partner.name + " " +
-                        partner.organisationTypeType}}</a></span>
-                    <span class="pull-right">{{partner.regionName}}, {{partner.districtName}}</span>
-                </li>
-            </ol>
-            <button ng-if="!vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.isAddChild = true">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
-            </button>
-            <input class="form-control" autocomplete="off" ng-if="vm.partners.$resolved && vm.isAddChild" required
-                   ng-model="vm.selectedChild"
-                   uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
-                   typeahead-editable="false"
-                   typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
-                >
-            <button type="button" ng-if="vm.isAddChild" class="btn btn-default" data-dismiss="modal"
-                    ng-click="vm.cancelAddChild()">
-                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-                data-translate="entity.action.cancel">Cancel</span>
-            </button>
-            <button type="button" ng-if="vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.addChild()">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
-            </button>
-        </div>
-
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.station" for="field_station">Station</label>
-            <ui-select ng-model="vm.partner.stationId" id="field_station" name="station">
-                <ui-select-match allow-clear>
-                    {{$select.selected.name}}
-                </ui-select-match>
-                <ui-select-choices
-                    repeat="station.id as station in (vm.stations | propsFilter: {name: $select.search, code: $select.search} | limitTo: 10)">
-                    <div ng-bind-html="station.name | highlight: $select.search"></div>
-                    <small>
-                        <span ng-bind-html="''+ station.code | highlight: $select.search"></span>
-                        {{station.district}}, {{station.region}}
-                    </small>
-                </ui-select-choices>
-            </ui-select>
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.partner.servicePrices">Service Prices</label>
-            <ol>
-                <li ng-repeat="servicePrice in vm.partner.servicePrices">
-                    <span><b>{{servicePrice.serviceTypeName}}</b> - {{servicePrice.price}} &#x20bd;</span>
-                </li>
-            </ol>
-            <button ng-if="!vm.isAddServicePrice" class="btn btn-info btn-sm" ng-click="vm.isAddServicePrice = true">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
-            </button>
-
-            <div ng-if="vm.servicePriceTypes.$resolved && vm.isAddServicePrice" class="row">
-                <div class="col-xs-3">
-                    <select class="form-control" id="field_servicePriceType" name="servicePricesType"
-                            ng-model="vm.selectedServicePriceType"
-                            ng-options="servicePriceType as servicePriceType.name for servicePriceType in vm.servicePriceTypes"
-                            required></select>
-                </div>
-                <div class="col-xs-2">
-                    <input type="number" class="form-control" id="field_servicePriceValue" name="servicePriceValue"
-                           ng-model="vm.selectedservicePriceValue" min="1" placeholder="0" required>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" data-translate="grainAdminApp.partner.shortName" for="field_shortName">Short
+                        Name</label>
+                    <input type="text" class="form-control" name="shortName" id="field_shortName"
+                           ng-model="vm.partner.shortName"
+                    />
                 </div>
             </div>
-            <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-default" data-dismiss="modal"
-                    ng-click="vm.cancelAddServicePrice()">
-                <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
-                data-translate="entity.action.cancel">Cancel</span>
-            </button>
-            <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-info btn-sm"
-                    ng-click="vm.addServicePrice()">
-                <span class="glyphicon glyphicon-plus"></span>
-                <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
-            </button>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" data-translate="grainAdminApp.partner.organisationType">
+                        Organisation Type
+                    </label>
+                    <div class="radio">
+                        <label class="radio-inline" ng-repeat="organisationType in vm.organisationtypes">
+                            <input type="radio" name="organisationType"
+                                   ng-model="vm.partner.organisationTypeId"
+                                   ng-value="organisationType.id">{{organisationType.type}}
+                        </label>
+                    </div>
+                </div>
+            </div>
         </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" data-translate="grainAdminApp.partner.name"
+                           for="field_fullname">Name</label>
+                    <input type="text" class="form-control" name="fullname" id="field_fullname"
+                           ng-model="vm.partner.name"
+                           validate-on="dirty"
+                           required/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" data-translate="grainAdminApp.partner.inn" for="field_inn">Inn</label>
+                    <input type="text" class="form-control" name="inn" id="field_inn"
+                           ng-model="vm.partner.inn"
+                           validate-on="dirty"
+                           required-message="'{{'entity.validation.required' | translate}}'"
+                           ui-mask="99 99 99999 9 ?9?9"
+                           model-view-value="true"
+                           ui-mask-placeholder
+                           ui-mask-placeholder-char="space"
+                           required/>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" data-translate="grainAdminApp.partner.site" for="field_site">Site</label>
+                    <input class="form-control" name="site" ng-model="vm.partner.site" id="field_site"/>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" data-translate="grainAdminApp.partner.nds">Nds</label>
+                    <div class="checkbox">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="nds" ng-model="vm.selectedNDS.INCLUDED">
+                            <span data-translate="grainAdminApp.NDS.INCLUDED">INCLUDED</span>
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="nds" ng-model="vm.selectedNDS.EXCLUDED">
+                            <span data-translate="grainAdminApp.NDS.EXCLUDED">EXCLUDED</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label data-translate="grainAdminApp.partner.region" for="field_region">Region</label>
+                    <input class="form-control" autocomplete="off" id="field_region" name="region" ng-if="vm.regions.$resolved"
+                           ng-model="vm.partner.regionId"
+                           uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
+                           typeahead-editable="false"
+                           typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
+                           validate-on="dirty"
+                           required-message="'{{'entity.validation.required' | translate}}'"
+                           required
+                    >
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label data-translate="grainAdminApp.partner.district" for="field_district">District</label>
+                    <input class="form-control" autocomplete="off" id="field_district" name="district"
+                           ng-if="vm.districts.$resolved"
+                           ng-model="vm.partner.districtId"
+                           uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
+                           typeahead-editable="false"
+                           typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
+                           validate-on="dirty"
+                           required-message="'{{'entity.validation.required' | translate}}'"
+                           required
+                    >
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
+                    <input class="form-control" autocomplete="off" id="field_locality" name="locality"
+                           ng-if="vm.localities.$resolved"
+                           ng-model="vm.partner.localityId"
+                           uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
+                           typeahead-editable="false"
+                           typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
+                           validate-on="dirty"
+                           required-message="'{{'entity.validation.required' | translate}}'"
+                           required
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label data-translate="grainAdminApp.partner.ownerFor" for="field_ownerFor">Owner For</label>
+                    <input class="form-control" autocomplete="off" id="field_ownerFor" name="ownerFor"
+                           ng-if="vm.partners.$resolved"
+                           ng-model="vm.partner.ownerForId"
+                           uib-typeahead="partner.id as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
+                           typeahead-editable="false"
+                           typeahead-input-formatter="vm.formatSelection($model, vm.partners, 'name')"
+                    >
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label data-translate="grainAdminApp.partner.ownedBy">Owned by</label>
+                    <input class="form-control" autocomplete="off" ng-if="vm.partners.$resolved"
+                           ng-repeat="child in vm.children"
+                           ng-model="child.obj"
+                           uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | filter: $viewValue"
+                           typeahead-editable="false"
+                           typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
+                    >
+                    <button type="button" ng-if="!vm.isAddChild" class="btn btn-info btn-sm" ng-click="vm.addChild()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label data-translate="grainAdminApp.partner.station">Station</label>
+                    <ui-select ng-model="vm.partner.stationId" name="station">
+                        <ui-select-match allow-clear>
+                            {{$select.selected.name}}
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="station.id as station in (vm.stations | propsFilter: {name: $select.search, code: $select.search} | limitTo: 10)">
+                            <div ng-bind-html="station.name | highlight: $select.search"></div>
+                            <small>
+                                <span ng-bind-html="''+ station.code | highlight: $select.search"></span>
+                                {{station.district}}, {{station.region}}
+                            </small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+            </div>
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label data-translate="grainAdminApp.partner.servicePrices">Service Prices</label>
+                    <ol>
+                        <li ng-repeat="servicePrice in vm.partner.servicePrices">
+                            <span><b>{{servicePrice.serviceTypeName}}</b> - {{servicePrice.price}} &#x20bd;</span>
+                        </li>
+                    </ol>
+                    <button ng-if="!vm.isAddServicePrice" class="btn btn-info btn-sm" ng-click="vm.isAddServicePrice = true">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
+                    </button>
 
+                    <div ng-if="vm.servicePriceTypes.$resolved && vm.isAddServicePrice" class="row">
+                        <div class="col-xs-3">
+                            <select class="form-control" id="field_servicePriceType" name="servicePricesType"
+                                    ng-model="vm.selectedServicePriceType"
+                                    ng-options="servicePriceType as servicePriceType.name for servicePriceType in vm.servicePriceTypes"
+                                    required></select>
+                        </div>
+                        <div class="col-xs-2">
+                            <input type="number" class="form-control" id="field_servicePriceValue" name="servicePriceValue"
+                                   ng-model="vm.selectedservicePriceValue" min="1" placeholder="0" required>
+                        </div>
+                    </div>
+                    <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-default" data-dismiss="modal"
+                            ng-click="vm.cancelAddServicePrice()">
+                        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+                        data-translate="entity.action.cancel">Cancel</span>
+                    </button>
+                    <button type="button" ng-if="vm.isAddServicePrice" class="btn btn-info btn-sm"
+                            ng-click="vm.addServicePrice()">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span class="hidden-xs hidden-sm" data-translate="entity.action.save">Save</span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.partner.contacts">Contacts</label>
             <ol>
@@ -215,7 +248,7 @@
                         <label for="field_contactStatus" data-translate="grainAdminApp.contact.status">Status</label>
                         <input class="form-control" id="field_contactStatus" name="contactStatus"
                                ng-model="vm.selectedContact.status"
-                               >
+                        >
                     </div>
                     <div class="col-xs-3">
                         <label for="field_contactPhone" data-translate="grainAdminApp.contact.phone">Phone</label>
@@ -233,7 +266,7 @@
                         <label for="field_contactSkype" data-translate="grainAdminApp.contact.skype">Skype</label>
                         <input class="form-control" id="field_contactSkype" name="contactSkype"
                                ng-model="vm.selectedContact.skype"
-                               >
+                        >
                     </div>
                 </div>
                 <div ng-if="vm.contacts.$resolved && vm.isAddContact" class="row">
@@ -266,7 +299,7 @@
             <label class="control-label" data-translate="grainAdminApp.partner.card" for="field_card">Card</label>
             <textarea type="text" class="form-control" style="height: 150px" name="card" id="field_card"
                       ng-model="vm.partner.card"
-                ></textarea>
+            ></textarea>
         </div>
     </div>
 

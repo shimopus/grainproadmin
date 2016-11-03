@@ -16,11 +16,15 @@
         var vm = this;
 
         vm.partner = entity;
+        vm.children = vm.partner.ownedBies.map(function (child) {
+            return {
+                obj: child
+            }
+        });
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        //vm.bids = Bid.query();
         vm.partners = Partner.query();
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.organisationtypes = OrganisationType.query();
@@ -32,9 +36,7 @@
         vm.servicePriceTypes = ServiceType.query();
         vm.formatSelection = formatSelection;
         vm.isAddChild = false;
-        vm.selectedChild = null;
         vm.addChild = addChild;
-        vm.cancelAddChild = cancelAddChild;
         vm.isAddServicePrice = false;
         vm.selectedServicePriceType = null;
         vm.selectedservicePriceValue = null;
@@ -50,6 +52,11 @@
         };
         vm.addContact = addContact;
         vm.cancelAddContact = cancelAddContact;
+        vm.selectedNDS = {
+            "INCLUDED": vm.partner.nds === 'INCLUDED' || vm.partner.nds === 'BOTH',
+            'EXCLUDED': vm.partner.nds === 'EXCLUDED' || vm.partner.nds === 'BOTH'
+        };
+        vm.partnerPostUpdateNeeded = false;
 
         $timeout(function () {
             angular.element('.form-group:eq(1)>input').focus();
@@ -63,10 +70,12 @@
             vm.isSaving = true;
             updateAllRelatedObjectsOnUpdate(vm.partner).then(function (partner) {
                 partner.lastUpdate = new Date();
+                partner.nds = vm.selectedNDS.INCLUDED ? (vm.selectedNDS.EXCLUDED ? 'BOTH' : 'INCLUDED') : 'EXCLUDED';
                 if (partner.id !== null) {
                     updateAllRelatedPartnersOnUpdate(partner);
                     Partner.update(partner, onSaveSuccess, onSaveError);
                 } else {
+                    vm.partnerPostUpdateNeeded = true;
                     Partner.save(partner, onSaveSuccess, onSaveError);
                 }
             });
@@ -74,11 +83,16 @@
 
         function updateAllRelatedPartnersOnUpdate(partner) {
             //if any child has ben added/removed
-            partner.ownedBies.forEach(function (child) {
-                var previousOwnerForId = child.ownerForId;
-                if (child.ownerForId !== partner.id) {
-                    child.ownerForId = partner.id;
+            vm.children.forEach(function (child, index) {
+                if (child.obj === null) {
+                    child = partner.ownedBies[index];
+                    child.ownerForId = null;
                     Partner.update(child);
+                } else {
+                    if (child.obj.ownerForId !== partner.id) {
+                        child.obj.ownerForId = partner.id;
+                        Partner.update(child.obj);
+                    }
                 }
             });
         }
@@ -119,8 +133,8 @@
                     }
 
                     if (emailPromise) {
-                        emailPromise.then(function (){
-                            updateAndAddContact(updatedContacts, contact).then(function() {
+                        emailPromise.then(function () {
+                            updateAndAddContact(updatedContacts, contact).then(function () {
                                 contactDeferred.resolve();
                             });
                         });
@@ -146,14 +160,16 @@
         }
 
         function updateAndAddContact(contacts, contact) {
-            return Contact.save(contact, function(updatedContact) {
+            return Contact.save(contact, function (updatedContact) {
                 contacts.push(updatedContact);
             }).$promise;
         }
 
         function onSaveSuccess(result) {
             $scope.$emit('grainAdminApp:partnerUpdate', result);
-            updateAllRelatedPartnersOnUpdate(result);
+            if (vm.partnerPostUpdateNeeded) {
+                updateAllRelatedPartnersOnUpdate(result);
+            }
 
             $uibModalInstance.close(result);
             vm.isSaving = false;
@@ -178,15 +194,7 @@
         }
 
         function addChild() {
-            if (vm.selectedChild !== null) {
-                vm.partner.ownedBies.push(vm.selectedChild);
-                vm.isAddChild = false;
-                vm.selectedChild = null;
-            }
-        }
-
-        function cancelAddChild() {
-            vm.selectedChild = null;
+            vm.children.push({obj: null});
             vm.isAddChild = false;
         }
 

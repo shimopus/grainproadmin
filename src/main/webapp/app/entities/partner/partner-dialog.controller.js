@@ -84,8 +84,12 @@
         function updateAllRelatedPartnersOnUpdate(partner) {
             //if any child has ben added/removed
             vm.children.forEach(function (child, index) {
-                if (child.obj === null) {
+                if (!child.obj) {
                     child = partner.ownedBies[index];
+
+                    //if this is new undefined field
+                    if (!child) return;
+
                     child.ownerForId = null;
                     Partner.update(child);
                 } else {

@@ -32,7 +32,9 @@
             "station": "Station",
             "contacts": "Contacts",
             "servicePrices": "Service Prices",
-            "ownerFor": "Owner For"
+            "ownerFor": "Owner For",
+            "serviceType": "Service Type",
+            "servicePrice": "Price, rub/ton"
         }
     }
 }

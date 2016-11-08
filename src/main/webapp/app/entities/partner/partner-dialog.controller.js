@@ -16,11 +16,14 @@
         var vm = this;
 
         vm.partner = entity;
-        vm.children = vm.partner.ownedBies.map(function (child) {
-            return {
-                obj: child
-            }
-        });
+        //if it is a new partner - just create new child
+        vm.children = !vm.partner.ownedBies || vm.partner.ownedBies.length === 0
+            ? [{obj: null}]
+            : vm.partner.ownedBies.map(function (child) {
+                  return {
+                      obj: child
+                    }
+                });
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
@@ -35,8 +38,11 @@
         vm.contacts = Contact.query();
         vm.servicePriceTypes = ServiceType.query();
         vm.formatSelection = formatSelection;
-        vm.isAddChild = false;
+        vm.doShowChildren = false;
+        vm.doShowParent = false;
+        vm.isAddChild = vm.children.length > 0 && vm.children[0].obj;
         vm.addChild = addChild;
+        vm.onSelectChild = onSelectChild;
         vm.isAddServicePrice = false;
         vm.selectedServicePriceType = null;
         vm.selectedservicePriceValue = null;
@@ -109,6 +115,7 @@
             var returnPartner = angular.copy(partner);
             returnPartner.servicePrices = [];
             returnPartner.contacts = [];
+
             partner.servicePrices.forEach(function (servicePrice) {
                 if (!servicePrice.id) {
                     promises.push(
@@ -200,6 +207,16 @@
         function addChild() {
             vm.children.push({obj: null});
             vm.isAddChild = false;
+        }
+
+        function onSelectChild($model) {
+            if ($model != null) {
+                if (vm.children.length > 1) {
+                    vm.isAddChild = false;
+                } else {
+                    vm.isAddChild = true;
+                }
+            }
         }
 
         function getPartnersSuggestions() {

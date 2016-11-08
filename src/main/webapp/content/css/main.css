@@ -374,3 +374,6 @@ Social Buttons
 }
 
 /* jhipster-needle-css-add-main JHipster will add new css style */
+.row-gray {
+    background-color: #f5f5dc;
+}

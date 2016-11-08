@@ -1,4 +1,4 @@
-<form name="editForm" role="form" novalidate ng-submit="editForm.$valid && vm.save()" angular-validator>
+<form name="editForm" role="form" novalidate angular-validator angular-validator-submit="vm.save()">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -8,7 +8,7 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="row">
+        <div class="row row-gray">
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.shortName" for="field_shortName">Short
@@ -18,13 +18,13 @@
                         />
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5 col-sm-offset-1">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.organisationType">
                         Organisation Type
                     </label>
 
-                    <div class="radio">
+                    <div>
                         <label class="radio-inline" ng-repeat="organisationType in vm.organisationtypes">
                             <input type="radio" name="organisationType"
                                    ng-model="vm.partner.organisationTypeId"
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row row-gray">
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.name"
@@ -45,7 +45,7 @@
                            required/>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5 col-sm-offset-1">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.inn" for="field_inn">Inn</label>
                     <input type="text" class="form-control" name="inn" id="field_inn"
@@ -60,7 +60,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row row-gray">
             <div class="col-sm-6">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.site"
@@ -68,11 +68,11 @@
                     <input class="form-control" name="site" ng-model="vm.partner.site" id="field_site"/>
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-5 col-sm-offset-1">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.nds">Nds</label>
 
-                    <div class="checkbox">
+                    <div>
                         <label class="checkbox-inline">
                             <input type="checkbox" name="nds" ng-model="vm.selectedNDS.INCLUDED">
                             <span data-translate="grainAdminApp.NDS.INCLUDED">INCLUDED</span>
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row row-gray">
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.region"
@@ -137,7 +137,8 @@
             <div class="col-sm-6">
                 <div class="checkbox">
                     <label class="control-label">
-                        <input type="checkbox" ng-model="vm.doShowParent">
+                        <input type="checkbox" ng-model="vm.doShowParent"
+                               ng-disabled="::vm.partner.id !== null && vm.partner.ownerForId">
                         <strong data-translate="grainAdminApp.partner.ownerFor">Owner For</strong>
                     </label>
                 </div>
@@ -154,7 +155,8 @@
             <div class="col-sm-6">
                 <div class="checkbox">
                     <label class="control-label">
-                        <input type="checkbox" ng-model="vm.doShowChildren">
+                        <input type="checkbox" ng-model="vm.doShowChildren"
+                               ng-disabled="::vm.partner.id !== null && vm.partner.ownedBies">
                         <strong data-translate="grainAdminApp.partner.ownedBy">Owned by</strong>
                     </label>
                 </div>
@@ -179,6 +181,10 @@
                     <span class="glyphicon glyphicon-plus"></span>
                     <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
                 </button>
+
+                <div class="form-group">
+                    <label><!-- just spacing --></label>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -204,6 +210,7 @@
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.serviceType">Service Type</label>
                     <select class="form-control"
+                            name="serviceType"
                             ng-model="vm.partner.servicePrices[0].serviceTypeId"
                             ng-options="servicePriceType.id as servicePriceType.name for servicePriceType in vm.servicePriceTypes"
                             required></select>
@@ -220,12 +227,14 @@
                 </div>
             </div>
         </div>
-
-            <div class="row">
+        <div ng-repeat="contact in vm.partner.contacts">
+            <div class="row row-gray">
                 <div class="col-sm-3 form-group">
-                    <label class="control-label" for="field_contactPhone" data-translate="grainAdminApp.contact.phone">Phone</label>
-                    <input class="form-control" id="field_contactPhone" name="contactPhone"
-                           ng-model="vm.selectedContact.phone"
+                    <label class="control-label" for="field_contactPhone{{::$index}}"
+                           data-translate="grainAdminApp.contact.phone">Phone</label>
+                    {{contactNum}}
+                    <input class="form-control" id="field_contactPhone{{::$index}}" name="contactPhone{{::$index}}"
+                           ng-model="contact.phone"
                            validate-on="dirty"
                            required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'Телефон\'}'}}'"
                            ui-mask="+7(999) 999-9999"
@@ -235,49 +244,54 @@
                            required>
                 </div>
                 <div class="col-sm-3 form-group">
-                    <label class="control-label" for="field_contactStatus"
+                    <label class="control-label" for="field_contactStatus{{::$index}}"
                            data-translate="grainAdminApp.contact.status">Status</label>
-                    <input class="form-control" id="field_contactStatus" name="contactStatus"
-                           ng-model="vm.selectedContact.status"
+                    <input class="form-control" id="field_contactStatus{{::$index}}" name="contactStatus{{::$index}}"
+                           ng-model="contact.status"
                         >
                 </div>
                 <div class="col-sm-6 form-group">
-                    <label class="control-label" for="field_contactName"
+                    <label class="control-label" for="field_contactName{{::$index}}"
                            data-translate="grainAdminApp.contact.personName">Person
                         Name</label>
-                    <input class="form-control" id="field_contactName" name="contactName"
-                           ng-model="vm.selectedContact.personName"
+                    <input class="form-control" id="field_contactName{{::$index}}" name="contactName{{::$index}}"
+                           ng-model="contact.personName"
                            validate-on="dirty"
                            required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'ФИО/Наименование\'}'}}'"
                            required>
                 </div>
             </div>
-            <div class="row">
+            <div class="row row-gray">
                 <div class="col-sm-3 form-group">
-                    <label class="control-label" for="field_contactEmail" data-translate="grainAdminApp.contact.email">Email</label>
-                    <input class="form-control" id="field_contactEmail" name="contactEmail"
-                           ng-model="vm.selectedContact.emailEmail"
+                    <label class="control-label" for="field_contactEmail{{::$index}}"
+                           data-translate="grainAdminApp.contact.email">Email</label>
+                    <input class="form-control" id="field_contactEmail{{::$index}}" name="contactEmail{{::$index}}"
+                           ng-model="contact.emailEmail"
                            type="email"
                            validate-on="blur"
                            required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'Email\'}'}}'"
                            required>
                 </div>
                 <div class="col-sm-3 form-group">
-                    <label class="control-label" for="field_contactSkype" data-translate="grainAdminApp.contact.skype">Skype</label>
-                    <input class="form-control" id="field_contactSkype" name="contactSkype"
-                           ng-model="vm.selectedContact.skype"
+                    <label class="control-label" for="field_contactSkype{{::$index}}"
+                           data-translate="grainAdminApp.contact.skype">Skype</label>
+                    <input class="form-control" id="field_contactSkype{{::$index}}" name="contactSkype{{::$index}}"
+                           ng-model="contact.skype"
                         >
                 </div>
-                <div class="col-sm-2 col-sm-offset-4 form-group text-right">
-                    <label class="control-label"></label>
-                    <button type="button" ng-if="true" class="btn btn-info btn-sm form-control"
-                            ng-click="">
+                <div class="col-sm-2 col-sm-offset-4 form-group btn-group-sm">
+                    <!--just to align-->
+                    <label class="control-label"><span>&nbsp;</span></label>
+                    <button type="button" class="btn btn-info btn-sm form-control"
+                            ng-if="vm.partner.contacts !== null && vm.partner.contacts.length === 1"
+                            ng-click="vm.addContact()">
                         <span class="glyphicon glyphicon-plus"></span>
                         <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
                     </button>
                 </div>
             </div>
-
+            <hr/>
+        </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.card" for="field_card">Card</label>
             <textarea type="text" class="form-control" style="height: 150px" name="card" id="field_card"

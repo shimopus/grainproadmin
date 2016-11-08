@@ -16,6 +16,11 @@
         var vm = this;
 
         vm.partner = entity;
+
+        if (vm.partner.contacts === null || vm.partner.contacts.length === 0) {
+            vm.partner.contacts.push(angular.copy(vm.emptyContact));
+        }
+
         //if it is a new partner - just create new child
         vm.children = !vm.partner.ownedBies || vm.partner.ownedBies.length === 0
             ? [{obj: null}]
@@ -38,8 +43,8 @@
         vm.contacts = Contact.query();
         vm.servicePriceTypes = ServiceType.query();
         vm.formatSelection = formatSelection;
-        vm.doShowChildren = false;
-        vm.doShowParent = false;
+        vm.doShowChildren = vm.partner.id !== null && vm.partner.ownedBies ? true : false; //just do not watch this formula
+        vm.doShowParent = vm.partner.id !== null && vm.partner.ownerForId ? true : false; //just do not watch this formula
         vm.isAddChild = vm.children.length > 0 && vm.children[0].obj;
         vm.addChild = addChild;
         vm.onSelectChild = onSelectChild;
@@ -48,8 +53,7 @@
         vm.selectedservicePriceValue = null;
         vm.addServicePrice = addServicePrice;
         vm.cancelAddServicePrice = cancelAddServicePrice;
-        vm.isAddContact = false;
-        vm.selectedContact = {
+        vm.emptyContact = {
             personName: null,
             status: null,
             phone: null,
@@ -57,7 +61,6 @@
             emailEmail: null
         };
         vm.addContact = addContact;
-        vm.cancelAddContact = cancelAddContact;
         vm.selectedNDS = {
             "INCLUDED": vm.partner.nds === 'INCLUDED' || vm.partner.nds === 'BOTH',
             'EXCLUDED': vm.partner.nds === 'EXCLUDED' || vm.partner.nds === 'BOTH'
@@ -253,15 +256,11 @@
         }
 
         function addContact() {
-            if (vm.selectedContact != null) {
-                vm.partner.contacts.push(vm.selectedContact);
-                vm.isAddContact = false;
-                vm.selectedContact = null;
-            }
+            vm.partner.contacts.push(angular.copy(vm.emptyContact));
         }
 
         function cancelAddContact() {
-            vm.selectedContact = null;
+            vm.emptyContact = null;
             vm.isAddContact = false;
         }
     }

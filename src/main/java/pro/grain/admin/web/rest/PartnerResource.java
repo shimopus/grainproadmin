@@ -1,6 +1,7 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.dao.DataIntegrityViolationException;
 import pro.grain.admin.service.PartnerService;
 import pro.grain.admin.service.error.AsMinimumOneValidationException;
 import pro.grain.admin.service.error.EntityConstrainViolation;
@@ -114,7 +115,7 @@ public class PartnerResource {
         PartnerDTO result;
         try {
             result = partnerService.save(partnerDTO);
-        } catch (EntityConstrainViolation ex) {
+        } catch (DataIntegrityViolationException ex) {
             return ResponseEntity.badRequest()
                 .headers(HeaderUtil.createFailureAlert("partner", "uniqe", "The same Partner is already exists")).body(null);
         }

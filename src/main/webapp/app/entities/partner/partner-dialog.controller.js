@@ -43,7 +43,7 @@
         vm.contacts = Contact.query();
         vm.servicePriceTypes = ServiceType.query();
         vm.formatSelection = formatSelection;
-        vm.doShowChildren = vm.partner.id !== null && vm.partner.ownedBies ? true : false; //just do not watch this formula
+        vm.doShowChildren = vm.partner.id !== null && vm.partner.ownedBies.length > 0 ? true : false; //just do not watch this formula
         vm.doShowParent = vm.partner.id !== null && vm.partner.ownerForId ? true : false; //just do not watch this formula
         vm.isAddChild = vm.children.length > 0 && vm.children[0].obj;
         vm.addChild = addChild;

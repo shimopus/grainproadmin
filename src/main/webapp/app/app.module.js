@@ -20,7 +20,8 @@
             'angularValidator',
             'ui.mask',
             'ui.select',
-            'ngSanitize'
+            'ngSanitize',
+            "clickOut"
         ])
         .run(run);
 

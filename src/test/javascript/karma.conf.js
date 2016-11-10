@@ -47,6 +47,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/tg-angular-validator/dist/angular-validator.js',
             'src/main/webapp/bower_components/angular-ui-mask/dist/mask.js',
             'src/main/webapp/bower_components/angular-ui-select/dist/select.js',
+            'src/main/webapp/bower_components/angular-clickout/angular-clickout.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/app/app.module.js',

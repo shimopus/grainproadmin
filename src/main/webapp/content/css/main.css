@@ -377,3 +377,28 @@ Social Buttons
 .row-gray {
     background-color: #f5f5dc;
 }
+
+.partner {
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #e3e3e3;
+    width: 450px
+}
+
+.partner-inline {
+    display: inline-block;
+}
+
+.partner-outline {
+    position: absolute;
+    z-index: 1000;
+}
+
+.partner-dropdown {
+    position: absolute;
+    left: 432px;
+    top: 9px;
+    z-index: 1001;
+    cursor: pointer;
+    color: #bbbbbb;
+}

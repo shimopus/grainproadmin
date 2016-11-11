@@ -382,3 +382,28 @@ Social Buttons
 .radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
     margin-left: -15px;
 }
+
+.partner {
+    background-color: white;
+    padding: 5px;
+    border: 1px solid #e3e3e3;
+    width: 450px
+}
+
+.partner-inline {
+    display: inline-block;
+}
+
+.partner-outline {
+    position: absolute;
+    z-index: 1000;
+}
+
+.partner-dropdown {
+    position: absolute;
+    left: 432px;
+    top: 9px;
+    z-index: 1001;
+    cursor: pointer;
+    color: #bbbbbb;
+}

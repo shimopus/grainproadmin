@@ -1,23 +1,62 @@
 <div>
     <div class="row">
-    <div class="col-md-10">
-        <h2>{{vm.partner.name}} {{vm.partner.organisationTypeType}}</h2>
-        <h5><p ng-repeat="contact in vm.partner.contacts">
-            <b>{{contact.personName}}</b>, {{contact.phone ? contact.phone : 'no phone'}}, {{contact.emailEmail ?
-            contact.emailEmail : 'no email'}}
-        </p></h5>
+        <div class="col-sm-12">
+            <h2>{{vm.partner.name}} {{vm.partner.organisationTypeType}}</h2>
+
+            <h3>
+                <small>Карта Контрагента</small>
+            </h3>
+        </div>
     </div>
-    <div class="col-md-2" style="margin-top:20px">
-        <button type="button" ui-sref="partner-detail.edit({id:vm.partner.id})" class="btn btn-primary">
-            <span class="glyphicon glyphicon-pencil"></span>
-            <span class="hidden-xs hidden-sm" data-translate="entity.action.edit">Edit</span>
-        </button>
-    </div>
+    <div class="row">
+        <div class="col-sm-9">
+            <span class="glyphicon partner-dropdown" aria-hidden="true"
+                ng-class="vm.isPartnerDetailsOpened ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span>
+            <div class="partner partner-inline" ng-show="!vm.isPartnerDetailsOpened"
+                 ng-click="vm.isPartnerDetailsOpened = true"
+                 click-out="vm.isPartnerDetailsOpened = false">
+                <div ng-init="contact=vm.partner.contacts[0]">
+                    <b>{{contact.personName}}</b> - {{contact.status}}
+                    <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
+                    ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
+                    ? contact.skype : 'no skype'}}
+                </div>
+            </div>
+            <div class="partner partner-outline" ng-show="vm.isPartnerDetailsOpened">
+                <p ng-repeat="contact in vm.partner.contacts">
+                    <b>{{contact.personName}}</b> - {{contact.status}}
+                    <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
+                    ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
+                    ? contact.skype : 'no skype'}}
+                </p>
+                <p>{{vm.partner.organisationTypeType}} "{{vm.partner.shortName}}"</p>
+                <p>{{vm.partner.district}}, {{vm.partner.locality}}</p>
+                <p>ИНН: {{vm.partner.inn}}</p>
+                <p>Работают <span data-translate="{{'grainAdminApp.NDS.' + vm.partner.nds}}">{{vm.partner.nds}}</span></p>
+                <p>Сайт:</p>
+                <p>Родительская компания:</p>
+                <p>{{vm.partner.ownerForName}}</p>
+                <p>Дочерние компании:</p>
+                <p ng-repeat="child in vm.partner.ownedBies">
+                    {{child.organisationTypeType}} "{{child.shortName}}", {{vm.partner.district}}, {{vm.partner.locality}}
+                </p>
+                <p>Станция размещения: {{vm.partner.stationName}}</p>
+                <p ng-repeat="servicePrice in vm.partner.servicePrices">
+                    {{servicePrice.serviceTypeName}}: {{servicePrice.price}} р/т
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-3 btn-group">
+            <button type="button" ui-sref="partner-detail.edit({id:vm.partner.id})" class="btn btn-info">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit">Edit</span>
+            </button>
+            <button type="button" class="btn btn-primary" ui-sref="bid.addFor({partner: vm.partner})">
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="hidden-md" data-translate="grainAdminApp.bid.home.createLabel">Add</span>
+            </button>
+        </div>
     </div>
     <hr>
     <jhi-alert-error></jhi-alert-error>
-    <button type="button" class="btn btn-info btn-lg" ui-sref="bid.addFor({partner: vm.partner})">
-        <span class="glyphicon glyphicon-plus"></span>
-        <span class="hidden-md" data-translate="grainAdminApp.bid.home.createLabel">Add</span>
-    </button>
 </div>

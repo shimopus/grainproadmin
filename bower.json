@@ -31,7 +31,8 @@
     "swagger-ui": "2.1.5",
     "tg-angular-validator": "^1.2.8",
     "angular-ui-mask": "^1.8.7",
-    "angular-ui-select": "^0.19.6"
+    "angular-ui-select": "^0.19.6",
+    "angular-clickout": "^1.0.2"
   },
   "devDependencies": {
     "angular-mocks": "1.5.8"

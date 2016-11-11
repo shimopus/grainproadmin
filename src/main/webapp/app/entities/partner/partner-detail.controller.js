@@ -14,6 +14,7 @@
 
         vm.partner = entity;
         vm.previousState = previousState.name;
+        vm.isPartnerDetailsOpened = false;
 
         var unsubscribe = $rootScope.$on('grainAdminApp:partnerUpdate', function(event, result) {
             vm.partner = result;

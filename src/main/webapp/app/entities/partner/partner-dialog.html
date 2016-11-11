@@ -181,10 +181,6 @@
                     <span class="glyphicon glyphicon-plus"></span>
                     <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
                 </button>
-
-                <div class="form-group">
-                    <label><!-- just spacing --></label>
-                </div>
             </div>
         </div>
         <div class="row">
@@ -224,6 +220,9 @@
                            name="servicePriceValue"
                            ng-model="vm.partner.servicePrices[0].price" min="1" placeholder="0" required>
 
+                </div>
+                <div class="form-group">
+                    <label><!-- just spacing --></label>
                 </div>
             </div>
         </div>
@@ -290,7 +289,9 @@
                     </button>
                 </div>
             </div>
-            <hr/>
+        </div>
+        <div class="form-group">
+            <label><!-- just spacing --></label>
         </div>
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.partner.card" for="field_card">Card</label>

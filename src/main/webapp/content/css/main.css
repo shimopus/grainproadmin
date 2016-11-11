@@ -377,3 +377,8 @@ Social Buttons
 .row-gray {
     background-color: #f5f5dc;
 }
+
+/*change margin between radio/check button and label text*/
+.radio input[type="radio"], .radio-inline input[type="radio"], .checkbox input[type="checkbox"], .checkbox-inline input[type="checkbox"] {
+    margin-left: -15px;
+}

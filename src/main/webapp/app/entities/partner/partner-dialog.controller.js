@@ -17,6 +17,7 @@
 
         vm.partner = entity;
 
+        //initialize partner
         if (vm.partner.contacts === null || vm.partner.contacts.length === 0) {
             vm.partner.contacts.push(angular.copy(vm.emptyContact));
         }
@@ -42,6 +43,17 @@
         vm.stations = Station.query();
         vm.contacts = Contact.query();
         vm.servicePriceTypes = ServiceType.query();
+
+        vm.servicePriceTypes.$promise.then(function (serviceTypes) {
+            if (vm.partner && vm.partner.servicePrices && !vm.partner.servicePrices[0] && serviceTypes && serviceTypes[0]) {
+                vm.partner.servicePrices.push({
+                    id: null,
+                    price: null,
+                    serviceTypeId: serviceTypes[0].id
+                });
+            }
+        });
+
         vm.formatSelection = formatSelection;
         vm.doShowChildren = vm.partner.id !== null && vm.partner.ownedBies.length > 0 ? true : false; //just do not watch this formula
         vm.doShowParent = vm.partner.id !== null && vm.partner.ownerForId ? true : false; //just do not watch this formula

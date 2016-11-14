@@ -1,4 +1,5 @@
 <div>
+    <jhi-alert-error></jhi-alert-error>
     <div class="row">
         <div class="col-sm-12">
             <h2>{{vm.partner.name}} {{vm.partner.organisationTypeType}}</h2>
@@ -11,36 +12,53 @@
     <div class="row">
         <div class="col-sm-9">
             <span class="glyphicon partner-dropdown" aria-hidden="true"
-                ng-class="vm.isPartnerDetailsOpened ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span>
+                  ng-class="vm.isPartnerDetailsOpened ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span>
+
             <div class="partner partner-inline" ng-show="!vm.isPartnerDetailsOpened"
                  ng-click="vm.isPartnerDetailsOpened = true"
                  click-out="vm.isPartnerDetailsOpened = false">
-                <div ng-init="contact=vm.partner.contacts[0]">
-                    <b>{{contact.personName}}</b> - {{contact.status}}
-                    <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
-                    ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
-                    ? contact.skype : 'no skype'}}
-                </div>
+                <ul>
+                    <li ng-init="contact=vm.partner.contacts[0]">
+                        <b>{{contact.personName}}</b> - {{contact.status}}
+                        <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
+                        ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
+                        ? contact.skype : 'no skype'}}
+                    </li>
+                </ul>
             </div>
             <div class="partner partner-outline" ng-show="vm.isPartnerDetailsOpened">
-                <p ng-repeat="contact in vm.partner.contacts">
-                    <b>{{contact.personName}}</b> - {{contact.status}}
-                    <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
-                    ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
-                    ? contact.skype : 'no skype'}}
+                <ul>
+                    <li ng-repeat="contact in vm.partner.contacts">
+                        <b>{{contact.personName}}</b> - {{contact.status}}
+                        <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
+                        ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
+                        ? contact.skype : 'no skype'}}
+                    </li>
+                </ul>
+                <p>
+                    {{vm.partner.organisationTypeType}} "{{vm.partner.shortName}}" <br/>
+                    {{vm.partner.district}}, {{vm.partner.locality}} <br/>
+                    ИНН: {{vm.partner.inn}} <br/>
+                    Работают <span data-translate="{{'grainAdminApp.NDS.' + vm.partner.nds}}">{{vm.partner.nds}}</span>
+                    <br/>
+                    Сайт:
                 </p>
-                <p>{{vm.partner.organisationTypeType}} "{{vm.partner.shortName}}"</p>
-                <p>{{vm.partner.district}}, {{vm.partner.locality}}</p>
-                <p>ИНН: {{vm.partner.inn}}</p>
-                <p>Работают <span data-translate="{{'grainAdminApp.NDS.' + vm.partner.nds}}">{{vm.partner.nds}}</span></p>
-                <p>Сайт:</p>
-                <p>Родительская компания:</p>
-                <p>{{vm.partner.ownerForName}}</p>
+
+                <p>
+                    Родительская компания:<br/>
+                    {{vm.partner.ownerForName}}
+                </p>
+
                 <p>Дочерние компании:</p>
-                <p ng-repeat="child in vm.partner.ownedBies">
-                    {{child.organisationTypeType}} "{{child.shortName}}", {{vm.partner.district}}, {{vm.partner.locality}}
-                </p>
+                <ul>
+                    <li ng-repeat="child in vm.partner.ownedBies">
+                        {{child.organisationTypeType}} "{{child.shortName}}", {{vm.partner.district}},
+                        {{vm.partner.locality}}
+                    </li>
+                </ul>
+
                 <p>Станция размещения: {{vm.partner.stationName}}</p>
+
                 <p ng-repeat="servicePrice in vm.partner.servicePrices">
                     {{servicePrice.serviceTypeName}}: {{servicePrice.price}} р/т
                 </p>
@@ -58,5 +76,5 @@
         </div>
     </div>
     <hr>
-    <jhi-alert-error></jhi-alert-error>
+
 </div>

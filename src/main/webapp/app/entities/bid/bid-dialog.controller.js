@@ -5,9 +5,9 @@
         .module('grainAdminApp')
         .controller('BidDialogController', BidDialogController);
 
-    BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner', 'Bid', 'Contact', 'QualityValue', 'Partner'];
+    BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner', 'Bid', 'Contact', 'QualityParameter', 'Partner'];
 
-    function BidDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, partner, Bid, Contact, QualityValue, Partner) {
+    function BidDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, partner, Bid, Contact, QualityParameter, Partner) {
         var vm = this;
 
         vm.bid = entity;
@@ -25,11 +25,12 @@
         vm.openCalendar = openCalendar;
         vm.save = save;
         vm.contacts = Contact.query();
-        vm.qualityvalues = QualityValue.query();
+        vm.qualityParameters = QualityParameter.query();
         vm.partners = Partner.query();
         vm.formatAgentContactSelection = formatAgentContactSelection;
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.formatSelection = formatSelection;
+        vm.selectedQualityValues = new Array(4);
 
         $timeout(function (){
             angular.element('.form-group:eq(0)>input').focus();

@@ -1,159 +1,171 @@
-
 <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 ng-click="vm.clear()">&times;</button>
-        <h4 class="modal-title" id="myBidLabel" data-translate="grainAdminApp.bid.home.createOrEditLabel">Create or edit a Bid</h4>
+        <h4 class="modal-title" id="myBidLabel" data-translate="grainAdminApp.bid.home.createOrEditLabel">Create or edit
+            a Bid</h4>
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.bid.id">
-            <label for="id" data-translate="global.field.id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.bid.id" readonly />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.creationDate" for="field_creationDate">Creation Date</label>
-                <div class="input-group">
-                    <input id="field_creationDate" type="text" class="form-control" name="creationDate" uib-datepicker-popup="{{dateformat}}" ng-model="vm.bid.creationDate" is-open="vm.datePickerOpenStatus.creationDate"
-                    required/>
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('creationDate')"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </div>
-            <div ng-show="editForm.creationDate.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.creationDate.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.qualityClass" for="field_qualityClass">Quality Class</label>
-            <select class="form-control" name="qualityClass" ng-model="vm.bid.qualityClass" id="field_qualityClass" required>
-                <option value="BKL" data-translate="grainAdminApp.QualityClass.BKL">BKL</option>
-                <option value="ONE" data-translate="grainAdminApp.QualityClass.ONE">ONE</option>
-                <option value="TWO" data-translate="grainAdminApp.QualityClass.TWO">TWO</option>
-                <option value="THREE" data-translate="grainAdminApp.QualityClass.THREE">THREE</option>
-                <option value="FOUR" data-translate="grainAdminApp.QualityClass.FOUR">FOUR</option>
-                <option value="FIVE" data-translate="grainAdminApp.QualityClass.FIVE">FIVE</option>
-                <option value="SIX" data-translate="grainAdminApp.QualityClass.SIX">SIX</option>
-                <option value="SEVEN" data-translate="grainAdminApp.QualityClass.SEVEN">SEVEN</option>
-                <option value="EIGHT" data-translate="grainAdminApp.QualityClass.EIGHT">EIGHT</option>
-                <option value="NINE" data-translate="grainAdminApp.QualityClass.NINE">NINE</option>
-                <option value="TEN" data-translate="grainAdminApp.QualityClass.TEN">TEN</option>
-            </select>
-            <div ng-show="editForm.qualityClass.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.qualityClass.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.qualityPassport" for="field_qualityPassport">Quality Passport</label>
-            <input type="text" class="form-control" name="qualityPassport" id="field_qualityPassport"
-                    ng-model="vm.bid.qualityPassport"
-                    required />
-            <div ng-show="editForm.qualityPassport.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.qualityPassport.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.volume" for="field_volume">Volume</label>
-            <input type="number" class="form-control" name="volume" id="field_volume"
-                    ng-model="vm.bid.volume"
-                    required />
-            <div ng-show="editForm.volume.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.volume.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.volume.$error.number" data-translate="entity.validation.number">
-                    This field should be a number.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.price" for="field_price">Price</label>
-            <input type="number" class="form-control" name="price" id="field_price"
-                    ng-model="vm.bid.price"
-                    required />
-            <div ng-show="editForm.price.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.price.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-                <p class="help-block"
-                    ng-show="editForm.price.$error.number" data-translate="entity.validation.number">
-                    This field should be a number.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.nds" for="field_nds">Nds</label>
-            <select class="form-control" name="nds" ng-model="vm.bid.nds" id="field_nds" required>
-                <option value="INCLUDED" data-translate="grainAdminApp.NDS.INCLUDED">INCLUDED</option>
-                <option value="EXCLUDED" data-translate="grainAdminApp.NDS.EXCLUDED">EXCLUDED</option>
-                <option value="BOTH" data-translate="grainAdminApp.NDS.BOTH">BOTH</option>
-            </select>
-            <div ng-show="editForm.nds.$invalid">
-                <p class="help-block"
-                    ng-show="editForm.nds.$error.required" data-translate="entity.validation.required">
-                    This field is required.
-                </p>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.isActive" for="field_isActive">Is Active</label>
-            <input type="checkbox" class="form-control" name="isActive" id="field_isActive"
-                    ng-model="vm.bid.isActive"
-                     />
-        </div>
-        <div class="form-group">
-            <label class="control-label" data-translate="grainAdminApp.bid.archiveDate" for="field_archiveDate">Archive Date</label>
-                <div class="input-group">
-                    <input id="field_archiveDate" type="text" class="form-control" name="archiveDate" uib-datepicker-popup="{{dateformat}}" ng-model="vm.bid.archiveDate" is-open="vm.datePickerOpenStatus.archiveDate"
-                    />
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('archiveDate')"><i class="glyphicon glyphicon-calendar"></i></button>
-                    </span>
-                </div>
-        </div>
 
-        <div class="form-group">
-            <label data-translate="grainAdminApp.bid.agentContact" for="field_agentContact">Agent Contact</label>
-            <input class="form-control" id="field_agentContact" name="agentContact" ng-model="vm.bid.agentContactId"
-                   uib-typeahead="contact.id as contact.personName for contact in vm.contacts | filter:$viewValue"
-                   typeahead-editable="false"
-                   typeahead-input-formatter="vm.formatAgentContactSelection($model)"
-                >
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.bid.qualityParameters" for="field_qualityParameters">Quality Parameters</label>
-            <select class="form-control" id="field_qualityParameters" multiple name="qualityParameters" ng-model="vm.bid.qualityParameters" ng-options="qualityValue as qualityValue.id for qualityValue in vm.qualityvalues track by qualityValue.id"></select>
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.bid.agent" for="field_agent">Agent</label>
-            <select class="form-control" id="field_agent" name="agent" ng-model="vm.bid.agentId" ng-options="partner.id as partner.name for partner in vm.partners"            >
-                <option value=""></option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label data-translate="grainAdminApp.bid.elevator" for="field_elevator">Elevator</label>
-            <select class="form-control" id="field_elevator" name="elevator" ng-model="vm.bid.elevatorId" ng-options="partner.id as partner.name for partner in vm.partners"            >
-                <option value=""></option>
-            </select>
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label data-translate="grainAdminApp.bid.elevator" for="field_elevator">Elevator</label>
+                            <select class="form-control" id="field_elevator" name="elevator"
+                                    ng-model="vm.bid.elevatorId"
+                                    ng-options="partner.id as partner.name for partner in vm.partners">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label data-translate="grainAdminApp.bid.agentContact" for="field_agentContact">Agent
+                                Contact</label>
+                            <input class="form-control" id="field_agentContact" name="agentContact"
+                                   ng-model="vm.bid.agentContactId"
+                                   uib-typeahead="contact.id as contact.personName for contact in vm.contacts | filter:$viewValue"
+                                   typeahead-editable="false"
+                                   typeahead-input-formatter="vm.formatAgentContactSelection($model)"
+                            >
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label" data-translate="grainAdminApp.bid.qualityClass"
+                                   for="field_qualityClass">Quality Class</label>
+                            <select class="form-control" name="qualityClass" ng-model="vm.bid.qualityClass"
+                                    id="field_qualityClass" required>
+                                <option value="BKL" data-translate="grainAdminApp.QualityClass.BKL">BKL</option>
+                                <option value="ONE" data-translate="grainAdminApp.QualityClass.ONE">ONE</option>
+                                <option value="TWO" data-translate="grainAdminApp.QualityClass.TWO">TWO</option>
+                                <option value="THREE" data-translate="grainAdminApp.QualityClass.THREE">THREE</option>
+                                <option value="FOUR" data-translate="grainAdminApp.QualityClass.FOUR">FOUR</option>
+                                <option value="FIVE" data-translate="grainAdminApp.QualityClass.FIVE">FIVE</option>
+                                <option value="SIX" data-translate="grainAdminApp.QualityClass.SIX">SIX</option>
+                                <option value="SEVEN" data-translate="grainAdminApp.QualityClass.SEVEN">SEVEN</option>
+                                <option value="EIGHT" data-translate="grainAdminApp.QualityClass.EIGHT">EIGHT</option>
+                                <option value="NINE" data-translate="grainAdminApp.QualityClass.NINE">NINE</option>
+                                <option value="TEN" data-translate="grainAdminApp.QualityClass.TEN">TEN</option>
+                            </select>
+                            <div ng-show="editForm.qualityClass.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.qualityClass.$error.required"
+                                   data-translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label data-translate="grainAdminApp.bid.qualityParameters" for="field_qualityParameters">Quality
+                                Parameters</label>
+                            <select class="form-control" id="field_qualityParameters" multiple name="qualityParameters"
+                                    ng-model="vm.bid.qualityParameters"
+                                    ng-options="qualityValue as qualityValue.id for qualityValue in vm.qualityvalues track by qualityValue.id"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label" data-translate="grainAdminApp.bid.qualityPassport"
+                                   for="field_qualityPassport">Quality Passport</label>
+                            <input type="text" class="form-control" name="qualityPassport" id="field_qualityPassport"
+                                   ng-model="vm.bid.qualityPassport"
+                                   required/>
+                            <div ng-show="editForm.qualityPassport.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.qualityPassport.$error.required"
+                                   data-translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label" data-translate="grainAdminApp.bid.volume" for="field_volume">Volume</label>
+                            <input type="number" class="form-control" name="volume" id="field_volume"
+                                   ng-model="vm.bid.volume"
+                                   required/>
+                            <div ng-show="editForm.volume.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.volume.$error.required"
+                                   data-translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.volume.$error.number" data-translate="entity.validation.number">
+                                    This field should be a number.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label" data-translate="grainAdminApp.bid.price" for="field_price">Price</label>
+                            <input type="number" class="form-control" name="price" id="field_price"
+                                   ng-model="vm.bid.price"
+                                   required/>
+                            <div ng-show="editForm.price.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.price.$error.required" data-translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                                <p class="help-block"
+                                   ng-show="editForm.price.$error.number" data-translate="entity.validation.number">
+                                    This field should be a number.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label" data-translate="grainAdminApp.bid.nds"
+                                   for="field_nds">Nds</label>
+                            <select class="form-control" name="nds" ng-model="vm.bid.nds" id="field_nds" required>
+                                <option value="INCLUDED" data-translate="grainAdminApp.NDS.INCLUDED">INCLUDED</option>
+                                <option value="EXCLUDED" data-translate="grainAdminApp.NDS.EXCLUDED">EXCLUDED</option>
+                                <option value="BOTH" data-translate="grainAdminApp.NDS.BOTH">BOTH</option>
+                            </select>
+                            <div ng-show="editForm.nds.$invalid">
+                                <p class="help-block"
+                                   ng-show="editForm.nds.$error.required" data-translate="entity.validation.required">
+                                    This field is required.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
-            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+            data-translate="entity.action.cancel">Cancel</span>
         </button>
         <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
             <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>

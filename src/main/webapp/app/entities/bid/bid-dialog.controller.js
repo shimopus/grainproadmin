@@ -12,6 +12,14 @@
 
         vm.bid = entity;
         vm.currentPartner = partner;
+
+        if (!vm.bid.agentId) {
+            vm.bid.agentId = vm.currentPartner.id;
+        }
+        if (!vm.currentPartner.nds || vm.currentPartner.nds === "BOTH") {
+            vm.bid.nds = vm.currentPartner.nds;
+        }
+
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;

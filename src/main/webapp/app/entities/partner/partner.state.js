@@ -111,10 +111,10 @@
                             }]
                         }
                     }).result.then(function () {
-                            $state.go('^', {}, {reload: false});
-                        }, function () {
-                            $state.go('^');
-                        });
+                        $state.go('^', {}, {reload: false});
+                    }, function () {
+                        $state.go('^');
+                    });
                 }]
             })
             .state('partner.new', {
@@ -147,10 +147,10 @@
                             }
                         }
                     }).result.then(function () {
-                            $state.go('partner', null, {reload: 'partner'});
-                        }, function () {
-                            $state.go('partner');
-                        });
+                        $state.go('partner', null, {reload: 'partner'});
+                    }, function () {
+                        $state.go('partner');
+                    });
                 }]
             })
             .state('partner.edit', {
@@ -172,10 +172,10 @@
                             }]
                         }
                     }).result.then(function () {
-                            $state.go('partner', null, {reload: 'partner'});
-                        }, function () {
-                            $state.go('^');
-                        });
+                        $state.go('partner', null, {reload: 'partner'});
+                    }, function () {
+                        $state.go('^');
+                    });
                 }]
             })
             .state('partner.delete', {
@@ -196,10 +196,10 @@
                             }]
                         }
                     }).result.then(function () {
-                            $state.go('partner', null, {reload: 'partner'});
-                        }, function () {
-                            $state.go('^');
-                        });
+                        $state.go('partner', null, {reload: 'partner'});
+                    }, function () {
+                        $state.go('^');
+                    });
                 }]
             })
             .state('bid.addFor', {
@@ -218,26 +218,33 @@
                         resolve: {
                             entity: function () {
                                 return {
-                                    creationDate: null,
+                                    creationDate: new Date(),
                                     qualityClass: null,
                                     qualityPassport: null,
                                     volume: null,
                                     price: null,
                                     nds: null,
-                                    isActive: null,
+                                    isActive: true,
                                     archiveDate: null,
                                     id: null
                                 };
                             },
                             partner: ['Partner', function (Partner) {
                                 return Partner.get({id: $stateParams.id}).$promise;
+                            }],
+                            translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                                $translatePartialLoader.addPart('nDS');
+                                $translatePartialLoader.addPart('contact');
+                                $translatePartialLoader.addPart('bid');
+                                $translatePartialLoader.addPart('qualityClass');
+                                return $translate.refresh();
                             }]
                         }
                     }).result.then(function () {
-                            $state.go('^', {}, {reload: false});
-                        }, function () {
-                            $state.go('^');
-                        });
+                        $state.go('^', {}, {reload: false});
+                    }, function () {
+                        $state.go('^');
+                    });
                 }]
             });
     }

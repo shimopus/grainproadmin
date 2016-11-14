@@ -15,11 +15,14 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label data-translate="grainAdminApp.bid.elevator" for="field_elevator">Elevator</label>
-                            <select class="form-control" id="field_elevator" name="elevator"
-                                    ng-model="vm.bid.elevatorId"
-                                    ng-options="partner.id as partner.name for partner in vm.partners">
-                                <option value=""></option>
-                            </select>
+                            <input class="form-control" id="field_elevator" name="elevator" autocomplete="off"
+                                   ng-if="vm.partners.$resolved"
+                                   ng-model="vm.bid.elevatorId"
+                                   uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | filter: $viewValue"
+                                   typeahead-editable="false"
+                                   typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
+                                   required
+                            >
                         </div>
                     </div>
                 </div>
@@ -32,7 +35,7 @@
                                    ng-model="vm.bid.agentContactId"
                                    uib-typeahead="contact.id as contact.personName for contact in vm.contacts | filter:$viewValue"
                                    typeahead-editable="false"
-                                   typeahead-input-formatter="vm.formatAgentContactSelection($model)"
+                                   typeahead-input-formatter="vm.formatSelection($model, vm.contacts, 'personName')"
                             >
                         </div>
                     </div>

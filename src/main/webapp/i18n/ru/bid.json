@@ -2,32 +2,32 @@
     "grainAdminApp": {
         "bid" : {
             "home": {
-                "title": "Bids",
+                "title": "Заявки",
                 "createLabel": "Добавть Заявку",
-                "createOrEditLabel": "Создать или отредактировать Bid",
-                "search": "Найти Bid"
+                "createOrEditLabel": "Создать или отредактировать Заявку",
+                "search": "Найти Заявку"
             },
-            "created": "Новый Bid создан с идентификатором {{ param }}",
-            "updated": "Bid обновлен с идентификатором {{ param }}",
-            "deleted": "Bid удален с идентификатором {{ param }}",
+            "created": "Новая Заявка создан с идентификатором {{ param }}",
+            "updated": "Заявка обновлена с идентификатором {{ param }}",
+            "deleted": "Заявка удалена с идентификатором {{ param }}",
             "delete": {
-                "question": "Вы уверены что хотите удалить Bid {{ id }}?"
+                "question": "Вы уверены что хотите удалить Заявку {{ id }}?"
             },
             "detail": {
-                "title": "Bid"
+                "title": "Заявка"
             },
-            "creationDate": "Creation Date",
-            "qualityClass": "Quality Class",
-            "qualityPassport": "Quality Passport",
-            "volume": "Volume",
-            "price": "Price",
-            "nds": "Nds",
-            "isActive": "Is Active",
-            "archiveDate": "Archive Date",
-            "agentContact": "Agent Contact",
-            "qualityParameters": "Quality Parameters",
-            "agent": "Agent",
-            "elevator": "Elevator"
+            "creationDate": "Дата создания",
+            "qualityClass": "Класс качества",
+            "qualityPassport": "Карта анализа",
+            "volume": "Объем, т",
+            "price": "Цена р/т",
+            "nds": "Работают по форме",
+            "isActive": "Активная?",
+            "archiveDate": "Дата архивации",
+            "agentContact": "Контактное лицо",
+            "qualityParameters": "Качество",
+            "agent": "Агент",
+            "elevator": "Размещение"
         }
     }
 }

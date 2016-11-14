@@ -26,10 +26,10 @@
         vm.children = !vm.partner.ownedBies || vm.partner.ownedBies.length === 0
             ? [{obj: null}]
             : vm.partner.ownedBies.map(function (child) {
-                  return {
-                      obj: child
-                    }
-                });
+                return {
+                    obj: child
+                };
+            });
         vm.clear = clear;
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
@@ -80,7 +80,7 @@
         vm.partnerPostUpdateNeeded = false;
 
         $timeout(function () {
-            angular.element('.form-group:eq(1)>input').focus();
+            angular.element('.form-group:eq(0)>input').focus();
         });
 
         function clear() {
@@ -155,7 +155,7 @@
                         };
                         emailPromise = Email.save(email, function (updatedEmail) {
                             contact.emailId = updatedEmail.id;
-                        }).$promise
+                        }).$promise;
                     }
 
                     if (emailPromise) {
@@ -225,12 +225,8 @@
         }
 
         function onSelectChild($model) {
-            if ($model != null) {
-                if (vm.children.length > 1) {
-                    vm.isAddChild = false;
-                } else {
-                    vm.isAddChild = true;
-                }
+            if ($model !== null) {
+                vm.isAddChild = vm.children.length <= 1;
             }
         }
 
@@ -247,7 +243,7 @@
         }
 
         function addServicePrice() {
-            if (vm.selectedServicePriceType != null && vm.selectedservicePriceValue != null) {
+            if (vm.selectedServicePriceType !== null && vm.selectedservicePriceValue !== null) {
                 vm.partner.servicePrices.push(
                     {
                         serviceTypeId: angular.copy(vm.selectedServicePriceType.id),
@@ -269,11 +265,6 @@
 
         function addContact() {
             vm.partner.contacts.push(angular.copy(vm.emptyContact));
-        }
-
-        function cancelAddContact() {
-            vm.emptyContact = null;
-            vm.isAddContact = false;
         }
     }
 })();

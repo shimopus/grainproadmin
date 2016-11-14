@@ -28,9 +28,11 @@
         vm.qualityvalues = QualityValue.query();
         vm.partners = Partner.query();
         vm.formatAgentContactSelection = formatAgentContactSelection;
+        vm.getPartnersSuggestions = getPartnersSuggestions;
+        vm.formatSelection = formatSelection;
 
         $timeout(function (){
-            angular.element('.form-group:eq(1)>input').focus();
+            angular.element('.form-group:eq(0)>input').focus();
         });
 
         function clear () {
@@ -67,6 +69,20 @@
             return vm.contacts.find(function (contact) {
                 return contact.id === value;
             }).personName;
+        }
+
+        function getPartnersSuggestions() {
+            return vm.partners.filter(function (partner) {
+                return partner.id !== vm.currentPartner.id;
+            });
+        }
+
+        function formatSelection(selectedValue, objects, parameterName) {
+            if (!selectedValue) return "";
+
+            return objects.find(function (object) {
+                return object.id === selectedValue;
+            })[parameterName];
         }
     }
 })();

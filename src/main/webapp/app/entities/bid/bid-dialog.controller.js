@@ -31,6 +31,7 @@
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.formatSelection = formatSelection;
         vm.selectedQualityValues = new Array(4);
+        vm.selectedElevator = null;
 
         $timeout(function (){
             angular.element('.form-group:eq(0)>input').focus();
@@ -42,11 +43,26 @@
 
         function save () {
             vm.isSaving = true;
+            updateQualityParameters();
+            updateElevatorParameter();
             if (vm.bid.id !== null) {
                 Bid.update(vm.bid, onSaveSuccess, onSaveError);
             } else {
                 Bid.save(vm.bid, onSaveSuccess, onSaveError);
             }
+        }
+
+        function updateQualityParameters() {
+            vm.bid.qualityParameters = vm.selectedQualityValues.map(function (qualityValue) {
+                return {
+                    qualityParameterId: qualityValue.qualityParameter.id,
+                    value: qualityValue.value
+                };
+            });
+        }
+
+        function updateElevatorParameter() {
+            vm.bid.elevatorId = vm.selectedElevator.id;
         }
 
         function onSaveSuccess (result) {

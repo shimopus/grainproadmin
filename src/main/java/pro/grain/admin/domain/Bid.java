@@ -66,7 +66,7 @@ public class Bid implements Serializable {
     @ManyToOne
     private Contact agentContact;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "bid_quality_parameters",
                joinColumns = @JoinColumn(name="bids_id", referencedColumnName="ID"),

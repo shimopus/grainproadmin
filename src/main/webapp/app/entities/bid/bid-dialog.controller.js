@@ -1,13 +1,15 @@
-(function() {
+(function () {
     'use strict';
 
     angular
         .module('grainAdminApp')
         .controller('BidDialogController', BidDialogController);
 
-    BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner', 'Bid', 'Contact', 'QualityParameter', 'Partner'];
+    BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner',
+        'Bid', 'Contact', 'QualityParameter', 'Partner', 'QualityValue', '$q'];
 
-    function BidDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, partner, Bid, Contact, QualityParameter, Partner) {
+    function BidDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, partner,
+                                 Bid, Contact, QualityParameter, Partner, QualityValue, $q) {
         var vm = this;
 
         vm.bid = entity;
@@ -30,18 +32,26 @@
         vm.formatAgentContactSelection = formatAgentContactSelection;
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.formatSelection = formatSelection;
-        vm.selectedQualityValues = new Array(4);
+
+        var emptyQualityValue = {
+            qualityParameter: null,
+            value: null
+        };
+        vm.selectedQualityValues = [1, 2, 3, 4].map(function () {
+            return angular.copy(emptyQualityValue);
+        });
+
         vm.selectedElevator = null;
 
-        $timeout(function (){
+        $timeout(function () {
             angular.element('.form-group:eq(0)>input').focus();
         });
 
-        function clear () {
+        function clear() {
             $uibModalInstance.dismiss('cancel');
         }
 
-        function save () {
+        function save() {
             vm.isSaving = true;
             updateQualityParameters();
             updateElevatorParameter();
@@ -53,32 +63,38 @@
         }
 
         function updateQualityParameters() {
-            vm.bid.qualityParameters = vm.selectedQualityValues.map(function (qualityValue) {
-                return {
-                    qualityParameterId: qualityValue.qualityParameter.id,
-                    value: qualityValue.value
-                };
-            });
+            vm.bid.qualityParameters = vm.selectedQualityValues
+                .map(function (qualityValue) {
+                    if (qualityValue.qualityParameter) {
+                        return {
+                            qualityParameterId: qualityValue.qualityParameter.id,
+                            value: qualityValue.value
+                        };
+                    }
+                })
+                .filter(function (elm) {
+                    return elm != undefined
+                });
         }
 
         function updateElevatorParameter() {
             vm.bid.elevatorId = vm.selectedElevator.id;
         }
 
-        function onSaveSuccess (result) {
+        function onSaveSuccess(result) {
             $scope.$emit('grainAdminApp:bidUpdate', result);
             $uibModalInstance.close(result);
             vm.isSaving = false;
         }
 
-        function onSaveError () {
+        function onSaveError() {
             vm.isSaving = false;
         }
 
         vm.datePickerOpenStatus.creationDate = false;
         vm.datePickerOpenStatus.archiveDate = false;
 
-        function openCalendar (date) {
+        function openCalendar(date) {
             vm.datePickerOpenStatus[date] = true;
         }
 

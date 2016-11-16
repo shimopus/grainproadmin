@@ -28,7 +28,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class BidService {
 
     private final Logger log = LoggerFactory.getLogger(BidService.class);
-    
+
     @Inject
     private BidRepository bidRepository;
 
@@ -55,15 +55,28 @@ public class BidService {
 
     /**
      *  Get all the bids.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<BidDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Bids");
         Page<Bid> result = bidRepository.findAll(pageable);
         return result.map(bid -> bidMapper.bidToBidDTO(bid));
+    }
+
+    /**
+     *  Get all the bids by partner.
+     *
+     *  @param partnerId the partner
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public List<BidDTO> findByPartner(Long partnerId) {
+        log.debug("Request to get all Bids by partner");
+        List<Bid> result = bidRepository.findAllWithEagerRelationshipsByPartner(partnerId);
+        return bidMapper.bidsToBidDTOs(result);
     }
 
     /**
@@ -72,7 +85,7 @@ public class BidService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public BidDTO findOne(Long id) {
         log.debug("Request to get Bid : {}", id);
         Bid bid = bidRepository.findOneWithEagerRelationships(id);

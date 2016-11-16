@@ -35,7 +35,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class BidResource {
 
     private final Logger log = LoggerFactory.getLogger(BidResource.class);
-        
+
     @Inject
     private BidService bidService;
 
@@ -104,6 +104,23 @@ public class BidResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+
+
+    @RequestMapping(value = "/partners/{id}/bids",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<BidDTO>> getBids(@PathVariable Long id) throws URISyntaxException {
+        log.debug("REST request to get all bids for a Partner with id={}", id);
+        Partner partner = partnerService.get(id);
+
+        List<Bid> bids = new ArrayList<>(partner.getAgentBids());
+
+        List<BidDTO> bidsDTO = bidMapper.bidsToBidDTOs(bids);
+
+        return new ResponseEntity<>(bidsDTO, HttpStatus.OK);
+    }
+
     /**
      * GET  /bids/:id : get the "id" bid.
      *
@@ -144,7 +161,7 @@ public class BidResource {
      * SEARCH  /_search/bids?query=:query : search for the bid corresponding
      * to the query.
      *
-     * @param query the query of the bid search 
+     * @param query the query of the bid search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

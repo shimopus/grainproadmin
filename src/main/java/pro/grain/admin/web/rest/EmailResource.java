@@ -35,7 +35,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class EmailResource {
 
     private final Logger log = LoggerFactory.getLogger(EmailResource.class);
-        
+
     @Inject
     private EmailService emailService;
 
@@ -55,6 +55,7 @@ public class EmailResource {
         if (emailDTO.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("email", "idexists", "A new email cannot already have an ID")).body(null);
         }
+//        EmailDTO savedEmail = emailService.
         EmailDTO result = emailService.save(emailDTO);
         return ResponseEntity.created(new URI("/api/emails/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert("email", result.getId().toString()))
@@ -144,7 +145,7 @@ public class EmailResource {
      * SEARCH  /_search/emails?query=:query : search for the email corresponding
      * to the query.
      *
-     * @param query the query of the email search 
+     * @param query the query of the email search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

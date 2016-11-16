@@ -89,7 +89,8 @@
 
         function save() {
             vm.isSaving = true;
-            updateAllRelatedObjectsOnUpdate(vm.partner).then(function (partner) {
+            var partner = vm.partner;
+            //updateAllRelatedObjectsOnUpdate(vm.partner).then(function (partner) {
                 partner.lastUpdate = new Date();
                 partner.nds = vm.selectedNDS.INCLUDED ? (vm.selectedNDS.EXCLUDED ? 'BOTH' : 'INCLUDED') : 'EXCLUDED';
                 if (partner.id !== null) {
@@ -99,7 +100,7 @@
                     vm.partnerPostUpdateNeeded = true;
                     Partner.save(partner, onSaveSuccess, onSaveError);
                 }
-            });
+            //});
         }
 
         function updateAllRelatedPartnersOnUpdate(partner) {
@@ -121,7 +122,7 @@
                 }
             });
         }
-
+/*
         function updateAllRelatedObjectsOnUpdate(partner) {
             var returnDeferred = $q.defer();
             var promises = [];
@@ -183,7 +184,7 @@
             });
 
             return returnDeferred.promise;
-        }
+        }*/
 
         function updateAndAddContact(contacts, contact) {
             return Contact.save(contact, function (updatedContact) {

@@ -82,7 +82,7 @@ public class Partner implements Serializable {
     @ManyToOne
     private Station station;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "partner_contacts",
                joinColumns = @JoinColumn(name="partners_id", referencedColumnName="ID"),
@@ -90,7 +90,7 @@ public class Partner implements Serializable {
     @Field( type = FieldType.Nested)
     private Set<Contact> contacts = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "partner_service_prices",
                joinColumns = @JoinColumn(name="partners_id", referencedColumnName="ID"),

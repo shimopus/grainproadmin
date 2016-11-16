@@ -37,7 +37,7 @@ public class Contact implements Serializable {
     @Column(name = "skype")
     private String skype;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private Email email;
 

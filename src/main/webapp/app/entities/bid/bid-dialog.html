@@ -26,7 +26,7 @@
                                    validate-on="dirty"
                                    required-message="'{{'entity.validation.required' | translate}}'"
                                    required
-                            />
+                                />
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                                    uib-typeahead="contact.id as contact.personName for contact in vm.selectedElevator.contacts | filter:$viewValue"
                                    typeahead-editable="false"
                                    typeahead-input-formatter="vm.formatSelection($model, vm.contacts, 'personName')"
-                            >
+                                >
                         </div>
                     </div>
                 </div>
@@ -81,12 +81,15 @@
                                     <option value=""></option>
                                 </select>
                             </div>
-                            <div class="col-sm-4 form-group input-group">
-                                <input type="text" class="form-control"
+                            <div class="col-sm-4 form-group">
+                                <input type="text" class="form-control" name="{{'value' + $index}}"
                                        ng-disabled="!qualityValue.qualityParameter"
+                                       ng-required="qualityValue.qualityParameter"
+                                       validate-on="dirty"
+                                       required-message="'!'"
                                        ng-model="qualityValue.value"
-                                       ui-mask="{{'9?9?9?9?9?9' + (qualityValue.qualityParameter.unit ? qualityValue.qualityParameter.unit : '')}}"
-                                />
+                                       ui-mask="{{'9?9?9?9' + (qualityValue.qualityParameter.unit ? qualityValue.qualityParameter.unit : '')}}"
+                                    />
                             </div>
                         </div>
                     </div>
@@ -132,17 +135,24 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label" data-translate="grainAdminApp.bid.nds"
-                                   for="field_nds">Nds</label>
-                            <select class="form-control" name="nds" ng-model="vm.bid.nds" id="field_nds"
-                                    validate-on="dirty"
-                                    required-message="'{{'entity.validation.required' | translate}}'"
-                                    required>
-                                <option value="INCLUDED" data-translate="grainAdminApp.NDS.INCLUDED">INCLUDED</option>
-                                <option value="EXCLUDED" data-translate="grainAdminApp.NDS.EXCLUDED">EXCLUDED</option>
-                                <option value="BOTH" data-translate="grainAdminApp.NDS.BOTH">BOTH</option>
-                            </select>
+                        <div class="form-group" ng-show="!vm.currentPartner.nds || vm.currentPartner.nds === 'BOTH'">
+                            <label class="control-label" data-translate="grainAdminApp.bid.nds">Nds</label>
+                            <label class="radio-inline">
+                                <input type="radio" class="radio-button" name="nds" ng-model="vm.bid.nds"
+                                       ng-value="'INCLUDED'"
+                                       validate-on="dirty"
+                                       required-message="'!'"
+                                       required>
+                                <span class="inside-label" data-translate="grainAdminApp.NDS.INCLUDED">INCLUDED</span>
+                            </label>
+                            <label class="radio-inline">
+                                <input type="radio" class="radio-button" name="nds" ng-model="vm.bid.nds"
+                                       ng-value="'EXCLUDED'"
+                                       validate-on="dirty"
+                                       required-message="'!'"
+                                       required>
+                                <span class="inside-label" data-translate="grainAdminApp.NDS.EXCLUDED">EXCLUDED</span>
+                            </label>
                         </div>
                     </div>
                 </div>

@@ -22,6 +22,11 @@
         });
         $scope.$on('$destroy', unsubscribe);
 
+        var unsubscribeBid = $rootScope.$on('grainAdminApp:bidUpdate', function(event, result) {
+            vm.bids = getBids();
+        });
+        $scope.$on('$destroy', unsubscribeBid);
+
         function getBids() {
             return Bid.queryByPartner({
                 partnerId: vm.partner.id

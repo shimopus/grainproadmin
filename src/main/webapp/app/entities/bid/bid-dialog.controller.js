@@ -18,7 +18,7 @@
         if (!vm.bid.agentId) {
             vm.bid.agentId = vm.currentPartner.id;
         }
-        if (!vm.currentPartner.nds || vm.currentPartner.nds === "BOTH") {
+        if (vm.currentPartner.nds && vm.currentPartner.nds !== "BOTH") {
             vm.bid.nds = vm.currentPartner.nds;
         }
 

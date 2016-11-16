@@ -407,3 +407,7 @@ Social Buttons
     cursor: pointer;
     color: #bbbbbb;
 }
+
+label.has-error span.inside-label {
+    color: #a94442;
+}

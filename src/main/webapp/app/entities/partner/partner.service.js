@@ -36,11 +36,6 @@
                     copy.lastUpdate = DateUtils.convertLocalDateToServer(copy.lastUpdate);
                     return angular.toJson(copy);
                 }
-            },
-            'bids': {
-                method: 'GET',
-                url: resourceUrl + '/bids',
-                isArray: true
             }
         });
     }

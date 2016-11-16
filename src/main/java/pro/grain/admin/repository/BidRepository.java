@@ -13,9 +13,10 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface BidRepository extends JpaRepository<Bid,Long> {
 
-    @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters where bid.agent_id =:id")
+    @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters")
     List<Bid> findAllWithEagerRelationships();
 
+    @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters where bid.agent.id =:id")
     List<Bid> findAllWithEagerRelationshipsByPartner(@Param("id") Long id);
 
     @Query("select bid from Bid bid left join fetch bid.qualityParameters where bid.id =:id")

@@ -104,19 +104,13 @@ public class BidResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-
-
-    @RequestMapping(value = "/partners/{id}/bids",
+    @RequestMapping(value = "/bids/bypartner",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<BidDTO>> getBids(@PathVariable Long id) throws URISyntaxException {
-        log.debug("REST request to get all bids for a Partner with id={}", id);
-        Partner partner = partnerService.get(id);
-
-        List<Bid> bids = new ArrayList<>(partner.getAgentBids());
-
-        List<BidDTO> bidsDTO = bidMapper.bidsToBidDTOs(bids);
+    public ResponseEntity<List<BidDTO>> getBids(@RequestParam("partnerId") Long id) throws URISyntaxException {
+        log.debug("REST request to get all Bids for a Partner with id={}", id);
+        List<BidDTO> bidsDTO = bidService.findByPartner(id);
 
         return new ResponseEntity<>(bidsDTO, HttpStatus.OK);
     }

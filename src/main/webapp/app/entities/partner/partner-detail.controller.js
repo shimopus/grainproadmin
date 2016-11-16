@@ -15,7 +15,7 @@
         vm.partner = entity;
         vm.previousState = previousState.name;
         vm.isPartnerDetailsOpened = false;
-        vm.getBids = getBids;
+        vm.bids = getBids();
 
         var unsubscribe = $rootScope.$on('grainAdminApp:partnerUpdate', function(event, result) {
             vm.partner = result;
@@ -23,7 +23,9 @@
         $scope.$on('$destroy', unsubscribe);
 
         function getBids() {
-            return Partner.bids(vm.partner.id);
+            return Bid.queryByPartner({
+                partnerId: vm.partner.id
+            });
         }
     }
 })();

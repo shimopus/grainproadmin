@@ -11,6 +11,11 @@
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
+            'queryByPartner': {
+                method: 'GET',
+                url: 'api/bids/bypartner',
+                isArray: true
+            },
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

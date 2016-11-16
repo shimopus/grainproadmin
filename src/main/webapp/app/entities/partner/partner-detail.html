@@ -77,6 +77,8 @@
     </div>
     <hr>
     <div class="row">
-        {{vm.getBids()}}
+        <div class="col-sm-5" ng-repeat="bid in vm.bids">
+            {{bid}}
+        </div>
     </div>
 </div>

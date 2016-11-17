@@ -136,12 +136,18 @@ public class Contact implements Serializable {
 
     @Override
     public String toString() {
-        return "Contact{" +
+        String str = "Contact{" +
             "id=" + id +
             ", personName='" + personName + "'" +
             ", status='" + status + "'" +
             ", phone='" + phone + "'" +
-            ", skype='" + skype + "'" +
-            '}';
+            ", skype='" + skype + "'";
+
+        if (email != null) {
+            str +=
+                ", emailId='" + email.getId() + "'" +
+                ", email='" + email.getEmail() + "'";
+        }
+        return  str + '}';
     }
 }

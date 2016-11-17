@@ -18,6 +18,15 @@
         vm.partner = entity;
 
         //initialize partner
+        vm.emptyContact = {
+            personName: null,
+            status: null,
+            phone: null,
+            skype: null,
+            emailEmail: null,
+            emailId: null
+        };
+
         if (vm.partner.contacts === null || vm.partner.contacts.length === 0) {
             vm.partner.contacts.push(angular.copy(vm.emptyContact));
         }
@@ -65,13 +74,6 @@
         vm.selectedservicePriceValue = null;
         vm.addServicePrice = addServicePrice;
         vm.cancelAddServicePrice = cancelAddServicePrice;
-        vm.emptyContact = {
-            personName: null,
-            status: null,
-            phone: null,
-            skype: null,
-            emailEmail: null
-        };
         vm.addContact = addContact;
         vm.selectedNDS = {
             "INCLUDED": vm.partner.nds === 'INCLUDED' || vm.partner.nds === 'BOTH',
@@ -91,15 +93,15 @@
             vm.isSaving = true;
             var partner = vm.partner;
             //updateAllRelatedObjectsOnUpdate(vm.partner).then(function (partner) {
-                partner.lastUpdate = new Date();
-                partner.nds = vm.selectedNDS.INCLUDED ? (vm.selectedNDS.EXCLUDED ? 'BOTH' : 'INCLUDED') : 'EXCLUDED';
-                if (partner.id !== null) {
-                    updateAllRelatedPartnersOnUpdate(partner);
-                    Partner.update(partner, onSaveSuccess, onSaveError);
-                } else {
-                    vm.partnerPostUpdateNeeded = true;
-                    Partner.save(partner, onSaveSuccess, onSaveError);
-                }
+            partner.lastUpdate = new Date();
+            partner.nds = vm.selectedNDS.INCLUDED ? (vm.selectedNDS.EXCLUDED ? 'BOTH' : 'INCLUDED') : 'EXCLUDED';
+            if (partner.id !== null) {
+                updateAllRelatedPartnersOnUpdate(partner);
+                Partner.update(partner, onSaveSuccess, onSaveError);
+            } else {
+                vm.partnerPostUpdateNeeded = true;
+                Partner.save(partner, onSaveSuccess, onSaveError);
+            }
             //});
         }
 
@@ -122,69 +124,70 @@
                 }
             });
         }
-/*
-        function updateAllRelatedObjectsOnUpdate(partner) {
-            var returnDeferred = $q.defer();
-            var promises = [];
-            var updatedServicePrices = [];
-            var updatedContacts = [];
-            var returnPartner = angular.copy(partner);
-            returnPartner.servicePrices = [];
-            returnPartner.contacts = [];
 
-            partner.servicePrices.forEach(function (servicePrice) {
-                if (!servicePrice.id) {
-                    promises.push(
-                        ServicePrice.save(servicePrice, function (updatedServicePrice) {
-                            updatedServicePrices.push(updatedServicePrice);
-                        }).$promise
-                    );
-                } else {
-                    updatedServicePrices.push(servicePrice);
-                }
-            });
+        /*
+         function updateAllRelatedObjectsOnUpdate(partner) {
+         var returnDeferred = $q.defer();
+         var promises = [];
+         var updatedServicePrices = [];
+         var updatedContacts = [];
+         var returnPartner = angular.copy(partner);
+         returnPartner.servicePrices = [];
+         returnPartner.contacts = [];
 
-            partner.contacts.forEach(function (contact) {
-                if (!contact.id) {
-                    var contactDeferred = $q.defer();
-                    promises.push(contactDeferred.promise);
+         partner.servicePrices.forEach(function (servicePrice) {
+         if (!servicePrice.id) {
+         promises.push(
+         ServicePrice.save(servicePrice, function (updatedServicePrice) {
+         updatedServicePrices.push(updatedServicePrice);
+         }).$promise
+         );
+         } else {
+         updatedServicePrices.push(servicePrice);
+         }
+         });
 
-                    var emailPromise = null;
-                    if (contact.emailEmail) {
-                        var email = {
-                            email: contact.emailEmail
-                        };
-                        emailPromise = Email.save(email, function (updatedEmail) {
-                            contact.emailId = updatedEmail.id;
-                        }).$promise;
-                    }
+         partner.contacts.forEach(function (contact) {
+         if (!contact.id) {
+         var contactDeferred = $q.defer();
+         promises.push(contactDeferred.promise);
 
-                    if (emailPromise) {
-                        emailPromise.then(function () {
-                            updateAndAddContact(updatedContacts, contact).then(function () {
-                                contactDeferred.resolve();
-                            });
-                        });
-                    } else {
-                        updateAndAddContact(updatedContacts, contact).then(function () {
-                            contactDeferred.resolve();
-                        });
-                    }
-                } else {
-                    updatedContacts.push(contact);
-                }
-            });
+         var emailPromise = null;
+         if (contact.emailEmail) {
+         var email = {
+         email: contact.emailEmail
+         };
+         emailPromise = Email.save(email, function (updatedEmail) {
+         contact.emailId = updatedEmail.id;
+         }).$promise;
+         }
 
-            $q.all(promises).then(function () {
-                returnPartner.servicePrices = updatedServicePrices;
-                returnPartner.contacts = updatedContacts;
-                returnDeferred.resolve(returnPartner);
-            }, function (reason) {
-                returnDeferred.reject(reason);
-            });
+         if (emailPromise) {
+         emailPromise.then(function () {
+         updateAndAddContact(updatedContacts, contact).then(function () {
+         contactDeferred.resolve();
+         });
+         });
+         } else {
+         updateAndAddContact(updatedContacts, contact).then(function () {
+         contactDeferred.resolve();
+         });
+         }
+         } else {
+         updatedContacts.push(contact);
+         }
+         });
 
-            return returnDeferred.promise;
-        }*/
+         $q.all(promises).then(function () {
+         returnPartner.servicePrices = updatedServicePrices;
+         returnPartner.contacts = updatedContacts;
+         returnDeferred.resolve(returnPartner);
+         }, function (reason) {
+         returnDeferred.reject(reason);
+         });
+
+         return returnDeferred.promise;
+         }*/
 
         function updateAndAddContact(contacts, contact) {
             return Contact.save(contact, function (updatedContact) {

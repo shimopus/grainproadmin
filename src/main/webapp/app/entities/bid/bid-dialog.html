@@ -20,7 +20,7 @@
                                    autocomplete="off"
                                    ng-if="vm.partners.$resolved"
                                    ng-model="vm.selectedElevator"
-                                   uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | filter: $viewValue"
+                                   uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | propsFilter: {name: $viewValue}"
                                    typeahead-editable="false"
                                    typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
                                    validate-on="dirty"
@@ -35,13 +35,18 @@
                         <div class="form-group">
                             <label data-translate="grainAdminApp.bid.agentContact" for="field_agentContact">Agent
                                 Contact</label>
-                            <input class="form-control" id="field_agentContact" name="agentContact"
-                                   ng-disabled="vm.bid.elevatorId === null"
-                                   ng-model="vm.bid.agentContactId"
-                                   uib-typeahead="contact.id as contact.personName for contact in vm.selectedElevator.contacts | filter:$viewValue"
-                                   typeahead-editable="false"
-                                   typeahead-input-formatter="vm.formatSelection($model, vm.contacts, 'personName')"
-                                >
+                            <ui-select ng-model="vm.bid.agentContactId" id="field_agentContact" name="agentContact">
+                                <ui-select-match allow-clear>
+                                    {{$select.selected.personName}}
+                                </ui-select-match>
+                                <ui-select-choices
+                                    repeat="contact.id as contact in vm.currentPartner.contacts">
+                                    <div ng-bind-html="contact.personName | highlight: $select.search"></div>
+                                    <small>
+                                        {{contact.phone}}, {{contact.emailEmail}}
+                                    </small>
+                                </ui-select-choices>
+                            </ui-select>
                         </div>
                     </div>
                 </div>

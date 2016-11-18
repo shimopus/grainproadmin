@@ -193,11 +193,11 @@
                             {{$select.selected.name}}
                         </ui-select-match>
                         <ui-select-choices
-                            repeat="station.id as station in (vm.stations | propsFilter: {name: $select.search, code: $select.search} | limitTo: 10)">
+                            repeat="station.id as station in vm.stations | propsFilter: {name: $select.search, code: $select.search} | limitTo: 10">
                             <div ng-bind-html="station.name | highlight: $select.search"></div>
                             <small>
                                 <span ng-bind-html="''+ station.code | highlight: $select.search"></span>
-                                {{station.district}}, {{station.region}}
+                                {{station.districtName}}, {{station.regionName}}
                             </small>
                         </ui-select-choices>
                     </ui-select>

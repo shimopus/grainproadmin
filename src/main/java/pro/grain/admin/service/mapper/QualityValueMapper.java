@@ -14,6 +14,7 @@ public interface QualityValueMapper {
 
     @Mapping(source = "qualityParameter.id", target = "qualityParameterId")
     @Mapping(source = "qualityParameter.name", target = "qualityParameterName")
+    @Mapping(source = "qualityParameter.unit", target = "qualityParameterUnit")
     QualityValueDTO qualityValueToQualityValueDTO(QualityValue qualityValue);
 
     List<QualityValueDTO> qualityValuesToQualityValueDTOs(List<QualityValue> qualityValues);

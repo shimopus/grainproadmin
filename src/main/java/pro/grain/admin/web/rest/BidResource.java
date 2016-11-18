@@ -2,6 +2,7 @@ package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import pro.grain.admin.service.BidService;
+import pro.grain.admin.service.dto.BidFullDTO;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
 import pro.grain.admin.service.dto.BidDTO;
@@ -108,9 +109,9 @@ public class BidResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<BidDTO>> getBids(@RequestParam("partnerId") Long id) throws URISyntaxException {
+    public ResponseEntity<List<BidFullDTO>> getBids(@RequestParam("partnerId") Long id) throws URISyntaxException {
         log.debug("REST request to get all Bids for a Partner with id={}", id);
-        List<BidDTO> bidsDTO = bidService.findByPartner(id);
+        List<BidFullDTO> bidsDTO = bidService.findByPartner(id);
 
         return new ResponseEntity<>(bidsDTO, HttpStatus.OK);
     }

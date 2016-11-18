@@ -16,6 +16,7 @@
         vm.previousState = previousState.name;
         vm.isPartnerDetailsOpened = false;
         vm.bids = getBids();
+        vm.getContact = getContact;
 
         var unsubscribe = $rootScope.$on('grainAdminApp:partnerUpdate', function(event, result) {
             vm.partner = result;
@@ -31,6 +32,14 @@
             return Bid.queryByPartner({
                 partnerId: vm.partner.id
             });
+        }
+
+        function getContact(bid) {
+            if (vm.partner.contacts.length > 0) {
+                return vm.partner.contacts.find(function (contact) {
+                    return contact.id === bid.agentContactId;
+                });
+            }
         }
     }
 })();

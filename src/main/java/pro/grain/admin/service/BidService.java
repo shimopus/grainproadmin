@@ -4,6 +4,8 @@ import pro.grain.admin.domain.Bid;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
 import pro.grain.admin.service.dto.BidDTO;
+import pro.grain.admin.service.dto.BidFullDTO;
+import pro.grain.admin.service.mapper.BidFullMapper;
 import pro.grain.admin.service.mapper.BidMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,9 @@ public class BidService {
 
     @Inject
     private BidMapper bidMapper;
+
+    @Inject
+    private BidFullMapper bidFullMapper;
 
     @Inject
     private BidSearchRepository bidSearchRepository;
@@ -73,10 +78,10 @@ public class BidService {
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<BidDTO> findByPartner(Long partnerId) {
+    public List<BidFullDTO> findByPartner(Long partnerId) {
         log.debug("Request to get all Bids by partner");
         List<Bid> result = bidRepository.findAllWithEagerRelationshipsByPartner(partnerId);
-        return bidMapper.bidsToBidDTOs(result);
+        return bidFullMapper.bidsToBidFullDTOs(result);
     }
 
     /**

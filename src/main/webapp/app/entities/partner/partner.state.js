@@ -77,6 +77,7 @@
                         $translatePartialLoader.addPart('servicePrice');
                         $translatePartialLoader.addPart('email');
                         $translatePartialLoader.addPart('bid');
+                        $translatePartialLoader.addPart('qualityClass');
                         return $translate.refresh();
                     }],
                     entity: ['$stateParams', 'Partner', function ($stateParams, Partner) {

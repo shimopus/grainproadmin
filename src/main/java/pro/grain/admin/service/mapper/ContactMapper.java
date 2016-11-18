@@ -1,5 +1,6 @@
 package pro.grain.admin.service.mapper;
 
+import org.aspectj.lang.annotation.After;
 import pro.grain.admin.domain.*;
 import pro.grain.admin.service.dto.ContactDTO;
 
@@ -30,5 +31,17 @@ public interface ContactMapper {
         Email email = new Email();
         email.setId(id);
         return email;
+    }
+
+    @AfterMapping
+    default void createOrUpdateEmail(@MappingTarget Contact contact, ContactDTO contactDTO){
+        if (contact.getEmail() == null && contactDTO.getEmailEmail() != null) {
+            Email email = new Email();
+            email.setId(contactDTO.getEmailId());
+            email.setEmail(contactDTO.getEmailEmail());
+            contact.setEmail(email);
+        } else if (contact.getEmail() != null) {
+            contact.getEmail().setEmail(contactDTO.getEmailEmail());
+        }
     }
 }

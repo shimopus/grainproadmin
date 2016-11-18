@@ -6,13 +6,12 @@
         .controller('PartnerDialogController', PartnerDialogController);
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
-        'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', 'ServiceType',
-        '$q', 'Email'
+        'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServiceType'
     ];
 
     function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
                                      OrganisationType, District, Region, Locality, Station,
-                                     Contact, ServicePrice, ServiceType, $q, Email) {
+                                     Contact, ServiceType) {
         var vm = this;
 
         vm.partner = entity;
@@ -92,7 +91,6 @@
         function save() {
             vm.isSaving = true;
             var partner = vm.partner;
-            //updateAllRelatedObjectsOnUpdate(vm.partner).then(function (partner) {
             partner.lastUpdate = new Date();
             partner.nds = vm.selectedNDS.INCLUDED ? (vm.selectedNDS.EXCLUDED ? 'BOTH' : 'INCLUDED') : 'EXCLUDED';
             if (partner.id !== null) {
@@ -102,7 +100,6 @@
                 vm.partnerPostUpdateNeeded = true;
                 Partner.save(partner, onSaveSuccess, onSaveError);
             }
-            //});
         }
 
         function updateAllRelatedPartnersOnUpdate(partner) {
@@ -123,76 +120,6 @@
                     }
                 }
             });
-        }
-
-        /*
-         function updateAllRelatedObjectsOnUpdate(partner) {
-         var returnDeferred = $q.defer();
-         var promises = [];
-         var updatedServicePrices = [];
-         var updatedContacts = [];
-         var returnPartner = angular.copy(partner);
-         returnPartner.servicePrices = [];
-         returnPartner.contacts = [];
-
-         partner.servicePrices.forEach(function (servicePrice) {
-         if (!servicePrice.id) {
-         promises.push(
-         ServicePrice.save(servicePrice, function (updatedServicePrice) {
-         updatedServicePrices.push(updatedServicePrice);
-         }).$promise
-         );
-         } else {
-         updatedServicePrices.push(servicePrice);
-         }
-         });
-
-         partner.contacts.forEach(function (contact) {
-         if (!contact.id) {
-         var contactDeferred = $q.defer();
-         promises.push(contactDeferred.promise);
-
-         var emailPromise = null;
-         if (contact.emailEmail) {
-         var email = {
-         email: contact.emailEmail
-         };
-         emailPromise = Email.save(email, function (updatedEmail) {
-         contact.emailId = updatedEmail.id;
-         }).$promise;
-         }
-
-         if (emailPromise) {
-         emailPromise.then(function () {
-         updateAndAddContact(updatedContacts, contact).then(function () {
-         contactDeferred.resolve();
-         });
-         });
-         } else {
-         updateAndAddContact(updatedContacts, contact).then(function () {
-         contactDeferred.resolve();
-         });
-         }
-         } else {
-         updatedContacts.push(contact);
-         }
-         });
-
-         $q.all(promises).then(function () {
-         returnPartner.servicePrices = updatedServicePrices;
-         returnPartner.contacts = updatedContacts;
-         returnDeferred.resolve(returnPartner);
-         }, function (reason) {
-         returnDeferred.reject(reason);
-         });
-
-         return returnDeferred.promise;
-         }*/
-
-        function updateAndAddContact(contacts, contact) {
-            return Contact.save(contact, function (updatedContact) {
-                contacts.push(updatedContact);
-            }).$promise;
         }
 
         function onSaveSuccess(result) {

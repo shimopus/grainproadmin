@@ -19,9 +19,11 @@ public class QualityValueDTO implements Serializable {
 
 
     private Long qualityParameterId;
-    
+
 
     private String qualityParameterName;
+
+    private String qualityParameterUnit;
 
     public Long getId() {
         return id;
@@ -53,6 +55,14 @@ public class QualityValueDTO implements Serializable {
 
     public void setQualityParameterName(String qualityParameterName) {
         this.qualityParameterName = qualityParameterName;
+    }
+
+    public String getQualityParameterUnit() {
+        return qualityParameterUnit;
+    }
+
+    public void setQualityParameterUnit(String qualityParameterUnit) {
+        this.qualityParameterUnit = qualityParameterUnit;
     }
 
     @Override

@@ -1,4 +1,5 @@
 'use strict';
+/*
 
 describe('Controller Tests', function() {
 
@@ -21,7 +22,7 @@ describe('Controller Tests', function() {
             MockStation = jasmine.createSpy('MockStation');
             MockContact = jasmine.createSpy('MockContact');
             MockServicePrice = jasmine.createSpy('MockServicePrice');
-            
+
 
             var locals = {
                 '$scope': $scope,
@@ -58,3 +59,4 @@ describe('Controller Tests', function() {
     });
 
 });
+*/

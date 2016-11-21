@@ -1,0 +1,23 @@
+{
+    "grainAdminApp": {
+        "passport" : {
+            "home": {
+                "title": "Passports",
+                "createLabel": "Создать новый Passport",
+                "createOrEditLabel": "Создать или отредактировать Passport",
+                "search": "Найти Passport"
+            },
+            "created": "Новый Passport создан с идентификатором {{ param }}",
+            "updated": "Passport обновлен с идентификатором {{ param }}",
+            "deleted": "Passport удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Passport {{ id }}?"
+            },
+            "detail": {
+                "title": "Passport"
+            },
+            "image": "Image",
+            "title": "Title"
+        }
+    }
+}

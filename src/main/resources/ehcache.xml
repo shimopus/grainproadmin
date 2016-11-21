@@ -122,5 +122,9 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="pro.grain.admin.domain.Passport"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

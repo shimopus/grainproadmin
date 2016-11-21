@@ -21,6 +21,7 @@
                 "locality": "Населенный пункт",
                 "serviceType": "Тип услуги",
                 "email": "Email",
+                "passport": "Passport",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

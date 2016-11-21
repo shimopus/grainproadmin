@@ -19,6 +19,7 @@
     <include file="changelog/20161018221033_added_entity_Locality.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161018221034_added_entity_ServiceType.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161018221035_added_entity_Email.xml" relativeToChangelogFile="true"/>
+    <include file="classpath:config/liquibase/changelog/20161121210306_added_entity_Passport.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="changelog/20161018221022_added_entity_constraints_Bid.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161018221023_added_entity_constraints_Partner.xml" relativeToChangelogFile="true"/>

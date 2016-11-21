@@ -1,0 +1,23 @@
+{
+    "grainAdminApp": {
+        "passport" : {
+            "home": {
+                "title": "Passports",
+                "createLabel": "Create a new Passport",
+                "createOrEditLabel": "Create or edit a Passport",
+                "search": "Search for Passport"
+            },
+            "created": "A new Passport is created with identifier {{ param }}",
+            "updated": "A Passport is updated with identifier {{ param }}",
+            "deleted": "A Passport is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Passport {{ id }}?"
+            },
+            "detail": {
+                "title": "Passport"
+            },
+            "image": "Image",
+            "title": "Title"
+        }
+    }
+}

@@ -159,6 +159,10 @@
                                 <span class="inside-label" data-translate="grainAdminApp.NDS.EXCLUDED">EXCLUDED</span>
                             </label>
                         </div>
+                        <div class="form-group">
+                            <label data-translate="grainAdminApp.bid.qualityPassports" for="field_qualityPassports">Quality Passports</label>
+                            <select class="form-control" id="field_qualityPassports" multiple name="qualityPassports" ng-model="vm.bid.qualityPassports" ng-options="passport as passport.id for passport in vm.passports track by passport.id"></select>
+                        </div>
                     </div>
                 </div>
             </div>

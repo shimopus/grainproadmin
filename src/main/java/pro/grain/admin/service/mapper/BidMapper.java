@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Mapper for the entity Bid and its DTO BidDTO.
  */
-@Mapper(componentModel = "spring", uses = {QualityValueMapper.class, })
+@Mapper(componentModel = "spring", uses = {QualityValueMapper.class, PassportMapper.class, })
 public interface BidMapper {
 
     @Mapping(source = "agentContact.id", target = "agentContactId")
@@ -53,5 +53,14 @@ public interface BidMapper {
         Partner partner = new Partner();
         partner.setId(id);
         return partner;
+    }
+
+    default Passport passportFromId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Passport passport = new Passport();
+        passport.setId(id);
+        return passport;
     }
 }

@@ -79,6 +79,13 @@ public class Bid implements Serializable {
     @ManyToOne
     private Partner elevator;
 
+    @ManyToMany
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    @JoinTable(name = "bid_quality_passports",
+               joinColumns = @JoinColumn(name="bids_id", referencedColumnName="ID"),
+               inverseJoinColumns = @JoinColumn(name="quality_passports_id", referencedColumnName="ID"))
+    private Set<Passport> qualityPassports = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -251,6 +258,29 @@ public class Bid implements Serializable {
 
     public void setElevator(Partner partner) {
         this.elevator = partner;
+    }
+
+    public Set<Passport> getQualityPassports() {
+        return qualityPassports;
+    }
+
+    public Bid qualityPassports(Set<Passport> passports) {
+        this.qualityPassports = passports;
+        return this;
+    }
+
+    public Bid addQualityPassports(Passport passport) {
+        qualityPassports.add(passport);
+        return this;
+    }
+
+    public Bid removeQualityPassports(Passport passport) {
+        qualityPassports.remove(passport);
+        return this;
+    }
+
+    public void setQualityPassports(Set<Passport> passports) {
+        this.qualityPassports = passports;
     }
 
     @Override

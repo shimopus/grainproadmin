@@ -27,7 +27,8 @@
             "agentContact": "Контактное лицо",
             "qualityParameters": "Качество",
             "agent": "Агент",
-            "elevator": "Размещение"
+            "elevator": "Размещение",
+            "qualityPassports": "Карта анализа"
         }
     }
 }

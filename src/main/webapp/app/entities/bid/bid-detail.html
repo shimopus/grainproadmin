@@ -54,6 +54,12 @@
         <dd>
             <a ui-sref="partner-detail({id:vm.bid.elevatorId})">{{vm.bid.elevatorName}}</a>
         </dd>
+        <dt><span data-translate="grainAdminApp.bid.qualityPassports">Quality Passports</span></dt>
+        <dd>
+            <span ng-repeat="qualityPassports in vm.bid.qualityPassports">
+                <a ui-sref="passport-detail({id: qualityPassports.id})">{{qualityPassports.id}}</a>{{$last ? '' : ', '}}
+            </span>
+        </dd>
     </dl>
 
     <button type="submit"

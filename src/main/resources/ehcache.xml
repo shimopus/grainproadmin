@@ -126,5 +126,9 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="pro.grain.admin.domain.Bid.qualityPassports"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

@@ -1,4 +1,4 @@
-(function () {
+(function() {
     'use strict';
 
     angular
@@ -6,10 +6,10 @@
         .controller('BidDialogController', BidDialogController);
 
     BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner',
-        'Bid', 'Contact', 'QualityParameter', 'Partner', 'QualityValue', '$q'];
+        'Bid', 'Contact', 'QualityParameter', 'Partner', 'QualityValue', '$q', 'Passport'];
 
     function BidDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, partner,
-                                 Bid, Contact, QualityParameter, Partner, QualityValue, $q) {
+                                 Bid, Contact, QualityParameter, Partner, QualityValue, $q, Passport) {
         var vm = this;
 
         vm.bid = entity;
@@ -32,6 +32,7 @@
         vm.formatAgentContactSelection = formatAgentContactSelection;
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.formatSelection = formatSelection;
+        vm.passports = Passport.query();
 
         var emptyQualityValue = {
             qualityParameter: null,

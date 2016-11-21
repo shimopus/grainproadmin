@@ -5,9 +5,9 @@
         .module('grainAdminApp')
         .controller('BidDetailController', BidDetailController);
 
-    BidDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Bid', 'Contact', 'QualityValue', 'Partner'];
+    BidDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Bid', 'Contact', 'QualityValue', 'Partner', 'Passport'];
 
-    function BidDetailController($scope, $rootScope, $stateParams, previousState, entity, Bid, Contact, QualityValue, Partner) {
+    function BidDetailController($scope, $rootScope, $stateParams, previousState, entity, Bid, Contact, QualityValue, Partner, Passport) {
         var vm = this;
 
         vm.bid = entity;

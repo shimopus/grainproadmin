@@ -26,6 +26,14 @@
             "relationshipName": "elevator",
             "otherEntityName": "partner",
             "otherEntityField": "name"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "",
+            "relationshipName": "qualityPassports",
+            "otherEntityName": "passport",
+            "otherEntityField": "id",
+            "ownerSide": true
         }
     ],
     "fields": [

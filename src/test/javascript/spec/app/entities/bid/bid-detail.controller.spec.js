@@ -4,7 +4,7 @@ describe('Controller Tests', function() {
 
     describe('Bid Management Detail Controller', function() {
         var $scope, $rootScope;
-        var MockEntity, MockPreviousState, MockBid, MockContact, MockQualityValue, MockPartner;
+        var MockEntity, MockPreviousState, MockBid, MockContact, MockQualityValue, MockPartner, MockPassport;
         var createController;
 
         beforeEach(inject(function($injector) {
@@ -16,6 +16,7 @@ describe('Controller Tests', function() {
             MockContact = jasmine.createSpy('MockContact');
             MockQualityValue = jasmine.createSpy('MockQualityValue');
             MockPartner = jasmine.createSpy('MockPartner');
+            MockPassport = jasmine.createSpy('MockPassport');
             
 
             var locals = {
@@ -26,7 +27,8 @@ describe('Controller Tests', function() {
                 'Bid': MockBid,
                 'Contact': MockContact,
                 'QualityValue': MockQualityValue,
-                'Partner': MockPartner
+                'Partner': MockPartner,
+                'Passport': MockPassport
             };
             createController = function() {
                 $injector.get('$controller')("BidDetailController", locals);

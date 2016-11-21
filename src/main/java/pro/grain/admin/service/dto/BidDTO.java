@@ -54,6 +54,8 @@ public class BidDTO implements Serializable {
 
     private String elevatorName;
 
+    private Set<PassportDTO> qualityPassports = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -166,6 +168,14 @@ public class BidDTO implements Serializable {
 
     public void setElevatorName(String partnerName) {
         this.elevatorName = partnerName;
+    }
+
+    public Set<PassportDTO> getQualityPassports() {
+        return qualityPassports;
+    }
+
+    public void setQualityPassports(Set<PassportDTO> passports) {
+        this.qualityPassports = passports;
     }
 
     @Override

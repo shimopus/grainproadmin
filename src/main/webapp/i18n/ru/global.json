@@ -22,6 +22,7 @@
                 "serviceType": "Тип услуги",
                 "email": "Email",
                 "passport": "Passport",
+                "bid": "Bid",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

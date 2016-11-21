@@ -27,7 +27,8 @@
             "agentContact": "Agent Contact",
             "qualityParameters": "Quality Parameters",
             "agent": "Agent",
-            "elevator": "Elevator"
+            "elevator": "Elevator",
+            "qualityPassports": "Quality Passports"
         }
     }
 }

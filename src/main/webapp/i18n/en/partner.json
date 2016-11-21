@@ -34,7 +34,11 @@
             "servicePrices": "Service Prices",
             "ownerFor": "Owner For",
             "serviceType": "Service Type",
-            "servicePrice": "Price, rub/ton"
+            "servicePrice": "Price, rub/ton",
+
+            "action": {
+                "edit": "Edit partner's card"
+            }
         }
     }
 }

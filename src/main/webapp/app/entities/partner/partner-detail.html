@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-9">
+        <div class="col-sm-6">
             <span class="glyphicon partner-dropdown" aria-hidden="true"
                   ng-class="vm.isPartnerDetailsOpened ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span>
 
@@ -64,10 +64,10 @@
                 </p>
             </div>
         </div>
-        <div class="col-sm-3 btn-group">
+        <div class="col-sm-6 text-right">
             <button type="button" ui-sref="partner-detail.edit({id:vm.partner.id})" class="btn btn-info">
                 <span class="glyphicon glyphicon-pencil"></span>
-                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit">Edit</span>
+                <span class="hidden-xs hidden-sm" data-translate="grainAdminApp.partner.action.edit">Edit</span>
             </button>
             <button type="button" class="btn btn-primary" ui-sref="bid.addFor({partner: vm.partner})">
                 <span class="glyphicon glyphicon-plus"></span>

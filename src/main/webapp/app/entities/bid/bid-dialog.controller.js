@@ -67,6 +67,7 @@
                 .map(function (qualityValue) {
                     if (qualityValue.qualityParameter) {
                         return {
+                            id: null,
                             qualityParameterId: qualityValue.qualityParameter.id,
                             value: qualityValue.value
                         };

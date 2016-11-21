@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import static com.google.common.base.Objects.*;
+
 
 /**
  * A DTO for the QualityValue entity.
@@ -67,23 +69,19 @@ public class QualityValueDTO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
+        if(o instanceof QualityValueDTO){
+            final QualityValueDTO other = (QualityValueDTO) o;
+            return equal(id, other.id)
+                && equal(value, other.value)
+                && equal(qualityParameterId, other.qualityParameterId);
+        } else{
             return false;
         }
-
-        QualityValueDTO qualityValueDTO = (QualityValueDTO) o;
-
-        if ( ! Objects.equals(id, qualityValueDTO.id)) return false;
-
-        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return com.google.common.base.Objects.hashCode(id, value, qualityParameterId);
     }
 
     @Override

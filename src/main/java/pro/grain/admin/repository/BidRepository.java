@@ -16,7 +16,7 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
     @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters")
     List<Bid> findAllWithEagerRelationships();
 
-    @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters where bid.agent.id =:id")
+    @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters where bid.agent.id =:id order by bid.creationDate desc")
     List<Bid> findAllWithEagerRelationshipsByPartner(@Param("id") Long id);
 
     @Query("select bid from Bid bid left join fetch bid.qualityParameters where bid.id =:id")

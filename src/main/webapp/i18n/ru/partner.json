@@ -34,7 +34,11 @@
             "servicePrices": "Стоимость услуг",
             "ownerFor": "есть родительская компания",
             "serviceType": "Тип услуг",
-            "servicePrice": "Цена, р/т"
+            "servicePrice": "Цена, р/т",
+
+            "action": {
+                "edit": "Изменить карту"
+            }
         }
     }
 }

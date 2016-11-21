@@ -10,13 +10,15 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-5"
+             ng-click="vm.openCard()"
+             click-out="vm.clickOutside()">
             <span class="glyphicon partner-dropdown" aria-hidden="true"
-                  ng-class="vm.isPartnerDetailsOpened ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></span>
+                  ng-class="vm.isPartnerDetailsOpened ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"
+                  ng-click="vm.arrowClick()"
+            ></span>
 
-            <div class="partner partner-inline" ng-show="!vm.isPartnerDetailsOpened"
-                 ng-click="vm.isPartnerDetailsOpened = true"
-                 click-out="vm.isPartnerDetailsOpened = false">
+            <div class="partner partner-inline" ng-show="!vm.isPartnerDetailsOpened">
                 <ul>
                     <li ng-init="contact=vm.partner.contacts[0]">
                         <b>{{contact.personName}}</b> - {{contact.status}}
@@ -64,7 +66,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-sm-6 text-right">
+        <div class="col-sm-7 text-right">
             <button type="button" ui-sref="partner-detail.edit({id:vm.partner.id})" class="btn btn-info">
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="hidden-xs hidden-sm" data-translate="grainAdminApp.partner.action.edit">Edit</span>

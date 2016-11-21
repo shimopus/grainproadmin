@@ -15,8 +15,12 @@
         vm.partner = entity;
         vm.previousState = previousState.name;
         vm.isPartnerDetailsOpened = false;
+        vm.isArrowClicked = false;
         vm.bids = getBids();
         vm.getContact = getContact;
+        vm.arrowClick = arrowClick;
+        vm.clickOutside = clickOutside;
+        vm.openCard = openCard;
 
         var unsubscribe = $rootScope.$on('grainAdminApp:partnerUpdate', function(event, result) {
             vm.partner = result;
@@ -40,6 +44,25 @@
                     return contact.id === bid.agentContactId;
                 });
             }
+        }
+
+        function arrowClick() {
+            vm.isPartnerDetailsOpened = !vm.isPartnerDetailsOpened;
+            vm.isArrowClicked = true;
+        }
+
+        function openCard() {
+            if (!vm.isArrowClicked) {
+                vm.isPartnerDetailsOpened = true;
+            }
+            vm.isArrowClicked = false;
+        }
+
+        function clickOutside() {
+            if (!vm.isArrowClicked) {
+                vm.isPartnerDetailsOpened = false;
+            }
+            vm.isArrowClicked = false;
         }
     }
 })();

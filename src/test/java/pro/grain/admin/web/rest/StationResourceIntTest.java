@@ -265,7 +265,7 @@ public class StationResourceIntTest {
         stationSearchRepository.save(station);
 
         // Search the station
-        restStationMockMvc.perform(get("/api/_search/stations?query=id:" + station.getId()))
+        restStationMockMvc.perform(get("/api/_search/stations?query=" + station.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(station.getId().intValue())))

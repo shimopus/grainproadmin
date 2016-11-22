@@ -13,7 +13,8 @@
             checkHealth: checkHealth,
             transformHealthData: transformHealthData,
             getBaseName: getBaseName,
-            getSubSystemName: getSubSystemName
+            getSubSystemName: getSubSystemName,
+            refreshElasticIndex: refreshElasticIndex
         };
 
         return service;
@@ -22,6 +23,10 @@
             return $http.get('management/health').then(function (response) {
                 return response.data;
             });
+        }
+
+        function refreshElasticIndex() {
+            return $http.get('elastic/reset');
         }
 
         function transformHealthData (data) {

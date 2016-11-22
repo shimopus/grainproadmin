@@ -1,5 +1,6 @@
 package pro.grain.admin.service;
 
+import org.elasticsearch.index.query.QueryBuilder;
 import pro.grain.admin.domain.Station;
 import pro.grain.admin.repository.StationRepository;
 import pro.grain.admin.repository.search.StationSearchRepository;
@@ -28,7 +29,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class StationService {
 
     private final Logger log = LoggerFactory.getLogger(StationService.class);
-    
+
     @Inject
     private StationRepository stationRepository;
 
@@ -55,11 +56,11 @@ public class StationService {
 
     /**
      *  Get all the stations.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<StationDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Stations");
         Page<Station> result = stationRepository.findAll(pageable);
@@ -72,7 +73,7 @@ public class StationService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public StationDTO findOne(Long id) {
         log.debug("Request to get Station : {}", id);
         Station station = stationRepository.findOne(id);
@@ -100,7 +101,15 @@ public class StationService {
     @Transactional(readOnly = true)
     public Page<StationDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Stations for query {}", query);
-        Page<Station> result = stationSearchRepository.search(queryStringQuery(query), pageable);
+
+        QueryBuilder myQuery = boolQuery().should(
+            queryStringQuery("*" + query + "*").analyzeWildcard(true).
+                field("name").
+                field("code"));
+
+        log.debug("My Query: " + myQuery);
+
+        Page<Station> result = stationSearchRepository.search(myQuery, pageable);
         return result.map(station -> stationMapper.stationToStationDTO(station));
     }
 }

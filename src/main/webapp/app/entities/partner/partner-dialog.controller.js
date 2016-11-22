@@ -6,11 +6,11 @@
         .controller('PartnerDialogController', PartnerDialogController);
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
-        'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServiceType'
+        'OrganisationType', 'District', 'Region', 'Locality', 'StationSearch', 'Contact', 'ServiceType'
     ];
 
     function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
-                                     OrganisationType, District, Region, Locality, Station,
+                                     OrganisationType, District, Region, Locality, StationSearch,
                                      Contact, ServiceType) {
         var vm = this;
 
@@ -44,12 +44,13 @@
         vm.save = save;
         vm.partners = Partner.query();
         vm.getPartnersSuggestions = getPartnersSuggestions;
+        vm.refreshStationSuggestions = refreshStationSuggestions;
         vm.organisationtypes = OrganisationType.query();
         vm.districts = District.query();
         vm.regions = Region.query();
         vm.localities = Locality.query();
-        vm.stations = Station.query();
         vm.contacts = Contact.query();
+        vm.stations = [];
         vm.servicePriceTypes = ServiceType.query();
 
         vm.servicePriceTypes.$promise.then(function (serviceTypes) {
@@ -196,6 +197,13 @@
 
         function addContact() {
             vm.partner.contacts.push(angular.copy(vm.emptyContact));
+        }
+
+        function refreshStationSuggestions(term) {
+            if (term) {
+                vm.stations = StationSearch.query({query: term});
+            }
+            return null;
         }
     }
 })();

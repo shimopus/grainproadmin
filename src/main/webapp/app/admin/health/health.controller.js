@@ -16,6 +16,7 @@
         vm.showHealth = showHealth;
         vm.baseName = JhiHealthService.getBaseName;
         vm.subSystemName = JhiHealthService.getSubSystemName;
+        vm.refreshElasticIndex = refreshElasticIndex;
 
         vm.refresh();
 
@@ -59,5 +60,8 @@
             });
         }
 
+        function refreshElasticIndex() {
+
+        }
     }
 })();

@@ -53,13 +53,6 @@
             ]
         },
         {
-            "fieldName": "qualityPassport",
-            "fieldType": "String",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
             "fieldName": "volume",
             "fieldType": "Integer",
             "fieldValidateRules": [
@@ -91,8 +84,8 @@
         }
     ],
     "changelogDate": "20161018221022",
-    "entityTableName": "bid",
     "dto": "mapstruct",
-    "pagination": "pagination",
-    "service": "serviceClass"
+    "service": "serviceClass",
+    "entityTableName": "bid",
+    "pagination": "pagination"
 }

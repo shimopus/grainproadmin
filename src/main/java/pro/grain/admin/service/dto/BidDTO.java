@@ -24,9 +24,6 @@ public class BidDTO implements Serializable {
     private QualityClass qualityClass;
 
     @NotNull
-    private String qualityPassport;
-
-    @NotNull
     private Integer volume;
 
     @NotNull
@@ -76,13 +73,6 @@ public class BidDTO implements Serializable {
 
     public void setQualityClass(QualityClass qualityClass) {
         this.qualityClass = qualityClass;
-    }
-    public String getQualityPassport() {
-        return qualityPassport;
-    }
-
-    public void setQualityPassport(String qualityPassport) {
-        this.qualityPassport = qualityPassport;
     }
     public Integer getVolume() {
         return volume;
@@ -205,7 +195,6 @@ public class BidDTO implements Serializable {
             "id=" + id +
             ", creationDate='" + creationDate + "'" +
             ", qualityClass='" + qualityClass + "'" +
-            ", qualityPassport='" + qualityPassport + "'" +
             ", volume='" + volume + "'" +
             ", price='" + price + "'" +
             ", nds='" + nds + "'" +

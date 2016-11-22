@@ -130,7 +130,6 @@
                             return {
                                 creationDate: null,
                                 qualityClass: null,
-                                qualityPassport: null,
                                 volume: null,
                                 price: null,
                                 nds: null,

@@ -38,7 +38,6 @@
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="creationDate"><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="qualityClass"><span data-translate="grainAdminApp.bid.qualityClass">Quality Class</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="qualityPassport"><span data-translate="grainAdminApp.bid.qualityPassport">Quality Passport</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="volume"><span data-translate="grainAdminApp.bid.volume">Volume</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="price"><span data-translate="grainAdminApp.bid.price">Price</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="nds"><span data-translate="grainAdminApp.bid.nds">Nds</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -55,7 +54,6 @@
                     <td><a ui-sref="bid-detail({id:bid.id})">{{bid.id}}</a></td>
                         <td>{{bid.creationDate | date:'mediumDate'}}</td>
                     <td data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">{{bid.qualityClass}}</td>
-                    <td>{{bid.qualityPassport}}</td>
                     <td>{{bid.volume}}</td>
                     <td>{{bid.price}}</td>
                     <td data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">{{bid.nds}}</td>

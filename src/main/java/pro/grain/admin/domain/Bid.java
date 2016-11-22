@@ -41,10 +41,6 @@ public class Bid implements Serializable {
     private QualityClass qualityClass;
 
     @NotNull
-    @Column(name = "quality_passport", nullable = false)
-    private String qualityPassport;
-
-    @NotNull
     @Column(name = "volume", nullable = false)
     private Integer volume;
 
@@ -118,19 +114,6 @@ public class Bid implements Serializable {
 
     public void setQualityClass(QualityClass qualityClass) {
         this.qualityClass = qualityClass;
-    }
-
-    public String getQualityPassport() {
-        return qualityPassport;
-    }
-
-    public Bid qualityPassport(String qualityPassport) {
-        this.qualityPassport = qualityPassport;
-        return this;
-    }
-
-    public void setQualityPassport(String qualityPassport) {
-        this.qualityPassport = qualityPassport;
     }
 
     public Integer getVolume() {
@@ -309,7 +292,6 @@ public class Bid implements Serializable {
             "id=" + id +
             ", creationDate='" + creationDate + "'" +
             ", qualityClass='" + qualityClass + "'" +
-            ", qualityPassport='" + qualityPassport + "'" +
             ", volume='" + volume + "'" +
             ", price='" + price + "'" +
             ", nds='" + nds + "'" +

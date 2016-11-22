@@ -114,46 +114,29 @@
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
                     if (!file.$error) {
-                        var passport = {
-                            id: null,
-                            imageContentType: file.type,
-                            title: file.name
-                        };
-
-                        DataUtils.toBase64(file, function(base64Data) {
-                            $scope.$apply(function() {
-                                passport.image = base64Data;
-                            });
-                        });
-
-                        if (!vm.bid.qualityPassports) {
-                            vm.bid.qualityPassports = [];
-                        }
-                        vm.bid.qualityPassports.push(passport);
-
-                       /* Upload.upload({
-                            url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-                            data: {
-                                username: $scope.username,
-                                file: file
-                            }
-                        }).then(function (resp) {
-                            $timeout(function() {
-                                $scope.log = 'file: ' +
-                                    resp.config.data.file.name +
-                                    ', Response: ' + JSON.stringify(resp.data) +
-                                    '\n' + $scope.log;
-                            });
-                        }, null, function (evt) {
-                            var progressPercentage = parseInt(100.0 *
-                                evt.loaded / evt.total);
-                            $scope.log = 'progress: ' + progressPercentage +
-                                '% ' + evt.config.data.file.name + '\n' +
-                                $scope.log;
-                        });*/
+                        addQualityPassportByFile(file);
                     }
                 }
             }
+        }
+
+        function addQualityPassportByFile(file) {
+            var passport = {
+                id: null,
+                imageContentType: file.type,
+                title: file.name
+            };
+
+            DataUtils.toBase64(file, function(base64Data) {
+                $scope.$apply(function() {
+                    passport.image = base64Data;
+                });
+            });
+
+            if (!vm.bid.qualityPassports) {
+                vm.bid.qualityPassports = [];
+            }
+            vm.bid.qualityPassports.push(passport);
         }
     }
 })();

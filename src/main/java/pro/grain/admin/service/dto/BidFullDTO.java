@@ -38,7 +38,6 @@ public class BidFullDTO extends BidDTO {
             "id=" + getId() +
             ", creationDate='" + getCreationDate() + "'" +
             ", qualityClass='" + getQualityClass() + "'" +
-            ", qualityPassport='" + getQualityPassport() + "'" +
             ", volume='" + getVolume() + "'" +
             ", price='" + getPrice() + "'" +
             ", nds='" + getNds() + "'" +

@@ -411,3 +411,20 @@ Social Buttons
 label.has-error span.inside-label {
     color: #a94442;
 }
+
+div.drop-box {
+    border: 5px dotted #eeeeee;
+    padding: 5px;
+}
+
+div.drop-box.dragover {
+    border-color: #6fa5d2;
+}
+
+div.thumbnail {
+    margin: 7px;
+}
+
+div.thumbnail img {
+    max-height: 100px;
+}

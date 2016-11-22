@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Lob;
 
+import static com.google.common.base.Objects.equal;
+
 
 /**
  * A DTO for the Passport entity.
@@ -53,23 +55,19 @@ public class PassportDTO implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
+        if(o instanceof PassportDTO){
+            final PassportDTO other = (PassportDTO) o;
+            return equal(id, other.id)
+                && equal(title, other.title)
+                && equal(image, other.image);
+        } else{
             return false;
         }
-
-        PassportDTO passportDTO = (PassportDTO) o;
-
-        if ( ! Objects.equals(id, passportDTO.id)) return false;
-
-        return true;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return com.google.common.base.Objects.hashCode(id, title, image);
     }
 
     @Override

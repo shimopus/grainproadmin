@@ -103,14 +103,6 @@
                     <div class="col-sm-12">
                         <div class="form-group" ngf-drop ngf-change="vm.setImage($file, vm.passport)"
                              ngf-pattern="'image/*'" ngf-multiple>
-                            <!--<label class="control-label" data-translate="grainAdminApp.bid.qualityPassport"
-                                   for="field_qualityPassport">Quality Passport</label>
-                            <input type="text" class="form-control" name="qualityPassport" id="field_qualityPassport"
-                                   ng-model="vm.bid.qualityPassport"
-                                   validate-on="dirty"
-                                   required-message="'{{'entity.validation.required' | translate}}'"
-                                   required/>-->
-
                             <label data-translate="grainAdminApp.bid.qualityPassports">Quality
                                 Passports</label>
                             <div ngf-drop ngf-select ng-model="vm.files" class="drop-box"
@@ -122,17 +114,10 @@
                             </div>
                             <div ngf-no-file-drop>Перетаскивание файлов не доступно в твоем браузере</div>
 
-                            <div>
-                                <img
-                                    data-ng-src="{{'data:' + vm.passport.imageContentType + ';base64,' + vm.passport.image}}"
-                                    style="max-height: 100px;" ng-if="vm.passport.image"/>
+                            <div ng-repeat="passport in vm.bid.qualityPassports" class="thumbnail pull-left">
+                                <img data-ng-src="{{'data:' + passport.imageContentType + ';base64,' + passport.image}}"
+                                     ng-if="passport.image"/>
                             </div>
-
-                            <!--<div class="form-group">
-                                <label data-translate="grainAdminApp.bid.qualityPassports" for="field_qualityPassports">Quality Passports</label>
-                                <select class="form-control" id="field_qualityPassports" multiple name="qualityPassports" ng-model="vm.bid.qualityPassports" ng-options="passport as passport.id for passport in vm.passports track by passport.id"></select>
-                            </div>-->
-
                         </div>
                     </div>
                 </div>

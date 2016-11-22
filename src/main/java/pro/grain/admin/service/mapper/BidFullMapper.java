@@ -7,10 +7,11 @@ import pro.grain.admin.service.dto.BidFullDTO;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {BidMapper.class, QualityValueMapper.class, PassportMapper.class})
+@Mapper(componentModel = "spring", uses = {BidMapper.class, QualityValueMapper.class})
 public interface BidFullMapper {
     @Mapping(target = "elevatorId", ignore = true)
     @Mapping(target = "elevatorName", ignore = true)
+    @Mapping(target = "qualityPassports", ignore = true)
     @Mapping(source = "agentContact.id", target = "agentContactId")
     @Mapping(source = "agent.id", target = "agentId")
     @Mapping(source = "agent.name", target = "agentName")
@@ -20,6 +21,7 @@ public interface BidFullMapper {
 
     @Mapping(source = "agentContactId", target = "agentContact")
     @Mapping(source = "agentId", target = "agent")
+    @Mapping(target = "qualityPassports", ignore = true)
     Bid bidFullDTOToBid(BidFullDTO bidFullDTO);
 
     List<Bid> bidFullDTOsToBids(List<BidFullDTO> bidFullDTOs);

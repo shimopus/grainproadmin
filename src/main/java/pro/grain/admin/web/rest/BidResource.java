@@ -2,6 +2,7 @@ package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import pro.grain.admin.service.BidService;
+import pro.grain.admin.service.dto.BidFullDTO;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
 import pro.grain.admin.service.dto.BidDTO;
@@ -35,7 +36,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class BidResource {
 
     private final Logger log = LoggerFactory.getLogger(BidResource.class);
-        
+
     @Inject
     private BidService bidService;
 
@@ -124,6 +125,17 @@ public class BidResource {
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @RequestMapping(value = "/bids/bypartner",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<BidFullDTO>> getBids(@RequestParam("partnerId") Long id) throws URISyntaxException {
+        log.debug("REST request to get all Bids for a Partner with id={}", id);
+        List<BidFullDTO> bidsDTO = bidService.findByPartner(id);
+
+        return new ResponseEntity<>(bidsDTO, HttpStatus.OK);
+    }
+
     /**
      * DELETE  /bids/:id : delete the "id" bid.
      *
@@ -144,7 +156,7 @@ public class BidResource {
      * SEARCH  /_search/bids?query=:query : search for the bid corresponding
      * to the query.
      *
-     * @param query the query of the bid search 
+     * @param query the query of the bid search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

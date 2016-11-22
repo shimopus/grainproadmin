@@ -17,7 +17,7 @@
         Added the entity Passport.
     -->
     <changeSet id="20161121210308-1" author="seba">
-        <dropNotNullConstraint tableName="bid" columnName="quality_passport"/>
+        <dropNotNullConstraint tableName="bid" columnName="quality_passport" columnDataType="varchar(255)"/>
         <sql>update bid set quality_passport=null</sql>
         <dropColumn tableName="bid" columnName="quality_passport"/>
     </changeSet>

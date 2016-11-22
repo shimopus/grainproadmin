@@ -75,7 +75,7 @@ public class Bid implements Serializable {
     @ManyToOne
     private Partner elevator;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "bid_quality_passports",
                joinColumns = @JoinColumn(name="bids_id", referencedColumnName="ID"),

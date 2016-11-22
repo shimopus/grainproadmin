@@ -36,4 +36,5 @@
     <include file="changelog/20161102221040_changed_entity_Station_changeLinkWithTranspPrice.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161121210307_changed_entity_Bid_addedField_Passport.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161121210308_changed_entity_Bid_removeField_QualityPassport.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161121210309_changed_entity_Partner_changeField_Card.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

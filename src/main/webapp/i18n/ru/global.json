@@ -22,7 +22,6 @@
                 "serviceType": "Тип услуги",
                 "email": "Email",
                 "passport": "Passport",
-                "bid": "Bid",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -97,7 +96,7 @@
     "entity": {
         "action": {
             "addblob": "Добавить двоичный объект",
-            "addimage": "Добавить изображение",
+            "addimage": "Перетащи сюда картинку или кликни, чтобы выбрать файл",
             "add": "Добавить",
             "back": "Назад",
             "cancel": "Отмена",

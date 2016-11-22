@@ -6,10 +6,10 @@
         .controller('BidDialogController', BidDialogController);
 
     BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner',
-        'Bid', 'Contact', 'QualityParameter', 'Partner', 'QualityValue', '$q', 'Passport'];
+        'Bid', 'Contact', 'QualityParameter', 'Partner', 'QualityValue', '$q', 'Passport', 'DataUtils'];
 
     function BidDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, partner,
-                                 Bid, Contact, QualityParameter, Partner, QualityValue, $q, Passport) {
+                                 Bid, Contact, QualityParameter, Partner, QualityValue, $q, Passport, DataUtils) {
         var vm = this;
 
         vm.bid = entity;
@@ -23,16 +23,14 @@
         }
 
         vm.clear = clear;
-        vm.datePickerOpenStatus = {};
-        vm.openCalendar = openCalendar;
         vm.save = save;
         vm.contacts = Contact.query();
         vm.qualityParameters = QualityParameter.query();
         vm.partners = Partner.query();
-        vm.formatAgentContactSelection = formatAgentContactSelection;
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.formatSelection = formatSelection;
-        vm.passports = Passport.query();
+        vm.addQualityPassport = addQualityPassport;
+        vm.files = null;
 
         var emptyQualityValue = {
             qualityParameter: null,
@@ -75,7 +73,7 @@
                     }
                 })
                 .filter(function (elm) {
-                    return elm != undefined
+                    return angular.isDefined(elm);
                 });
         }
 
@@ -93,19 +91,6 @@
             vm.isSaving = false;
         }
 
-        vm.datePickerOpenStatus.creationDate = false;
-        vm.datePickerOpenStatus.archiveDate = false;
-
-        function openCalendar(date) {
-            vm.datePickerOpenStatus[date] = true;
-        }
-
-        function formatAgentContactSelection(value) {
-            return vm.contacts.find(function (contact) {
-                return contact.id === value;
-            }).personName;
-        }
-
         function getPartnersSuggestions() {
             return vm.partners.filter(function (partner) {
                 return partner.id !== vm.currentPartner.id;
@@ -118,6 +103,57 @@
             return objects.find(function (object) {
                 return object.id === selectedValue;
             })[parameterName];
+        }
+
+        $scope.$watch('vm.files', function () {
+            vm.addQualityPassport(vm.files);
+        });
+
+        function addQualityPassport(files) {
+            if (files && files.length) {
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (!file.$error) {
+                        var passport = {
+                            id: null,
+                            imageContentType: file.type,
+                            title: file.name
+                        };
+
+                        DataUtils.toBase64(file, function(base64Data) {
+                            $scope.$apply(function() {
+                                passport.image = base64Data;
+                            });
+                        });
+
+                        if (!vm.bid.qualityPassports) {
+                            vm.bid.qualityPassports = [];
+                        }
+                        vm.bid.qualityPassports.push(passport);
+
+                       /* Upload.upload({
+                            url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                            data: {
+                                username: $scope.username,
+                                file: file
+                            }
+                        }).then(function (resp) {
+                            $timeout(function() {
+                                $scope.log = 'file: ' +
+                                    resp.config.data.file.name +
+                                    ', Response: ' + JSON.stringify(resp.data) +
+                                    '\n' + $scope.log;
+                            });
+                        }, null, function (evt) {
+                            var progressPercentage = parseInt(100.0 *
+                                evt.loaded / evt.total);
+                            $scope.log = 'progress: ' + progressPercentage +
+                                '% ' + evt.config.data.file.name + '\n' +
+                                $scope.log;
+                        });*/
+                    }
+                }
+            }
         }
     }
 })();

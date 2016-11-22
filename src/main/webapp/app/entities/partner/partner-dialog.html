@@ -219,7 +219,7 @@
                         Price</label>
                     <input type="number" class="form-control" id="field_servicePriceValue"
                            name="servicePriceValue"
-                           ng-model="vm.partner.servicePrices[0].price" min="1" placeholder="0" required>
+                           ng-model="vm.partner.servicePrices[0].price" min="1" placeholder="0" ng-required="vm.partner.stationId">
 
                 </div>
                 <div class="form-group">

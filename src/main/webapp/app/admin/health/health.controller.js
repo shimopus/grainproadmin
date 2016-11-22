@@ -61,7 +61,7 @@
         }
 
         function refreshElasticIndex() {
-
+            JhiHealthService.refreshElasticIndex();
         }
     }
 })();

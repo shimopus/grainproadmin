@@ -22,6 +22,7 @@ public interface PartnerMapper {
     @Mapping(source = "locality.name", target = "localityName")
     @Mapping(source = "station.id", target = "stationId")
     @Mapping(source = "station.code", target = "stationCode")
+    @Mapping(source = "station.name", target = "stationName")
     @Mapping(source = "ownerFor.id", target = "ownerForId")
     @Mapping(source = "ownerFor.name", target = "ownerForName")
     PartnerDTO partnerToPartnerDTO(Partner partner);

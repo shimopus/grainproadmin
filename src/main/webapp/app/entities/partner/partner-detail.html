@@ -39,7 +39,7 @@
                 </ul>
                 <p>
                     {{vm.partner.organisationTypeType}} "{{vm.partner.shortName}}" <br/>
-                    {{vm.partner.district}}, {{vm.partner.locality}} <br/>
+                    {{vm.partner.regionName}}, {{vm.partner.districtName}}, {{vm.partner.localityName}} <br/>
                     ИНН: {{vm.partner.inn}} <br/>
                     Работают <span data-translate="{{'grainAdminApp.NDS.' + vm.partner.nds}}">{{vm.partner.nds}}</span>
                     <br/>
@@ -59,7 +59,7 @@
                     </li>
                 </ul>
 
-                <p>Станция размещения: {{vm.partner.stationName}}</p>
+                <p>Станция размещения: {{vm.partner.stationName}} ({{vm.partner.stationCode}})</p>
 
                 <p ng-repeat="servicePrice in vm.partner.servicePrices">
                     {{servicePrice.serviceTypeName}}: {{servicePrice.price}} р/т

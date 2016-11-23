@@ -24,6 +24,7 @@ public class ElasticResource {
     @RequestMapping(value = "reset", method = RequestMethod.GET)
     public ResponseEntity<String> reset() throws URISyntaxException {
         elasticSearchIndexRegenerateService.resetStations();
+        elasticSearchIndexRegenerateService.resetPartners();
         return new ResponseEntity<>("{\"status\": \"Ok\"}", HttpStatus.OK);
     }
 }

@@ -27,6 +27,8 @@ public class PartnerDTO implements Serializable {
 
     private String card;
 
+    private String site;
+
     private LocalDate lastUpdate;
 
 
@@ -108,6 +110,15 @@ public class PartnerDTO implements Serializable {
     public void setCard(String card) {
         this.card = card;
     }
+
+    public String getSite() {
+        return site;
+    }
+
+    public void setSite(String site) {
+        this.site = site;
+    }
+
     public LocalDate getLastUpdate() {
         return lastUpdate;
     }

@@ -49,6 +49,9 @@ public class Partner implements Serializable {
     @Column(name = "card")
     private String card;
 
+    @Column(name = "site")
+    private String site;
+
     @Column(name = "last_update")
     private LocalDate lastUpdate;
 
@@ -171,6 +174,16 @@ public class Partner implements Serializable {
 
     public void setCard(String card) {
         this.card = card;
+    }
+
+    public String getSite() {
+        return site;
+    }
+
+    public Partner setSite(String site) {
+        this.site = site;
+
+        return this;
     }
 
     public LocalDate getLastUpdate() {

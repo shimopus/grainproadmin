@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            ng-click="vm.clear()">&times;</button>
+</div>
+<div class="modal-body">
+    <div>
+        <div uib-carousel active="vm.active">
+            <div uib-slide ng-repeat="passport in vm.bid.qualityPassports" index="$index">
+                <img data-ng-src="{{'data:' + passport.imageContentType + ';base64,' + passport.image}}" style="margin:auto;"/>
+                <div class="carousel-caption">
+                    <p>{{passport.title}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+        <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span
+            data-translate="entity.action.cancel">Cancel</span>
+    </button>
+</div>

@@ -120,6 +120,11 @@
                 </td>
                 <td>
                     <div class="row">
+                        <div class="col-sm-12">
+                            <a ui-sref="bid.quality-passport({id:vm.partner.id, bidId: bid.id})">карта анализа</a>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-sm-12" data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">{{bid.qualityClass}}</div>
                     </div>
                     <div class="row" ng-repeat="qualityParameter in bid.qualityParameters">

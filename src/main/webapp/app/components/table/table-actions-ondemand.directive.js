@@ -34,13 +34,13 @@
 
         }
 
-        function onTableMouseOut(event) {
+        function onTableMouseOut() {
             timeout = $timeout(function(){
                 if (currentTr) {
                     toggleActionButtons(currentTr, true);
                     currentTr = null;
                 }
-            }, 10);
+            }, 200);
         }
 
         function toggleActionButtons(tr, state) {

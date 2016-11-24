@@ -75,6 +75,7 @@
         vm.addServicePrice = addServicePrice;
         vm.cancelAddServicePrice = cancelAddServicePrice;
         vm.addContact = addContact;
+        vm.deleteContact = deleteContact;
         vm.selectedNDS = {
             "INCLUDED": vm.partner.nds === 'INCLUDED' || vm.partner.nds === 'BOTH',
             'EXCLUDED': vm.partner.nds === 'EXCLUDED' || vm.partner.nds === 'BOTH'
@@ -197,6 +198,10 @@
 
         function addContact() {
             vm.partner.contacts.push(angular.copy(vm.emptyContact));
+        }
+
+        function deleteContact() {
+            vm.partner.contacts.pop();
         }
 
         function refreshStationSuggestions(term) {

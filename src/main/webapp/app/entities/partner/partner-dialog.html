@@ -281,7 +281,7 @@
                            ng-model="contact.skype"
                         >
                 </div>
-                <div class="col-sm-2 col-sm-offset-4 form-group btn-group-sm">
+                <div class="col-sm-2 col-sm-offset-4 form-group">
                     <!--just to align-->
                     <label class="control-label"><span>&nbsp;</span></label>
                     <button type="button" class="btn btn-info btn-sm form-control"
@@ -289,6 +289,12 @@
                             ng-click="vm.addContact()">
                         <span class="glyphicon glyphicon-plus"></span>
                         <span class="hidden-xs hidden-sm" data-translate="entity.action.add">Add</span>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm form-control"
+                            ng-if="$index > 0 && (vm.partner.contacts === null || vm.partner.contacts.length > 1)"
+                            ng-click="vm.deleteContact()">
+                        <span class="glyphicon glyphicon-remove-circle"></span>
+                        <span class="hidden-xs hidden-sm" data-translate="entity.action.delete">Delete</span>
                     </button>
                 </div>
             </div>

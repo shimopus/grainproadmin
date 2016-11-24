@@ -79,7 +79,7 @@
     </div>
     <hr>
     <div class="table-responsive">
-        <table class="jh-table table table-striped">
+        <table class="jh-table table table-striped" table-actions-ondemand>
             <thead>
             <tr>
                 <th><span data-translate="grainAdminApp.bid.elevator">Elevator</span></th>
@@ -88,11 +88,23 @@
                 <th><span data-translate="grainAdminApp.bid.volume">Volume</span></th>
                 <th><span data-translate="grainAdminApp.bid.price">Volume</span></th>
                 <th><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span></th>
-                <th></th>
+                <th>
+                    <div class="btn-group flex-btn-group-container" style="visibility: hidden">
+                        <button type="submit" class="btn btn-info btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </button>
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </button>
+                    </div>
+                </th>
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="bid in vm.bids track by bid.id">
+            <tr ng-repeat="bid in vm.bids track by bid.id" id="{{bid.id}}">
                 <td ng-init="elevator = bid.elevator">
                     {{elevator.district.name}}<br/>
                     {{elevator.region.name}}<br/>
@@ -123,8 +135,8 @@
                     </div>
                 </td>
                 <td>{{bid.creationDate | date:medium}}</td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
+                <td class="text-right actions">
+                    <div class="btn-group flex-btn-group-container hidden">
                         <button type="submit"
                                 ui-sref="partner-detail({id:partner.id})"
                                 class="btn btn-info btn-sm">

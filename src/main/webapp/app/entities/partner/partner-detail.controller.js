@@ -21,6 +21,9 @@
         vm.arrowClick = arrowClick;
         vm.clickOutside = clickOutside;
         vm.openCard = openCard;
+        vm.isHiddenActions = isHiddenActions;
+        vm.showActions = showActions;
+        vm.hideActions = hideActions;
 
         var unsubscribe = $rootScope.$on('grainAdminApp:partnerUpdate', function(event, result) {
             vm.partner = result;
@@ -63,6 +66,20 @@
                 vm.isPartnerDetailsOpened = false;
             }
             vm.isArrowClicked = false;
+        }
+
+        var shownActionsBidId = null;
+
+        function isHiddenActions(bidId) {
+            return shownActionsBidId !== bidId;
+        }
+
+        function showActions(bidId) {
+            shownActionsBidId = bidId;
+        }
+
+        function hideActions() {
+            shownActionsBidId = null;
         }
     }
 })();

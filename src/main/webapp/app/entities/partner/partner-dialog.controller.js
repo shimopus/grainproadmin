@@ -69,11 +69,6 @@
         vm.isAddChild = vm.children.length > 0 && vm.children[0].obj;
         vm.addChild = addChild;
         vm.onSelectChild = onSelectChild;
-        vm.isAddServicePrice = false;
-        vm.selectedServicePriceType = null;
-        vm.selectedservicePriceValue = null;
-        vm.addServicePrice = addServicePrice;
-        vm.cancelAddServicePrice = cancelAddServicePrice;
         vm.addContact = addContact;
         vm.deleteContact = deleteContact;
         vm.selectedNDS = {
@@ -95,6 +90,7 @@
             var partner = vm.partner;
             partner.lastUpdate = new Date();
             partner.nds = vm.selectedNDS.INCLUDED ? (vm.selectedNDS.EXCLUDED ? 'BOTH' : 'INCLUDED') : 'EXCLUDED';
+            checkServicePricesAndDelete(partner);
             if (partner.id !== null) {
                 updateAllRelatedPartnersOnUpdate(partner);
                 Partner.update(partner, onSaveSuccess, onSaveError);
@@ -122,6 +118,12 @@
                     }
                 }
             });
+        }
+
+        function checkServicePricesAndDelete(partner) {
+            if (!partner.stationId) {
+                partner.servicePrices = null;
+            }
         }
 
         function onSaveSuccess(result) {
@@ -173,27 +175,6 @@
                         }
                     ).length <= 0;
             });
-        }
-
-        function addServicePrice() {
-            if (vm.selectedServicePriceType !== null && vm.selectedservicePriceValue !== null) {
-                vm.partner.servicePrices.push(
-                    {
-                        serviceTypeId: angular.copy(vm.selectedServicePriceType.id),
-                        serviceTypeName: angular.copy(vm.selectedServicePriceType.name),
-                        price: angular.copy(vm.selectedservicePriceValue)
-                    }
-                );
-                vm.isAddServicePrice = false;
-                vm.selectedServicePriceType = null;
-                vm.selectedservicePriceValue = null;
-            }
-        }
-
-        function cancelAddServicePrice() {
-            vm.selectedServicePriceType = null;
-            vm.selectedservicePriceValue = null;
-            vm.isAddServicePrice = false;
         }
 
         function addContact() {

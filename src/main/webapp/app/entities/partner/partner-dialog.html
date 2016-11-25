@@ -237,12 +237,13 @@
                     {{contactNum}}
                     <input class="form-control" id="field_contactPhone{{::$index}}" name="contactPhone{{::$index}}"
                            ng-model="contact.phone"
-                           validate-on="dirty"
+                           validate-on="blur"
                            required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'Телефон\'}'}}'"
                            ui-mask="+7(999) 999-9999"
                            model-view-value="true"
                            ui-mask-placeholder
                            ui-mask-placeholder-char="_"
+                           ui-options="{clearOnBlur: false}"
                            required>
                 </div>
                 <div class="col-sm-3 form-group">

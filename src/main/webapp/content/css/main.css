@@ -428,3 +428,7 @@ div.thumbnail {
 div.thumbnail img {
     max-height: 100px;
 }
+
+.jh-table.bid-table > tbody > tr > td {
+    vertical-align: top;
+}

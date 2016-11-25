@@ -13,7 +13,7 @@
 
         function linkFunc (scope, element, attrs, tableCtrl) {
             element.on('mousemove', onTableMouseMove);
-            $document.on('mouseout', 'table tr, table th', onTableMouseOut);
+            $document.on('mouseout', 'table tr', onTableMouseOut);
         }
 
         var currentTr;
@@ -36,7 +36,7 @@
 
         function onTableMouseOut() {
             timeout = $timeout(function(){
-                if (currentTr) {
+                if (currentTr && currentTr.id) {
                     toggleActionButtons(currentTr, true);
                     currentTr = null;
                 }

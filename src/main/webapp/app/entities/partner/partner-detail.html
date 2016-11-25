@@ -54,14 +54,14 @@
                 <p>Дочерние компании:</p>
                 <ul>
                     <li ng-repeat="child in vm.partner.ownedBies">
-                        {{child.organisationTypeType}} "{{child.shortName}}", {{vm.partner.district}},
-                        {{vm.partner.locality}}
+                        {{child.organisationTypeType}} "{{child.shortName}}", {{child.regionName}},
+                        {{child.districtName}}, {{child.localityName}}
                     </li>
                 </ul>
 
-                <p>Станция размещения: {{vm.partner.stationName}} ({{vm.partner.stationCode}})</p>
+                <p ng-show="!!vm.partner.stationName">Станция размещения: {{vm.partner.stationName}} ({{vm.partner.stationCode}})</p>
 
-                <p ng-repeat="servicePrice in vm.partner.servicePrices">
+                <p ng-show="!!vm.partner.stationName" ng-repeat="servicePrice in vm.partner.servicePrices">
                     {{servicePrice.serviceTypeName}}: {{servicePrice.price}} р/т
                 </p>
             </div>

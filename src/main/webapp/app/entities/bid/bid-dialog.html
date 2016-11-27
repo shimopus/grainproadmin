@@ -103,7 +103,7 @@
                     <div class="col-sm-12">
                         <div class="form-group" ngf-drop ngf-change="vm.setImage($file, vm.passport)"
                              ngf-pattern="'image/*'" ngf-multiple>
-                            <label data-translate="grainAdminApp.bid.qualityPassports">Quality
+                            <label class="control-label" data-translate="grainAdminApp.bid.qualityPassports" for="field_imageContentType">Quality
                                 Passports</label>
                             <div ngf-drop ngf-select ng-model="vm.files" class="drop-box"
                                  ngf-drag-over-class="'dragover'" ngf-multiple="true" ngf-allow-dir="true"
@@ -118,6 +118,10 @@
                                 <img data-ng-src="{{'data:' + passport.imageContentType + ';base64,' + passport.image}}"
                                      ng-if="passport.image"/>
                             </div>
+                            <input type="hidden" class="form-control" name="imageContentType" id="field_imageContentType"
+                                   ng-model="vm.bid.qualityPassports[0].imageContentType"
+                                   required-message="'{{'entity.validation.required' | translate}}'"
+                                   required/>
                         </div>
                     </div>
                 </div>

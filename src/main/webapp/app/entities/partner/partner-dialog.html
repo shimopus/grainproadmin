@@ -157,7 +157,7 @@
                 <div class="checkbox">
                     <label class="control-label">
                         <input type="checkbox" ng-model="vm.doShowChildren"
-                               ng-disabled="::vm.partner.id !== null && vm.partner.ownedBies">
+                               ng-disabled="::vm.partner.id !== null && vm.partner.ownedBies && vm.partner.ownedBies.length > 0">
                         <strong data-translate="grainAdminApp.partner.ownedBy">Owned by</strong>
                     </label>
                 </div>

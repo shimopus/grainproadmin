@@ -19,24 +19,29 @@
             ></span>
 
             <div class="partner partner-inline" ng-show="!vm.isPartnerDetailsOpened">
-                <ul>
+                <ul class="list-pull-left">
                     <li ng-init="contact=vm.partner.contacts[0]">
-                        <b>{{contact.personName}}</b> - {{contact.status}}
-                        <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
-                        ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
-                        ? contact.skype : 'no skype'}}
+                        <div class="list-pull-left">
+                            <b>{{contact.personName}}</b> - {{contact.status}}
+                            <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
+                            ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
+                            ? contact.skype : 'no skype'}}
+                        </div>
                     </li>
                 </ul>
             </div>
             <div class="partner partner-outline" ng-show="vm.isPartnerDetailsOpened">
-                <ul>
+                <ul class="list-pull-left">
                     <li ng-repeat="contact in vm.partner.contacts">
-                        <b>{{contact.personName}}</b> - {{contact.status}}
-                        <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
-                        ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
-                        ? contact.skype : 'no skype'}}
+                        <div class="list-pull-left">
+                            <b>{{contact.personName}}</b> - {{contact.status}}
+                            <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
+                            ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
+                            ? contact.skype : 'no skype'}}
+                        </div>
                     </li>
                 </ul>
+                <br/>
                 <p>
                     {{vm.partner.organisationTypeType}} "{{vm.partner.shortName}}" <br/>
                     {{vm.partner.regionName}}, {{vm.partner.districtName}}, {{vm.partner.localityName}} <br/>
@@ -45,24 +50,37 @@
                     <br/>
                     Сайт: {{vm.partner.site}}
                 </p>
-
+                <br/>
                 <p>
-                    Родительская компания:<br/>
-                    {{vm.partner.ownerForName}}
-                </p>
-
-                <p>Дочерние компании:</p>
-                <ul>
+                    <span ng-class="{'gray-light': !vm.partner.ownerForName}">
+                        Родительская компания:
+                        <span ng-show="!vm.partner.ownerForName">нет</span>
+                        <a ui-sref="partner-detail({id:vm.partner.ownerForId})">
+                            {{vm.partner.ownerForName}}
+                        </a>
+                    </span>
+                    <br/>
+                    <span ng-class="{'gray-light': vm.partner.ownedBies.length === 0}">
+                        Дочерние компании:
+                        <span ng-show="vm.partner.ownedBies.length === 0">нет</span>
+                    </span>
+                <ul class="list-pull-left">
                     <li ng-repeat="child in vm.partner.ownedBies">
-                        {{child.organisationTypeType}} "{{child.shortName}}", {{child.regionName}},
-                        {{child.districtName}}, {{child.localityName}}
+                        <div class="list-pull-left">
+                            <a ui-sref="partner-detail({id:child.id})">{{child.organisationTypeType}}
+                                "{{child.shortName}}"</a>, {{child.regionName}},
+                            {{child.districtName}}, {{child.localityName}}
+                        </div>
                     </li>
                 </ul>
-
-                <p ng-show="!!vm.partner.stationName">Станция размещения: {{vm.partner.stationName}} ({{vm.partner.stationCode}})</p>
-
-                <p ng-show="!!vm.partner.stationName" ng-repeat="servicePrice in vm.partner.servicePrices">
-                    {{servicePrice.serviceTypeName}}: {{servicePrice.price}} р/т
+                </p>
+                <br/>
+                <p ng-show="!!vm.partner.stationName">Станция размещения: {{vm.partner.stationName}}
+                    ({{vm.partner.stationCode}})
+                    <br/>
+                    <span ng-show="!!vm.partner.stationName" ng-repeat="servicePrice in vm.partner.servicePrices">
+                        {{servicePrice.serviceTypeName}}: {{servicePrice.price}} р/т
+                    </span>
                 </p>
             </div>
         </div>
@@ -115,7 +133,8 @@
                 </td>
                 <td ng-init="contact = vm.getContact(bid)">
                     {{vm.partner.organisationTypeType + " " + vm.partner.name}}<br/>
-                    <small>Тел: {{contact.phone}}</small><br/>
+                    <small>Тел: {{contact.phone}}</small>
+                    <br/>
                     <small>{{contact.emailEmail}}</small>
                 </td>
                 <td>
@@ -125,7 +144,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12" data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">{{bid.qualityClass}}</div>
+                        <div class="col-sm-12" data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">
+                            {{bid.qualityClass}}
+                        </div>
                     </div>
                     <div class="row" ng-repeat="qualityParameter in bid.qualityParameters">
                         <div class="col-sm-8">{{qualityParameter.qualityParameterName}}</div>

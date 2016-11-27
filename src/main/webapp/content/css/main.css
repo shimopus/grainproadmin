@@ -385,8 +385,10 @@ Social Buttons
 
 .partner {
     background-color: white;
-    padding: 5px;
+    padding: 5px 5px 5px 10px;
+    margin-left: -15px;
     border: 1px solid #e3e3e3;
+    border-radius: 5px;
     width: 450px
 }
 
@@ -421,6 +423,13 @@ div.drop-box.dragover {
     border-color: #6fa5d2;
 }
 
+ul.list-pull-left {
+    margin-left: -32px;
+}
+li > div.list-pull-left {
+    margin-left: -8px;
+}
+
 div.thumbnail {
     margin: 7px;
 }
@@ -431,4 +440,8 @@ div.thumbnail img {
 
 .jh-table.bid-table > tbody > tr > td {
     vertical-align: top;
+}
+
+.gray-light {
+    color: #cccccc;
 }

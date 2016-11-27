@@ -51,7 +51,6 @@
                     Сайт: {{vm.partner.site}}
                 </p>
                 <br/>
-                <p>
                     <span ng-class="{'gray-light': !vm.partner.ownerForName}">
                         Родительская компания:
                         <span ng-show="!vm.partner.ownerForName">нет</span>
@@ -73,7 +72,6 @@
                         </div>
                     </li>
                 </ul>
-                </p>
                 <br/>
                 <p ng-show="!!vm.partner.stationName">Станция размещения: {{vm.partner.stationName}}
                     ({{vm.partner.stationCode}})

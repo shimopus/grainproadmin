@@ -12,13 +12,18 @@
                                  Bid, Contact, QualityParameter, Partner, QualityValue, $q, Passport, DataUtils) {
         var vm = this;
 
+        if (entity.id) {
+            vm.initialBid = angular.copy(entity);
+        }
+
         vm.bid = entity;
         vm.currentPartner = partner;
 
         if (!vm.bid.agentId) {
             vm.bid.agentId = vm.currentPartner.id;
         }
-        if (vm.currentPartner.nds && vm.currentPartner.nds !== "BOTH") {
+        //if it is creation
+        if (vm.bid.id === null && vm.currentPartner.nds && vm.currentPartner.nds !== "BOTH") {
             vm.bid.nds = vm.currentPartner.nds;
         }
 
@@ -36,11 +41,44 @@
             qualityParameter: null,
             value: null
         };
-        vm.selectedQualityValues = [1, 2, 3, 4].map(function () {
-            return angular.copy(emptyQualityValue);
-        });
+
+        //if it is new bid - just create empty array for quality parameters
+        if (vm.bid.id === null) {
+            vm.selectedQualityValues = [1, 2, 3, 4].map(function () {
+                return angular.copy(emptyQualityValue);
+            });
+        } else {
+            vm.selectedQualityValues = vm.bid.qualityParameters.map(function (qualityValue) {
+                    if (qualityValue.qualityParameterId) {
+                        return {
+                            id: qualityValue.id,
+                            qualityParameter: {
+                                id: qualityValue.qualityParameterId,
+                                name: qualityValue.qualityParameterName,
+                                unit: qualityValue.qualityParameterUnit
+                            },
+                            value: qualityValue.value
+                        };
+                    }
+                }
+            );
+
+            if (vm.selectedQualityValues.length < 4) {
+                for (var i = vm.selectedQualityValues.length; i < 4; i++) {
+                    vm.selectedQualityValues.push(angular.copy(emptyQualityValue));
+                }
+            }
+        }
 
         vm.selectedElevator = null;
+
+        if (vm.bid.elevatorId) {
+            vm.partners.$promise.then(function (partners) {
+                vm.selectedElevator = partners.find(function (partner) {
+                    return partner.id === vm.bid.elevatorId;
+                });
+            });
+        }
 
         $timeout(function () {
             angular.element('.form-group:eq(0)>input').focus();
@@ -55,10 +93,26 @@
             updateQualityParameters();
             updateElevatorParameter();
             if (vm.bid.id !== null) {
-                Bid.update(vm.bid, onSaveSuccess, onSaveError);
+                updateBid(vm.bid);
             } else {
                 Bid.save(vm.bid, onSaveSuccess, onSaveError);
             }
+        }
+
+        function updateBid(bid) {
+            //archive initial bid
+            vm.initialBid.archiveDate = new Date();
+            Bid.update(vm.initialBid);
+
+            //create new edited bid
+            bid.id = null;
+            bid.qualityParameters.forEach(function (qualityParameter) {
+               qualityParameter.id = null;
+            });
+            bid.qualityPassports.forEach(function (qualityPassport) {
+                qualityPassport.id = null;
+            });
+            Bid.save(bid, onSaveSuccess, onSaveError);
         }
 
         function updateQualityParameters() {

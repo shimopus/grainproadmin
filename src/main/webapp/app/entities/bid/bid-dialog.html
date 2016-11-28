@@ -82,7 +82,7 @@
                             <div class="col-sm-8 form-group">
                                 <select class="form-control"
                                         ng-model="qualityValue.qualityParameter"
-                                        ng-options="qualityParameter as qualityParameter.name for qualityParameter in vm.qualityParameters">
+                                        ng-options="qualityParameter.name for qualityParameter in vm.qualityParameters track by qualityParameter.name">
                                     <option value=""></option>
                                 </select>
                             </div>

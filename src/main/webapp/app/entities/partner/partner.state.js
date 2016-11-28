@@ -248,6 +248,34 @@
                     });
                 }]
             })
+            .state('bid.editFor', {
+                parent: 'partner-detail',
+                url: '/bid/{bidId}/edit',
+                data: {
+                    authorities: ['ROLE_USER']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/bid/bid-dialog.html',
+                        controller: 'BidDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: ['Bid', function (Bid) {
+                                return Bid.get({id: $stateParams.bidId}).$promise;
+                            }],
+                            partner: ['Partner', function (Partner) {
+                                return Partner.get({id: $stateParams.id}).$promise;
+                            }]
+                        }
+                    }).result.then(function () {
+                        $state.go('^', {}, {reload: false});
+                    }, function () {
+                        $state.go('^');
+                    });
+                }]
+            })
             .state('bid.quality-passport', {
                 parent: 'partner-detail',
                 url: '/bid/{bidId}/carousel',

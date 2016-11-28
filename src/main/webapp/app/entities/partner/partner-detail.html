@@ -51,15 +51,15 @@
                     Сайт: {{vm.partner.site}}
                 </p>
                 <br/>
-                    <span ng-class="{'gray-light': !vm.partner.ownerForName}">
+                <span ng-class="{'gray-light': !vm.partner.ownerForName}">
                         Родительская компания:
                         <span ng-show="!vm.partner.ownerForName">нет</span>
                         <a ui-sref="partner-detail({id:vm.partner.ownerForId})">
                             {{vm.partner.ownerForName}}
                         </a>
                     </span>
-                    <br/>
-                    <span ng-class="{'gray-light': vm.partner.ownedBies.length === 0}">
+                <br/>
+                <span ng-class="{'gray-light': vm.partner.ownedBies.length === 0}">
                         Дочерние компании:
                         <span ng-show="vm.partner.ownedBies.length === 0">нет</span>
                     </span>
@@ -102,7 +102,7 @@
                 <th><span data-translate="grainAdminApp.bid.agent">Agent</span></th>
                 <th><span data-translate="grainAdminApp.bid.qualityParameters">Quality</span></th>
                 <th><span data-translate="grainAdminApp.bid.volume">Volume</span></th>
-                <th><span data-translate="grainAdminApp.bid.price">Volume</span></th>
+                <th><span data-translate="grainAdminApp.bid.price">Price</span></th>
                 <th><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span></th>
                 <th>
                     <div class="btn-group flex-btn-group-container" style="visibility: hidden">
@@ -120,7 +120,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="bid in vm.bids track by bid.id" id="{{bid.id}}">
+            <tr ng-repeat="bid in vm.notArchivedBids track by bid.id" id="{{bid.id}}" class="non-archived-bid">
                 <td ng-init="elevator = bid.elevator">
                     {{elevator.district.name}}<br/>
                     {{elevator.region.name}}<br/>
@@ -171,13 +171,69 @@
                                 class="btn btn-primary btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
-                        <button type="submit"
-                                ui-sref="partner.delete({id:partner.id})"
-                                class="btn btn-danger btn-sm">
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                ui-sref="bid.archive({id:vm.partner.id, bidId: bid.id})">
                             <span class="glyphicon glyphicon-remove-circle"></span>
                         </button>
                     </div>
                 </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <h2>Архивные заявки</h2>
+        <table class="jh-table bid-table table table-striped">
+            <thead>
+            <tr>
+                <th><span data-translate="grainAdminApp.bid.elevator">Elevator</span></th>
+                <th><span data-translate="grainAdminApp.bid.agent">Agent</span></th>
+                <th><span data-translate="grainAdminApp.bid.qualityParameters">Quality</span></th>
+                <th><span data-translate="grainAdminApp.bid.volume">Volume</span></th>
+                <th><span data-translate="grainAdminApp.bid.price">Price</span></th>
+                <th><span data-translate="grainAdminApp.bid.archiveDate">Archive Date</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="bid in vm.archivedBids track by bid.id" id="archived-{{bid.id}}" class="archived-bid">
+                <td ng-init="elevator = bid.elevator">
+                    {{elevator.district.name}}<br/>
+                    {{elevator.region.name}}<br/>
+                    {{elevator.locality.name}}<br/>
+                    {{elevator.station.name}}<br/>
+                    {{elevator.station.code}}<br/>
+                    {{elevator.name + " " + elevator.organisationType.type}}
+                </td>
+                <td ng-init="contact = vm.getContact(bid)">
+                    {{vm.partner.organisationTypeType + " " + vm.partner.name}}<br/>
+                    <small>Тел: {{contact.phone}}</small>
+                    <br/>
+                    <small>{{contact.emailEmail}}</small>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a ui-sref="bid.quality-passport({id:vm.partner.id, bidId: bid.id})">карта анализа</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">
+                            {{bid.qualityClass}}
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="qualityParameter in bid.qualityParameters">
+                        <div class="col-sm-8">{{qualityParameter.qualityParameterName}}</div>
+                        <div class="col-sm-4">{{qualityParameter.value}}{{qualityParameter.qualityParameterUnit}}</div>
+                    </div>
+                </td>
+                <td>{{bid.volume}}</td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm-5">{{bid.price}}</div>
+                        <div class="col-sm-7" data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">{{bid.nds}}</div>
+                    </div>
+                </td>
+                <td>{{bid.archiveDate | date:medium}}</td>
             </tr>
             </tbody>
         </table>

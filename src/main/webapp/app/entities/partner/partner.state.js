@@ -272,6 +272,30 @@
                         $state.go('^');
                     });
                 }]
+            })
+            .state('bid.archive', {
+                parent: 'partner-detail',
+                url: '/bid/{bidId}/archive',
+                data: {
+                    authorities: ['ROLE_USER']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/bid/bid-archive-dialog.html',
+                        controller: 'BidArchiveController',
+                        controllerAs: 'vm',
+                        size: 'md',
+                        resolve: {
+                            entity: ['Bid', function (Bid) {
+                                return Bid.get({id: $stateParams.bidId}).$promise;
+                            }]
+                        }
+                    }).result.then(function () {
+                        $state.go('^', {}, {reload: false});
+                    }, function () {
+                        $state.go('^');
+                    });
+                }]
             });
     }
 

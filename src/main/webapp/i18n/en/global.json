@@ -101,6 +101,7 @@
             "back": "Back",
             "cancel": "Cancel",
             "delete": "Delete",
+            "archive": "Archive",
             "edit": "Edit",
             "open": "Open",
             "save": "Save",
@@ -112,6 +113,9 @@
         },
         "delete": {
             "title": "Confirm delete operation"
+        },
+        "archive": {
+            "title": "Confirm archive operation"
         },
         "validation": {
             "required": "This field is required.",

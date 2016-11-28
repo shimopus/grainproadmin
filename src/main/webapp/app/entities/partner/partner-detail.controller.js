@@ -6,24 +6,24 @@
         .controller('PartnerDetailController', PartnerDetailController);
 
     PartnerDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'Partner',
-        'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', '$http'];
+        'Bid', 'OrganisationType', 'District', 'Region', 'Locality', 'Station', 'Contact', 'ServicePrice', '$http',
+        '$timeout'];
 
     function PartnerDetailController($scope, $rootScope, $stateParams, previousState, entity, Partner,
-                                     Bid, OrganisationType, District, Region, Locality, Station, Contact, ServicePrice, $http) {
+                                     Bid, OrganisationType, District, Region, Locality, Station, Contact, ServicePrice,
+                                     $http, $timeout) {
         var vm = this;
 
         vm.partner = entity;
         vm.previousState = previousState.name;
         vm.isPartnerDetailsOpened = false;
         vm.isArrowClicked = false;
-        vm.bids = getBids();
+        vm.notArchivedBids = getBids(false);
+        vm.archivedBids = getBids(true);
         vm.getContact = getContact;
         vm.arrowClick = arrowClick;
         vm.clickOutside = clickOutside;
         vm.openCard = openCard;
-        vm.isHiddenActions = isHiddenActions;
-        vm.showActions = showActions;
-        vm.hideActions = hideActions;
 
         var unsubscribe = $rootScope.$on('grainAdminApp:partnerUpdate', function(event, result) {
             vm.partner = result;
@@ -31,13 +31,15 @@
         $scope.$on('$destroy', unsubscribe);
 
         var unsubscribeBid = $rootScope.$on('grainAdminApp:bidUpdate', function(event, result) {
-            vm.bids = getBids();
+            vm.notArchivedBids = getBids(false);
+            vm.archivedBids = getBids(true);
         });
         $scope.$on('$destroy', unsubscribeBid);
 
-        function getBids() {
+        function getBids(isArchived) {
             return Bid.queryByPartner({
-                partnerId: vm.partner.id
+                partnerId: vm.partner.id,
+                isArchived: isArchived || false
             });
         }
 
@@ -68,18 +70,24 @@
             vm.isArrowClicked = false;
         }
 
-        var shownActionsBidId = null;
+        var unsubscribeArchive = $rootScope.$on('grainAdminApp:bidArchived', archiveBid);
+        $scope.$on('$destroy', unsubscribeArchive);
 
-        function isHiddenActions(bidId) {
-            return shownActionsBidId !== bidId;
-        }
+        function archiveBid(event, bid) {
+            var archivedBid;
 
-        function showActions(bidId) {
-            shownActionsBidId = bidId;
-        }
+            vm.notArchivedBids = vm.notArchivedBids.filter(function (bidItem) {
+                if (bidItem.id === bid.id) {
+                    archivedBid = bidItem;
+                    return false;
+                }
+                return true;
+            });
 
-        function hideActions() {
-            shownActionsBidId = null;
+            //delay for remove animation
+            $timeout(function () {
+                vm.archivedBids.unshift(archivedBid);
+            }, 1000);
         }
     }
 })();

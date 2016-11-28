@@ -9,7 +9,7 @@
 
     function BidController ($scope, $state, Bid, BidSearch, ParseLinks, AlertService, pagingParams, paginationConstants) {
         var vm = this;
-        
+
         vm.loadPage = loadPage;
         vm.predicate = pagingParams.predicate;
         vm.reverse = pagingParams.ascending;
@@ -49,7 +49,7 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 vm.queryCount = vm.totalItems;
-                vm.bids = data;
+                vm.notArchivedBids = data;
                 vm.page = pagingParams.page;
             }
             function onError(error) {

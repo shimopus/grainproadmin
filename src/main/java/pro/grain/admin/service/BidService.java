@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -72,15 +69,28 @@ public class BidService {
     }
 
     /**
-     *  Get all the bids by partner.
+     *  Get all not archived bids by partner.
      *
      *  @param partnerId the partner
      *  @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<BidFullDTO> findByPartner(Long partnerId) {
+    public List<BidFullDTO> findByPartnerNotArchived(Long partnerId) {
         log.debug("Request to get all Bids by partner");
-        List<Bid> result = bidRepository.findAllWithEagerRelationshipsByPartner(partnerId);
+        List<Bid> result = bidRepository.findAllNotArchivedWithEagerRelationshipsByPartner(partnerId);
+        return bidFullMapper.bidsToBidFullDTOs(result);
+    }
+
+    /**
+     *  Get all archived bids by partner.
+     *
+     *  @param partnerId the partner
+     *  @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public List<BidFullDTO> findByPartnerArchived(Long partnerId) {
+        log.debug("Request to get all Bids by partner");
+        List<Bid> result = bidRepository.findAllArchivedWithEagerRelationshipsByPartner(partnerId);
         return bidFullMapper.bidsToBidFullDTOs(result);
     }
 

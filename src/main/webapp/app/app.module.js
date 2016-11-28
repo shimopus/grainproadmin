@@ -21,7 +21,8 @@
             'ui.mask',
             'ui.select',
             'ngSanitize',
-            "clickOut"
+            'clickOut',
+            'ngAnimate'
         ])
         .run(run);
 

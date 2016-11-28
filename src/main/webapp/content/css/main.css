@@ -445,3 +445,22 @@ div.thumbnail img {
 .gray-light {
     color: #cccccc;
 }
+
+.non-archived-bid.ng-leave {
+    animation: 0.5s remove_animation;
+}
+
+.archived-bid.ng-enter {
+    animation: 0.5s add_animation;
+}
+
+@keyframes remove_animation {
+    from { opacity:1; }
+    to { opacity:0; }
+}
+
+
+@keyframes add_animation {
+    from { opacity:0; }
+    to { opacity:1; }
+}

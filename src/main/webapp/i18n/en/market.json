@@ -1,0 +1,12 @@
+{
+    "grainAdminApp": {
+        "market" : {
+            "home": {
+                "title": "Market"
+            },
+            "detail": {
+                "title": "Market"
+            }
+        }
+    }
+}

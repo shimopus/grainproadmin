@@ -1,10 +1,12 @@
 package pro.grain.admin.service;
 
 import pro.grain.admin.domain.Bid;
+import pro.grain.admin.domain.BidPrice;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
 import pro.grain.admin.service.dto.BidDTO;
 import pro.grain.admin.service.dto.BidFullDTO;
+import pro.grain.admin.service.dto.BidPriceDTO;
 import pro.grain.admin.service.mapper.BidFullMapper;
 import pro.grain.admin.service.mapper.BidMapper;
 import org.slf4j.Logger;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import pro.grain.admin.service.mapper.BidPriceMapper;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -36,6 +39,9 @@ public class BidService {
 
     @Inject
     private BidFullMapper bidFullMapper;
+
+    @Inject
+    private BidPriceMapper bidPriceMapper;
 
     @Inject
     private BidSearchRepository bidSearchRepository;
@@ -117,6 +123,31 @@ public class BidService {
         log.debug("Request to delete Bid : {}", id);
         bidRepository.delete(id);
         bidSearchRepository.delete(id);
+    }
+
+    /**
+     *  get all current bids for the station.
+     *
+     *  @param code station code
+     */
+    public List<BidPriceDTO> getAllCurrentBidsForStation(String code) {
+        log.debug("Request to get all current Bids for station : {}", code);
+
+        List<BidPrice> bids = bidRepository.findAllCurrentWithEagerRelationships(code);
+
+        return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
+    }
+
+    /**
+     *  get all current bids.
+     *
+     */
+    public List<BidFullDTO> getAllCurrentBids() {
+        log.debug("Request to get all current Bids");
+
+        List<Bid> bids = bidRepository.findAllCurrentWithEagerRelationships();
+
+        return bidFullMapper.bidsToBidFullDTOs(bids);
     }
 
     /**

@@ -1,0 +1,100 @@
+<div>
+    <h2 data-translate="grainAdminApp.market.home.title">Market</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="hidden-xs"  data-translate="grainAdminApp.market.home.createLabel">
+                        Create new Region
+                    </span>
+                </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'grainAdminApp.region.home.search' | translate }}">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                            <button class="btn btn-info" ng-click="vm.clear()">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="table-responsive">
+        <table class="jh-table bid-table table table-striped">
+            <thead>
+            <tr>
+                <th><span data-translate="grainAdminApp.bid.elevator">Elevator</span></th>
+                <th><span data-translate="grainAdminApp.bid.agent">Agent</span></th>
+                <th><span data-translate="grainAdminApp.bid.qualityParameters">Quality</span></th>
+                <th><span data-translate="grainAdminApp.bid.volume">Volume</span></th>
+                <th><span data-translate="grainAdminApp.bid.price">Price</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="bid in vm.bids track by bid.id">
+                <td ng-init="elevator = bid.elevator">
+                    {{elevator.district.name}}<br/>
+                    {{elevator.region.name}}<br/>
+                    {{elevator.locality.name}}<br/>
+                    ст. {{elevator.station.name}}<br/>
+                    {{elevator.station.code}}<br/>
+                    {{elevator.name + " " + elevator.organisationType.type}}
+                </td>
+                <td>
+                    {{bid.agentOrganisationType + " " + bid.agentName}}<br/>
+                    <small>Тел: {{bid.agentContactPhone}}</small>
+                    <br/>
+                    <small>{{bid.agentContactEmail}}</small>
+                </td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <a ui-sref="bid.quality-passport({id:bid.agentId, bidId: bid.id})">карта анализа</a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">
+                            {{bid.qualityClass}}
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="qualityParameter in bid.qualityParameters">
+                        <div class="col-sm-8">{{qualityParameter.qualityParameterName}}</div>
+                        <div class="col-sm-4">{{qualityParameter.value}}{{qualityParameter.qualityParameterUnit}}</div>
+                    </div>
+                </td>
+                <td>{{bid.volume}}</td>
+                <td>
+                    <div class="row">
+                        <div class="col-sm-3">{{vm.getFinalPrice(bid)}}</div>
+                        <div class="col-sm-3" data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">{{bid.nds}}</div>
+                        <div class="col-sm-6">
+                            FCA с погрузкой ж/д на<br/>
+                            ст. {{elevator.station.name}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">{{bid.price}}</div>
+                        <div class="col-sm-offset-3 col-sm-6">EXW по переписи</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">{{bid.servicePrices[0].price}}</div>
+                        <div class="col-sm-offset-3 col-sm-6">погрузка ж/д</div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

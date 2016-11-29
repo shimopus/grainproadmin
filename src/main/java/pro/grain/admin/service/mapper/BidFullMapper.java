@@ -13,8 +13,11 @@ public interface BidFullMapper {
     @Mapping(target = "elevatorName", ignore = true)
     @Mapping(target = "qualityPassports", ignore = true)
     @Mapping(source = "agentContact.id", target = "agentContactId")
+    @Mapping(source = "agentContact.phone", target = "agentContactPhone")
+    @Mapping(source = "agentContact.email.email", target = "agentContactEmail")
     @Mapping(source = "agent.id", target = "agentId")
     @Mapping(source = "agent.name", target = "agentName")
+    @Mapping(source = "agent.organisationType.type", target = "agentOrganisationType")
     BidFullDTO bidToBidFullDTO(Bid bid);
 
     List<BidFullDTO> bidsToBidFullDTOs(List<Bid> bids);

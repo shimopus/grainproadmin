@@ -4,6 +4,9 @@ import pro.grain.admin.domain.Partner;
 
 public class BidFullDTO extends BidDTO {
     private Partner elevator;
+    private String agentContactPhone;
+    private String agentContactEmail;
+    private String agentOrganisationType;
 
     public Partner getElevator() {
         return elevator;
@@ -11,6 +14,30 @@ public class BidFullDTO extends BidDTO {
 
     public void setElevator(Partner elevator) {
         this.elevator = elevator;
+    }
+
+    public String getAgentContactPhone() {
+        return agentContactPhone;
+    }
+
+    public void setAgentContactPhone(String agentContactPhone) {
+        this.agentContactPhone = agentContactPhone;
+    }
+
+    public String getAgentContactEmail() {
+        return agentContactEmail;
+    }
+
+    public void setAgentContactEmail(String agentContactEmail) {
+        this.agentContactEmail = agentContactEmail;
+    }
+
+    public String getAgentOrganisationType() {
+        return agentOrganisationType;
+    }
+
+    public void setAgentOrganisationType(String agentOrganisationType) {
+        this.agentOrganisationType = agentOrganisationType;
     }
 
     @Override

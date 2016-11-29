@@ -3,15 +3,7 @@
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <button class="btn btn-primary" ui-sref="partner.new" >
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span class="hidden-xs"  data-translate="grainAdminApp.partner.home.createLabel">
-                        Create new Partner
-                    </span>
-                </button>
-            </div>
-            <div class="col-xs-8 no-padding-right">
+            <div class="col-xs-6 no-padding-left">
                 <form name="searchForm" class="form-inline">
                     <div class="input-group pull-right" >
                         <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'grainAdminApp.partner.home.search' | translate }}">
@@ -28,18 +20,26 @@
                     </div>
                 </form>
             </div>
+            <div class="col-xs-2 col-xs-offset-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="partner.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="hidden-xs"  data-translate="grainAdminApp.partner.home.createLabel">
+                        Create new Partner
+                    </span>
+                </button>
+            </div>
         </div>
     </div>
-    <br/>
+    <hr/>
     <div class="table-responsive">
-        <table class="jh-table table table-striped">
+        <table class="jh-table table table-striped partner-table">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="name"><span data-translate="grainAdminApp.partner.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="regionName"><span data-translate="grainAdminApp.partner.region">Region</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="districtName"><span data-translate="grainAdminApp.partner.district">District</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="lastUpdate"><span data-translate="grainAdminApp.partner.lastUpdate">Last Update</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th></th>
+                    <!--<th></th>-->
                 </tr>
             </thead>
             <tbody>
@@ -52,7 +52,7 @@
                         {{partner.districtName}}
                     </td>
                     <td>{{partner.lastUpdate | date:'mediumDate'}}</td>
-                    <td class="text-right">
+                    <!--<td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
                                     ui-sref="partner-detail({id:partner.id})"
@@ -73,7 +73,7 @@
                                 <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
                             </button>
                         </div>
-                    </td>
+                    </td>-->
                 </tr>
             </tbody>
         </table>

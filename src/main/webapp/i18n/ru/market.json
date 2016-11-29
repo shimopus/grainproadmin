@@ -2,7 +2,8 @@
     "grainAdminApp": {
         "market" : {
             "home": {
-                "title": "Рынок"
+                "title": "Рынок",
+                "exportToPDF": "Выгрузить в PDF"
             },
             "detail": {
                 "title": "Рынок"

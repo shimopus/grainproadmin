@@ -9,8 +9,7 @@ import pro.grain.admin.service.dto.BidPriceDTO;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",
-    uses = {BidFullMapper.class, QualityValueMapper.class, TransportationPriceMapper.class, PartnerMapper.class})
+@Mapper(componentModel = "spring", uses = {QualityValueMapper.class, PartnerMapper.class})
 public interface BidPriceMapper {
     @Mapping(target = "elevatorId", ignore = true)
     @Mapping(target = "elevatorName", ignore = true)

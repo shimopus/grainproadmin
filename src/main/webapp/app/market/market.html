@@ -4,34 +4,34 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
+                <ui-select ng-model="vm.station" on-select="vm.onSelectStation()" name="station" id="station">
+                    <ui-select-match allow-clear  placeholder="Please select target station">
+                        {{$select.selected.name}}
+                    </ui-select-match>
+                    <ui-select-choices
+                        repeat="station as station in vm.stations"
+                        refresh="vm.refreshStationSuggestions($select.search)"
+                        refresh-delay="200">
+                        <div ng-bind-html="station.name | highlight: $select.search"></div>
+                        <small>
+                            <span ng-bind-html="''+ station.code | highlight: $select.search"></span>
+                            {{station.districtName}}, {{station.regionName}}
+                        </small>
+                    </ui-select-choices>
+                </ui-select>
+            </div>
+            <div class="col-xs-8 no-padding-right">
                 <button class="btn btn-primary">
-                    <span class="glyphicon glyphicon-plus"></span>
-                    <span class="hidden-xs"  data-translate="grainAdminApp.market.home.createLabel">
+                    <span class="glyphicon glyphicon-download-alt"></span>
+                    <span class="hidden-xs" data-translate="grainAdminApp.market.home.exportToPDF">
                         Create new Region
                     </span>
                 </button>
             </div>
-            <div class="col-xs-8 no-padding-right">
-                <form name="searchForm" class="form-inline">
-                    <div class="input-group pull-right" >
-                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'grainAdminApp.region.home.search' | translate }}">
-                        <span  class="input-group-btn width-min" >
-                            <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
-                            <button class="btn btn-info" ng-click="vm.clear()">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </span>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
     <hr>
-    <div class="table-responsive">
+    <div>
         <table class="jh-table bid-table table table-striped">
             <thead>
             <tr>
@@ -48,8 +48,8 @@
                     {{elevator.district.name}}<br/>
                     {{elevator.region.name}}<br/>
                     {{elevator.locality.name}}<br/>
-                    ст. {{elevator.station.name}}<br/>
-                    {{elevator.station.code}}<br/>
+                    ст. {{elevator.stationName}}<br/>
+                    {{elevator.stationCode}}<br/>
                     {{elevator.name + " " + elevator.organisationType.type}}
                 </td>
                 <td>
@@ -76,21 +76,21 @@
                 </td>
                 <td>{{bid.volume}}</td>
                 <td>
-                    <div class="row">
-                        <div class="col-sm-3">{{vm.getFinalPrice(bid)}}</div>
+                    <div class="row" ng-if="vm.station.code">
+                        <div class="col-sm-2">{{vm.getFinalPrice(bid)}}</div>
                         <div class="col-sm-3" data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">{{bid.nds}}</div>
-                        <div class="col-sm-6">
+                        <div class="col-sm-7">
                             FCA с погрузкой ж/д на<br/>
-                            ст. {{elevator.station.name}}
+                            ст. {{vm.station.name}}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3">{{bid.price}}</div>
-                        <div class="col-sm-offset-3 col-sm-6">EXW по переписи</div>
+                        <div class="col-sm-2">{{bid.price}}</div>
+                        <div class="col-sm-offset-3 col-sm-7">EXW по переписи</div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3">{{bid.servicePrices[0].price}}</div>
-                        <div class="col-sm-offset-3 col-sm-6">погрузка ж/д</div>
+                        <div class="col-sm-2">{{bid.elevator.servicePrices[0].price}}</div>
+                        <div class="col-sm-offset-3 col-sm-7">погрузка ж/д</div>
                     </div>
                 </td>
             </tr>

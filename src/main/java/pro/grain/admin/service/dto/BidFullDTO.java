@@ -3,16 +3,16 @@ package pro.grain.admin.service.dto;
 import pro.grain.admin.domain.Partner;
 
 public class BidFullDTO extends BidDTO {
-    private Partner elevator;
+    private PartnerDTO elevator;
     private String agentContactPhone;
     private String agentContactEmail;
     private String agentOrganisationType;
 
-    public Partner getElevator() {
+    public PartnerDTO getElevator() {
         return elevator;
     }
 
-    public void setElevator(Partner elevator) {
+    public void setElevator(PartnerDTO elevator) {
         this.elevator = elevator;
     }
 

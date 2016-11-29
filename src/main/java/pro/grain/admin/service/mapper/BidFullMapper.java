@@ -7,7 +7,7 @@ import pro.grain.admin.service.dto.BidFullDTO;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {BidMapper.class, QualityValueMapper.class})
+@Mapper(componentModel = "spring", uses = {QualityValueMapper.class, PartnerMapper.class})
 public interface BidFullMapper {
     @Mapping(target = "elevatorId", ignore = true)
     @Mapping(target = "elevatorName", ignore = true)

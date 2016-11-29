@@ -47,7 +47,7 @@
 
         function onSelectStation() {
             if (vm.station.code) {
-                vm.bids = Market.query({code: vm.stationCode});
+                vm.bids = Market.query({code: vm.station.code});
             }
         }
     }

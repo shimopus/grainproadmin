@@ -7,8 +7,7 @@ public class BidPrice extends Bid {
 
     }
 
-    public BidPrice(Bid bid, TransportationPrice transportationPrice) {
-        this.transportationPrice = transportationPrice;
+    public BidPrice(Bid bid){
         this.setId(bid.getId());
         this.setAgent(bid.getAgent());
         this.setAgentContact(bid.getAgentContact());
@@ -22,6 +21,11 @@ public class BidPrice extends Bid {
         this.setQualityParameters(bid.getQualityParameters());
         this.setQualityPassports(bid.getQualityPassports());
         this.setVolume(bid.getVolume());
+    }
+
+    public BidPrice(Bid bid, TransportationPrice transportationPrice) {
+        this(bid);
+        this.transportationPrice = transportationPrice;
     }
 
     public TransportationPrice getTransportationPrice() {

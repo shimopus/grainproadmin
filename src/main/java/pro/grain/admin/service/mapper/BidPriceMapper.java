@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pro.grain.admin.domain.BidPrice;
 import pro.grain.admin.domain.TransportationPrice;
-import pro.grain.admin.service.dto.BidFullDTO;
 import pro.grain.admin.service.dto.BidPriceDTO;
 
 import java.util.List;
@@ -22,7 +21,8 @@ public interface BidPriceMapper {
     @Mapping(source = "agent.organisationType.type", target = "agentOrganisationType")
     @Mapping(source = "transportationPrice.id", target = "transportationPriceId")
     @Mapping(source = "transportationPrice.price", target = "transportationPricePrice")
-
+    @Mapping(target = "fcaPrice", ignore = true)
+    @Mapping(target = "cptPrice", ignore = true)
     BidPriceDTO bidPriceToBidPriceDTO(BidPrice bid);
 
     List<BidPriceDTO> bidPricesToBidPriceDTOs(List<BidPrice> bids);

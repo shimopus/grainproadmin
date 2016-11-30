@@ -39,9 +39,9 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
         "   tp.stationTo.code = :code")
     List<BidPrice> findAllCurrentWithEagerRelationships(@Param("code") String code);
 
-    @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters left join fetch bid.qualityPassports " +
+    @Query("select distinct new pro.grain.admin.domain.BidPrice(bid) from Bid bid left join bid.qualityParameters left join bid.qualityPassports " +
         "where bid.isActive = true and bid.archiveDate is null")
-    List<Bid> findAllCurrentWithEagerRelationships();
+    List<BidPrice> findAllCurrentWithEagerRelationships();
 
     @Query("select bid from Bid bid left join fetch bid.qualityParameters left join fetch bid.qualityPassports where bid.id =:id")
     Bid findOneWithEagerRelationships(@Param("id") Long id);

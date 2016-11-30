@@ -19,6 +19,7 @@ import pro.grain.admin.service.mapper.BidPriceMapper;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -31,20 +32,24 @@ public class BidService {
 
     private final Logger log = LoggerFactory.getLogger(BidService.class);
 
-    @Inject
-    private BidRepository bidRepository;
+    private final BidRepository bidRepository;
+
+    private final BidMapper bidMapper;
+
+    private final BidFullMapper bidFullMapper;
+
+    private final BidPriceMapper bidPriceMapper;
+
+    private final BidSearchRepository bidSearchRepository;
 
     @Inject
-    private BidMapper bidMapper;
-
-    @Inject
-    private BidFullMapper bidFullMapper;
-
-    @Inject
-    private BidPriceMapper bidPriceMapper;
-
-    @Inject
-    private BidSearchRepository bidSearchRepository;
+    public BidService(BidRepository bidRepository, BidMapper bidMapper, BidFullMapper bidFullMapper, BidPriceMapper bidPriceMapper, BidSearchRepository bidSearchRepository) {
+        this.bidRepository = bidRepository;
+        this.bidMapper = bidMapper;
+        this.bidFullMapper = bidFullMapper;
+        this.bidPriceMapper = bidPriceMapper;
+        this.bidSearchRepository = bidSearchRepository;
+    }
 
     /**
      * Save a bid.
@@ -71,7 +76,7 @@ public class BidService {
     public Page<BidDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Bids");
         Page<Bid> result = bidRepository.findAll(pageable);
-        return result.map(bid -> bidMapper.bidToBidDTO(bid));
+        return result.map(bidMapper::bidToBidDTO);
     }
 
     /**
@@ -110,8 +115,7 @@ public class BidService {
     public BidDTO findOne(Long id) {
         log.debug("Request to get Bid : {}", id);
         Bid bid = bidRepository.findOneWithEagerRelationships(id);
-        BidDTO bidDTO = bidMapper.bidToBidDTO(bid);
-        return bidDTO;
+        return bidMapper.bidToBidDTO(bid);
     }
 
     /**
@@ -135,19 +139,19 @@ public class BidService {
 
         List<BidPrice> bids = bidRepository.findAllCurrentWithEagerRelationships(code);
 
-        return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
+        return enrichAndSortMarket(bidPriceMapper.bidPricesToBidPriceDTOs(bids), true);
     }
 
     /**
      *  get all current bids.
      *
      */
-    public List<BidFullDTO> getAllCurrentBids() {
+    public List<BidPriceDTO> getAllCurrentBids() {
         log.debug("Request to get all current Bids");
 
-        List<Bid> bids = bidRepository.findAllCurrentWithEagerRelationships();
+        List<BidPrice> bids = bidRepository.findAllCurrentWithEagerRelationships();
 
-        return bidFullMapper.bidsToBidFullDTOs(bids);
+        return enrichAndSortMarket(bidPriceMapper.bidPricesToBidPriceDTOs(bids), false);
     }
 
     /**
@@ -160,6 +164,45 @@ public class BidService {
     public Page<BidDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Bids for query {}", query);
         Page<Bid> result = bidSearchRepository.search(queryStringQuery(query), pageable);
-        return result.map(bid -> bidMapper.bidToBidDTO(bid));
+        return result.map(bidMapper::bidToBidDTO);
+    }
+
+    private Long getFCAPrice(BidPriceDTO bid) {
+        Long selfPrice = bid.getPrice();
+        Long loadPrice = 0L;
+
+        if (bid.getElevator().getServicePrices() != null && bid.getElevator().getServicePrices().size() > 0) {
+            loadPrice = bid.getElevator().getServicePrices().iterator().next().getPrice();
+        }
+
+        return selfPrice + loadPrice;
+    }
+
+    private Long getCPTPrice(BidPriceDTO bid) {
+        Long transpPrice = 0L;
+
+        if (bid.getTransportationPricePrice() != null) {
+            transpPrice = bid.getTransportationPricePrice();
+        }
+
+        return getFCAPrice(bid) + transpPrice;
+    }
+
+    private List<BidPriceDTO> enrichAndSortMarket(List<BidPriceDTO> bids, boolean hasTransportationPrice) {
+        if (bids == null) return null;
+        return bids.stream()
+            .map(bid -> {
+                bid.setFcaPrice(getFCAPrice(bid));
+                if (hasTransportationPrice) {
+                    bid.setCptPrice(getCPTPrice(bid));
+                }
+                return bid;
+            })
+            .sorted((bid1, bid2) ->
+                hasTransportationPrice ?
+                    Long.compare(bid2.getCptPrice(), bid1.getCptPrice()) :
+                    Long.compare(bid2.getFcaPrice(), bid1.getFcaPrice())
+            )
+            .collect(Collectors.toList());
     }
 }

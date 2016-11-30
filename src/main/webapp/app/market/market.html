@@ -76,21 +76,33 @@
                 </td>
                 <td>{{bid.volume}}</td>
                 <td>
-                    <div class="row" ng-if="vm.station.code">
-                        <div class="col-sm-2">{{vm.getFinalPrice(bid)}}</div>
+                    <div class="row" ng-if="vm.station.code && bid.transportationPricePrice">
+                        <div class="col-sm-2">{{vm.getCPTPrice(bid)}}</div>
                         <div class="col-sm-3" data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">{{bid.nds}}</div>
-                        <div class="col-sm-7">
-                            FCA с погрузкой ж/д на<br/>
+                        <div class="col-sm-7 no-padding-left no-padding-right">
+                            CPT с доставкой ж/д до<br/>
                             ст. {{vm.station.name}}
+                        </div>
+                    </div>
+                    <div class="row" ng-if="!vm.station.code">
+                        <div class="col-sm-2">{{vm.getFCAPrice(bid)}}</div>
+                        <div class="col-sm-3" data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">{{bid.nds}}</div>
+                        <div class="col-sm-7 no-padding-left no-padding-right">
+                            FCA с погрузкой ж/д на<br/>
+                            ст. {{vm.elevator.stationName}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2">{{bid.price}}</div>
-                        <div class="col-sm-offset-3 col-sm-7">EXW по переписи</div>
+                        <div class="col-sm-offset-3 col-sm-7 no-padding-left no-padding-right">EXW по переписи</div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2">{{bid.elevator.servicePrices[0].price}}</div>
-                        <div class="col-sm-offset-3 col-sm-7">погрузка ж/д</div>
+                        <div class="col-sm-offset-3 col-sm-7 no-padding-left no-padding-right">погрузка ж/д</div>
+                    </div>
+                    <div class="row" ng-if="bid.transportationPricePrice">
+                        <div class="col-sm-2">{{bid.transportationPricePrice}}</div>
+                        <div class="col-sm-offset-3 col-sm-7 no-padding-left no-padding-right">доставка ж/д Русагротранс</div>
                     </div>
                 </td>
             </tr>

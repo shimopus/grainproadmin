@@ -10,16 +10,21 @@
     function MarketController ($scope, $state, bids, StationSearch, Market) {
         var vm = this;
         vm.bids = bids;
-        vm.getFinalPrice = getFinalPrice;
+        vm.getFCAPrice = getFCAPrice;
+        vm.getCPTPrice = getCPTPrice;
         vm.refreshStationSuggestions = refreshStationSuggestions;
         vm.stations = [];
         vm.station = null;
         vm.onSelectStation = onSelectStation;
 
-        function getFinalPrice(bid) {
+        function getFCAPrice(bid) {
             var price = parseFloat(bid.price);
+            if (!bid.elevator.servicePrices) {
+                console.error("Service price for elevator %o is unavailable!! ", bid.elevator);
+                return 0;
+            }
+
             var loadPrice = parseFloat(bid.elevator.servicePrices[0].price);
-            var transpPrice = parseFloat(bid.transportationPricePrice);
 
             var result = 0;
 
@@ -30,6 +35,13 @@
             if (loadPrice) {
                 result += loadPrice;
             }
+
+            return result;
+        }
+
+        function getCPTPrice(bid) {
+            var result = getFCAPrice(bid);
+            var transpPrice = parseFloat(bid.transportationPricePrice);
 
             if (transpPrice) {
                 result += transpPrice;
@@ -46,8 +58,10 @@
         }
 
         function onSelectStation() {
-            if (vm.station.code) {
+            if (vm.station && vm.station.code) {
                 vm.bids = Market.query({code: vm.station.code});
+            } else {
+                vm.bids = Market.query();
             }
         }
     }

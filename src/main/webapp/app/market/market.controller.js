@@ -5,9 +5,9 @@
         .module('grainAdminApp')
         .controller('MarketController', MarketController);
 
-    MarketController.$inject = ['$scope', '$state', 'bids', 'StationSearch', 'Market'];
+    MarketController.$inject = ['$scope', '$state', 'bids', 'StationSearch', 'Market', 'PartnerCard'];
 
-    function MarketController ($scope, $state, bids, StationSearch, Market) {
+    function MarketController ($scope, $state, bids, StationSearch, Market, PartnerCard) {
         var vm = this;
         vm.bids = bids;
         vm.getFCAPrice = getFCAPrice;
@@ -16,6 +16,7 @@
         vm.stations = [];
         vm.station = null;
         vm.onSelectStation = onSelectStation;
+        vm.showCardDialog = showCardDialog;
 
         function getFCAPrice(bid) {
             var price = parseFloat(bid.price);
@@ -63,6 +64,10 @@
             } else {
                 vm.bids = Market.query();
             }
+        }
+
+        function showCardDialog(partner) {
+            PartnerCard.showDialog(partner);
         }
     }
 })();

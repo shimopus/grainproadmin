@@ -50,10 +50,20 @@
                     {{elevator.locality.name}}<br/>
                     ст. {{elevator.stationName}}<br/>
                     {{elevator.stationCode}}<br/>
-                    {{elevator.name + " " + elevator.organisationType.type}}
+                    <a ng-click="vm.showCardDialog(elevator)">
+                        {{elevator.name + " " + elevator.organisationType.type}}
+                    </a>
                 </td>
                 <td>
-                    {{bid.agentOrganisationType + " " + bid.agentName}}<br/>
+                    <a ng-click="vm.showCardDialog({
+                        name: bid.agentName,
+                        card: bid.agentCard,
+                        organisationType: {
+                            type: bid.agentOrganisationType
+                        }
+                    })">
+                        {{bid.agentOrganisationType + " " + bid.agentName}}
+                    </a><br/>
                     <small>Тел: {{bid.agentContactPhone}}</small>
                     <br/>
                     <small>{{bid.agentContactEmail}}</small>

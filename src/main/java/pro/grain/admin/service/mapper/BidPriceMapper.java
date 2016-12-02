@@ -19,6 +19,7 @@ public interface BidPriceMapper {
     @Mapping(source = "agent.id", target = "agentId")
     @Mapping(source = "agent.name", target = "agentName")
     @Mapping(source = "agent.organisationType.type", target = "agentOrganisationType")
+    @Mapping(source = "agent.card", target = "agentCard")
     @Mapping(source = "transportationPrice.id", target = "transportationPriceId")
     @Mapping(source = "transportationPrice.price", target = "transportationPricePrice")
     @Mapping(target = "fcaPrice", ignore = true)

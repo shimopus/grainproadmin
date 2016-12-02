@@ -1,10 +1,20 @@
 package pro.grain.admin.service.dto;
 
 public class BidPriceDTO extends BidFullDTO {
+    private String agentCard;
     private Long transportationPricePrice;
     private Long transportationPriceId;
     private Long fcaPrice;
     private Long cptPrice;
+
+    public String getAgentCard() {
+        return agentCard;
+    }
+
+    public BidPriceDTO setAgentCard(String agentCard) {
+        this.agentCard = agentCard;
+        return this;
+    }
 
     public Long getTransportationPricePrice() {
         return transportationPricePrice;

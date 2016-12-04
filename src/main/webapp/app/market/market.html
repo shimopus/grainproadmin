@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-xs-4 no-padding-left">
                 <ui-select ng-model="vm.station" on-select="vm.onSelectStation()" name="station" id="station">
-                    <ui-select-match allow-clear  placeholder="Please select target station">
+                    <ui-select-match allow-clear placeholder="Please select target station">
                         {{$select.selected.name}}
                     </ui-select-match>
                     <ui-select-choices
@@ -32,7 +32,89 @@
     </div>
     <hr>
     <div>
-        <table class="jh-table bid-table table table-striped">
+        <table style="width: 700px; table-layout:fixed; border-collapse: collapse">
+            <col width="146px">
+            <col width="122px">
+            <col width="139px">
+            <col width="59px">
+            <col width="61px">
+            <col width="40px">
+            <col width="132px">
+            <tr style="height: 23px; font-size: 11px; color: white; background-color: #94aa72">
+                <td style="padding-left: 10px;" data-translate="grainAdminApp.bid.elevator">Размещение</td>
+                <td style="padding-left: 10px;" data-translate="grainAdminApp.bid.agent">Агент</td>
+                <td style="padding-left: 10px;" data-translate="grainAdminApp.bid.qualityParameters">Качество</td>
+                <td style="padding-left: 10px;" data-translate="grainAdminApp.bid.volume">Объем, т</td>
+                <td style="padding-left: 10px;" data-translate="grainAdminApp.bid.price">Цена р/т</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr style="height: 90px; font-size: 12px; line-height: 16px; color: black; background-color: #f4f4f4; vertical-align: top; border-bottom: 3px solid #ffffff;"
+                ng-repeat="bid in vm.bids track by bid.id">
+                <td style="width: 146px; padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
+                    ng-init="elevator = bid.elevator">
+                    <strong>{{vm.splitFirstLetter(elevator.districtName)[0]}}</strong>{{vm.splitFirstLetter(elevator.districtName)[1]}}<br>
+                    {{elevator.regionName}}<br>
+                    ст. {{elevator.stationName}}<br>
+                    {{elevator.stationCode}}<br>
+                    <a style="color: #315597" ng-click="vm.showCardDialog(elevator)">
+                        {{elevator.name + " " + elevator.organisationType.type}}
+                    </a>
+                </td>
+                <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis;">
+                    <a style="color: #315597" ng-click="vm.showCardDialog({
+                        name: bid.agentName,
+                        card: bid.agentCard,
+                        organisationType: {
+                            type: bid.agentOrganisationType
+                        }
+                    })">
+                        {{bid.agentOrganisationType + " " + bid.agentName}}
+                    </a><br>
+                    <span style="font-size: 10px;">тел: {{bid.agentContactPhone}}</span><br>
+                    <span style="font-size: 10px;">{{bid.agentContactEmail}}</span>
+                </td>
+                <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis;">
+                    <a ui-sref="bid.quality-passport({id:bid.agentId, bidId: bid.id})" style="color: #315597">карта анализа</a><br>
+                    <span style="font-size: 11px;" data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">{{bid.qualityClass}}</span>
+
+                    <div style="font-size: 12px;" ng-repeat="qualityParameter in bid.qualityParameters">
+                        <span style="display: block; float: left; width: 93px; text-align: left">{{qualityParameter.qualityParameterName}}</span>
+                        <span style="display: block; float: right; width: 35px; text-align: right">{{qualityParameter.value}}{{qualityParameter.qualityParameterUnit}}</span>
+                    </div>
+                </td>
+                <td>{{bid.volume}}</td>
+                <td>
+                    <span style="display: block;" ng-if="vm.station.code && bid.transportationPricePrice">{{vm.getCPTPrice(bid)}}</span>
+                    <br ng-if="vm.station.code && bid.transportationPricePrice">
+                    <span style="display: block;" ng-if="!vm.station.code">{{vm.getFCAPrice(bid)}}</span>
+                    <br ng-if="!vm.station.code">
+                    <span style="font-size: 10px;">{{bid.price}}</span><br>
+                    <span style="font-size: 10px;">{{bid.elevator.servicePrices[0].price}}</span><br>
+                    <span style="font-size: 10px;" ng-if="bid.transportationPricePrice">{{bid.transportationPricePrice}}</span>
+                </td>
+                <td style="font-size: 10px;">
+                    <span data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">
+                        {{bid.nds}}
+                    </span>
+                </td>
+                <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <span style="font-size: 10px" ng-if="vm.station.code && bid.transportationPricePrice">СРТ с доставкой ж/д до</span>
+                    <br ng-if="vm.station.code && bid.transportationPricePrice">
+                    <span style="font-size: 10px" ng-if="vm.station.code && bid.transportationPricePrice">ст. {{vm.station.name}}</span>
+                    <br ng-if="vm.station.code && bid.transportationPricePrice">
+                    <span style="font-size: 10px" ng-if="!vm.station.code">FCA с погрузкой ж/д на</span>
+                    <br ng-if="!vm.station.code">
+                    <span style="font-size: 10px" ng-if="!vm.station.code">ст. {{bid.elevator.stationName}}</span>
+                    <br ng-if="!vm.station.code">
+                    <span style="font-size: 10px">EXW по переписи</span><br>
+                    <span style="font-size: 10px">покрузка ж/д</span><br>
+                    <span style="font-size: 10px">доставка ж/д (Русагротранс)</span><br>
+                </td>
+            </tr>
+        </table>
+
+        <!--<table class="jh-table bid-table table table-striped">
             <thead>
             <tr>
                 <th><span data-translate="grainAdminApp.bid.elevator">Elevator</span></th>
@@ -117,6 +199,6 @@
                 </td>
             </tr>
             </tbody>
-        </table>
+        </table>-->
     </div>
 </div>

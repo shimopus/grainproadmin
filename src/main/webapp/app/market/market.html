@@ -49,8 +49,9 @@
                 <td></td>
                 <td></td>
             </tr>
-            <tr style="height: 90px; font-size: 12px; line-height: 16px; color: black; background-color: #f4f4f4; vertical-align: top; border-bottom: 3px solid #ffffff;"
-                ng-repeat="bid in vm.bids track by bid.id">
+            <tr style="height: 90px; font-size: 12px; line-height: 16px; color: black; vertical-align: top; border-bottom: 3px solid #ffffff;"
+                ng-repeat="bid in vm.bids track by bid.id"
+                ng-style="{'background-color': ($index % 2 !== 0 ? '#edf2e9' : '#f4f4f4')}">
                 <td style="width: 146px; padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                     ng-init="elevator = bid.elevator">
                     <strong>{{vm.splitFirstLetter(elevator.districtName)[0]}}</strong>{{vm.splitFirstLetter(elevator.districtName)[1]}}<br>

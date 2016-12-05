@@ -72,10 +72,10 @@
         }
 
         function splitFirstLetter(str) {
-            if (!str || str.length < 1) return ["", ""]
+            if (!str || str.length < 1) return ["", ""];
             return [
                 str.substring(0, 1),
-                str.substring(1, str.length-1)
+                str.substring(1, str.length)
             ]
         }
     }

@@ -110,7 +110,8 @@
                     <br ng-if="!vm.station.code">
                     <span style="font-size: 10px">EXW по переписи</span><br>
                     <span style="font-size: 10px">покрузка ж/д</span><br>
-                    <span style="font-size: 10px">доставка ж/д (Русагротранс)</span><br>
+                    <span style="font-size: 10px" ng-if="vm.station.code && bid.transportationPricePrice">доставка ж/д (Русагротранс)</span>
+                    <br ng-if="vm.station.code && bid.transportationPricePrice">
                 </td>
             </tr>
         </table>

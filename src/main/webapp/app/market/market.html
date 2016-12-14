@@ -32,7 +32,8 @@
     </div>
     <hr>
     <div>
-        <table style="width: 700px; table-layout:fixed; border-collapse: collapse">
+        <table style="width: 700px; table-layout:fixed; border-collapse: collapse"
+            ng-repeat="(qualityClass, bids) in vm.bids">
             <col width="146px">
             <col width="122px">
             <col width="139px">
@@ -50,7 +51,7 @@
                 <td></td>
             </tr>
             <tr style="height: 90px; font-size: 12px; line-height: 16px; color: black; vertical-align: top; border-bottom: 3px solid #ffffff;"
-                ng-repeat="bid in vm.bids track by bid.id"
+                ng-repeat="bid in bids track by bid.id"
                 ng-style="{'background-color': ($index % 2 !== 0 ? '#edf2e9' : '#f4f4f4')}">
                 <td style="width: 146px; padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
                     ng-init="elevator = bid.elevator">

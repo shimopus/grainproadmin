@@ -2,6 +2,7 @@ package pro.grain.admin.service;
 
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
+import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
 import pro.grain.admin.service.dto.BidDTO;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Service;
 import pro.grain.admin.service.mapper.BidPriceMapper;
 
 import javax.inject.Inject;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -67,10 +68,10 @@ public class BidService {
     }
 
     /**
-     *  Get all the bids.
+     * Get all the bids.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<BidDTO> findAll(Pageable pageable) {
@@ -80,10 +81,10 @@ public class BidService {
     }
 
     /**
-     *  Get all not archived bids by partner.
+     * Get all not archived bids by partner.
      *
-     *  @param partnerId the partner
-     *  @return the list of entities
+     * @param partnerId the partner
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<BidFullDTO> findByPartnerNotArchived(Long partnerId) {
@@ -93,10 +94,10 @@ public class BidService {
     }
 
     /**
-     *  Get all archived bids by partner.
+     * Get all archived bids by partner.
      *
-     *  @param partnerId the partner
-     *  @return the list of entities
+     * @param partnerId the partner
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public List<BidFullDTO> findByPartnerArchived(Long partnerId) {
@@ -106,10 +107,10 @@ public class BidService {
     }
 
     /**
-     *  Get one bid by id.
+     * Get one bid by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public BidDTO findOne(Long id) {
@@ -119,9 +120,9 @@ public class BidService {
     }
 
     /**
-     *  Delete the  bid by id.
+     * Delete the  bid by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete Bid : {}", id);
@@ -130,11 +131,11 @@ public class BidService {
     }
 
     /**
-     *  get all current bids for the station.
+     * get all current bids for the station.
      *
-     *  @param code station code
+     * @param code station code
      */
-    public List<BidPriceDTO> getAllCurrentBidsForStation(String code) {
+    public Map<QualityClass, List<BidPriceDTO>> getAllCurrentBidsForStation(String code) {
         log.debug("Request to get all current Bids for station : {}", code);
 
         List<BidPrice> bids = bidRepository.findAllCurrentWithEagerRelationships(code);
@@ -143,10 +144,10 @@ public class BidService {
     }
 
     /**
-     *  get all current bids.
-     *
+     * get all current bids in a sorted map like
+     * Map<QualityClass, List<BidPriceDTO>>
      */
-    public List<BidPriceDTO> getAllCurrentBids() {
+    public Map<QualityClass, List<BidPriceDTO>> getAllCurrentBids() {
         log.debug("Request to get all current Bids");
 
         List<BidPrice> bids = bidRepository.findAllCurrentWithEagerRelationships();
@@ -157,8 +158,8 @@ public class BidService {
     /**
      * Search for the bid corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<BidDTO> search(String query, Pageable pageable) {
@@ -188,8 +189,9 @@ public class BidService {
         return getFCAPrice(bid) + transpPrice;
     }
 
-    private List<BidPriceDTO> enrichAndSortMarket(List<BidPriceDTO> bids, boolean hasTransportationPrice) {
+    private Map<QualityClass, List<BidPriceDTO>> enrichAndSortMarket(List<BidPriceDTO> bids, boolean hasTransportationPrice) {
         if (bids == null) return null;
+
         return bids.stream()
             .map(bid -> {
                 bid.setFcaPrice(getFCAPrice(bid));
@@ -198,11 +200,15 @@ public class BidService {
                 }
                 return bid;
             })
-            .sorted((bid1, bid2) ->
-                hasTransportationPrice ?
-                    Long.compare(bid2.getCptPrice(), bid1.getCptPrice()) :
-                    Long.compare(bid2.getFcaPrice(), bid1.getFcaPrice())
-            )
-            .collect(Collectors.toList());
+            .collect(Collectors.groupingBy(BidPriceDTO::getQualityClass, TreeMap::new,
+                Collectors.collectingAndThen(
+                    Collectors.toCollection(ArrayList::new),
+                    l -> {l.sort((bid1, bid2) ->
+                        hasTransportationPrice ?
+                            Long.compare(bid1.getCptPrice(), bid2.getCptPrice()) :
+                            Long.compare(bid1.getFcaPrice(), bid2.getFcaPrice()));
+                            return l;
+                        }
+                )));
     }
 }

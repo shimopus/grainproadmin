@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pro.grain.admin.domain.BidPrice;
+import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.service.BidService;
 import pro.grain.admin.service.dto.BidDTO;
+import pro.grain.admin.service.dto.BidPriceDTO;
 
 import javax.inject.Inject;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -44,7 +48,7 @@ public class MarketResource {
         throws URISyntaxException {
         log.debug("REST request to get a list of bids for station code {}", code);
 
-        List<? extends BidDTO> bids;
+        Map<QualityClass, List<BidPriceDTO>> bids;
 
         if (code != null) {
             bids = bidService.getAllCurrentBidsForStation(code);

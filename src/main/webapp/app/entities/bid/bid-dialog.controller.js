@@ -151,9 +151,9 @@
         }
 
         function getPartnersSuggestions() {
-            return vm.partners.filter(function (partner) {
+            return vm.partners/*.filter(function (partner) {
                 return partner.id !== vm.currentPartner.id;
-            });
+            })*/;
         }
 
         function formatSelection(selectedValue, objects, parameterName) {

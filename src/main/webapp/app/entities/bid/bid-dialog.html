@@ -93,7 +93,10 @@
                                        validate-on="dirty"
                                        required-message="'!'"
                                        ng-model="qualityValue.value"
-                                       ui-mask="{{'9?9?9?9' + (qualityValue.qualityParameter.unit ? qualityValue.qualityParameter.unit : '')}}"
+                                       ui-mask="{{qualityValue.qualityParameter.unit ?
+                                            '9?9?9?9' + qualityValue.qualityParameter.unit :
+                                            '*?*?*?*'}}"
+                                       ui-options="vm.qualityParametersMaskOptions"
                                 />
                             </div>
                         </div>

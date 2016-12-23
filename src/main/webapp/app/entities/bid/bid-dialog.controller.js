@@ -31,6 +31,11 @@
         vm.save = save;
         vm.contacts = Contact.query();
         vm.qualityParameters = QualityParameter.query();
+        vm.qualityParametersMaskOptions = {
+            maskDefinitions : {
+                '9': /[0-9,.]/
+            }
+        };
         vm.partners = Partner.query();
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.formatSelection = formatSelection;

@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-5"
+        <div class="col-sm-4"
              ng-click="vm.openCard()"
              click-out="vm.clickOutside()">
             <span class="glyphicon partner-dropdown" aria-hidden="true"
@@ -22,7 +22,7 @@
                 <ul class="list-pull-left">
                     <li ng-init="contact=vm.partner.contacts[0]">
                         <div class="list-pull-left">
-                            <b>{{contact.personName}}</b> - {{contact.status}}
+                            {{contact.personName}} - {{contact.status}}
                             <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
                             ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
                             ? contact.skype : 'no skype'}}
@@ -34,26 +34,27 @@
                 <ul class="list-pull-left">
                     <li ng-repeat="contact in vm.partner.contacts">
                         <div class="list-pull-left">
-                            <b>{{contact.personName}}</b> - {{contact.status}}
+                            {{contact.personName}} - {{contact.status}}
                             <br/>{{contact.phone ? contact.phone : 'no phone'}}; {{contact.emailEmail
                             ? contact.emailEmail : 'no email'}}; skype: {{contact.skype
                             ? contact.skype : 'no skype'}}
                         </div>
                     </li>
                 </ul>
-                <br/>
                 <p>
-                    {{vm.partner.organisationTypeType}} "{{vm.partner.shortName}}" <br/>
+                    <span ng-show="vm.partner.shortName">{{vm.partner.shortName}}</span>
+                    <br ng-show="vm.partner.shortName"/>
                     {{vm.partner.regionName}}, {{vm.partner.districtName}}, {{vm.partner.localityName}} <br/>
                     ИНН: {{vm.partner.inn}} <br/>
                     Работают <span data-translate="{{'grainAdminApp.NDS.' + vm.partner.nds}}">{{vm.partner.nds}}</span>
                     <br/>
-                    Сайт: {{vm.partner.site}}
+                    Сайт: <a ng-href="{{vm.partner.site.startsWith('http') ? vm.partner.site : 'http://' + vm.partner.site}}"
+                             target="_blank">{{vm.partner.site}}</a>
                 </p>
-                <br/>
                 <span ng-class="{'gray-light': !vm.partner.ownerForName}">
                         Родительская компания:
                         <span ng-show="!vm.partner.ownerForName">нет</span>
+                        <br ng-show="vm.partner.ownerForName"/>
                         <a ui-sref="partner-detail({id:vm.partner.ownerForId})">
                             {{vm.partner.ownerForName}}
                         </a>
@@ -72,7 +73,6 @@
                         </div>
                     </li>
                 </ul>
-                <br/>
                 <p ng-show="!!vm.partner.stationName">Станция размещения: {{vm.partner.stationName}}
                     ({{vm.partner.stationCode}})
                     <br/>
@@ -82,7 +82,7 @@
                 </p>
             </div>
         </div>
-        <div class="col-sm-7 text-right">
+        <div class="col-sm-8 text-right">
             <button type="button" ui-sref="partner-detail.edit({id:vm.partner.id})" class="btn btn-info">
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="hidden-xs hidden-sm" data-translate="grainAdminApp.partner.action.edit">Edit</span>

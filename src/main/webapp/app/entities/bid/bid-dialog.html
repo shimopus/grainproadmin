@@ -33,9 +33,9 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label data-translate="grainAdminApp.bid.agentContact" for="field_agentContact">Agent
+                            <label class="control-label" data-translate="grainAdminApp.bid.agentContact" for="field_agentContact">Agent
                                 Contact</label>
-                            <ui-select ng-model="vm.bid.agentContactId" id="field_agentContact" name="agentContact">
+                            <ui-select ng-model="vm.bid.agentContactId">
                                 <ui-select-match allow-clear>
                                     {{$select.selected.personName}}
                                 </ui-select-match>
@@ -47,6 +47,10 @@
                                     </small>
                                 </ui-select-choices>
                             </ui-select>
+                            <input type="hidden" class="form-control" name="agentContact" id="field_agentContact"
+                                   ng-model="vm.bid.agentContactId"
+                                   required-message="'{{'entity.validation.required' | translate}}'"
+                                   required/>
                         </div>
                     </div>
                 </div>

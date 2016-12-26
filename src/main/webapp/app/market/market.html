@@ -66,11 +66,11 @@
                     </table>
                 </td>
             </tr>
-            <tr ng-repeat="bid in bids track by bid.id"
-                ng-style="{'background-color': ($index % 2 !== 0 ? '#edf2e9' : '#f4f4f4')}">
+            <tr ng-repeat="bid in bids track by bid.id">
                 <td>
                     <table border="0" width="700px" cellpadding="0" cellspacing="0"
-                           style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;">
+                           style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;"
+                           ng-style="{'background-color': ($index % 2 !== 0 ? '#edf2e9' : '#f4f4f4')}">
                         <col width="146px">
                         <col width="122px">
                         <col width="139px">
@@ -144,7 +144,7 @@
                         </span>
                             </td>
                         </tr>
-                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; background-color: #f4f4f4; vertical-align: top;">
+                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 ст. {{elevator.stationName}}
                             </td>
@@ -172,7 +172,7 @@
                                 <span style="font-size: 10px; -webkit-text-size-adjust:none">EXW по переписи </span>
                             </td>
                         </tr>
-                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; background-color: #f4f4f4; vertical-align: top;">
+                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 {{elevator.stationCode}}
                             </td>
@@ -197,7 +197,7 @@
                                 <span style="font-size: 10px; -webkit-text-size-adjust:none">покрузка ж/д </span>
                             </td>
                         </tr>
-                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; background-color: #f4f4f4; vertical-align: top;">
+                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 <a style="color: #315597" ng-click="vm.showCardDialog(elevator)">
                                     {{elevator.name + " " + elevator.organisationType.type}}
@@ -229,7 +229,7 @@
                         </span>
                             </td>
                         </tr>
-                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; background-color: #f4f4f4; vertical-align: top; border-bottom: 3px solid #ffffff;">
+                        <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top; border-bottom: 3px solid #ffffff;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">

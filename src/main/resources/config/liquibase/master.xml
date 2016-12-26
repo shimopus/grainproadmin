@@ -38,4 +38,5 @@
     <include file="changelog/20161121210308_changed_entity_Bid_removeField_QualityPassport.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161121210309_changed_entity_Partner_changeField_Card.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161121210310_changed_entity_Partner_addField_Site.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20161227210311_changed_entity_QualityValue_changeValueType.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

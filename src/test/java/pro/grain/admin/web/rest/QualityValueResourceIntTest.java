@@ -42,8 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GrainAdminApp.class)
 public class QualityValueResourceIntTest {
 
-    private static final Long DEFAULT_VALUE = 1L;
-    private static final Long UPDATED_VALUE = 2L;
+    private static final String DEFAULT_VALUE = "a";
+    private static final String UPDATED_VALUE = "b";
 
     @Inject
     private QualityValueRepository qualityValueRepository;
@@ -152,7 +152,7 @@ public class QualityValueResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(qualityValue.getId().intValue())))
-                .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.intValue())));
+                .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE)));
     }
 
     @Test
@@ -166,7 +166,7 @@ public class QualityValueResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(qualityValue.getId().intValue()))
-            .andExpect(jsonPath("$.value").value(DEFAULT_VALUE.intValue()));
+            .andExpect(jsonPath("$.value").value(DEFAULT_VALUE));
     }
 
     @Test
@@ -241,6 +241,6 @@ public class QualityValueResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(qualityValue.getId().intValue())))
-            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE.intValue())));
+            .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE)));
     }
 }

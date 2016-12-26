@@ -26,7 +26,7 @@ public class QualityValue implements Serializable {
 
     @NotNull
     @Column(name = "value", nullable = false)
-    private Long value;
+    private String value;
 
     @ManyToOne
     private QualityParameter qualityParameter;
@@ -39,16 +39,16 @@ public class QualityValue implements Serializable {
         this.id = id;
     }
 
-    public Long getValue() {
+    public String getValue() {
         return value;
     }
 
-    public QualityValue value(Long value) {
+    public QualityValue value(String value) {
         this.value = value;
         return this;
     }
 
-    public void setValue(Long value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

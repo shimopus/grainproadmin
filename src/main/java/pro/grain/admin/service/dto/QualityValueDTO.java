@@ -17,11 +17,9 @@ public class QualityValueDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Long value;
-
+    private String value;
 
     private Long qualityParameterId;
-
 
     private String qualityParameterName;
 
@@ -34,11 +32,11 @@ public class QualityValueDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

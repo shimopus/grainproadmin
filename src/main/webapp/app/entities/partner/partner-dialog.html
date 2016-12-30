@@ -92,7 +92,7 @@
                     <label class="control-label" data-translate="grainAdminApp.partner.region" for="field_region">Region</label>
                     <ui-select ng-model="vm.partner.regionId">
                         <ui-select-match allow-clear>
-                            {{$select.selected.name}}
+                            {{$select.selected.name || vm.partner.regionName}}
                         </ui-select-match>
                         <ui-select-choices
                             repeat="region.id as region in vm.regions"
@@ -112,7 +112,7 @@
                     <label class="control-label" data-translate="grainAdminApp.partner.district" for="field_district">District</label>
                     <ui-select ng-model="vm.partner.districtId">
                         <ui-select-match allow-clear>
-                            {{$select.selected.name}}
+                            {{$select.selected.name || vm.partner.districtName}}
                         </ui-select-match>
                         <ui-select-choices
                             repeat="district.id as district in vm.districts"
@@ -132,7 +132,7 @@
                     <label class="control-label" data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
                     <ui-select ng-model="vm.partner.localityId">
                         <ui-select-match allow-clear>
-                            {{$select.selected.name}}
+                            {{$select.selected.name || vm.partner.localityName}}
                         </ui-select-match>
                         <ui-select-choices
                             repeat="locality.id as locality in vm.localities"
@@ -204,7 +204,7 @@
                     <label class="control-label" data-translate="grainAdminApp.partner.station">Station</label>
                     <ui-select ng-model="vm.partner.stationId" name="station">
                         <ui-select-match allow-clear>
-                            {{$select.selected.name}}
+                            {{$select.selected.name || vm.partner.stationName}}
                         </ui-select-match>
                         <ui-select-choices
                             repeat="station.id as station in vm.stations"

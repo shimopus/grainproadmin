@@ -1,5 +1,5 @@
 
-<form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
+<form name="editForm" role="form" novalidate angular-validator angular-validator-submit="vm.save()">
 
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
@@ -39,29 +39,53 @@
         </div>
 
         <div class="form-group">
-            <label data-translate="grainAdminApp.station.district" for="field_district">District</label>
-            <select class="form-control" id="field_district" name="district" ng-model="vm.station.districtId" ng-options="district.id as district.name for district in vm.districts"            >
-                <option value=""></option>
-            </select>
+            <label class="control-label" data-translate="grainAdminApp.station.region">Region</label>
+            <ui-select ng-model="vm.station.regionId">
+                <ui-select-match allow-clear>
+                    {{$select.selected.name || vm.station.regionName}}
+                </ui-select-match>
+                <ui-select-choices
+                    repeat="region.id as region in vm.regions"
+                    refresh="vm.refreshRegionSuggestions($select.search)"
+                    refresh-delay="200">
+                    <div ng-bind-html="region.name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
         </div>
         <div class="form-group">
-            <label data-translate="grainAdminApp.station.region" for="field_region">Region</label>
-            <select class="form-control" id="field_region" name="region" ng-model="vm.station.regionId" ng-options="region.id as region.name for region in vm.regions"            >
-                <option value=""></option>
-            </select>
+            <label class="control-label" data-translate="grainAdminApp.station.district">District</label>
+            <ui-select ng-model="vm.station.districtId">
+                <ui-select-match allow-clear>
+                    {{$select.selected.name || vm.station.districtName}}
+                </ui-select-match>
+                <ui-select-choices
+                    repeat="district.id as district in vm.districts"
+                    refresh="vm.refreshDistrictSuggestions($select.search)"
+                    refresh-delay="200">
+                    <div ng-bind-html="district.name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
         </div>
         <div class="form-group">
-            <label data-translate="grainAdminApp.station.locality" for="field_locality">Locality</label>
-            <select class="form-control" id="field_locality" name="locality" ng-model="vm.station.localityId" ng-options="locality.id as locality.name for locality in vm.localities"            >
-                <option value=""></option>
-            </select>
+            <label class="control-label" data-translate="grainAdminApp.station.locality">Locality</label>
+            <ui-select ng-model="vm.station.localityId">
+                <ui-select-match allow-clear>
+                    {{$select.selected.name || vm.station.localityName}}
+                </ui-select-match>
+                <ui-select-choices
+                    repeat="locality.id as locality in vm.localities"
+                    refresh="vm.refreshLocalitySuggestions($select.search)"
+                    refresh-delay="200">
+                    <div ng-bind-html="locality.name | highlight: $select.search"></div>
+                </ui-select-choices>
+            </ui-select>
         </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
         </button>
-        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+        <button type="submit" ng-disabled="vm.isSaving" class="btn btn-primary">
             <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
         </button>
     </div>

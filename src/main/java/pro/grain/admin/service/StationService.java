@@ -82,6 +82,40 @@ public class StationService {
     }
 
     /**
+     *  Get one station by code.
+     *
+     *  @param code the code of the entity
+     *  @return the entity
+     */
+    @Transactional(readOnly = true)
+    public StationDTO findOne(String code) {
+        log.debug("Request to get Station : {}", code);
+        Station station = stationRepository.findByCode(code);
+        StationDTO stationDTO = stationMapper.stationToStationDTO(station);
+        return stationDTO;
+    }
+
+    /**
+     *  Get one station by location.
+     *
+     *  @param region_id the code of the entity
+     *  @param district_id the code of the entity
+     *  @param locality_id the code of the entity
+     *  @return the entity
+     */
+    @Transactional(readOnly = true)
+    public StationDTO findByLocation(Long region_id, Long district_id, Long locality_id) {
+        log.debug("Request to get Station by location: region = {}, district = {}, locality = {}", region_id, district_id, locality_id);
+        Station station;
+        if (locality_id != null) {
+            station = stationRepository.findByLocation(region_id, district_id, locality_id);
+        } else {
+            station = stationRepository.findByLocation(region_id, district_id);
+        }
+        return stationMapper.stationToStationDTO(station);
+    }
+
+    /**
      *  Delete the  station by id.
      *
      *  @param id the id of the entity

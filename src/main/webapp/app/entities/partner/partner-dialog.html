@@ -89,48 +89,62 @@
         <div class="row row-gray">
             <div class="col-sm-4">
                 <div class="form-group">
-                    <label class="control-label" data-translate="grainAdminApp.partner.region"
-                           for="field_region">Region</label>
-                    <input class="form-control" autocomplete="off" id="field_region" name="region"
-                           ng-if="vm.regions.$resolved"
+                    <label class="control-label" data-translate="grainAdminApp.partner.region" for="field_region">Region</label>
+                    <ui-select ng-model="vm.partner.regionId">
+                        <ui-select-match allow-clear>
+                            {{$select.selected.name}}
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="region.id as region in vm.regions"
+                            refresh="vm.refreshRegionSuggestions($select.search)"
+                            refresh-delay="200">
+                            <div ng-bind-html="region.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input type="hidden" class="form-control" id="field_region" name="region"
                            ng-model="vm.partner.regionId"
-                           uib-typeahead="region.id as region.name for region in vm.regions | filter:$viewValue"
-                           typeahead-editable="false"
-                           typeahead-input-formatter="vm.formatSelection($model, vm.regions, 'name')"
-                           validate-on="dirty"
                            required-message="'{{'entity.validation.required' | translate}}'"
-                           required
-                        >
+                           required />
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.district" for="field_district">District</label>
-                    <input class="form-control" autocomplete="off" id="field_district" name="district"
-                           ng-if="vm.districts.$resolved"
+                    <ui-select ng-model="vm.partner.districtId">
+                        <ui-select-match allow-clear>
+                            {{$select.selected.name}}
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="district.id as district in vm.districts"
+                            refresh="vm.refreshDistrictSuggestions($select.search)"
+                            refresh-delay="200">
+                            <div ng-bind-html="district.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input type="hidden" class="form-control" id="field_district" name="district"
                            ng-model="vm.partner.districtId"
-                           uib-typeahead="district.id as district.name for district in vm.districts | filter:$viewValue"
-                           typeahead-editable="false"
-                           typeahead-input-formatter="vm.formatSelection($model, vm.districts, 'name')"
-                           validate-on="dirty"
                            required-message="'{{'entity.validation.required' | translate}}'"
-                           required
-                        >
+                           required />
                 </div>
             </div>
             <div class="col-sm-4">
                 <div class="form-group">
                     <label class="control-label" data-translate="grainAdminApp.partner.locality" for="field_locality">Locality</label>
-                    <input class="form-control" autocomplete="off" id="field_locality" name="locality"
-                           ng-if="vm.localities.$resolved"
+                    <ui-select ng-model="vm.partner.localityId">
+                        <ui-select-match allow-clear>
+                            {{$select.selected.name}}
+                        </ui-select-match>
+                        <ui-select-choices
+                            repeat="locality.id as locality in vm.localities"
+                            refresh="vm.refreshLocalitySuggestions($select.search)"
+                            refresh-delay="200">
+                            <div ng-bind-html="locality.name | highlight: $select.search"></div>
+                        </ui-select-choices>
+                    </ui-select>
+                    <input type="hidden" class="form-control" id="field_locality" name="locality"
                            ng-model="vm.partner.localityId"
-                           uib-typeahead="locality.id as locality.name for locality in vm.localities | filter:$viewValue"
-                           typeahead-editable="false"
-                           typeahead-input-formatter="vm.formatSelection($model, vm.localities, 'name')"
-                           validate-on="dirty"
                            required-message="'{{'entity.validation.required' | translate}}'"
-                           required
-                        >
+                           required />
                 </div>
             </div>
         </div>

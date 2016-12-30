@@ -1,5 +1,11 @@
 package pro.grain.admin.service;
 
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.sort.FieldSortBuilder;
+import org.elasticsearch.search.sort.ScoreSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import pro.grain.admin.domain.District;
 import pro.grain.admin.repository.DistrictRepository;
 import pro.grain.admin.repository.search.DistrictSearchRepository;
@@ -13,10 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -28,7 +30,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class DistrictService {
 
     private final Logger log = LoggerFactory.getLogger(DistrictService.class);
-    
+
     @Inject
     private DistrictRepository districtRepository;
 
@@ -55,11 +57,11 @@ public class DistrictService {
 
     /**
      *  Get all the districts.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<DistrictDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Districts");
         Page<District> result = districtRepository.findAll(pageable);
@@ -72,7 +74,7 @@ public class DistrictService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public DistrictDTO findOne(Long id) {
         log.debug("Request to get District : {}", id);
         District district = districtRepository.findOne(id);
@@ -100,7 +102,24 @@ public class DistrictService {
     @Transactional(readOnly = true)
     public Page<DistrictDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Districts for query {}", query);
-        Page<District> result = districtSearchRepository.search(queryStringQuery(query), pageable);
-        return result.map(district -> districtMapper.districtToDistrictDTO(district));
+
+        QueryBuilder myQuery = boolQuery().should(
+            queryStringQuery("*" + query + "*").analyzeWildcard(true).
+                field("name"));
+
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+            .withQuery(myQuery)
+            .withSort(
+                new ScoreSortBuilder()
+                .order(SortOrder.ASC)
+            )
+            .withPageable(pageable)
+            .build();
+
+
+        log.debug("My Query: " + searchQuery);
+
+        Page<District> result = districtSearchRepository.search(searchQuery);
+        return result.map(districtMapper::districtToDistrictDTO);
     }
 }

@@ -1,5 +1,10 @@
 package pro.grain.admin.service;
 
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.sort.ScoreSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import pro.grain.admin.domain.Locality;
 import pro.grain.admin.repository.LocalityRepository;
 import pro.grain.admin.repository.search.LocalitySearchRepository;
@@ -28,7 +33,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class LocalityService {
 
     private final Logger log = LoggerFactory.getLogger(LocalityService.class);
-    
+
     @Inject
     private LocalityRepository localityRepository;
 
@@ -55,11 +60,11 @@ public class LocalityService {
 
     /**
      *  Get all the localities.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<LocalityDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Localities");
         Page<Locality> result = localityRepository.findAll(pageable);
@@ -72,7 +77,7 @@ public class LocalityService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public LocalityDTO findOne(Long id) {
         log.debug("Request to get Locality : {}", id);
         Locality locality = localityRepository.findOne(id);
@@ -100,7 +105,24 @@ public class LocalityService {
     @Transactional(readOnly = true)
     public Page<LocalityDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Localities for query {}", query);
-        Page<Locality> result = localitySearchRepository.search(queryStringQuery(query), pageable);
-        return result.map(locality -> localityMapper.localityToLocalityDTO(locality));
+
+        QueryBuilder myQuery = boolQuery().should(
+            queryStringQuery("*" + query + "*").analyzeWildcard(true).
+                field("name"));
+
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+            .withQuery(myQuery)
+            .withSort(
+                new ScoreSortBuilder()
+                    .order(SortOrder.ASC)
+            )
+            .withPageable(pageable)
+            .build();
+
+
+        log.debug("My Query: " + searchQuery);
+
+        Page<Locality> result = localitySearchRepository.search(searchQuery);
+        return result.map(localityMapper::localityToLocalityDTO);
     }
 }

@@ -6,11 +6,11 @@
         .controller('PartnerDialogController', PartnerDialogController);
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
-        'OrganisationType', 'District', 'Region', 'Locality', 'StationSearch', 'Contact', 'ServiceType'
+        'OrganisationType', 'RegionSearch', 'LocalitySearch', 'StationSearch', 'DistrictSearch', 'Contact', 'ServiceType'
     ];
 
     function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
-                                     OrganisationType, District, Region, Locality, StationSearch,
+                                     OrganisationType, RegionSearch, LocalitySearch, StationSearch, DistrictSearch,
                                      Contact, ServiceType) {
         var vm = this;
 
@@ -45,10 +45,13 @@
         vm.partners = Partner.query();
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.refreshStationSuggestions = refreshStationSuggestions;
+        vm.refreshDistrictSuggestions = refreshDistrictSuggestions;
+        vm.refreshRegionSuggestions = refreshRegionSuggestions;
+        vm.refreshLocalitySuggestions = refreshLocalitySuggestions;
         vm.organisationtypes = OrganisationType.query();
-        vm.districts = District.query();
-        vm.regions = Region.query();
-        vm.localities = Locality.query();
+        vm.districts = [];
+        vm.regions = [];
+        vm.localities = [];
         vm.contacts = Contact.query();
         vm.stations = [];
         vm.servicePriceTypes = ServiceType.query();
@@ -188,6 +191,27 @@
         function refreshStationSuggestions(term) {
             if (term) {
                 vm.stations = StationSearch.query({query: term});
+            }
+            return null;
+        }
+
+        function refreshDistrictSuggestions(term) {
+            if (term) {
+                vm.districts = DistrictSearch.query({query: term});
+            }
+            return null;
+        }
+
+        function refreshRegionSuggestions(term) {
+            if (term) {
+                vm.regions = RegionSearch.query({query: term});
+            }
+            return null;
+        }
+
+        function refreshLocalitySuggestions(term) {
+            if (term) {
+                vm.localities = LocalitySearch.query({query: term});
             }
             return null;
         }

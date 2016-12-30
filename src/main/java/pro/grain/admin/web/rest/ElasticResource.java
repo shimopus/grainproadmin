@@ -25,6 +25,9 @@ public class ElasticResource {
     public ResponseEntity<String> reset() throws URISyntaxException {
         elasticSearchIndexRegenerateService.resetStations();
         elasticSearchIndexRegenerateService.resetPartners();
+        elasticSearchIndexRegenerateService.resetRegions();
+        elasticSearchIndexRegenerateService.resetDistricts();
+        elasticSearchIndexRegenerateService.resetLocalities();
         return new ResponseEntity<>("{\"status\": \"Ok\"}", HttpStatus.OK);
     }
 }

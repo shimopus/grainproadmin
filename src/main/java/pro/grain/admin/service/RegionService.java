@@ -1,5 +1,10 @@
 package pro.grain.admin.service;
 
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.sort.ScoreSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import pro.grain.admin.domain.Region;
 import pro.grain.admin.repository.RegionRepository;
 import pro.grain.admin.repository.search.RegionSearchRepository;
@@ -28,7 +33,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class RegionService {
 
     private final Logger log = LoggerFactory.getLogger(RegionService.class);
-    
+
     @Inject
     private RegionRepository regionRepository;
 
@@ -55,11 +60,11 @@ public class RegionService {
 
     /**
      *  Get all the regions.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<RegionDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Regions");
         Page<Region> result = regionRepository.findAll(pageable);
@@ -72,7 +77,7 @@ public class RegionService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public RegionDTO findOne(Long id) {
         log.debug("Request to get Region : {}", id);
         Region region = regionRepository.findOne(id);
@@ -100,7 +105,24 @@ public class RegionService {
     @Transactional(readOnly = true)
     public Page<RegionDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Regions for query {}", query);
-        Page<Region> result = regionSearchRepository.search(queryStringQuery(query), pageable);
-        return result.map(region -> regionMapper.regionToRegionDTO(region));
+
+        QueryBuilder myQuery = boolQuery().should(
+            queryStringQuery("*" + query + "*").analyzeWildcard(true).
+                field("name"));
+
+        SearchQuery searchQuery = new NativeSearchQueryBuilder()
+            .withQuery(myQuery)
+            .withSort(
+                new ScoreSortBuilder()
+                    .order(SortOrder.ASC)
+            )
+            .withPageable(pageable)
+            .build();
+
+
+        log.debug("My Query: " + searchQuery);
+
+        Page<Region> result = regionSearchRepository.search(searchQuery);
+        return result.map(regionMapper::regionToRegionDTO);
     }
 }

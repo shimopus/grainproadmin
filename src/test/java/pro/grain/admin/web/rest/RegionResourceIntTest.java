@@ -237,7 +237,7 @@ public class RegionResourceIntTest {
         regionSearchRepository.save(region);
 
         // Search the region
-        restRegionMockMvc.perform(get("/api/_search/regions?query=id:" + region.getId()))
+        restRegionMockMvc.perform(get("/api/_search/regions?query=" + region.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(region.getId().intValue())))

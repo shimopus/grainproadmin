@@ -237,7 +237,7 @@ public class DistrictResourceIntTest {
         districtSearchRepository.save(district);
 
         // Search the district
-        restDistrictMockMvc.perform(get("/api/_search/districts?query=id:" + district.getId()))
+        restDistrictMockMvc.perform(get("/api/_search/districts?query=" + district.getName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(district.getId().intValue())))

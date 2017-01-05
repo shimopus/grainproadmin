@@ -18,6 +18,7 @@
         vm.onSelectStation = onSelectStation;
         vm.showCardDialog = showCardDialog;
         vm.splitFirstLetter = splitFirstLetter;
+        vm.currentDate = new Date();
 
         function getFCAPrice(bid) {
             var price = parseFloat(bid.price);

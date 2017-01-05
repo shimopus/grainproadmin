@@ -276,7 +276,7 @@
                     });
                 }]
             })
-            .state('bid.quality-passport', {
+            .state('partner-detail.quality-passport', {
                 parent: 'partner-detail',
                 url: '/bid/{bidId}/carousel',
                 data: {

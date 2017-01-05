@@ -21,7 +21,8 @@ public class TransportationPrice implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "transportation_price_gen")
+    @SequenceGenerator(name = "transportation_price_gen", sequenceName = "transportation_price_id_seq")
     private Long id;
 
     @NotNull

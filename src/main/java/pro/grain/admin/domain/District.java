@@ -21,7 +21,8 @@ public class District implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "district_gen")
+    @SequenceGenerator(name = "district_gen", sequenceName = "district_id_seq")
     private Long id;
 
     @NotNull

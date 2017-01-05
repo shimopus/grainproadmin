@@ -3,7 +3,7 @@
         "market" : {
             "home": {
                 "title": "Рынок",
-                "exportToPDF": "Выгрузить в PDF"
+                "exportToHTML": "Выгрузить в HTML"
             },
             "detail": {
                 "title": "Рынок"

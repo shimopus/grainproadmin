@@ -3,7 +3,7 @@
         "market" : {
             "home": {
                 "title": "Market",
-                "exportToPDF": "Export to PDF"
+                "exportToHTML": "Export to HTML"
             },
             "detail": {
                 "title": "Market"

@@ -5,9 +5,9 @@
         .module('grainAdminApp')
         .controller('MarketController', MarketController);
 
-    MarketController.$inject = ['$scope', '$state', 'bids', 'StationSearch', 'Market', 'PartnerCard'];
+    MarketController.$inject = ['$scope', '$state', 'bids', 'StationSearch', 'Market', 'PartnerCard', "$uibModal"];
 
-    function MarketController ($scope, $state, bids, StationSearch, Market, PartnerCard) {
+    function MarketController ($scope, $state, bids, StationSearch, Market, PartnerCard, $uibModal) {
         var vm = this;
         vm.bids = bids;
         vm.getFCAPrice = getFCAPrice;
@@ -19,6 +19,7 @@
         vm.showCardDialog = showCardDialog;
         vm.splitFirstLetter = splitFirstLetter;
         vm.currentDate = new Date();
+        vm.exportToHTML = exportToHTML;
 
         function getFCAPrice(bid) {
             var price = parseFloat(bid.price);
@@ -78,6 +79,26 @@
                 str.substring(0, 1),
                 str.substring(1, str.length)
             ]
+        }
+
+        function exportToHTML() {
+            /*alert(angular.element("#market").html());
+            $uibModal.open({
+                templateUrl: 'app/entities/bid/bid-quality-passport.html',
+                controller: 'BidQualityPassportController',
+                controllerAs: 'vm',
+                backdrop: 'static',
+                size: 'lg',
+                resolve: {
+                    entity: ['Bid', function (Bid) {
+                        return Bid.get({id: $stateParams.bidId}).$promise;
+                    }]
+                }
+            }).result.then(function () {
+                    $state.go('^', {}, {reload: false});
+                }, function () {
+                    $state.go('^');
+                });*/
         }
     }
 })();

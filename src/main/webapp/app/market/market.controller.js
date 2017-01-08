@@ -5,9 +5,9 @@
         .module('grainAdminApp')
         .controller('MarketController', MarketController);
 
-    MarketController.$inject = ['$scope', '$state', 'StationSearch', 'PartnerCard', "$uibModal", "$http", "$sce"];
+    MarketController.$inject = ['$scope', '$state', 'StationSearch', 'PartnerCard', "$http", "$sce", "$filter"];
 
-    function MarketController ($scope, $state, StationSearch, PartnerCard, $uibModal, $http, $sce) {
+    function MarketController ($scope, $state, StationSearch, PartnerCard, $http, $sce, $filter) {
         var LOADING_STR = "Загрузка...";
         var vm = this;
         vm.refreshStationSuggestions = refreshStationSuggestions;
@@ -62,24 +62,26 @@
             });
         }
 
-        function exportToHTML() {
-            /*alert(angular.element("#market").html());
-            $uibModal.open({
-                templateUrl: 'app/entities/bid/bid-quality-passport.html',
-                controller: 'BidQualityPassportController',
-                controllerAs: 'vm',
-                backdrop: 'static',
-                size: 'lg',
-                resolve: {
-                    entity: ['Bid', function (Bid) {
-                        return Bid.get({id: $stateParams.bidId}).$promise;
-                    }]
+        function exportToHTML(code) {
+            $http(
+                {
+                    url: '/pages/market-table/download',
+                    method: "GET",
+                    params: {'code': code}
                 }
-            }).result.then(function () {
-                    $state.go('^', {}, {reload: false});
-                }, function () {
-                    $state.go('^');
-                });*/
+            )
+                .success(function(data, status, headers, config) {
+                    var anchor = angular.element('<a/>');
+                    anchor.css({display: 'none'}); // Make sure it's not visible
+                    angular.element(document.body).append(anchor); // Attach to document
+
+                    anchor.attr({
+                        href: 'data:attachment/html;charset=utf-8,' + encodeURI(data),
+                        download: "Пшеница " + $filter('date')(new Date(), "dd_MM_yy") + ".html"
+                })[0].click();
+
+                    anchor.remove(); // Clean it up afterwards
+                });
         }
     }
 })();

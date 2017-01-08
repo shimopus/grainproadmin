@@ -1,0 +1,52 @@
+{namespace tables}
+
+/**
+ * Создает таблицу со всеми заявками для рассылки и добавляет обвязку для создания полноценного файла для рассылки
+ * @param currentDate Текущая дата
+ * @param station Станция для расчета цены. Может быть null.
+ * @param baseUrl Базовый URL для ссылок
+ * @param bids Список заявок для отображения.
+ */
+{template .market_table_download}
+    {call .header /}
+    {call tables.table}
+        {param currentDate: $currentDate /}
+        {param station: $station /}
+        {param baseUrl: $baseUrl /}
+        {param urlTarget: '_blank' /}
+        {param bids: $bids /}
+    {/call}
+    {call .footer /}
+{/template}
+
+/**
+ * Добавляет заголовок обвязки для создания полноценного файла для рассылки
+ */
+{template .header}
+    <!doctype html>
+    <html>
+        <head>
+        </head>
+        <body>
+            <header>
+            <hgroup style="margin-bottom: 30px; padding-bottom: 30px; max-width: 700px;">
+            	<div style="float: left">
+            		<a href="http://grain.pro">
+            			<img src="data:image/png;base64,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" />
+            		</a>
+            	</div>
+            	<div style="float: right">
+            		+7 (916) 549-19-89 <br/>
+            		c 7:00 до 19:00 по МСК
+            	</div>
+            </hgroup>
+            </header>
+{/template}
+
+/**
+ * Добавляет подвал обвязки
+ */
+{template .footer}
+        </body>
+    </html>
+{/template}

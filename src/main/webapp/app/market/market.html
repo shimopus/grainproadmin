@@ -21,7 +21,7 @@
                 </ui-select>
             </div>
             <div class="col-xs-8 no-padding-right">
-                <button class="btn btn-primary" ng-click="vm.exportToHTML()">
+                <button class="btn btn-primary" ng-click="vm.exportToHTML(vm.station.code)">
                     <span class="glyphicon glyphicon-download-alt"></span>
                     <span class="hidden-xs" data-translate="grainAdminApp.market.home.exportToHTML">
                         Create new Region
@@ -31,8 +31,7 @@
         </div>
     </div>
     <hr>
-    <div id="market" ng-bind-html="vm.marketTable">
-
+    <div id="market-table" ng-bind-html="vm.marketTable">
 <!--        <table border="0" width="700px" cellpadding="0" cellspacing="0"
                style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;">
             <tr style="font-size: 14px;">

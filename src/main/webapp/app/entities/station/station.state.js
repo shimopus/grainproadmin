@@ -126,6 +126,7 @@
                             return {
                                 name: null,
                                 code: null,
+                                coordinates: null,
                                 id: null
                             };
                         }

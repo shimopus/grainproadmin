@@ -14,10 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -64,7 +60,7 @@ public class StationService {
     public Page<StationDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Stations");
         Page<Station> result = stationRepository.findAll(pageable);
-        return result.map(station -> stationMapper.stationToStationDTO(station));
+        return result.map(stationMapper::stationToStationDTO);
     }
 
     /**
@@ -77,8 +73,7 @@ public class StationService {
     public StationDTO findOne(Long id) {
         log.debug("Request to get Station : {}", id);
         Station station = stationRepository.findOne(id);
-        StationDTO stationDTO = stationMapper.stationToStationDTO(station);
-        return stationDTO;
+        return stationMapper.stationToStationDTO(station);
     }
 
     /**
@@ -91,8 +86,7 @@ public class StationService {
     public StationDTO findOne(String code) {
         log.debug("Request to get Station : {}", code);
         Station station = stationRepository.findByCode(code);
-        StationDTO stationDTO = stationMapper.stationToStationDTO(station);
-        return stationDTO;
+        return stationMapper.stationToStationDTO(station);
     }
 
     /**
@@ -144,6 +138,6 @@ public class StationService {
         log.debug("My Query: " + myQuery);
 
         Page<Station> result = stationSearchRepository.search(myQuery, pageable);
-        return result.map(station -> stationMapper.stationToStationDTO(station));
+        return result.map(stationMapper::stationToStationDTO);
     }
 }

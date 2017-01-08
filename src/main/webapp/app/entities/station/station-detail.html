@@ -12,6 +12,7 @@
         <dd>
             <span>{{vm.station.code}}</span>
         </dd>
+        <dt><span data-translate="grainAdminApp.station.coordinates">Coordinates</span></dt>
         <dt><span data-translate="grainAdminApp.station.district">District</span></dt>
         <dd>
             <a ui-sref="district-detail({id:vm.station.districtId})">{{vm.station.districtName}}</a>
@@ -23,6 +24,9 @@
         <dt><span data-translate="grainAdminApp.station.locality">Locality</span></dt>
         <dd>
             <a ui-sref="locality-detail({id:vm.station.localityId})">{{vm.station.localityName}}</a>
+        </dd>
+        <dd>
+            <span>{{vm.station.coordinates}}</span>
         </dd>
     </dl>
 

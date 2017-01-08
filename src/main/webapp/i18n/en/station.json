@@ -18,6 +18,7 @@
             },
             "name": "Name",
             "code": "Code",
+            "coordinates": "Coordinates",
             "district": "District",
             "region": "Region",
             "locality": "Locality"

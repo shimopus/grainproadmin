@@ -33,6 +33,9 @@ public class Station implements Serializable {
     @Column(name = "code", nullable = false, unique = true)
     private String code;
 
+    @Column(name = "coordinates")
+    private String coordinates;
+
     @ManyToOne
     private District district;
 
@@ -74,6 +77,19 @@ public class Station implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public Station coordinates(String coordinates) {
+        this.coordinates = coordinates;
+        return this;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
     }
 
     public District getDistrict() {
@@ -141,6 +157,7 @@ public class Station implements Serializable {
             "id=" + id +
             ", name='" + name + "'" +
             ", code='" + code + "'" +
+            ", coordinates='" + coordinates + "'" +
             '}';
     }
 }

@@ -20,6 +20,8 @@ public class StationDTO implements Serializable {
     @NotNull
     private String code;
 
+    private String coordinates;
+
 
     private Long districtId;
     
@@ -56,6 +58,13 @@ public class StationDTO implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+    public String getCoordinates() {
+        return coordinates;
+    }
+
+    public void setCoordinates(String coordinates) {
+        this.coordinates = coordinates;
     }
 
     public Long getDistrictId() {
@@ -136,6 +145,7 @@ public class StationDTO implements Serializable {
             "id=" + id +
             ", name='" + name + "'" +
             ", code='" + code + "'" +
+            ", coordinates='" + coordinates + "'" +
             '}';
     }
 }

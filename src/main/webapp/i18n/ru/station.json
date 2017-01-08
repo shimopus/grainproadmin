@@ -16,11 +16,12 @@
             "detail": {
                 "title": "Station"
             },
-            "name": "Name",
-            "code": "Code",
-            "district": "District",
-            "region": "Region",
-            "locality": "Locality"
+            "name": "Название",
+            "code": "Код",
+            "coordinates": "Координаты",
+            "district": "Район",
+            "region": "Регион",
+            "locality": "Населенный пункт"
         }
     }
 }

@@ -48,6 +48,9 @@ public class StationResourceIntTest {
     private static final String DEFAULT_CODE = "AAAAA";
     private static final String UPDATED_CODE = "BBBBB";
 
+    private static final String DEFAULT_COORDINATES = "AAAAA";
+    private static final String UPDATED_COORDINATES = "BBBBB";
+
     @Inject
     private StationRepository stationRepository;
 
@@ -92,7 +95,8 @@ public class StationResourceIntTest {
     public static Station createEntity(EntityManager em) {
         Station station = new Station()
                 .name(DEFAULT_NAME)
-                .code(DEFAULT_CODE);
+                .code(DEFAULT_CODE)
+                .coordinates(DEFAULT_COORDINATES);
         return station;
     }
 
@@ -121,6 +125,7 @@ public class StationResourceIntTest {
         Station testStation = stations.get(stations.size() - 1);
         assertThat(testStation.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testStation.getCode()).isEqualTo(DEFAULT_CODE);
+        assertThat(testStation.getCoordinates()).isEqualTo(DEFAULT_COORDINATES);
 
         // Validate the Station in ElasticSearch
         Station stationEs = stationSearchRepository.findOne(testStation.getId());
@@ -177,7 +182,8 @@ public class StationResourceIntTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(station.getId().intValue())))
                 .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-                .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())));
+                .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
+                .andExpect(jsonPath("$.[*].coordinates").value(hasItem(DEFAULT_COORDINATES.toString())));
     }
 
     @Test
@@ -192,7 +198,8 @@ public class StationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(station.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()));
+            .andExpect(jsonPath("$.code").value(DEFAULT_CODE.toString()))
+            .andExpect(jsonPath("$.coordinates").value(DEFAULT_COORDINATES.toString()));
     }
 
     @Test
@@ -215,7 +222,8 @@ public class StationResourceIntTest {
         Station updatedStation = stationRepository.findOne(station.getId());
         updatedStation
                 .name(UPDATED_NAME)
-                .code(UPDATED_CODE);
+                .code(UPDATED_CODE)
+                .coordinates(UPDATED_COORDINATES);
         StationDTO stationDTO = stationMapper.stationToStationDTO(updatedStation);
 
         restStationMockMvc.perform(put("/api/stations")
@@ -229,6 +237,7 @@ public class StationResourceIntTest {
         Station testStation = stations.get(stations.size() - 1);
         assertThat(testStation.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testStation.getCode()).isEqualTo(UPDATED_CODE);
+        assertThat(testStation.getCoordinates()).isEqualTo(UPDATED_COORDINATES);
 
         // Validate the Station in ElasticSearch
         Station stationEs = stationSearchRepository.findOne(testStation.getId());
@@ -270,6 +279,7 @@ public class StationResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(station.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())));
+            .andExpect(jsonPath("$.[*].code").value(hasItem(DEFAULT_CODE.toString())))
+            .andExpect(jsonPath("$.[*].coordinates").value(hasItem(DEFAULT_COORDINATES.toString())));
     }
 }

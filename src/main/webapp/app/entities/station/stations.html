@@ -41,6 +41,7 @@
                     <th jh-sort-by="districtName"><span data-translate="grainAdminApp.station.district">District</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="regionName"><span data-translate="grainAdminApp.station.region">Region</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="localityName"><span data-translate="grainAdminApp.station.locality">Locality</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="coordinates"><span data-translate="grainAdminApp.station.coordinates">Coordinates</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -58,6 +59,7 @@
                     <td>
                         <a ui-sref="locality-detail({id:station.localityId})">{{station.localityName}}</a>
                     </td>
+                    <td>{{station.coordinates}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

@@ -34,11 +34,15 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "coordinates",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20161018221025",
-    "entityTableName": "station",
     "dto": "mapstruct",
-    "pagination": "pagination",
-    "service": "serviceClass"
+    "service": "serviceClass",
+    "entityTableName": "station",
+    "pagination": "pagination"
 }

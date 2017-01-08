@@ -1,46 +1,20 @@
-<div>
-    <h2 data-translate="grainAdminApp.market.home.title">Market</h2>
-    <jhi-alert></jhi-alert>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-4 no-padding-left">
-                <ui-select ng-model="vm.station" on-select="vm.onSelectStation()" name="station" id="station">
-                    <ui-select-match allow-clear placeholder="Please select target station">
-                        {{$select.selected.name}}
-                    </ui-select-match>
-                    <ui-select-choices
-                        repeat="station as station in vm.stations"
-                        refresh="vm.refreshStationSuggestions($select.search)"
-                        refresh-delay="200">
-                        <div ng-bind-html="station.name | highlight: $select.search"></div>
-                        <small>
-                            <span ng-bind-html="''+ station.code | highlight: $select.search"></span>
-                            {{station.districtName}}, {{station.regionName}}
-                        </small>
-                    </ui-select-choices>
-                </ui-select>
-            </div>
-            <div class="col-xs-8 no-padding-right">
-                <button class="btn btn-primary" ng-click="vm.exportToHTML()">
-                    <span class="glyphicon glyphicon-download-alt"></span>
-                    <span class="hidden-xs" data-translate="grainAdminApp.market.home.exportToHTML">
-                        Create new Region
-                    </span>
-                </button>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <div id="market" ng-bind-html="vm.marketTable">
+{namespace tables}
 
-<!--        <table border="0" width="700px" cellpadding="0" cellspacing="0"
-               style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;">
-            <tr style="font-size: 14px;">
-                <td>ПШЕНИЦА. Предложение на {{vm.currentDate | date:'dd.MM.yy'}} {{vm.station ? "ст." : ""}} {{vm.station.name}}</td>
-            </tr>
-        </table>
-        <table width="100%" style="overflow: scroll;"
-               ng-repeat="(qualityClass, bids) in vm.bids">
+/**
+ * Создает таблицу со всеми заявками для рассылки
+ * @param currentDate Текущая дата
+ * @param station Станция для расчета цены. Может быть null.
+ * @param bids Список заявок для отображения.
+ */
+{template .market_table}
+
+{call .title}
+  {param currentDate: $currentDate /}
+  {param station: $station /}
+{/call}
+
+{foreach $quality in keys($bids)}
+        <table width="100%" style="overflow: scroll;">
             <tr>
                 <td>
                     <table border="0" width="700px" cellpadding="0" cellspacing="0"
@@ -54,18 +28,20 @@
                         <col width="128px">
 
                         <tr style="height: 23px; font-size: 11px; color: white; background-color: #94aa72;">
-                            <td style="padding-left: 10px;" data-translate="grainAdminApp.bid.elevator">Размещение</td>
-                            <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                data-translate="grainAdminApp.bid.agent">Агент
+                            <td style="padding-left: 10px;"
+                                /*data-translate="grainAdminApp.bid.elevator"*/>Размещение
                             </td>
                             <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                data-translate="grainAdminApp.bid.qualityParameters">Качество
+                                /*data-translate="grainAdminApp.bid.agent"*/>Агент
                             </td>
                             <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                data-translate="grainAdminApp.bid.volume">Объем, т
+                                /*data-translate="grainAdminApp.bid.qualityParameters"*/>Качество
                             </td>
                             <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                data-translate="grainAdminApp.bid.price">Цена р/т
+                                /*data-translate="grainAdminApp.bid.volume"*/>Объем, т
+                            </td>
+                            <td style="padding-left: 10px; -webkit-text-size-adjust:none"
+                                /*data-translate="grainAdminApp.bid.price"*/>Цена р/т
                             </td>
                             <td></td>
                             <td style="padding-left: 8px; padding-right: 8px; -webkit-text-size-adjust:none"></td>
@@ -73,11 +49,12 @@
                     </table>
                 </td>
             </tr>
-            <tr ng-repeat="bid in bids track by bid.id">
+            {foreach $bid in $bids[$quality]}
+            <tr>
                 <td>
                     <table border="0" width="700px" cellpadding="0" cellspacing="0"
-                           style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;"
-                           ng-style="{'background-color': ($index % 2 !== 0 ? '#edf2e9' : '#f4f4f4')}">
+                           style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;
+                           background-color: {index($bid) % 2 != 0 ? '#edf2e9' : '#f4f4f4'}">
                         <col width="146px">
                         <col width="122px">
                         <col width="139px">
@@ -86,93 +63,113 @@
                         <col width="44px">
                         <col width="128px">
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
-                            <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none"
-                                ng-init="elevator = bid.elevator">
+                            <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
+
+                        {let $elevator : $bid.elevator /}
+
                         <span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                            <strong>{{vm.splitFirstLetter(elevator.districtName)[0]}}</strong>{{vm.splitFirstLetter(elevator.districtName)[1]}}
+                            <strong>{strSub($elevator.districtName, 0, 1)}</strong>{strSub($elevator.districtName, 1)}
                         </span>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                <a style="color: #315597; -webkit-text-size-adjust:none" ng-click="vm.showCardDialog({
+                                <a style="color: #315597; -webkit-text-size-adjust:none" /*ng-click="vm.showCardDialog({
                             name: bid.agentName,
                             card: bid.agentCard,
                             organisationType: {
                                 type: bid.agentOrganisationType
                             }
-                        })">
-                                    {{bid.agentName + " " + bid.agentOrganisationType}}
+                        })"*/
+                                    href="http://localhost:8000/#/market/{$bid.agentId}/card">
+                                    {$bid.agentName} {$bid.agentOrganisationType}
                                 </a>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                <a ui-sref="market.quality-passport({bidId: bid.id})" style="color: #315597">карта анализа</a>
+                                <a style="color: #315597"
+                                    href="http://localhost:8000/#/market/{$bid.id}/carousel">карта анализа</a>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {{bid.volume}}
+                                {$bid.volume}
                             </td>
                             <td style="padding-left: 10px; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                <span ng-if="vm.station.code && bid.transportationPricePrice">{{vm.getCPTPrice(bid)}}</span>
-                                <span ng-if="!vm.station.code">{{vm.getFCAPrice(bid)}}</span>
+                                {if $bid.cptPrice != null}
+                                    {$bid.cptPrice}
+                                {elseif $station == null}
+                                    {$bid.fcaPrice}
+                                {/if}
                             </td>
                             <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                         <span style="display: block; font-size: 10px; line-height: 17px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                              data-translate="{{'grainAdminApp.NDS.' + bid.nds}}">
-                            {{bid.nds}}
+                              /*data-translate="{{'grainAdminApp.NDS.' + bid.nds}}"*/>
+                            {call .nds}
+                                {param nds: $bid.nds /}
+                            {/call}
                         </span>
                             </td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                <span style="font-size: 10px; -webkit-text-size-adjust:none" ng-if="vm.station.code && bid.transportationPricePrice">СРТ с доставкой ж/д до</span>
-                                <span style="font-size: 10px; -webkit-text-size-adjust:none" ng-if="!vm.station.code">FCA с погрузкой ж/д на</span>
+                                {if $bid.cptPrice != null}
+                                    СРТ с доставкой ж/д до
+                                {elseif $station == null}
+                                    FCA с погрузкой ж/д на
+                                {/if}
                             </td>
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                {{elevator.regionName}}
+                                {$elevator.regionName}
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                         <span style="font-size: 10px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                            тел: {{bid.agentContactPhone}}
+                            тел: {$bid.agentContactPhone}
                         </span>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                         <span style="font-size: 11px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                              data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}">
-                            {{bid.qualityClass}}
+                              /*data-translate="{{'grainAdminApp.QualityClass.' + bid.qualityClass}}"*/>
+                            {call .qualityClass}
+                                {param qualityClass: $bid.qualityClass /}
+                            {/call}
                         </span>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                        <span style="font-size: 10px; -webkit-text-size-adjust:none" ng-if="vm.station.code && bid.transportationPricePrice">
-                            ст. {{vm.station.name}}
-                        </span>
-                                <span style="font-size: 10px; -webkit-text-size-adjust:none" ng-if="!vm.station.code">
-                            ст. {{bid.elevator.stationName}}
+                        <span style="font-size: 10px; -webkit-text-size-adjust:none">
+                            {if $bid.cptPrice != null}
+                                ст. {$station.name}
+                            {elseif $station == null}
+                                ст. {$elevator.stationName}
+                            {/if}
                         </span>
                             </td>
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                ст. {{elevator.stationName}}
+                                ст. {$elevator.stationName}
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                <a href="mailto:{{bid.agentContactEmail}}" style="font-size: 10px; -webkit-text-size-adjust:none; color: #000000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                    {{bid.agentContactEmail}}
+                                <a href="mailto:{$bid.agentContactEmail}" style="font-size: 10px; -webkit-text-size-adjust:none; color: #000000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {$bid.agentContactEmail}
                                 </a>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 <table border="0" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial; font-size: 12px;">
                                     <col width="93px">
                                     <col width="35px">
-                                    <tr ng-init="qualityParameter0 = bid.qualityParameters[0]">
-                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter0.qualityParameterName}}</td>
-                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter0.value}}{{qualityParameter0.qualityParameterUnit}}</td>
+                                    <tr>
+                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[0]?.qualityParameterName) ? $bid.qualityParameters[0].qualityParameterName : ''}
+                                        </td>
+                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[0]?.value) ? $bid.qualityParameters[0].value : ''}
+                                            {isNonnull($bid.qualityParameters[0]?.qualityParameterUnit) ? $bid.qualityParameters[0].qualityParameterUnit : ''}
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {{bid.price}}
+                                {$bid.price}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
@@ -181,7 +178,7 @@
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                {{elevator.stationCode}}
+                                {$elevator.stationCode}
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                             </td>
@@ -189,15 +186,20 @@
                                 <table border="0" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial; font-size: 12px;">
                                     <col width="93px">
                                     <col width="35px">
-                                    <tr ng-init="qualityParameter1 = bid.qualityParameters[1]">
-                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter1.qualityParameterName}}</td>
-                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter1.value}}{{qualityParameter1.qualityParameterUnit}}</td>
+                                    <tr>
+                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[1]?.qualityParameterName) ? $bid.qualityParameters[1].qualityParameterName : ''}
+                                        </td>
+                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[1]?.value) ? $bid.qualityParameters[1].value : ''}
+                                            {isNonnull($bid.qualityParameters[1]?.qualityParameterUnit) ? $bid.qualityParameters[1].qualityParameterUnit : ''}
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {{bid.elevator.servicePrices[0].price}}
+                                {$bid.elevator.servicePrices[0].price}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
@@ -206,8 +208,9 @@
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                <a style="color: #315597" ng-click="vm.showCardDialog(elevator)">
-                                    {{elevator.name + " " + elevator.organisationType.type}}
+                                <a style="color: #315597"
+                                    href="http://localhost:8000/#/market/{$elevator.id}/card">
+                                    {$elevator.name} {$elevator.organisationTypeType}
                                 </a>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
@@ -216,24 +219,30 @@
                                 <table border="0" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial; font-size: 12px;">
                                     <col width="93px">
                                     <col width="35px">
-                                    <tr ng-init="qualityParameter2 = bid.qualityParameters[2]">
-                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter2.qualityParameterName}}</td>
-                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter2.value}}{{qualityParameter2.qualityParameterUnit}}</td>
+                                    <tr>
+                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[2]?.qualityParameterName) ? $bid.qualityParameters[2].qualityParameterName : ''}
+                                        </td>
+                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[2]?.value) ? $bid.qualityParameters[2].value : ''}
+                                            {isNonnull($bid.qualityParameters[2]?.qualityParameterUnit) ? $bid.qualityParameters[2].qualityParameterUnit : ''}
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                        <span ng-if="bid.transportationPricePrice">
-                            {{bid.transportationPricePrice}}
-                        </span>
+                                {if $bid.transportationPricePrice}
+                                    {$bid.transportationPricePrice}
+                                {/if}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                        <span style="font-size: 10px; -webkit-text-size-adjust:none"
-                              ng-if="vm.station.code && bid.transportationPricePrice">
-                            доставка ж/д (Русагротранс)
-                        </span>
+                                <span style="font-size: 10px; -webkit-text-size-adjust:none">
+                                    {if $station}
+                                        доставка ж/д (Русагротранс)
+                                    {/if}
+                                </span>
                             </td>
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top; border-bottom: 3px solid #ffffff;">
@@ -246,8 +255,13 @@
                                     <col width="93px">
                                     <col width="35px">
                                     <tr ng-init="qualityParameter3 = bid.qualityParameters[3]">
-                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter3.qualityParameterName}}</td>
-                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{qualityParameter3.value}}{{qualityParameter3.qualityParameterUnit}}</td>
+                                        <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[3]?.qualityParameterName) ? $bid.qualityParameters[3].qualityParameterName : ''}
+                                        </td>
+                                        <td style="text-align: right; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {isNonnull($bid.qualityParameters[3]?.value) ? $bid.qualityParameters[3].value : ''}
+                                            {isNonnull($bid.qualityParameters[3]?.qualityParameterUnit) ? $bid.qualityParameters[3].qualityParameterUnit : ''}
+                                        </td>
                                     </tr>
                                 </table>
                             </td>
@@ -261,6 +275,70 @@
                     </table>
                 </td>
             </tr>
-        </table>-->
-    </div>
-</div>
+            {/foreach}
+        </table>
+{/foreach}
+
+{/template}
+
+/**
+ * Заголовок таблицы с указанием даты создания и станции расчета
+ * @param currentDate Текущая дата
+ * @param station Станция для расчета цены. Может быть null.
+ */
+{template .title}
+<table border="0" width="700px" cellpadding="0" cellspacing="0"
+       style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;">
+    <tr style="font-size: 14px;">
+        <td>ПШЕНИЦА. Предложение на {$currentDate} {$station != null ? 'ст.' + $station.name : ''}</td>
+    </tr>
+</table>
+{/template}
+
+/**
+ * Перевод NDS значений
+ * @param nds Текущая дата
+ */
+{template .nds}
+    {switch $nds}
+      {case 'INCLUDED'}
+        с НДС
+      {case 'EXCLUDED'}
+        без НДС
+      {case 'BOTH'}
+        c НДС + без НДС
+      {default}
+    {/switch}
+{/template}
+
+/**
+ * Перевод QualityClass значений
+ * @param qualityClass Текущая дата
+ */
+{template .qualityClass}
+    {switch $qualityClass}
+      {case 'BKL'}
+        ГОСТ Р 52554-2006 б/кл
+      {case 'ONE'}
+        ГОСТ Р 52554-2006 1кл
+      {case 'TWO'}
+        ГОСТ Р 52554-2006 2кл
+      {case 'THREE'}
+        ГОСТ Р 52554-2006 3кл
+      {case 'FOUR'}
+        ГОСТ Р 52554-2006 4кл
+      {case 'FIVE'}
+        ГОСТ Р 52554-2006 5кл
+      {case 'SIX'}
+        ГОСТ Р 54078-2010 б/кл
+      {case 'SEVEN'}
+        ГОСТ Р 54078-2010 1кл
+      {case 'EIGHT'}
+        ГОСТ Р 54078-2010 2кл
+      {case 'NINE'}
+        ГОСТ Р 54078-2010 3кл
+      {case 'TEN'}
+        TEN
+      {default}
+    {/switch}
+{/template}

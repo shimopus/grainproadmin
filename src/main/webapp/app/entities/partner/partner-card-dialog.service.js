@@ -14,7 +14,7 @@
         return service;
 
         function showDialog(partner) {
-            $uibModal.open({
+            return $uibModal.open({
                 templateUrl: 'app/entities/partner/partner-card-dialog.html',
                 controller: 'PartnerCardDialogController',
                 controllerAs: 'vm',

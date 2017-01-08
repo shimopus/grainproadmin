@@ -5,13 +5,11 @@
         .module('grainAdminApp')
         .controller('MarketController', MarketController);
 
-    MarketController.$inject = ['$scope', '$state', 'bids', 'StationSearch', 'Market', 'PartnerCard', "$uibModal"];
+    MarketController.$inject = ['$scope', '$state', 'StationSearch', 'PartnerCard', "$uibModal", "$http", "$sce"];
 
-    function MarketController ($scope, $state, bids, StationSearch, Market, PartnerCard, $uibModal) {
+    function MarketController ($scope, $state, StationSearch, PartnerCard, $uibModal, $http, $sce) {
+        var LOADING_STR = "Загрузка...";
         var vm = this;
-        vm.bids = bids;
-        vm.getFCAPrice = getFCAPrice;
-        vm.getCPTPrice = getCPTPrice;
         vm.refreshStationSuggestions = refreshStationSuggestions;
         vm.stations = [];
         vm.station = null;
@@ -20,39 +18,8 @@
         vm.splitFirstLetter = splitFirstLetter;
         vm.currentDate = new Date();
         vm.exportToHTML = exportToHTML;
-
-        function getFCAPrice(bid) {
-            var price = parseFloat(bid.price);
-            if (!bid.elevator.servicePrices) {
-                console.error("Service price for elevator %o is unavailable!! ", bid.elevator);
-                return 0;
-            }
-
-            var loadPrice = parseFloat(bid.elevator.servicePrices[0].price);
-
-            var result = 0;
-
-            if (price) {
-                result += price;
-            }
-
-            if (loadPrice) {
-                result += loadPrice;
-            }
-
-            return result;
-        }
-
-        function getCPTPrice(bid) {
-            var result = getFCAPrice(bid);
-            var transpPrice = parseFloat(bid.transportationPricePrice);
-
-            if (transpPrice) {
-                result += transpPrice;
-            }
-
-            return result;
-        }
+        vm.marketTable = LOADING_STR;
+        loadTableData();
 
         function refreshStationSuggestions(term) {
             if (term) {
@@ -63,9 +30,11 @@
 
         function onSelectStation() {
             if (vm.station && vm.station.code) {
-                vm.bids = Market.query({code: vm.station.code});
+                vm.marketTable = LOADING_STR;
+                loadTableData(vm.station.code);
             } else {
-                vm.bids = Market.query();
+                vm.marketTable = LOADING_STR;
+                loadTableData();
             }
         }
 
@@ -79,6 +48,18 @@
                 str.substring(0, 1),
                 str.substring(1, str.length)
             ]
+        }
+
+        function loadTableData(code) {
+            return $http(
+                {
+                    url: '/pages/market-table',
+                    method: "GET",
+                    params: {'code': code}
+                }
+            ).then(function(response) {
+                vm.marketTable = $sce.trustAsHtml(response.data);
+            });
         }
 
         function exportToHTML() {

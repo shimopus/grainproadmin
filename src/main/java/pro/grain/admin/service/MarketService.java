@@ -3,6 +3,7 @@ package pro.grain.admin.service;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.tofu.SoyTofu;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -17,6 +18,7 @@ import pro.grain.admin.web.utils.SoyTemplatesUtils;
 import javax.inject.Inject;
 import javax.xml.crypto.KeySelectorException;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,8 +40,8 @@ public class MarketService {
         this.stationService = stationService;
 
         try {
-            File marketTableFile = new ClassPathResource("templates/tables/market-table.soy").getFile();
-            File marketTableDownloadFile = new ClassPathResource("templates/tables/market-table-download.soy").getFile();
+            File marketTableFile = getFileFromResources("templates/tables/market-table.soy");
+            File marketTableDownloadFile = getFileFromResources("templates/tables/market-table-download.soy");
 
             // Bundle the Soy files for your project into a SoyFileSet.
             SoyFileSet sfs = SoyFileSet.builder()
@@ -125,6 +127,14 @@ public class MarketService {
         }
 
         return newStation.getCode();
+    }
+
+    private File getFileFromResources(String path) throws IOException {
+        File tempFile = File.createTempFile("tmp", null);
+        tempFile.deleteOnExit();
+        FileOutputStream out = new FileOutputStream(tempFile);
+        IOUtils.copy(new ClassPathResource(path).getInputStream(), out);
+        return tempFile;
     }
 
 }

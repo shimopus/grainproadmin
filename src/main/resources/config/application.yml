@@ -56,7 +56,17 @@ spring:
             clientSecret: xxx
 
         # jhipster-needle-add-social-configuration
-
+    mail:
+        host: smtp.yandex.ru
+        port: 465
+        username: admin@grain.pro
+        password: 148490GrainPROAdmin?
+        protocol: smtp
+        tls: true
+        properties.mail.smtp:
+            auth: true
+            starttls.enable: true
+            ssl.trust: smtp.yandex.ru
 security:
     basic:
         enabled: false

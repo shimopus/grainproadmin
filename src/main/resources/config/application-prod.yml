@@ -43,11 +43,6 @@ spring:
                 path:
                     logs: /tmp/elasticsearch/log
                     data: /tmp/elasticsearch/data
-    mail:
-        host: localhost
-        port: 25
-        username:
-        password:
     thymeleaf:
         cache: true
 

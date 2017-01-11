@@ -164,6 +164,7 @@ public class JHipsterProperties {
     public static class Mail {
 
         private String from = "grainAdmin@localhost";
+        private String personal = "admin";
 
         public String getFrom() {
             return from;
@@ -171,6 +172,14 @@ public class JHipsterProperties {
 
         public void setFrom(String from) {
             this.from = from;
+        }
+
+        public String getPersonal() {
+            return personal;
+        }
+
+        public void setPersonal(String personal) {
+            this.personal = personal;
         }
     }
 

@@ -67,7 +67,7 @@ public class SocialServiceIntTest {
         ReflectionTestUtils.setField(socialService, "usersConnectionRepository", mockUsersConnectionRepository);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testDeleteUserSocialConnection() throws Exception {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -129,7 +129,7 @@ public class SocialServiceIntTest {
         }
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldCreateUserIfNotExist() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -149,7 +149,7 @@ public class SocialServiceIntTest {
         userRepository.delete(user.get());
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldCreateUserWithSocialInformation() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -170,7 +170,7 @@ public class SocialServiceIntTest {
         userRepository.delete(user);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldCreateActivatedUserWithRoleUserAndPassword() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -193,7 +193,7 @@ public class SocialServiceIntTest {
         userRepository.delete(user);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldCreateUserWithExactLangKey() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -213,7 +213,7 @@ public class SocialServiceIntTest {
         userRepository.delete(user);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldCreateUserWithLoginSameAsEmailIfNotTwitter() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -233,7 +233,7 @@ public class SocialServiceIntTest {
         userRepository.delete(user);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldCreateUserWithSocialLoginWhenIsTwitter() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -253,7 +253,7 @@ public class SocialServiceIntTest {
         userRepository.delete(user);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldCreateSocialConnection() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",
@@ -324,7 +324,7 @@ public class SocialServiceIntTest {
         userRepository.delete(userToVerify);
     }
 
-    @Test
+    @Test(expected = IllegalArgumentException.class) //block new user registration
     public void testCreateSocialUserShouldSendRegistrationValidationEmail() {
         // Setup
         Connection<?> connection = createConnection("@LOGIN",

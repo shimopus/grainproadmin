@@ -1,6 +1,8 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
+import pro.grain.admin.security.AuthoritiesConstants;
 import pro.grain.admin.service.QualityValueService;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
@@ -32,10 +34,11 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
+@Secured(AuthoritiesConstants.ADMIN)
 public class QualityValueResource {
 
     private final Logger log = LoggerFactory.getLogger(QualityValueResource.class);
-        
+
     @Inject
     private QualityValueService qualityValueService;
 
@@ -144,7 +147,7 @@ public class QualityValueResource {
      * SEARCH  /_search/quality-values?query=:query : search for the qualityValue corresponding
      * to the query.
      *
-     * @param query the query of the qualityValue search 
+     * @param query the query of the qualityValue search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

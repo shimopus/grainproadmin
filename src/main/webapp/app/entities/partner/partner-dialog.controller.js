@@ -6,12 +6,12 @@
         .controller('PartnerDialogController', PartnerDialogController);
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
-        'OrganisationType', 'RegionSearch', 'LocalitySearch', 'StationSearch', 'DistrictSearch', 'Contact', 'ServiceType'
+        'OrganisationType', 'RegionSearch', 'LocalitySearch', 'StationSearch', 'DistrictSearch', 'ServiceType'
     ];
 
     function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
                                      OrganisationType, RegionSearch, LocalitySearch, StationSearch, DistrictSearch,
-                                     Contact, ServiceType) {
+                                     ServiceType) {
         var vm = this;
 
         vm.partner = entity;
@@ -52,7 +52,6 @@
         vm.districts = [];
         vm.regions = [];
         vm.localities = [];
-        vm.contacts = Contact.query();
         vm.stations = [];
         vm.servicePriceTypes = ServiceType.query();
 

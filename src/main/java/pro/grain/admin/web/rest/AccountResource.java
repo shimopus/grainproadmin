@@ -2,10 +2,12 @@ package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
+import org.springframework.security.access.annotation.Secured;
 import pro.grain.admin.domain.PersistentToken;
 import pro.grain.admin.domain.User;
 import pro.grain.admin.repository.PersistentTokenRepository;
 import pro.grain.admin.repository.UserRepository;
+import pro.grain.admin.security.AuthoritiesConstants;
 import pro.grain.admin.security.SecurityUtils;
 import pro.grain.admin.service.MailService;
 import pro.grain.admin.service.UserService;
@@ -186,6 +188,7 @@ public class AccountResource {
     @RequestMapping(value = "/account/sessions",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured(AuthoritiesConstants.ADMIN)
     @Timed
     public ResponseEntity<List<PersistentToken>> getCurrentSessions() {
         return userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin())
@@ -213,6 +216,7 @@ public class AccountResource {
      */
     @RequestMapping(value = "/account/sessions/{series}",
         method = RequestMethod.DELETE)
+    @Secured(AuthoritiesConstants.ADMIN)
     @Timed
     public void invalidateSession(@PathVariable String series) throws UnsupportedEncodingException {
         String decodedSeries = URLDecoder.decode(series, "UTF-8");

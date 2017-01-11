@@ -1,6 +1,8 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
+import pro.grain.admin.security.AuthoritiesConstants;
 import pro.grain.admin.service.BidService;
 import pro.grain.admin.service.dto.BidFullDTO;
 import pro.grain.admin.web.rest.util.HeaderUtil;
@@ -146,6 +148,7 @@ public class BidResource {
     @RequestMapping(value = "/bids/{id}",
         method = RequestMethod.DELETE,
         produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured(AuthoritiesConstants.ADMIN)
     @Timed
     public ResponseEntity<Void> deleteBid(@PathVariable Long id) {
         log.debug("REST request to delete Bid : {}", id);
@@ -165,6 +168,7 @@ public class BidResource {
     @RequestMapping(value = "/_search/bids",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured(AuthoritiesConstants.ADMIN)
     @Timed
     public ResponseEntity<List<BidDTO>> searchBids(@RequestParam String query, Pageable pageable)
         throws URISyntaxException {

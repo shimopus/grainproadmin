@@ -28,7 +28,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class EmailService {
 
     private final Logger log = LoggerFactory.getLogger(EmailService.class);
-    
+
     @Inject
     private EmailRepository emailRepository;
 
@@ -55,11 +55,11 @@ public class EmailService {
 
     /**
      *  Get all the emails.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<EmailDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Emails");
         Page<Email> result = emailRepository.findAll(pageable);
@@ -72,7 +72,7 @@ public class EmailService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public EmailDTO findOne(Long id) {
         log.debug("Request to get Email : {}", id);
         Email email = emailRepository.findOne(id);
@@ -100,7 +100,7 @@ public class EmailService {
     @Transactional(readOnly = true)
     public Page<EmailDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Emails for query {}", query);
-        Page<Email> result = emailSearchRepository.search(queryStringQuery(query), pageable);
+        Page<Email> result = emailSearchRepository.search(termQuery("email", query), pageable);
         return result.map(email -> emailMapper.emailToEmailDTO(email));
     }
 }

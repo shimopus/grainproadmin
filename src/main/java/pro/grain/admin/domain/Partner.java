@@ -3,7 +3,7 @@ package pro.grain.admin.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -13,8 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import pro.grain.admin.domain.enumeration.NDS;
 
 /**
@@ -24,6 +22,7 @@ import pro.grain.admin.domain.enumeration.NDS;
 @Table(name = "partner")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "partner")
+@Setting(settingPath = "/config/elasticsearch/setting/contact.json")
 public class Partner implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -90,7 +89,7 @@ public class Partner implements Serializable {
     @JoinTable(name = "partner_contacts",
                joinColumns = @JoinColumn(name="partners_id", referencedColumnName="ID"),
                inverseJoinColumns = @JoinColumn(name="contacts_id", referencedColumnName="ID"))
-    @Field( type = FieldType.Nested)
+    @Field(type = FieldType.Nested)
     private Set<Contact> contacts = new HashSet<>();
 
     @ManyToMany(cascade = CascadeType.ALL)

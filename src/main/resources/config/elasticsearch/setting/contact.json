@@ -1,0 +1,90 @@
+{
+    "index": {
+        "number_of_shards": "1",
+        "number_of_replicas": "0",
+        "analysis": {
+            "filter": {
+                "email": {
+                    "type": "pattern_capture",
+                    "preserve_original": 1,
+                    "patterns": [
+                        "([^@]+)",
+                        "(\\p{L}+)",
+                        "(\\d+)",
+                        "@(.+)",
+                        "([^-@]+)"
+                    ]
+                },
+                "phone-capture": {
+                    "type": "pattern_capture",
+                    "preserve_original": 1,
+                    "patterns": [
+                        "(\\+\\d\\((\\d{3}\\)\\s(\\d{3}-(\\d{4}))))"
+                    ]
+                },
+                "phone-replace-minus": {
+                    "type": "pattern_replace",
+                    "pattern": "(\\d+)-(?=\\d)",
+                    "replacement": "$1"
+                },
+                "phone-replace-parentheses": {
+                    "type": "pattern_replace",
+                    "pattern": "\\((\\d{3})\\)\\s",
+                    "replacement": "$1"
+                },
+                "phone-replace-plus-seven": {
+                    "type": "pattern_replace",
+                    "pattern": "\\+7([^\\(]\\d+)",
+                    "replacement": "8$1"
+                },
+                "phone-replace-mistic": {
+                    "type": "pattern_replace",
+                    "pattern": "(\\d+\\))",
+                    "replacement": "+7($1"
+                }
+
+            },
+            "analyzer": {
+                "email": {
+                    "tokenizer": "uax_url_email",
+                    "filter": [
+                        "email",
+                        "lowercase",
+                        "unique"
+                    ]
+                },
+                "phone": {
+                    "tokenizer": "keyword",
+                    "filter": [
+                        "phone-capture",
+                        "phone-replace-minus",
+                        "phone-replace-parentheses",
+                        "phone-replace-plus-seven",
+                        "phone-replace-mistic"
+                    ]
+                }
+            },
+            "tokenizer": {
+                "phone_tokenizer": {
+                    "type": "ngram",
+                    "min_gram": 3,
+                    "max_gram": 11,
+                    "token_chars": [
+                        "digit"
+                    ]
+                }
+            },
+            "char_filter": {
+                "phone_char_filter": {
+                    "type": "mapping",
+                    "mappings": [
+                        "+7 => ",
+                        "( => ",
+                        ") => ",
+                        "- => "
+                    ]
+                }
+            }
+        }
+    }
+}

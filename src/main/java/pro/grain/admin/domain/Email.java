@@ -3,6 +3,9 @@ package pro.grain.admin.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -16,16 +19,19 @@ import java.util.Objects;
 @Table(name = "email")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "email")
+@Setting(settingPath = "/config/elasticsearch/setting/contact.json")
 public class Email implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Field(type = FieldType.Long)
     private Long id;
 
     @NotNull
     @Column(name = "email", nullable = false, unique = true)
+    @Field(type = FieldType.String, analyzer = "email")
     private String email;
 
     public Long getId() {

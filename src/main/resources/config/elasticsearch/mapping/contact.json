@@ -1,0 +1,15 @@
+{
+    "contact-type": {
+        "properties": {
+            "phone": {
+                "type": "string",
+                "analyzer": "phone",
+                "term_vector": "with_positions_offsets_payloads",
+                "store": true
+            },
+            "email": {
+                "type": "nested"
+            }
+        }
+    }
+}

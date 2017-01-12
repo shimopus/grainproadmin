@@ -126,12 +126,20 @@ public class PartnerService {
                 .should(
                     queryStringQuery("*" + query + "*").analyzeWildcard(true)
                         .field("contacts.personName")
-                        .field("contacts.phone")
                         .field("contacts.skype"))
+                .should(
+                    nestedQuery(
+                        "contacts.email",
+                        termQuery("contacts.email.email", query)
+                    )
+                )
+                .should(
+                    termQuery("contacts.phone", query)
+                )
         );
 
-        QueryBuilder myQuery = boolQuery().should(queryStringQuery("*" + query + "*").analyzeWildcard(true).field("name").field("inn").field("card"))
-            .should(nestedQuery);
+        QueryBuilder myQuery = boolQuery().should(queryStringQuery("*" + query + "*").analyzeWildcard(true).field("name").field("inn").field("card")).
+            should(nestedQuery);
 
         log.debug("My Query: " + myQuery);
 

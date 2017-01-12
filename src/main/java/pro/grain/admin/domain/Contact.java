@@ -2,7 +2,7 @@ package pro.grain.admin.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -15,7 +15,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "contact")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-@Document(indexName = "contact")
+@Document(indexName = "contact", type = "contact-type")
+@Setting(settingPath = "/config/elasticsearch/setting/contact.json")
+//@Mapping(mappingPath = "/config/elasticsearch/mapping/contact.json")
 public class Contact implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,6 +34,7 @@ public class Contact implements Serializable {
     private String status;
 
     @Column(name = "phone")
+    @Field(type = FieldType.String, analyzer = "phone")
     private String phone;
 
     @Column(name = "skype")
@@ -39,6 +42,7 @@ public class Contact implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
+    @Field(type = FieldType.Nested)
     private Email email;
 
     public Long getId() {

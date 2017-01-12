@@ -43,6 +43,18 @@ public class ElasticSearchIndexRegenerateService {
     @Autowired
     private LocalitySearchRepository localitySearchRepository;
 
+    @Autowired
+    private EmailRepository emailRepository;
+
+    @Autowired
+    private EmailSearchRepository emailSearchRepository;
+
+    @Autowired
+    private ContactRepository contactRepository;
+
+    @Autowired
+    private ContactSearchRepository contactSearchRepository;
+
     @Inject
     public ElasticSearchIndexRegenerateService(StationSearchRepository stationSearchRepository, StationRepository stationRepository, PartnerRepository partnerRepository, PartnerSearchRepository partnerSearchRepository) {
         this.stationSearchRepository = stationSearchRepository;
@@ -97,6 +109,26 @@ public class ElasticSearchIndexRegenerateService {
 
         if (localities != null) {
             this.localitySearchRepository.save(localities);
+        }
+    }
+
+    public void resetEmails() {
+        log.debug("Request to reset Emails index in Elastic");
+
+        List<Email> emails = this.emailRepository.findAll();
+
+        if (emails != null) {
+            this.emailSearchRepository.save(emails);
+        }
+    }
+
+    public void resetContacts() {
+        log.debug("Request to reset Contacts index in Elastic");
+
+        List<Contact> contacts = this.contactRepository.findAll();
+
+        if (contacts != null) {
+            this.contactSearchRepository.save(contacts);
         }
     }
 }

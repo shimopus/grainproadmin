@@ -28,6 +28,8 @@ public class ElasticResource {
         elasticSearchIndexRegenerateService.resetRegions();
         elasticSearchIndexRegenerateService.resetDistricts();
         elasticSearchIndexRegenerateService.resetLocalities();
+        elasticSearchIndexRegenerateService.resetEmails();
+        elasticSearchIndexRegenerateService.resetContacts();
         return new ResponseEntity<>("{\"status\": \"Ok\"}", HttpStatus.OK);
     }
 }

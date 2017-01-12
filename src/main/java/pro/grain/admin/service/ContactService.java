@@ -1,5 +1,6 @@
 package pro.grain.admin.service;
 
+import org.elasticsearch.index.query.QueryBuilder;
 import pro.grain.admin.domain.Contact;
 import pro.grain.admin.domain.Partner;
 import pro.grain.admin.repository.ContactRepository;
@@ -113,7 +114,12 @@ public class ContactService {
     @Transactional(readOnly = true)
     public Page<ContactDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Contacts for query {}", query);
-        Page<Contact> result = contactSearchRepository.search(queryStringQuery(query), pageable);
+
+        QueryBuilder myQuery = boolQuery().should(queryStringQuery("*" + query + "*").analyzeWildcard(true).field("personName").field("skype"))
+            .should(termQuery("phone", query))
+            .should(nestedQuery("email", termQuery("email.email", query)));
+
+        Page<Contact> result = contactSearchRepository.search(myQuery, pageable);
         return result.map(contact -> contactMapper.contactToContactDTO(contact));
     }
 }

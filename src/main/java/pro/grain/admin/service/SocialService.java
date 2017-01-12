@@ -84,7 +84,9 @@ public class SocialService {
             }
         }
 
-        String login = getLoginDependingOnProviderId(userProfile, providerId);
+        log.error("New Social User registration blocked");
+        throw new IllegalArgumentException("New users registration is blocked. Please contact with administrator");
+        /*String login = getLoginDependingOnProviderId(userProfile, providerId);
         String encryptedPassword = passwordEncoder.encode(RandomStringUtils.random(10));
         Set<Authority> authorities = new HashSet<>(1);
         authorities.add(authorityRepository.findOne("ROLE_USER"));
@@ -99,7 +101,7 @@ public class SocialService {
         newUser.setAuthorities(authorities);
         newUser.setLangKey(langKey);
 
-        return userRepository.save(newUser);
+        return userRepository.save(newUser);*/
     }
 
     /**

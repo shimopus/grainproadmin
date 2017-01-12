@@ -1,6 +1,8 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
+import pro.grain.admin.security.AuthoritiesConstants;
 import pro.grain.admin.service.OrganisationTypeService;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
@@ -32,10 +34,11 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
+@Secured(AuthoritiesConstants.ADMIN)
 public class OrganisationTypeResource {
 
     private final Logger log = LoggerFactory.getLogger(OrganisationTypeResource.class);
-        
+
     @Inject
     private OrganisationTypeService organisationTypeService;
 
@@ -95,6 +98,7 @@ public class OrganisationTypeResource {
     @RequestMapping(value = "/organisation-types",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER})
     @Timed
     public ResponseEntity<List<OrganisationTypeDTO>> getAllOrganisationTypes(Pageable pageable)
         throws URISyntaxException {
@@ -144,7 +148,7 @@ public class OrganisationTypeResource {
      * SEARCH  /_search/organisation-types?query=:query : search for the organisationType corresponding
      * to the query.
      *
-     * @param query the query of the organisationType search 
+     * @param query the query of the organisationType search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

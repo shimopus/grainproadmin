@@ -42,8 +42,8 @@ spring:
     social:
         # see https://developers.google.com/+/web/signin/server-side-flow#step_1_create_a_client_id_and_client_secret
         google:
-            clientId: xxx
-            clientSecret: xxx
+            clientId: 27098079578-g41e0rpvruqpelh1dldgdq1eoc6r3ick.apps.googleusercontent.com
+            clientSecret: mD9tUOKx5KLV_AG6a9F51h1X
 
         # see https://developers.facebook.com/docs/facebook-login/v2.2
         facebook:
@@ -61,9 +61,9 @@ spring:
         port: 465
         username: admin@grain.pro
         password: 148490GrainPROAdmin?
-        protocol: smtp
+        protocol: smtps
         tls: true
-        properties.mail.smtp:
+        properties.mail.smtps:
             auth: true
             starttls.enable: true
             ssl.trust: smtp.yandex.ru
@@ -88,7 +88,8 @@ jhipster:
         allow-credentials: true
         max-age: 1800
     mail:
-        from: grainAdmin@localhost
+        from: admin@grain.pro
+        personal: Администрация Grain.Pro
     swagger:
         title: grainAdmin API
         description: grainAdmin API documentation
@@ -100,7 +101,7 @@ jhipster:
         license:
         licenseUrl:
     social:
-        redirectAfterSignIn: "/#/home"
+        redirectAfterSignIn: "/#/partner"
     ribbon:
         # comma seperated list of profiles to show a ribbon on the GUI
         displayOnActiveProfiles: dev

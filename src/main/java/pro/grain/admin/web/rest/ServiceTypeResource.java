@@ -1,6 +1,8 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
+import pro.grain.admin.security.AuthoritiesConstants;
 import pro.grain.admin.service.ServiceTypeService;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
@@ -32,10 +34,11 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
+@Secured(AuthoritiesConstants.ADMIN)
 public class ServiceTypeResource {
 
     private final Logger log = LoggerFactory.getLogger(ServiceTypeResource.class);
-        
+
     @Inject
     private ServiceTypeService serviceTypeService;
 
@@ -95,6 +98,7 @@ public class ServiceTypeResource {
     @RequestMapping(value = "/service-types",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
+    @Secured({AuthoritiesConstants.ADMIN, AuthoritiesConstants.USER})
     @Timed
     public ResponseEntity<List<ServiceTypeDTO>> getAllServiceTypes(Pageable pageable)
         throws URISyntaxException {
@@ -144,7 +148,7 @@ public class ServiceTypeResource {
      * SEARCH  /_search/service-types?query=:query : search for the serviceType corresponding
      * to the query.
      *
-     * @param query the query of the serviceType search 
+     * @param query the query of the serviceType search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

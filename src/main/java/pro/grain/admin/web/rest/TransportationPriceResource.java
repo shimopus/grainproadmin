@@ -1,6 +1,8 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.security.access.annotation.Secured;
+import pro.grain.admin.security.AuthoritiesConstants;
 import pro.grain.admin.service.TransportationPriceService;
 import pro.grain.admin.web.rest.util.HeaderUtil;
 import pro.grain.admin.web.rest.util.PaginationUtil;
@@ -32,10 +34,11 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
+@Secured(AuthoritiesConstants.ADMIN)
 public class TransportationPriceResource {
 
     private final Logger log = LoggerFactory.getLogger(TransportationPriceResource.class);
-        
+
     @Inject
     private TransportationPriceService transportationPriceService;
 
@@ -144,7 +147,7 @@ public class TransportationPriceResource {
      * SEARCH  /_search/transportation-prices?query=:query : search for the transportationPrice corresponding
      * to the query.
      *
-     * @param query the query of the transportationPrice search 
+     * @param query the query of the transportationPrice search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers

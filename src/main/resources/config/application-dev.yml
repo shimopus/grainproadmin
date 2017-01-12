@@ -74,8 +74,8 @@ jhipster:
         rememberMe:
             # security key (this key should be unique for your application, and kept secret)
             key: 5e18ff7fa53fe1a71b363e0135a11dad5f895b1b
-    mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: grainAdmin@localhost
+    #mail: # specific JHipster mail property, for standard properties see MailProperties
+        #from: grainAdmin@localhost
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
         spark:

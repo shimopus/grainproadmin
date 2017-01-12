@@ -6,10 +6,10 @@
         .controller('BidDialogController', BidDialogController);
 
     BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner',
-        'Bid', 'Contact', 'QualityParameter', 'Partner', 'QualityValue', '$q', 'Passport', 'DataUtils'];
+        'Bid', 'QualityParameter', 'Partner', 'QualityValue', '$q', 'Passport', 'DataUtils'];
 
     function BidDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, partner,
-                                 Bid, Contact, QualityParameter, Partner, QualityValue, $q, Passport, DataUtils) {
+                                 Bid, QualityParameter, Partner, QualityValue, $q, Passport, DataUtils) {
         var vm = this;
 
         if (entity.id) {
@@ -29,7 +29,6 @@
 
         vm.clear = clear;
         vm.save = save;
-        vm.contacts = Contact.query();
         vm.qualityParameters = QualityParameter.query();
         vm.qualityParametersMaskOptions = {
             maskDefinitions : {

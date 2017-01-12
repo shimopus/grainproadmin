@@ -100,7 +100,7 @@ public class EmailService {
     @Transactional(readOnly = true)
     public Page<EmailDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Emails for query {}", query);
-        Page<Email> result = emailSearchRepository.search(termQuery("email", query), pageable);
+        Page<Email> result = emailSearchRepository.search(termQuery("email", query.toLowerCase()), pageable);
         return result.map(email -> emailMapper.emailToEmailDTO(email));
     }
 }

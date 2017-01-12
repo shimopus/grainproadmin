@@ -264,7 +264,7 @@ public class ContactResourceIntTest {
         contactSearchRepository.save(contact);
 
         // Search the contact
-        restContactMockMvc.perform(get("/api/_search/contacts?query=id:" + contact.getId()))
+        restContactMockMvc.perform(get("/api/_search/contacts?query=" + contact.getPersonName()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(contact.getId().intValue())))

@@ -42,8 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = GrainAdminApp.class)
 public class EmailResourceIntTest {
 
-    private static final String DEFAULT_EMAIL = "AAAAA";
-    private static final String UPDATED_EMAIL = "BBBBB";
+    private static final String DEFAULT_EMAIL = "AAAAA@bbb.com";
+    private static final String UPDATED_EMAIL = "bbbbb@aaa.com";
 
     @Inject
     private EmailRepository emailRepository;
@@ -237,7 +237,7 @@ public class EmailResourceIntTest {
         emailSearchRepository.save(email);
 
         // Search the email
-        restEmailMockMvc.perform(get("/api/_search/emails?query=id:" + email.getId()))
+        restEmailMockMvc.perform(get("/api/_search/emails?query=" + email.getEmail()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(email.getId().intValue())))

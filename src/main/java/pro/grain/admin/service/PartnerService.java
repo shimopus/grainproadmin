@@ -130,7 +130,7 @@ public class PartnerService {
                 .should(
                     nestedQuery(
                         "contacts.email",
-                        termQuery("contacts.email.email", query)
+                        termQuery("contacts.email.email", query.toLowerCase())
                     )
                 )
                 .should(

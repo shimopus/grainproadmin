@@ -17,8 +17,10 @@ public class ElasticResource {
     private final ElasticSearchIndexRegenerateService elasticSearchIndexRegenerateService;
 
     @Inject
-    public ElasticResource(ElasticSearchIndexRegenerateService elasticSearchIndexRegenerateService) {
+    public ElasticResource(ElasticSearchIndexRegenerateService elasticSearchIndexRegenerateService) throws URISyntaxException {
         this.elasticSearchIndexRegenerateService = elasticSearchIndexRegenerateService;
+
+        this.reset();
     }
 
     @RequestMapping(value = "reset", method = RequestMethod.GET)

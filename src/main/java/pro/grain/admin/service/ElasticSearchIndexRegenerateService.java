@@ -67,7 +67,7 @@ public class ElasticSearchIndexRegenerateService {
         log.debug("Request to reset Station index in Elastic");
 
         List<Station> stations = this.stationRepository.findAll();
-        if (stations != null) {
+        if (stations != null && stations.size() > 0) {
             this.stationSearchRepository.save(stations);
         }
     }
@@ -77,7 +77,7 @@ public class ElasticSearchIndexRegenerateService {
 
         List<Partner> partners = this.partnerRepository.findAllWithEagerRelationships();
 
-        if (partners != null && partners.size() != 0) {
+        if (partners != null && partners.size() > 0) {
             this.partnerSearchRepository.save(partners);
         }
     }
@@ -87,7 +87,7 @@ public class ElasticSearchIndexRegenerateService {
 
         List<Region> regions = this.regionRepository.findAll();
 
-        if (regions != null) {
+        if (regions != null && regions.size() > 0) {
             this.regionSearchRepository.save(regions);
         }
     }
@@ -97,7 +97,7 @@ public class ElasticSearchIndexRegenerateService {
 
         List<District> districts = this.districtRepository.findAll();
 
-        if (districts != null) {
+        if (districts != null && districts.size() > 0) {
             this.districtSearchRepository.save(districts);
         }
     }
@@ -107,7 +107,7 @@ public class ElasticSearchIndexRegenerateService {
 
         List<Locality> localities = this.localityRepository.findAll();
 
-        if (localities != null) {
+        if (localities != null && localities.size() > 0) {
             this.localitySearchRepository.save(localities);
         }
     }
@@ -117,7 +117,7 @@ public class ElasticSearchIndexRegenerateService {
 
         List<Email> emails = this.emailRepository.findAll();
 
-        if (emails != null) {
+        if (emails != null && emails.size() > 0) {
             this.emailSearchRepository.save(emails);
         }
     }
@@ -127,7 +127,7 @@ public class ElasticSearchIndexRegenerateService {
 
         List<Contact> contacts = this.contactRepository.findAll();
 
-        if (contacts != null) {
+        if (contacts != null && contacts.size() > 0) {
             this.contactSearchRepository.save(contacts);
         }
     }

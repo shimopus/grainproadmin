@@ -1,27 +1,12 @@
 {namespace tables}
 
 /**
- * Создает таблицу со всеми актуальными заявками
- * @param currentDate Текущая дата
- * @param station Станция для расчета цены. Может быть null.
- * @param baseUrl Базовый URL для ссылок
- * @param bids Список заявок для отображения.
- */
-{template .market_table}
-    {call .table}
-        {param currentDate: $currentDate /}
-        {param station: $station /}
-        {param baseUrl: $baseUrl /}
-        {param urlTarget: '' /}
-        {param bids: $bids /}
-    {/call}
-{/template}
-
-/**
  * Создает таблицу со всеми заявками для рассылки
  * @param currentDate Текущая дата
  * @param station Станция для расчета цены. Может быть null.
  * @param baseUrl Базовый URL для ссылок
+ * @param adminBaseUrl Базовый URL админки
+ * @param passportVariant вариант ссылки на качественное
  * @param urlTarget где открывать ссылки
  * @param bids Список заявок для отображения.
  */
@@ -109,13 +94,17 @@
                                 type: bid.agentOrganisationType
                             }
                         })"*/
-                                    href="{$baseUrl}/#/market/{$bid.agentId}/card" target="{$urlTarget}">
+                                    href="{$baseUrl}#/market/{$bid.agentId}/card" target="{$urlTarget}">
                                     {$bid.agentName} {$bid.agentOrganisationType}
                                 </a>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                <a style="color: #315597"
-                                    href="{$baseUrl}/#/market/{$bid.id}/carousel" target="{$urlTarget}">карта анализа</a>
+                                {delcall passport.link variant="$passportVariant"}
+                                    {param bid: $bid /}
+                                    {param adminBaseUrl: $adminBaseUrl /}
+                                    {param baseUrl: $baseUrl /}
+                                    {param urlTarget: $urlTarget /}
+                                {/delcall}
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                 {$bid.volume}
@@ -239,7 +228,7 @@
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 <a style="color: #315597"
-                                    href="{$baseUrl}/#/market/{$elevator.id}/card" target="{$urlTarget}">
+                                    href="{$baseUrl}#/market/{$elevator.id}/card" target="{$urlTarget}">
                                     {$elevator.name} {$elevator.organisationTypeType}
                                 </a>
                             </td>
@@ -324,6 +313,18 @@
     </tr>
 </table>
 {/template}
+
+/**
+ * Создает ссылку на картинки по дефолту
+  * @param adminBaseUrl Базовый URL для админки
+  * @param baseUrl Базовый URL для ссылок
+  * @param urlTarget
+  * @param bid заявкa для отображения.
+ */
+{deltemplate passport.link variant="'default'"}
+<a style="color: #315597"
+    href="{$baseUrl}#/market/{$bid.id}/carousel" target="{$urlTarget}">карта анализа</a>
+{/deltemplate}
 
 /**
  * Перевод NDS значений

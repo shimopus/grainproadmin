@@ -40,13 +40,12 @@ public class MarketService {
         this.stationService = stationService;
 
         try {
-            File marketTableFile = getFileFromResources("templates/tables/market-table.soy");
-            File marketTableDownloadFile = getFileFromResources("templates/tables/market-table-download.soy");
-
             // Bundle the Soy files for your project into a SoyFileSet.
             SoyFileSet sfs = SoyFileSet.builder()
-                .add(marketTableFile)
-                .add(marketTableDownloadFile)
+                .add(getFileFromResources("templates/tables/market-table.soy"))
+                .add(getFileFromResources("templates/tables/market-table-download.soy"))
+                .add(getFileFromResources("templates/tables/market-table-admin.soy"))
+                .add(getFileFromResources("templates/tables/market-table-site.soy"))
                 .build();
 
             // Compile the template into a SoyTofu object.
@@ -58,21 +57,11 @@ public class MarketService {
         }
     }
 
-    public String getMarketTableHTML(String stationCode) throws MarketGenerationException {
-        log.debug("Generate market HTML table for station code {}", stationCode);
-
-        SoyMapData templateData = generateCommonParameters(stationCode, "");
-
-        return tofu.newRenderer("tables.market_table")
-            .setData(templateData)
-            .render();
-    }
-
-    public String getMarketTableHTMLForDownload(String stationCode) throws MarketGenerationException {
+    public String getMarketTableHTML(String stationCode, String templateName, String baseUrl) throws MarketGenerationException {
         log.debug("Generate market HTML table for station code which should be downloaded {}", stationCode);
 
-        SoyMapData templateData = generateCommonParameters(stationCode, "http://grain.pro");
-        return tofu.newRenderer("tables.market_table_download")
+        SoyMapData templateData = generateCommonParameters(stationCode, baseUrl);
+        return tofu.newRenderer("tables."+templateName)
             .setData(templateData)
             .render();
     }
@@ -86,6 +75,7 @@ public class MarketService {
             "currentDate", dateFormat.format(new Date()),
             "station", SoyTemplatesUtils.objectToSoyData(stationService.findOne(stationCode)),
             "baseUrl", baseUrl,
+            "adminBaseUrl", "https://grainpro.herokuapp.com/",
             "bids", SoyTemplatesUtils.objectToSoyData(bids)
         );
     }

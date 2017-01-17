@@ -1,0 +1,21 @@
+{namespace tables}
+
+/**
+ * Создает таблицу со всеми заявками для админки
+ * @param currentDate Текущая дата
+ * @param station Станция для расчета цены. Может быть null.
+ * @param baseUrl Базовый URL для ссылок
+ * @param adminBaseUrl Базовый URL админки
+ * @param bids Список заявок для отображения.
+ */
+{template .market_table_admin}
+    {call tables.table}
+        {param currentDate: $currentDate /}
+        {param station: $station /}
+        {param baseUrl: $baseUrl /}
+        {param adminBaseUrl: $adminBaseUrl /}
+        {param passportVariant: 'default' /}
+        {param urlTarget: '' /}
+        {param bids: $bids /}
+    {/call}
+{/template}

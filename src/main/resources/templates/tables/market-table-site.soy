@@ -1,0 +1,42 @@
+{namespace tables}
+
+/**
+ * Создает таблицу со всеми заявками для сайта
+ * @param currentDate Текущая дата
+ * @param station Станция для расчета цены. Может быть null.
+ * @param baseUrl Базовый URL для ссылок
+ * @param adminBaseUrl Базовый URL админки
+ * @param bids Список заявок для отображения.
+ */
+{template .market_table_site}
+    {call tables.table}
+        {param currentDate: $currentDate /}
+        {param station: $station /}
+        {param baseUrl: $baseUrl /}
+        {param adminBaseUrl: $adminBaseUrl /}
+        {param passportVariant: 'site' /}
+        {param urlTarget: '' /}
+        {param bids: $bids /}
+    {/call}
+{/template}
+
+/**
+ * Создает ссылку для сайта на картинки
+ * @param adminBaseUrl Базовый URL для админки
+ * @param baseUrl Базовый URL для ссылок
+ * @param urlTarget
+ * @param bid заявкa для отображения.
+ */
+{deltemplate passport.link variant="'site'"}
+
+{foreach $passport in $bid.qualityPassports}
+    <a style="color: #315597; {isFirst($passport) ? '' : 'display: none;'}" href="javascript:;"
+        data-fancybox="{$bid.id}" data-type="image"
+        data-src="{$adminBaseUrl}/api/passport/{$passport.id}"
+        {isFirst($passport) ? 'id="'+ $bid.id +'"' : ''}>карта анализа</a>
+{/foreach}
+
+{/deltemplate}
+
+
+

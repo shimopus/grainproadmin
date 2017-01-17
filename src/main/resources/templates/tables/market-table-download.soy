@@ -5,6 +5,7 @@
  * @param currentDate Текущая дата
  * @param station Станция для расчета цены. Может быть null.
  * @param baseUrl Базовый URL для ссылок
+ * @param adminBaseUrl Базовый URL админки
  * @param bids Список заявок для отображения.
  */
 {template .market_table_download}
@@ -13,6 +14,8 @@
         {param currentDate: $currentDate /}
         {param station: $station /}
         {param baseUrl: $baseUrl /}
+        {param adminBaseUrl: $adminBaseUrl /}
+        {param passportVariant: 'default' /}
         {param urlTarget: '_blank' /}
         {param bids: $bids /}
     {/call}

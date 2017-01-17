@@ -3,16 +3,16 @@ package pro.grain.admin.service.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import pro.grain.admin.domain.BidPrice;
+import pro.grain.admin.domain.Passport;
 import pro.grain.admin.domain.TransportationPrice;
 import pro.grain.admin.service.dto.BidPriceDTO;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {QualityValueMapper.class, PartnerMapper.class})
+@Mapper(componentModel = "spring", uses = {QualityValueMapper.class, PartnerMapper.class, PassportNoImageMapper.class})
 public interface BidPriceMapper {
     @Mapping(target = "elevatorId", ignore = true)
     @Mapping(target = "elevatorName", ignore = true)
-    @Mapping(target = "qualityPassports", ignore = true)
     @Mapping(source = "agentContact.id", target = "agentContactId")
     @Mapping(source = "agentContact.phone", target = "agentContactPhone")
     @Mapping(source = "agentContact.email.email", target = "agentContactEmail")
@@ -44,5 +44,4 @@ public interface BidPriceMapper {
         transportationPrice.setId(id);
         return transportationPrice;
     }
-
 }

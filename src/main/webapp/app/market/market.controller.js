@@ -53,7 +53,7 @@
         function loadTableData(code) {
             return $http(
                 {
-                    url: '/pages/market-table',
+                    url: '/pages/market-table/admin',
                     method: "GET",
                     params: {'code': code}
                 }

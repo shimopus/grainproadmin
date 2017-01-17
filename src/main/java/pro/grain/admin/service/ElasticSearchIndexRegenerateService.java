@@ -3,8 +3,12 @@ package pro.grain.admin.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 import pro.grain.admin.domain.*;
 import pro.grain.admin.repository.*;
 import pro.grain.admin.repository.search.*;
@@ -63,7 +67,28 @@ public class ElasticSearchIndexRegenerateService {
         this.partnerSearchRepository = partnerSearchRepository;
     }
 
-    public void resetStations() {
+    @EventListener({ContextRefreshedEvent.class})
+    @Async
+    public void asyncReset() {
+        log.warn("Asynchronous Elastic Search index reinitialization");
+        StopWatch watch = new StopWatch();
+        watch.start();
+        reset();
+        watch.stop();
+        log.info("Elastic Search index was reinitialized in {}ms", watch.getTotalTimeMillis());
+    }
+
+    public void reset() {
+        resetStations();
+        resetPartners();
+        resetRegions();
+        resetDistricts();
+        resetLocalities();
+        resetEmails();
+        resetContacts();
+    }
+
+    private void resetStations() {
         log.debug("Request to reset Station index in Elastic");
 
         List<Station> stations = this.stationRepository.findAll();
@@ -72,7 +97,7 @@ public class ElasticSearchIndexRegenerateService {
         }
     }
 
-    public void resetPartners() {
+    private void resetPartners() {
         log.debug("Request to reset Partner index in Elastic");
 
         List<Partner> partners = this.partnerRepository.findAllWithEagerRelationships();
@@ -82,7 +107,7 @@ public class ElasticSearchIndexRegenerateService {
         }
     }
 
-    public void resetRegions() {
+    private void resetRegions() {
         log.debug("Request to reset Regions index in Elastic");
 
         List<Region> regions = this.regionRepository.findAll();
@@ -92,7 +117,7 @@ public class ElasticSearchIndexRegenerateService {
         }
     }
 
-    public void resetDistricts() {
+    private void resetDistricts() {
         log.debug("Request to reset Districts index in Elastic");
 
         List<District> districts = this.districtRepository.findAll();
@@ -102,7 +127,7 @@ public class ElasticSearchIndexRegenerateService {
         }
     }
 
-    public void resetLocalities() {
+    private void resetLocalities() {
         log.debug("Request to reset Localities index in Elastic");
 
         List<Locality> localities = this.localityRepository.findAll();
@@ -112,7 +137,7 @@ public class ElasticSearchIndexRegenerateService {
         }
     }
 
-    public void resetEmails() {
+    private void resetEmails() {
         log.debug("Request to reset Emails index in Elastic");
 
         List<Email> emails = this.emailRepository.findAll();
@@ -122,7 +147,7 @@ public class ElasticSearchIndexRegenerateService {
         }
     }
 
-    public void resetContacts() {
+    private void resetContacts() {
         log.debug("Request to reset Contacts index in Elastic");
 
         List<Contact> contacts = this.contactRepository.findAll();

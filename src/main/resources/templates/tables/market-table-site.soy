@@ -44,4 +44,28 @@
 {/deltemplate}
 
 
+/**
+ * Создает ссылку на картинки по дефолту
+  * @param partnerId партнер
+  * @param partnerName
+  * @param partnerOrgType
+  * @param partnerCard
+  * @param baseUrl Базовый URL для ссылок
+  * @param urlTarget
+ */
+{deltemplate partner.card variant="'site'"}
+{let $id: randomInt(1000000) /}
+<a style="color: #315597; -webkit-text-size-adjust:none"
+    href="{$baseUrl}#/market/{$partnerId}/card" target="{$urlTarget}"
+    data-fancybox data-src="#card{$id}" id="{$partnerId}">
+    {$partnerName} {$partnerOrgType}
+</a>
+{let $card kind="text"}
+    {isNonnull($partnerCard) ? $partnerCard : 'Нет информации'}
+{/let}
+<div style="display:none" id="card{$id}">
+    {$card |changeNewlineToBr}
+</div>
+{/deltemplate}
+
 

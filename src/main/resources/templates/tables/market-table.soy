@@ -87,16 +87,14 @@
                         </span>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                <a style="color: #315597; -webkit-text-size-adjust:none" /*ng-click="vm.showCardDialog({
-                            name: bid.agentName,
-                            card: bid.agentCard,
-                            organisationType: {
-                                type: bid.agentOrganisationType
-                            }
-                        })"*/
-                                    href="{$baseUrl}#/market/{$bid.agentId}/card" target="{$urlTarget}">
-                                    {$bid.agentName} {$bid.agentOrganisationType}
-                                </a>
+                                {delcall partner.card variant="$passportVariant"}
+                                    {param partnerId: $bid.agentId /}
+                                    {param partnerName: $bid.agentName /}
+                                    {param partnerOrgType: $bid.agentOrganisationType /}
+                                    {param partnerCard: $bid.agentCard /}
+                                    {param baseUrl: $baseUrl /}
+                                    {param urlTarget: $urlTarget /}
+                                {/delcall}
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 {delcall passport.link variant="$passportVariant"}
@@ -227,10 +225,14 @@
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
-                                <a style="color: #315597"
-                                    href="{$baseUrl}#/market/{$elevator.id}/card" target="{$urlTarget}">
-                                    {$elevator.name} {$elevator.organisationTypeType}
-                                </a>
+                                {delcall partner.card variant="$passportVariant"}
+                                    {param partnerId: $elevator.id /}
+                                    {param partnerName: $elevator.name /}
+                                    {param partnerOrgType: $elevator.organisationTypeType /}
+                                    {param partnerCard: $elevator.card /}
+                                    {param baseUrl: $baseUrl /}
+                                    {param urlTarget: $urlTarget /}
+                                {/delcall}
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                             </td>
@@ -324,6 +326,22 @@
 {deltemplate passport.link variant="'default'"}
 <a style="color: #315597"
     href="{$baseUrl}#/market/{$bid.id}/carousel" target="{$urlTarget}">карта анализа</a>
+{/deltemplate}
+
+/**
+ * Создает ссылку на картинки по дефолту
+  * @param partnerId партнер
+  * @param partnerName
+  * @param partnerOrgType
+  * @param partnerCard
+  * @param baseUrl Базовый URL для ссылок
+  * @param urlTarget
+ */
+{deltemplate partner.card variant="'default'"}
+<a style="color: #315597; -webkit-text-size-adjust:none"
+    href="{$baseUrl}#/market/{$partnerId}/card" target="{$urlTarget}">
+    {$partnerName} {$partnerOrgType}
+</a>
 {/deltemplate}
 
 /**

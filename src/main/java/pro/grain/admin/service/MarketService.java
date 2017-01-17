@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class MarketService {
     }
 
     private SoyMapData generateCommonParameters(String stationCode, String baseUrl) throws MarketGenerationException {
-        Map<QualityClass, List<BidPriceDTO>> bids = getBids(stationCode);
+        Collection<List<BidPriceDTO>> bids = getBids(stationCode);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
 
@@ -80,7 +81,7 @@ public class MarketService {
         );
     }
 
-    private Map<QualityClass, List<BidPriceDTO>> getBids(String stationCode) throws MarketGenerationException {
+    private Collection<List<BidPriceDTO>> getBids(String stationCode) throws MarketGenerationException {
         String newCode;
         Map<QualityClass, List<BidPriceDTO>> bids;
 
@@ -95,7 +96,8 @@ public class MarketService {
         } else {
             bids = bidService.getAllCurrentBids();
         }
-        return bids;
+
+        return bids.values();
     }
 
     private String calculateDestinationStation(String byStationCode) throws KeySelectorException {

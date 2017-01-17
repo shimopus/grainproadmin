@@ -10,6 +10,9 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {})
 public interface PassportNoImageMapper {
     @Mapping(target = "image", ignore = true)
+    @Mapping(source = "id", target = "id")
+    @Mapping(source = "title", target = "title")
+    @Mapping(source = "imageContentType", target = "imageContentType")
     PassportDTO passportToPassportDTO(Passport passport);
 
     List<PassportDTO> passportsToPassportDTOs(List<Passport> passports);

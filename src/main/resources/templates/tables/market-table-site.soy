@@ -30,10 +30,15 @@
 {deltemplate passport.link variant="'site'"}
 
 {foreach $passport in $bid.qualityPassports}
-    <a style="color: #315597; {isFirst($passport) ? '' : 'display: none;'}" href="javascript:;"
+    {let $display kind="css"}
+        {isFirst($passport) ? 'inline' : 'none'}
+    {/let}
+    {let $id: isFirst($passport) ? $bid.id : '' /}
+
+    <a style="color: #315597; display:{$display};" href="javascript:;"
         data-fancybox="{$bid.id}" data-type="image"
-        data-src="{$adminBaseUrl}/api/passport/{$passport.id}"
-        {isFirst($passport) ? 'id="'+ $bid.id +'"' : ''}>карта анализа</a>
+        data-src="{$adminBaseUrl}pages/passport/{$passport.id}"
+        id="{$id}">карта анализа</a>
 {/foreach}
 
 {/deltemplate}

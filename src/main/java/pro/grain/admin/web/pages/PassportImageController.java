@@ -27,19 +27,25 @@ public class PassportImageController {
         this.passportService = passportService;
     }
 
-    @RequestMapping(value = "/passport/{id}",
-        method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @RequestMapping(value = "/passport/{id}/{fileName}.{fileExt}",
+        method = RequestMethod.GET)
     @Timed
-    public ResponseEntity<byte[]> getAllRegionsForAdmin(@PathVariable(value = "id", required = false) Long passportId) {
-        log.debug("REST request to get image for passport {}", passportId);
+    public ResponseEntity<byte[]> getAllRegionsForAdmin(
+        @PathVariable(value = "id") Long passportId,
+        @PathVariable(value = "fileName") String fileName,
+        @PathVariable(value = "fileExt") String fileExt) {
+        log.debug("REST request to get image for passport {}/{}.{}", passportId, fileName, fileExt);
 
         PassportDTO passport = passportService.findOne(passportId);
 
         final HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentType(MediaType.valueOf(passport.getImageContentType()));
 
-        return new ResponseEntity<>(passport.getImage(), headers, HttpStatus.OK);
+        if (passport.getTitle().equals(fileName+"."+fileExt)) {
+            return new ResponseEntity<>(passport.getImage(), headers, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
+        }
     }
 
 }

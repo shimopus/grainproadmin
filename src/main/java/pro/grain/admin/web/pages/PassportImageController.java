@@ -30,7 +30,7 @@ public class PassportImageController {
     @RequestMapping(value = "/passport/{id}/{fileName}.{fileExt}",
         method = RequestMethod.GET)
     @Timed
-    public ResponseEntity<byte[]> getAllRegionsForAdmin(
+    public ResponseEntity<byte[]> getPassportImage(
         @PathVariable(value = "id") Long passportId,
         @PathVariable(value = "fileName") String fileName,
         @PathVariable(value = "fileExt") String fileExt) {

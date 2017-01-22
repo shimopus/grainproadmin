@@ -21,10 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -58,10 +55,17 @@ public class MarketService {
         }
     }
 
-    public String getMarketTableHTML(String stationCode, String templateName, String baseUrl) throws MarketGenerationException {
+    public String getMarketTableHTML(String stationCode, String templateName, String baseUrl) {
         log.debug("Generate market HTML table for station code which should be downloaded {}", stationCode);
 
-        SoyMapData templateData = generateCommonParameters(stationCode, baseUrl);
+        SoyMapData templateData;
+        try {
+            templateData = generateCommonParameters(stationCode, baseUrl);
+        } catch (MarketGenerationException e) {
+            return tofu.newRenderer("tables.error")
+                .setData(new SoyMapData("errors", SoyTemplatesUtils.objectToSoyData(e.getErrors())))
+                .render();
+        }
         return tofu.newRenderer("tables."+templateName)
             .setData(templateData)
             .render();
@@ -84,14 +88,73 @@ public class MarketService {
     private Collection<List<BidPriceDTO>> getBids(String stationCode) throws MarketGenerationException {
         String newCode;
         Map<QualityClass, List<BidPriceDTO>> bids;
+        List<String> errors = new ArrayList<>();
 
         if (stationCode != null) {
             try {
                 newCode = calculateDestinationStation(stationCode);
                 bids = bidService.getAllCurrentBidsForStation(newCode);
+                Map<QualityClass, List<BidPriceDTO>> fullBids = bidService.getAllCurrentBids();
+
+                //Check for errors
+                List<BidPriceDTO> errorForBids = new ArrayList<>(bids.size());
+
+                for (Map.Entry<QualityClass, List<BidPriceDTO>> entry : fullBids.entrySet()) {
+                    List<BidPriceDTO> currentFullBids = entry.getValue();
+                    log.debug("Full bid List {}", currentFullBids);
+                    List<BidPriceDTO> currentBids = bids.get(entry.getKey());
+                    log.debug("Bid List {}", currentBids);
+
+                    if (currentBids == null || currentBids.size() == 0) {
+                        errorForBids.addAll(currentFullBids);
+                        break;
+                    }
+
+                    for (BidPriceDTO fullBidPriceDTO : currentFullBids) {
+                        boolean exists = false;
+                        for (BidPriceDTO bidPriceDTO : currentBids) {
+                            if (fullBidPriceDTO.getId().equals(bidPriceDTO.getId())) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (!exists) {
+                            //Если станция отправления равна станции прибытия
+                            if (fullBidPriceDTO.getElevator().getStationCode().equals(stationCode) ||
+                                fullBidPriceDTO.getElevator().getStationCode().equals(newCode)) {
+                                currentBids.add(fullBidPriceDTO);
+                            } else {
+                                errorForBids.add(fullBidPriceDTO);
+                            }
+                        }
+                    }
+                }
+
+                if (errorForBids.size() != 0) {
+                    log.error("Some bids could not be calculated for station " + newCode);
+                    for(BidPriceDTO bid : errorForBids) {
+                        String stationFromCode = bid.getElevator().getStationCode();
+                        String baseStationFromCode;
+                        try {
+                            baseStationFromCode = calculateDestinationStation(stationFromCode);
+                        } catch (KeySelectorException e) {
+                            errors.add("Не возможно вычислить базовую станцию для станции " + stationFromCode);
+                            continue;
+                        }
+
+                        errors.add("Нет цены для перевозки из " + baseStationFromCode + " в " + newCode);
+                    }
+
+                    throw new MarketGenerationException("Some bids could not be calculated for station " + newCode,
+                        errors);
+                }
+
             } catch (KeySelectorException e) {
                 log.error("Could not calculate destination station", e);
-                throw new MarketGenerationException("Could not calculate destination station", e);
+                errors.add("Не возможно вычислить базовую станцию для станции " + stationCode);
+                throw new MarketGenerationException("Could not calculate destination station",
+                    errors
+                    ,e);
             }
         } else {
             bids = bidService.getAllCurrentBids();

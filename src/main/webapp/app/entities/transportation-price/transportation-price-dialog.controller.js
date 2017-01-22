@@ -5,32 +5,20 @@
         .module('grainAdminApp')
         .controller('TransportationPriceDialogController', TransportationPriceDialogController);
 
-    TransportationPriceDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'TransportationPrice', 'Station'];
+    TransportationPriceDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q',
+        'entity', 'TransportationPrice', 'StationSearch'];
 
-    function TransportationPriceDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, TransportationPrice, Station) {
+    function TransportationPriceDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q,
+                                                  entity, TransportationPrice, StationSearch) {
         var vm = this;
 
         vm.transportationPrice = entity;
         vm.clear = clear;
         vm.save = save;
-        vm.stationfroms = Station.query({filter: 'transportationprice-is-null'});
-        $q.all([vm.transportationPrice.$promise, vm.stationfroms.$promise]).then(function() {
-            if (!vm.transportationPrice.stationFromId) {
-                return $q.reject();
-            }
-            return Station.get({id : vm.transportationPrice.stationFromId}).$promise;
-        }).then(function(stationFrom) {
-            vm.stationfroms.push(stationFrom);
-        });
-        vm.stationtos = Station.query({filter: 'transportationprice-is-null'});
-        $q.all([vm.transportationPrice.$promise, vm.stationtos.$promise]).then(function() {
-            if (!vm.transportationPrice.stationToId) {
-                return $q.reject();
-            }
-            return Station.get({id : vm.transportationPrice.stationToId}).$promise;
-        }).then(function(stationTo) {
-            vm.stationtos.push(stationTo);
-        });
+        vm.stationfroms = [];
+        vm.stationtos = [];
+        vm.refreshStationFromSuggestions = refreshStationFromSuggestions;
+        vm.refreshStationToSuggestions = refreshStationToSuggestions;
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -59,6 +47,18 @@
             vm.isSaving = false;
         }
 
+        function refreshStationFromSuggestions(term) {
+            if (term) {
+                vm.stationfroms = StationSearch.query({query: term});
+            }
+            return null;
+        }
 
+        function refreshStationToSuggestions(term) {
+            if (term) {
+                vm.stationtos = StationSearch.query({query: term});
+            }
+            return null;
+        }
     }
 })();

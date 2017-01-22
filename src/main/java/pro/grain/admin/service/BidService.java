@@ -138,7 +138,7 @@ public class BidService {
     public Map<QualityClass, List<BidPriceDTO>> getAllCurrentBidsForStation(String code) {
         log.debug("Request to get all current Bids for station : {}", code);
 
-        List<BidPrice> bids = bidRepository.findAllCurrentWithEagerRelationships(code);
+        List<BidPrice> bids = bidRepository.findAllCurrentBidsWithTransportationPrice(code);
 
         return enrichAndSortMarket(bidPriceMapper.bidPricesToBidPriceDTOs(bids), true);
     }
@@ -150,7 +150,7 @@ public class BidService {
     public Map<QualityClass, List<BidPriceDTO>> getAllCurrentBids() {
         log.debug("Request to get all current Bids");
 
-        List<BidPrice> bids = bidRepository.findAllCurrentWithEagerRelationships();
+        List<BidPrice> bids = bidRepository.findAllCurrentBids();
 
         return enrichAndSortMarket(bidPriceMapper.bidPricesToBidPriceDTOs(bids), false);
     }

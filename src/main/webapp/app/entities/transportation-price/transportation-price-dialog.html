@@ -1,4 +1,3 @@
-
 <form name="editForm" role="form" novalidate ng-submit="vm.save()" show-validation>
 
     <div class="modal-header">
@@ -43,16 +42,40 @@
         </div>
 
         <div class="form-group">
-            <label data-translate="grainAdminApp.transportationPrice.stationFrom" for="field_stationFrom">Station From</label>
-            <select class="form-control" id="field_stationFrom" name="stationFrom" ng-model="vm.transportationPrice.stationFromId" ng-options="station.id as station.code for station in vm.stationfroms | orderBy:'id'">
-                <option value=""></option>
-            </select>
+            <label class="control-label" data-translate="grainAdminApp.transportationPrice.stationFrom" for="field_stationFrom">Station From</label>
+            <ui-select ng-model="vm.transportationPrice.stationFromId" name="stationFrom">
+                <ui-select-match allow-clear>
+                    {{$select.selected.name || vm.partner.stationName}}
+                </ui-select-match>
+                <ui-select-choices
+                    repeat="station.id as station in vm.stationfroms"
+                    refresh="vm.refreshStationFromSuggestions($select.search)"
+                    refresh-delay="200">
+                    <div ng-bind-html="station.name | highlight: $select.search"></div>
+                    <small>
+                        <span ng-bind-html="''+ station.code | highlight: $select.search"></span>
+                        {{station.districtName}}, {{station.regionName}}
+                    </small>
+                </ui-select-choices>
+            </ui-select>
         </div>
         <div class="form-group">
             <label data-translate="grainAdminApp.transportationPrice.stationTo" for="field_stationTo">Station To</label>
-            <select class="form-control" id="field_stationTo" name="stationTo" ng-model="vm.transportationPrice.stationToId" ng-options="station.id as station.code for station in vm.stationtos | orderBy:'id'">
-                <option value=""></option>
-            </select>
+            <ui-select ng-model="vm.transportationPrice.stationToId" name="stationTo">
+                <ui-select-match allow-clear>
+                    {{$select.selected.name || vm.partner.stationName}}
+                </ui-select-match>
+                <ui-select-choices
+                    repeat="station.id as station in vm.stationtos"
+                    refresh="vm.refreshStationToSuggestions($select.search)"
+                    refresh-delay="200">
+                    <div ng-bind-html="station.name | highlight: $select.search"></div>
+                    <small>
+                        <span ng-bind-html="''+ station.code | highlight: $select.search"></span>
+                        {{station.districtName}}, {{station.regionName}}
+                    </small>
+                </ui-select-choices>
+            </ui-select>
         </div>
     </div>
     <div class="modal-footer">

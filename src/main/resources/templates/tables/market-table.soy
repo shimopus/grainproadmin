@@ -391,3 +391,15 @@
       {default}
     {/switch}
 {/template}
+
+/**
+ * Рисует список ошибок
+ * @param errors список ошибок
+ */
+{template .error}
+   <div>
+       {foreach $error in $errors}
+            {$error}<br/>
+       {/foreach}
+   </div>
+{/template}

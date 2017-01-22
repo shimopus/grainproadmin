@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import pro.grain.admin.service.MarketService;
-import pro.grain.admin.service.error.MarketGenerationException;
-import pro.grain.admin.web.rest.util.HeaderUtil;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -37,15 +35,8 @@ public class MarketTableController {
         throws URISyntaxException {
         log.debug("REST request to get a list of bids for station code on site {}", code);
 
-        try {
-            return ResponseEntity.ok()
-                .body(marketService.getMarketTableHTML(code, "market_table_admin", ""));
-
-        } catch (MarketGenerationException e) {
-            return ResponseEntity.ok()
-                .headers(HeaderUtil.createAlert(e.getCause().getMessage(), ""))
-                .body(null);
-        }
+        return ResponseEntity.ok()
+            .body(marketService.getMarketTableHTML(code, "market_table_admin", ""));
     }
 
     @RequestMapping(value = "/market-table/site",
@@ -56,15 +47,8 @@ public class MarketTableController {
         throws URISyntaxException {
         log.debug("REST request to get a list of bids for station code on site {}", code);
 
-        try {
-            return ResponseEntity.ok()
-                .body(marketService.getMarketTableHTML(code, "market_table_site", ""));
-
-        } catch (MarketGenerationException e) {
-            return ResponseEntity.ok()
-                .headers(HeaderUtil.createAlert(e.getCause().getMessage(), ""))
-                .body(null);
-        }
+        return ResponseEntity.ok()
+            .body(marketService.getMarketTableHTML(code, "market_table_site", ""));
     }
 
     @RequestMapping(value = "/market-table/download",
@@ -74,22 +58,9 @@ public class MarketTableController {
     public ResponseEntity<String> downloadAllRegions(@RequestParam(value = "code", required = false) String code)
         throws URISyntaxException/*, UnsupportedEncodingException*/ {
         log.debug("REST request to download list of bids for station code {}", code);
-/*
-        SimpleDateFormat fileDateFormat = new SimpleDateFormat("dd_MM_yy");
 
-        String fileName = "Пшеница_" + fileDateFormat.format(new Date()) + ".html";
-        fileName = MimeUtility.encodeWord(fileName, "utf-8", "Q");*/
-
-        try {
-            return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-//                .header("Content-Disposition", "attachment; filename=\"" + fileName + "\"")
-                .body(marketService.getMarketTableHTML(code, "market_table_download", "http://grain.pro/"));
-
-        } catch (MarketGenerationException e) {
-            return ResponseEntity.ok()
-                .headers(HeaderUtil.createAlert(e.getCause().getMessage(), ""))
-                .body(null);
-        }
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(marketService.getMarketTableHTML(code, "market_table_download", "http://grain.pro/"));
     }
 }

@@ -2,6 +2,7 @@ package pro.grain.admin.service;
 
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
+import pro.grain.admin.domain.enumeration.NDS;
 import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
@@ -182,8 +183,10 @@ public class BidService {
     private Long getCPTPrice(BidPriceDTO bid) {
         Long transpPrice = 0L;
 
-        if (bid.getTransportationPricePrice() != null) {
+        if (bid.getNds().equals(NDS.EXCLUDED) && bid.getTransportationPricePrice() != null) {
             transpPrice = bid.getTransportationPricePrice();
+        } else if (bid.getNds().equals(NDS.INCLUDED) && bid.getTransportationPricePriceNds() != null) {
+            transpPrice = bid.getTransportationPricePriceNds();
         }
 
         return getFCAPrice(bid) + transpPrice;

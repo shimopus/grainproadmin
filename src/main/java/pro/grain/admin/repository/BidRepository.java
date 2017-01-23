@@ -31,8 +31,8 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
 
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid, tp) " +
         "from Bid bid, TransportationPrice tp, LocationToBaseStation lts " +
-        "left join bid.qualityParameters " +
-        "left join bid.qualityPassports " +
+        //"left join bid.qualityParameters " +
+        //"left join bid.qualityPassports " +
         "where " +
         //Только активные заявки
         "   bid.isActive = true and" +

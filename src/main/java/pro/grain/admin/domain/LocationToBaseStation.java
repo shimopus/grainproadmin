@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A TransportationPrice.
+ * A LocationToBaseStation.
  */
 @Entity
 @Table(name = "station_location")
@@ -43,18 +43,7 @@ public class LocationToBaseStation implements Serializable {
             return false;
         }
         LocationToBaseStation locationToBaseStation = (LocationToBaseStation) o;
-        if(locationToBaseStation.pk.region == null || pk.region == null) {
-            return false;
-        }
-        if(locationToBaseStation.pk.district == null || pk.district == null) {
-            return false;
-        }
-        if(locationToBaseStation.pk.locality == null || pk.locality == null) {
-            return false;
-        }
-        return Objects.equals(pk.region, locationToBaseStation.pk.region) &&
-            Objects.equals(pk.district, locationToBaseStation.pk.district) &&
-            Objects.equals(pk.locality, locationToBaseStation.pk.locality);
+        return com.google.common.base.Objects.equal(pk, locationToBaseStation.pk);
     }
 
     @Override

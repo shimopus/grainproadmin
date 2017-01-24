@@ -253,8 +253,10 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.transportationPricePrice}
+                                {if $bid.transportationPricePrice and $bid.nds == 'EXCLUDED'}
                                     {$bid.transportationPricePrice}
+                                {elseif $bid.transportationPricePriceNds and $bid.nds == 'INCLUDED'}
+                                    {$bid.transportationPricePriceNds}
                                 {/if}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>

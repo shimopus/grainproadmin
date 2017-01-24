@@ -38,21 +38,20 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
         "   bid.isActive = true and" +
         "   bid.archiveDate is null and" +
         //Высчитываем базовую станцию
-        "   (lts.pk.region = bid.elevator.station.region and" +
+        "   lts.pk.region = bid.elevator.station.region and" +
         "   lts.pk.district = bid.elevator.station.district and" +
         "   (bid.elevator.station.locality is null or" +
         "   lts.pk.locality = bid.elevator.station.locality) and" +
-        "   tp.stationFrom.code = lts.baseStation.code and " +
+
         //Проверяем в одном направлении
-        "   tp.stationTo.code = :code) or " +
-        //Высчитываем базовую станцию для другого направления
-        "   (lts.pk.region = bid.elevator.station.region and" +
-        "   lts.pk.district = bid.elevator.station.district and" +
-        "   (bid.elevator.station.locality is null or" +
-        "   lts.pk.locality = bid.elevator.station.locality) and" +
-        "   tp.stationTo.code = lts.baseStation.code and " +
-        //Проверяем
-        "   tp.stationFrom.code = :code)")
+        "   ((tp.stationFrom.code = lts.baseStation.code and " +
+        "   tp.stationTo.code = :code)" +
+
+        " or " +
+
+        //Проверяем в другом
+        "   (tp.stationTo.code = lts.baseStation.code and " +
+        "   tp.stationFrom.code = :code))")
     List<BidPrice> findAllCurrentBidsWithTransportationPrice(@Param("code") String code);
 
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid) from Bid bid " +

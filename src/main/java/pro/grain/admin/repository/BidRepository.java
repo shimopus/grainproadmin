@@ -38,19 +38,19 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
         "   bid.isActive = true and" +
         "   bid.archiveDate is null and" +
         //Высчитываем базовую станцию
-        "   (tp.stationFrom.region = lts.pk.region and" +
-        "   tp.stationFrom.district = lts.pk.district and" +
-        "   (tp.stationFrom.locality is null or" +
-        "   tp.stationFrom.locality = lts.pk.locality) and" +
-        "   tp.stationFrom.code = bid.elevator.station.code and " +
+        "   (lts.pk.region = bid.elevator.station.region and" +
+        "   lts.pk.district = bid.elevator.station.district and" +
+        "   (bid.elevator.station.locality is null or" +
+        "   lts.pk.locality = bid.elevator.station.locality) and" +
+        "   tp.stationFrom.code = lts.baseStation.code and " +
         //Проверяем в одном направлении
         "   tp.stationTo.code = :code) or " +
         //Высчитываем базовую станцию для другого направления
-        "   (tp.stationTo.region = lts.pk.region and" +
-        "   tp.stationTo.district = lts.pk.district and" +
-        "   (tp.stationTo.locality is null or" +
-        "   tp.stationTo.locality = lts.pk.locality) and" +
-        "   tp.stationTo.code = bid.elevator.station.code and " +
+        "   (lts.pk.region = bid.elevator.station.region and" +
+        "   lts.pk.district = bid.elevator.station.district and" +
+        "   (bid.elevator.station.locality is null or" +
+        "   lts.pk.locality = bid.elevator.station.locality) and" +
+        "   tp.stationTo.code = lts.baseStation.code and " +
         //Проверяем
         "   tp.stationFrom.code = :code)")
     List<BidPrice> findAllCurrentBidsWithTransportationPrice(@Param("code") String code);

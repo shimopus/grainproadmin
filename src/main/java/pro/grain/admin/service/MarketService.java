@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pro.grain.admin.domain.enumeration.NDS;
 import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.service.dto.BidPriceDTO;
 import pro.grain.admin.service.dto.StationDTO;
@@ -22,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -66,13 +68,13 @@ public class MarketService {
                 .setData(new SoyMapData("errors", SoyTemplatesUtils.objectToSoyData(e.getErrors())))
                 .render();
         }
-        return tofu.newRenderer("tables."+templateName)
+        return tofu.newRenderer("tables." + templateName)
             .setData(templateData)
             .render();
     }
 
     private SoyMapData generateCommonParameters(String stationCode, String baseUrl) throws MarketGenerationException {
-        Collection<List<BidPriceDTO>> bids = getBids(stationCode);
+        Collection<ArrayList<BidPriceDTO>> bids = getBids(stationCode);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
 
@@ -85,61 +87,63 @@ public class MarketService {
         );
     }
 
-    private Collection<List<BidPriceDTO>> getBids(String stationCode) throws MarketGenerationException {
+    private Collection<ArrayList<BidPriceDTO>> getBids(String stationCode) throws MarketGenerationException {
         String newCode;
-        Map<QualityClass, List<BidPriceDTO>> bids;
+        List<BidPriceDTO> bids;
         List<String> errors = new ArrayList<>();
 
         if (stationCode != null) {
             try {
                 newCode = calculateDestinationStation(stationCode);
                 bids = bidService.getAllCurrentBidsForStation(newCode);
-                Map<QualityClass, List<BidPriceDTO>> fullBids = bidService.getAllCurrentBids();
+                List<BidPriceDTO> fullBids = bidService.getAllCurrentBids();
 
                 //Check for errors
                 List<BidPriceDTO> errorForBids = new ArrayList<>(bids.size());
 
-                for (Map.Entry<QualityClass, List<BidPriceDTO>> entry : fullBids.entrySet()) {
-                    List<BidPriceDTO> currentFullBids = entry.getValue();
-                    log.debug("Full bid List {}", currentFullBids);
-                    List<BidPriceDTO> currentBids = bids.get(entry.getKey());
-                    log.debug("Bid List {}", currentBids);
+                for (BidPriceDTO fullBidPriceDTO : fullBids) {
+//                    List<BidPriceDTO> currentFullBids = entry.getValue();
+//                    log.debug("Full bid List {}", currentFullBids);
+//                    List<BidPriceDTO> currentBids = bids.get(entry.getKey());
+//                    log.debug("Bid List {}", currentBids);
 
-                    if (currentBids == null || currentBids.size() == 0) {
-                        errorForBids.addAll(currentFullBids);
-                        break;
-                    }
+//                    if (currentBids == null || currentBids.size() == 0) {
+//                        errorForBids.addAll(currentFullBids);
+//                        break;
+//                    }
 
-                    for (BidPriceDTO fullBidPriceDTO : currentFullBids) {
-                        boolean exists = false;
-                        for (BidPriceDTO bidPriceDTO : currentBids) {
-                            if (fullBidPriceDTO.getId().equals(bidPriceDTO.getId())) {
-                                exists = true;
-                                break;
-                            }
-                        }
-                        if (!exists) {
-                            //Если станция отправления равна станции прибытия
-                            if (fullBidPriceDTO.getElevator().getStationCode().equals(stationCode) ||
-                                fullBidPriceDTO.getElevator().getStationCode().equals(newCode)) {
-                                currentBids.add(fullBidPriceDTO);
-                            } else {
-                                errorForBids.add(fullBidPriceDTO);
-                            }
+//                    for (BidPriceDTO fullBidPriceDTO : currentFullBids) {
+                    boolean exists = false;
+
+                    for (BidPriceDTO bidPriceDTO : bids) {
+                        if (fullBidPriceDTO.getId().equals(bidPriceDTO.getId())) {
+                            exists = true;
+                            break;
                         }
                     }
+
+                    if (!exists) {
+                        //Если станция отправления равна станции прибытия
+                        if (fullBidPriceDTO.getElevator().getStationCode().equals(stationCode) ||
+                            fullBidPriceDTO.getElevator().getStationCode().equals(newCode)) {
+                            bids.add(fullBidPriceDTO);
+                        } else {
+                            errorForBids.add(fullBidPriceDTO);
+                        }
+                    }
+//                    }
                 }
 
                 if (errorForBids.size() != 0) {
                     log.error("Some bids could not be calculated for station " + newCode);
-                    for(BidPriceDTO bid : errorForBids) {
+                    for (BidPriceDTO bid : errorForBids) {
                         String stationFromCode = bid.getElevator().getStationCode();
                         String baseStationFromCode;
                         try {
                             baseStationFromCode = calculateDestinationStation(stationFromCode);
                         } catch (KeySelectorException e) {
                             errors.add("Не возможно вычислить базовую станцию для станции " + stationFromCode +
-                            " (" + bid.getElevator().getStationName() + ")");
+                                " (" + bid.getElevator().getStationName() + ")");
                             continue;
                         }
 
@@ -150,18 +154,18 @@ public class MarketService {
                         errors);
                 }
 
+                return enrichAndSortMarket(bids, stationCode, newCode);
+
             } catch (KeySelectorException e) {
                 log.error("Could not calculate destination station", e);
                 errors.add("Не возможно вычислить базовую станцию для станции " + stationCode);
                 throw new MarketGenerationException("Could not calculate destination station",
                     errors
-                    ,e);
+                    , e);
             }
         } else {
-            bids = bidService.getAllCurrentBids();
+            return enrichAndSortMarket(bidService.getAllCurrentBids(), null, null);
         }
-
-        return bids.values();
     }
 
     private String calculateDestinationStation(String byStationCode) throws KeySelectorException {
@@ -183,6 +187,65 @@ public class MarketService {
         }
 
         return newStation.getCode();
+    }
+
+    private Collection<ArrayList<BidPriceDTO>> enrichAndSortMarket(List<BidPriceDTO> bids, String stationCode, String baseStationCode) {
+        if (bids == null) return null;
+
+        return bids.stream()
+            .map(bid -> {
+                bid.setFcaPrice(getFCAPrice(bid));
+                if (stationCode != null) {
+                    bid.setCptPrice(getCPTPrice(bid));
+                }
+                return bid;
+            })
+            .collect(Collectors.groupingBy(BidPriceDTO::getQualityClass, TreeMap::new,
+                Collectors.collectingAndThen(
+                    Collectors.toCollection(ArrayList::new),
+                    l -> {
+                        l.sort(Comparator.comparingLong(bid -> getPriceToCompare(bid, stationCode, baseStationCode)));
+                        return l;
+
+                    }
+                ))).values();
+    }
+
+    private Long getPriceToCompare(BidPriceDTO bid, String stationCode, String baseStationCode) {
+        if (stationCode == null) {
+            return getFCAPrice(bid);
+        } else {
+            //Если станция отгрузки равна станции доставки
+            if (bid.getElevator().getStationCode().equals(stationCode) ||
+                bid.getElevator().getStationCode().equals(baseStationCode)) {
+                return bid.getPrice();
+            } else {
+                return getCPTPrice(bid);
+            }
+        }
+    }
+
+    private Long getFCAPrice(BidPriceDTO bid) {
+        Long selfPrice = bid.getPrice();
+        Long loadPrice = 0L;
+
+        if (bid.getElevator().getServicePrices() != null && bid.getElevator().getServicePrices().size() > 0) {
+            loadPrice = bid.getElevator().getServicePrices().iterator().next().getPrice();
+        }
+
+        return selfPrice + loadPrice;
+    }
+
+    private Long getCPTPrice(BidPriceDTO bid) {
+        Long transpPrice = 0L;
+
+        if (bid.getNds().equals(NDS.EXCLUDED) && bid.getTransportationPricePrice() != null) {
+            transpPrice = bid.getTransportationPricePrice();
+        } else if (bid.getNds().equals(NDS.INCLUDED) && bid.getTransportationPricePriceNds() != null) {
+            transpPrice = bid.getTransportationPricePriceNds();
+        }
+
+        return getFCAPrice(bid) + transpPrice;
     }
 
     private File getFileFromResources(String path) throws IOException {

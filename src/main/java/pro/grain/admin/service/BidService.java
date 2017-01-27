@@ -2,7 +2,6 @@ package pro.grain.admin.service;
 
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
-import pro.grain.admin.domain.enumeration.NDS;
 import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
@@ -21,7 +20,6 @@ import pro.grain.admin.service.mapper.BidPriceMapper;
 
 import javax.inject.Inject;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -136,24 +134,24 @@ public class BidService {
      *
      * @param code station code
      */
-    public Map<QualityClass, List<BidPriceDTO>> getAllCurrentBidsForStation(String code) {
+    public List<BidPriceDTO> getAllCurrentBidsForStation(String code) {
         log.debug("Request to get all current Bids for station : {}", code);
 
         List<BidPrice> bids = bidRepository.findAllCurrentBidsWithTransportationPrice(code);
 
-        return enrichAndSortMarket(bidPriceMapper.bidPricesToBidPriceDTOs(bids), true);
+        return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
     }
 
     /**
      * get all current bids in a sorted map like
      * Map<QualityClass, List<BidPriceDTO>>
      */
-    public Map<QualityClass, List<BidPriceDTO>> getAllCurrentBids() {
+    public List<BidPriceDTO> getAllCurrentBids() {
         log.debug("Request to get all current Bids");
 
         List<BidPrice> bids = bidRepository.findAllCurrentBids();
 
-        return enrichAndSortMarket(bidPriceMapper.bidPricesToBidPriceDTOs(bids), false);
+        return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
     }
 
     /**
@@ -167,51 +165,5 @@ public class BidService {
         log.debug("Request to search for a page of Bids for query {}", query);
         Page<Bid> result = bidSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(bidMapper::bidToBidDTO);
-    }
-
-    private Long getFCAPrice(BidPriceDTO bid) {
-        Long selfPrice = bid.getPrice();
-        Long loadPrice = 0L;
-
-        if (bid.getElevator().getServicePrices() != null && bid.getElevator().getServicePrices().size() > 0) {
-            loadPrice = bid.getElevator().getServicePrices().iterator().next().getPrice();
-        }
-
-        return selfPrice + loadPrice;
-    }
-
-    private Long getCPTPrice(BidPriceDTO bid) {
-        Long transpPrice = 0L;
-
-        if (bid.getNds().equals(NDS.EXCLUDED) && bid.getTransportationPricePrice() != null) {
-            transpPrice = bid.getTransportationPricePrice();
-        } else if (bid.getNds().equals(NDS.INCLUDED) && bid.getTransportationPricePriceNds() != null) {
-            transpPrice = bid.getTransportationPricePriceNds();
-        }
-
-        return getFCAPrice(bid) + transpPrice;
-    }
-
-    private Map<QualityClass, List<BidPriceDTO>> enrichAndSortMarket(List<BidPriceDTO> bids, boolean hasTransportationPrice) {
-        if (bids == null) return null;
-
-        return bids.stream()
-            .map(bid -> {
-                bid.setFcaPrice(getFCAPrice(bid));
-                if (hasTransportationPrice) {
-                    bid.setCptPrice(getCPTPrice(bid));
-                }
-                return bid;
-            })
-            .collect(Collectors.groupingBy(BidPriceDTO::getQualityClass, TreeMap::new,
-                Collectors.collectingAndThen(
-                    Collectors.toCollection(ArrayList::new),
-                    l -> {l.sort((bid1, bid2) ->
-                        hasTransportationPrice ?
-                            Long.compare(bid1.getCptPrice(), bid2.getCptPrice()) :
-                            Long.compare(bid1.getFcaPrice(), bid2.getFcaPrice()));
-                            return l;
-                        }
-                )));
     }
 }

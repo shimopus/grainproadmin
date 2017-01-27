@@ -310,6 +310,17 @@
  * @param station Станция для расчета цены. Может быть null.
  */
 {template .title}
+
+{if $station != null}
+<table border="1" width="700px" cellpadding="0" cellspacing="0"
+       style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;
+       border-width:1px; border-color:red; background-color:#FFCCCC">
+    <tr style="font-size: 14px;">
+        <td>Внимание! С 2017 года компания РЖД увеличила ставки тарифов на перевозку грузов железнодорожным транспортом. Мы ведем работы по обновлению цен перевозчиков на портале grain.pro, но это потребует  еще какого-то времени. Сейчас при расчете стоимости доставки используются цены 2016 года.</td>
+    </tr>
+</table>
+{/if}
+
 <table border="0" width="700px" cellpadding="0" cellspacing="0"
        style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;">
     <tr style="font-size: 14px;">

@@ -102,17 +102,6 @@ public class MarketService {
                 List<BidPriceDTO> errorForBids = new ArrayList<>(bids.size());
 
                 for (BidPriceDTO fullBidPriceDTO : fullBids) {
-//                    List<BidPriceDTO> currentFullBids = entry.getValue();
-//                    log.debug("Full bid List {}", currentFullBids);
-//                    List<BidPriceDTO> currentBids = bids.get(entry.getKey());
-//                    log.debug("Bid List {}", currentBids);
-
-//                    if (currentBids == null || currentBids.size() == 0) {
-//                        errorForBids.addAll(currentFullBids);
-//                        break;
-//                    }
-
-//                    for (BidPriceDTO fullBidPriceDTO : currentFullBids) {
                     boolean exists = false;
 
                     for (BidPriceDTO bidPriceDTO : bids) {
@@ -124,8 +113,7 @@ public class MarketService {
 
                     if (!exists) {
                         //Если станция отправления равна станции прибытия
-                        if (fullBidPriceDTO.getElevator().getStationCode().equals(stationCode) ||
-                            fullBidPriceDTO.getElevator().getStationCode().equals(newCode)) {
+                        if (isStationFromEqualsStationTo(fullBidPriceDTO, stationCode, newCode)) {
                             bids.add(fullBidPriceDTO);
                         } else {
                             errorForBids.add(fullBidPriceDTO);
@@ -194,9 +182,11 @@ public class MarketService {
 
         return bids.stream()
             .map(bid -> {
-                bid.setFcaPrice(getFCAPrice(bid));
-                if (stationCode != null) {
-                    bid.setCptPrice(getCPTPrice(bid));
+                if (!isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
+                    bid.setFcaPrice(getFCAPrice(bid));
+                    if (stationCode != null) {
+                        bid.setCptPrice(getCPTPrice(bid));
+                    }
                 }
                 return bid;
             })
@@ -216,8 +206,7 @@ public class MarketService {
             return getFCAPrice(bid);
         } else {
             //Если станция отгрузки равна станции доставки
-            if (bid.getElevator().getStationCode().equals(stationCode) ||
-                bid.getElevator().getStationCode().equals(baseStationCode)) {
+            if (isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
                 return bid.getPrice();
             } else {
                 return getCPTPrice(bid);
@@ -246,6 +235,11 @@ public class MarketService {
         }
 
         return getFCAPrice(bid) + transpPrice;
+    }
+
+    private boolean isStationFromEqualsStationTo(BidPriceDTO bid, String stationTo, String baseStationTo) {
+        return bid.getElevator().getStationCode().equals(stationTo)
+            || bid.getElevator().getStationCode().equals(baseStationTo);
     }
 
     private File getFileFromResources(String path) throws IOException {

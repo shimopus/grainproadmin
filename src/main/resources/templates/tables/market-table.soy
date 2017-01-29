@@ -112,6 +112,8 @@
                                     {$bid.cptPrice}
                                 {elseif $station == null}
                                     {$bid.fcaPrice}
+                                {else}
+                                    {$bid.price}
                                 {/if}
                             </td>
                             <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
@@ -127,6 +129,8 @@
                                     СРТ с доставкой ж/д до
                                 {elseif $station == null}
                                     FCA с погрузкой ж/д на
+                                {else}
+                                    EXW по переписи
                                 {/if}
                             </td>
                         </tr>
@@ -186,11 +190,15 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {$bid.price}
+                                {if $station == null}
+                                    {$bid.price}
+                                {/if}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                <span style="font-size: 10px; -webkit-text-size-adjust:none">EXW по переписи </span>
+                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                    <span style="font-size: 10px; -webkit-text-size-adjust:none">EXW по переписи </span>
+                                {/if}
                             </td>
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
@@ -216,11 +224,15 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {$bid.elevator.servicePrices[0].price}
+                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                    {$bid.elevator.servicePrices[0].price}
+                                {/if}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                <span style="font-size: 10px; -webkit-text-size-adjust:none">покрузка ж/д </span>
+                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                    <span style="font-size: 10px; -webkit-text-size-adjust:none">погрузка ж/д </span>
+                                {/if}
                             </td>
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
@@ -262,7 +274,7 @@
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                 <span style="font-size: 10px; -webkit-text-size-adjust:none">
-                                    {if $station}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
                                         доставка ж/д (Русагротранс)
                                     {/if}
                                 </span>

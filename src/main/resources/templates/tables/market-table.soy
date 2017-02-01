@@ -190,7 +190,7 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $station == null}
+                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
                                     {$bid.price}
                                 {/if}
                             </td>

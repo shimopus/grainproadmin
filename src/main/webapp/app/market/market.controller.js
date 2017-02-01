@@ -77,8 +77,14 @@
 
                     anchor.attr({
                         href: 'data:attachment/html;charset=utf-8,' + encodeURI(data),
-                        download: "Пшеница " + $filter('date')(new Date(), "dd_MM_yy") + ".html"
-                })[0].click();
+                        download: $filter('date')(new Date(), "yyyyMMdd") +
+                        " пшеница" +
+                        (vm.station ?
+                            " " + vm.station.name +
+                            " (" + vm.station.code + ")"
+                            : "") +
+                        ".html"
+                    })[0].click();
 
                     anchor.remove(); // Clean it up afterwards
                 });

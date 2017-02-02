@@ -130,5 +130,9 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="pro.grain.admin.domain.PriceUpdateQueue"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

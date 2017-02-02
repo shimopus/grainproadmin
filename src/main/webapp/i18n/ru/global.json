@@ -23,6 +23,7 @@
                 "serviceType": "Тип услуги",
                 "email": "Email",
                 "passport": "Passport",
+                "priceUpdateQueue": "Очередь обновления цен",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

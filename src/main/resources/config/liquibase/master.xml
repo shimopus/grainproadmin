@@ -41,4 +41,6 @@
     <include file="changelog/20161227210311_changed_entity_QualityValue_changeValueType.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20161228210312_add_Station_Location_table_and_data.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20170109221041_changed_entity_Station_add_field_coordinates.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20170202144422_added_entity_PriceUpdateQueue.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20170202144422_added_entity_constraints_PriceUpdateQueue.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

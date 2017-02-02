@@ -1,0 +1,25 @@
+{
+    "grainAdminApp": {
+        "priceUpdateQueue" : {
+            "home": {
+                "title": "Price Update Queues",
+                "createLabel": "Создать новый Price Update Queue",
+                "createOrEditLabel": "Создать или отредактировать Price Update Queue",
+                "search": "Найти Price Update Queue"
+            },
+            "created": "Новый Price Update Queue создан с идентификатором {{ param }}",
+            "updated": "Price Update Queue обновлен с идентификатором {{ param }}",
+            "deleted": "Price Update Queue удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Price Update Queue {{ id }}?"
+            },
+            "detail": {
+                "title": "Price Update Queue"
+            },
+            "loaded": "Loaded",
+            "loadingOrder": "Loading Order",
+            "stationFrom": "Station From",
+            "stationTo": "Station To"
+        }
+    }
+}

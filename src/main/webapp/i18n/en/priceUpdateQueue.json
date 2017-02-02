@@ -1,0 +1,25 @@
+{
+    "grainAdminApp": {
+        "priceUpdateQueue" : {
+            "home": {
+                "title": "Price Update Queues",
+                "createLabel": "Create a new Price Update Queue",
+                "createOrEditLabel": "Create or edit a Price Update Queue",
+                "search": "Search for Price Update Queue"
+            },
+            "created": "A new Price Update Queue is created with identifier {{ param }}",
+            "updated": "A Price Update Queue is updated with identifier {{ param }}",
+            "deleted": "A Price Update Queue is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Price Update Queue {{ id }}?"
+            },
+            "detail": {
+                "title": "Price Update Queue"
+            },
+            "loaded": "Loaded",
+            "loadingOrder": "Loading Order",
+            "stationFrom": "Station From",
+            "stationTo": "Station To"
+        }
+    }
+}

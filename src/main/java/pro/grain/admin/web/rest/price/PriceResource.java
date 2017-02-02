@@ -13,14 +13,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.grain.admin.domain.TransportationPrice;
 import pro.grain.admin.repository.TransportationPriceRepository;
+import pro.grain.admin.service.dto.StationDTO;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class PriceResource {
     private final Logger log = LoggerFactory.getLogger(PriceResource.class);
 
+    private final TransportationPriceRepository transportationPriceRepository;
+
     @Autowired
-    private TransportationPriceRepository transportationPriceRepository;
+    public PriceResource(TransportationPriceRepository transportationPriceRepository) {
+        this.transportationPriceRepository = transportationPriceRepository;
+    }
 
     @RequestMapping(value = "/price",
         method = RequestMethod.GET,
@@ -37,5 +44,13 @@ public class PriceResource {
         } else {
             return new ResponseEntity<>("0", HttpStatus.OK);
         }
+    }
+
+    @RequestMapping(value = "/price/getNextStations",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<StationDTO>> getNextStations() {
+        return null;
     }
 }

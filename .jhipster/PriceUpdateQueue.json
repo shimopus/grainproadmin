@@ -1,0 +1,41 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "stationFrom",
+            "otherEntityName": "station",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name"
+        },
+        {
+            "relationshipName": "stationTo",
+            "otherEntityName": "station",
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": [
+                "required"
+            ],
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "loaded",
+            "fieldType": "Boolean",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "loadingOrder",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20170202144422",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "price_update_queue",
+    "pagination": "pager"
+}

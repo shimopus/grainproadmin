@@ -1,0 +1,87 @@
+<div>
+    <h2 data-translate="grainAdminApp.priceUpdateQueue.home.title">Price Update Queues</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="price-update-queue.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="hidden-xs"  data-translate="grainAdminApp.priceUpdateQueue.home.createLabel">
+                        Create new Price Update Queue
+                    </span>
+                </button>
+            </div>
+            <div class="col-xs-8 no-padding-right">
+                <form name="searchForm" class="form-inline">
+                    <div class="input-group pull-right" >
+                        <input type="text" class="form-control" ng-model="vm.searchQuery" id="searchQuery" placeholder="{{ 'grainAdminApp.priceUpdateQueue.home.search' | translate }}">
+                        <span  class="input-group-btn width-min" >
+                            <button class="btn btn-info" ng-click="vm.search(vm.searchQuery)">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                        <span class="input-group-btn width-min" ng-if="vm.currentSearch">
+                            <button class="btn btn-info" ng-click="vm.clear()">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="loaded"><span data-translate="grainAdminApp.priceUpdateQueue.loaded">Loaded</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="loadingOrder"><span data-translate="grainAdminApp.priceUpdateQueue.loadingOrder">Loading Order</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="stationFromName"><span data-translate="grainAdminApp.priceUpdateQueue.stationFrom">Station From</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="stationToName"><span data-translate="grainAdminApp.priceUpdateQueue.stationTo">Station To</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="priceUpdateQueue in vm.priceUpdateQueues track by priceUpdateQueue.id">
+                    <td><a ui-sref="price-update-queue-detail({id:priceUpdateQueue.id})">{{priceUpdateQueue.id}}</a></td>
+                    <td>{{priceUpdateQueue.loaded}}</td>
+                    <td>{{priceUpdateQueue.loadingOrder}}</td>
+                    <td>
+                        <a ui-sref="station-detail({id:priceUpdateQueue.stationFromId})">{{priceUpdateQueue.stationFromName}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="station-detail({id:priceUpdateQueue.stationToId})">{{priceUpdateQueue.stationToName}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="price-update-queue-detail({id:priceUpdateQueue.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="price-update-queue.edit({id:priceUpdateQueue.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="price-update-queue.delete({id:priceUpdateQueue.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+    </div>
+    <uib-pager total-items="vm.totalItems" ng-model="vm.page" ng-change="vm.transition()"></uib-pager>
+</div>

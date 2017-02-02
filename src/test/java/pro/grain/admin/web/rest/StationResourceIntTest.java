@@ -46,6 +46,7 @@ public class StationResourceIntTest {
     private static final String UPDATED_NAME = "BBBBB";
 
     private static final String DEFAULT_CODE = "AAAAA";
+    private static final String DEFAULT_CODE2 = "AAAAACCCC";
     private static final String UPDATED_CODE = "BBBBB";
 
     private static final String DEFAULT_COORDINATES = "AAAAA";
@@ -92,12 +93,22 @@ public class StationResourceIntTest {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Station createEntity(EntityManager em) {
+    public static Station createEntity(EntityManager em, boolean isFirst) {
         Station station = new Station()
                 .name(DEFAULT_NAME)
-                .code(DEFAULT_CODE)
+                .code(isFirst ? DEFAULT_CODE : DEFAULT_CODE2)
                 .coordinates(DEFAULT_COORDINATES);
         return station;
+    }
+
+    /**
+     * Create an entity for this test.
+     *
+     * This is a static method, as tests for other entities might also need it,
+     * if they test an entity which requires the current entity.
+     */
+    public static Station createEntity(EntityManager em) {
+        return createEntity(em, true);
     }
 
     @Before

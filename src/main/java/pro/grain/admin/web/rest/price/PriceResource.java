@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.grain.admin.domain.TransportationPrice;
 import pro.grain.admin.repository.TransportationPriceRepository;
+import pro.grain.admin.service.PriceDownloadService;
 import pro.grain.admin.service.dto.StationDTO;
 
 import java.util.List;
@@ -24,9 +25,12 @@ public class PriceResource {
 
     private final TransportationPriceRepository transportationPriceRepository;
 
+    private final PriceDownloadService priceDownloadService;
+
     @Autowired
-    public PriceResource(TransportationPriceRepository transportationPriceRepository) {
+    public PriceResource(TransportationPriceRepository transportationPriceRepository, PriceDownloadService priceDownloadService) {
         this.transportationPriceRepository = transportationPriceRepository;
+        this.priceDownloadService = priceDownloadService;
     }
 
     @RequestMapping(value = "/price",
@@ -52,5 +56,14 @@ public class PriceResource {
     @Timed
     public ResponseEntity<List<StationDTO>> getNextStations() {
         return null;
+    }
+
+    @RequestMapping(value = "/price/downloadStart",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<Boolean> startDownloading() {
+        priceDownloadService.initializeQueue();
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

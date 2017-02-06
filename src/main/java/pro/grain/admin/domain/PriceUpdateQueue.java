@@ -21,7 +21,8 @@ public class PriceUpdateQueue implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "price_update_queue_gen")
+    @SequenceGenerator(name = "price_update_queue_gen", sequenceName = "price_update_queue_id_seq")
     private Long id;
 
     @NotNull
@@ -38,6 +39,16 @@ public class PriceUpdateQueue implements Serializable {
     @ManyToOne
     @NotNull
     private Station stationTo;
+
+    public PriceUpdateQueue() {
+    }
+
+    public PriceUpdateQueue(Boolean loaded, Long loadingOrder, Station stationFrom, Station stationTo) {
+        this.loaded = loaded;
+        this.loadingOrder = loadingOrder;
+        this.stationFrom = stationFrom;
+        this.stationTo = stationTo;
+    }
 
     public Long getId() {
         return id;

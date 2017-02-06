@@ -32,6 +32,11 @@ spring:
             ddl-auto: none
             naming:
                 strategy: org.springframework.boot.orm.jpa.hibernate.SpringNamingStrategy
+        properties:
+            hibernate.jdbc.batch_size: 50
+            hibernate.order_inserts: true
+            hibernate.order_updates: true
+            hibernate.jdbc.batch_versioned_data: true
     messages:
         basename: i18n/messages
     mvc:

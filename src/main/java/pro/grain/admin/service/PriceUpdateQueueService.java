@@ -20,10 +20,8 @@ import org.springframework.stereotype.Service;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -76,7 +74,7 @@ public class PriceUpdateQueueService {
     public Page<PriceUpdateQueueDTO> findAll(Pageable pageable) {
         log.debug("Request to get all PriceUpdateQueues");
         Page<PriceUpdateQueue> result = priceUpdateQueueRepository.findAll(pageable);
-        return result.map(priceUpdateQueue -> priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue));
+        return result.map(priceUpdateQueueMapper::priceUpdateQueueToPriceUpdateQueueDTO);
     }
 
     /**
@@ -89,8 +87,7 @@ public class PriceUpdateQueueService {
     public PriceUpdateQueueDTO findOne(Long id) {
         log.debug("Request to get PriceUpdateQueue : {}", id);
         PriceUpdateQueue priceUpdateQueue = priceUpdateQueueRepository.findOne(id);
-        PriceUpdateQueueDTO priceUpdateQueueDTO = priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue);
-        return priceUpdateQueueDTO;
+        return priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue);
     }
 
     /**
@@ -124,8 +121,8 @@ public class PriceUpdateQueueService {
     }
 
     @Async
-    public void initializeQueue() {
-        log.warn("!!!!!!!!!!!   Initialize Download Queue !!!!!!!!!!!!!!!");
+    public CompletableFuture<Integer> initializeQueue(int from) {
+        log.warn("!!!!!!!!!!! Initialize Download Queue !!!!!!!!!!!!!!!");
 
         List<Pair<Station, Station>> queue = new ArrayList<>();
 
@@ -141,11 +138,11 @@ public class PriceUpdateQueueService {
             }
         }
 
-        int i = 0;
-        long order = 0;
+        long order = from*100;
+        int to = from + 30000;
 
-        for (Iterator<Pair<Station, Station>> iterator = queue.iterator(); iterator.hasNext(); i++) {
-            Pair<Station, Station> pair = iterator.next();
+        for (int i = from; i < to && i < queue.size(); i++) {
+            Pair<Station, Station> pair = queue.get(i);
 
             if (pair.getRight().equals(pair.getLeft())) {
                 continue;
@@ -163,13 +160,14 @@ public class PriceUpdateQueueService {
             if (i % 50 == 0) {
                 entityManager.flush();
                 entityManager.clear();
-                log.warn("Loaded {} items in Queue", i);
             }
         }
 
         entityManager.flush();
         entityManager.clear();
 
-        log.warn("!!!!!!!!!!!   Download Queue is initialized with size {} !!!!!!!!!!!!!", priceUpdateQueueRepository.count());
+        log.warn("!!!!!!!!!!! Download Queue is initialized with size {} !!!!!!!!!!!!!", priceUpdateQueueRepository.count());
+
+        return CompletableFuture.completedFuture(to < queue.size() ? to+1 : -1);
     }
 }

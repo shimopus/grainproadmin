@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Service
 @Transactional
@@ -22,6 +23,8 @@ public class PriceDownloadService {
 
     @Inject
     private PriceUpdateQueueService priceUpdateQueueService;
+
+    private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
 
     @Inject
     private GrainProAdminProperties grainProAdminProperties;
@@ -41,18 +44,33 @@ public class PriceDownloadService {
         log.debug("Updated Queue");
     }
 
-    public synchronized List<String> getNextStations() {
-        PriceUpdateQueueDTO priceUpdateQueue = priceUpdateQueueService.findNextAvailable();
+    public List<String> getNextStations() {
+        PriceUpdateQueueDTO priceUpdateQueue;
 
-        if (priceUpdateQueue == null) return null;
+        readWriteLock.readLock().lock();
+        try {
+            priceUpdateQueue = priceUpdateQueueService.findNextAvailable();
+            if (priceUpdateQueue == null) return null;
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
 
-        priceUpdateQueueService.markAsUnavailable(priceUpdateQueue.getId());
+        readWriteLock.writeLock().lock();
 
-        List<String> result = new ArrayList<>(2);
-        result.add(priceUpdateQueue.getStationFromName());
-        result.add(priceUpdateQueue.getStationToName());
-
-        return result;
+        try {
+            priceUpdateQueueService.markAsUnavailable(priceUpdateQueue.getId());
+            readWriteLock.readLock().lock();
+        } finally {
+            readWriteLock.writeLock().unlock();
+        }
+        try {
+            List<String> result = new ArrayList<>(2);
+            result.add(priceUpdateQueue.getStationFromName());
+            result.add(priceUpdateQueue.getStationToName());
+            return result;
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
     }
 
     public void addNewPrice(TransportationPrice transportationPrice) {

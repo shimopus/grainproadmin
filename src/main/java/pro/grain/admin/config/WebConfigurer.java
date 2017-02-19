@@ -149,6 +149,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         CorsConfiguration priceConfig = new CorsConfiguration();
         priceConfig.addAllowedOrigin("*");
         source.registerCorsConfiguration("/api/price", priceConfig);
+        source.registerCorsConfiguration("/api/price/**", priceConfig);
         source.registerCorsConfiguration("/api/**", config);
         source.registerCorsConfiguration("/v2/api-docs", config);
         source.registerCorsConfiguration("/oauth/**", config);

@@ -1,9 +1,6 @@
 package pro.grain.admin.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.web.cors.CorsConfiguration;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * Properties specific to Grain.Pro Admin.

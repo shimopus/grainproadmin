@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -34,6 +35,12 @@ public class TransportationPrice implements Serializable {
 
     @Column(name = "distance")
     private Integer distance;
+
+    @Column(name = "version_number")
+    private Integer versionNumber;
+
+    @Column(name = "loading_date")
+    private LocalDate loadingDate;
 
     @NotNull
     @OneToOne
@@ -90,6 +97,22 @@ public class TransportationPrice implements Serializable {
 
     public void setDistance(Integer distance) {
         this.distance = distance;
+    }
+
+    public Integer getVersionNumber() {
+        return versionNumber;
+    }
+
+    public void setVersionNumber(Integer versionNumber) {
+        this.versionNumber = versionNumber;
+    }
+
+    public LocalDate getLoadingDate() {
+        return loadingDate;
+    }
+
+    public void setLoadingDate(LocalDate loadingDate) {
+        this.loadingDate = loadingDate;
     }
 
     public Station getStationFrom() {

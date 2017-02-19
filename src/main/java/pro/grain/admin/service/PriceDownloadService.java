@@ -1,13 +1,17 @@
 package pro.grain.admin.service;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pro.grain.admin.domain.Station;
+import pro.grain.admin.config.GrainProAdminProperties;
+import pro.grain.admin.domain.TransportationPrice;
+import pro.grain.admin.repository.TransportationPriceRepository;
+import pro.grain.admin.service.dto.PriceUpdateQueueDTO;
 
 import javax.inject.Inject;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +23,12 @@ public class PriceDownloadService {
     @Inject
     private PriceUpdateQueueService priceUpdateQueueService;
 
+    @Inject
+    private GrainProAdminProperties grainProAdminProperties;
+
+    @Inject
+    private TransportationPriceRepository transportationPriceRepository;
+
     public void initializeQueue() {
         log.debug("Initialize Queue");
 
@@ -29,6 +39,27 @@ public class PriceDownloadService {
         log.debug("Updating Queue");
         updatePriceUpdateQueueService(from);
         log.debug("Updated Queue");
+    }
+
+    public synchronized List<String> getNextStations() {
+        PriceUpdateQueueDTO priceUpdateQueue = priceUpdateQueueService.findNextAvailable();
+
+        if (priceUpdateQueue == null) return null;
+
+        priceUpdateQueueService.markAsUnavailable(priceUpdateQueue.getId());
+
+        List<String> result = new ArrayList<>(2);
+        result.add(priceUpdateQueue.getStationFromName());
+        result.add(priceUpdateQueue.getStationToName());
+
+        return result;
+    }
+
+    public void addNewPrice(TransportationPrice transportationPrice) {
+        transportationPrice.setVersionNumber(grainProAdminProperties.getPrice().getCurrentVersionNumber() + 1);
+        transportationPrice.setLoadingDate(LocalDate.now());
+
+        transportationPriceRepository.save(transportationPrice);
     }
 
     private void updatePriceUpdateQueueService(int from) {

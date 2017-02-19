@@ -3,12 +3,14 @@ package pro.grain.admin.service;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.scheduling.annotation.Async;
+import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.PriceUpdateQueue;
 import pro.grain.admin.domain.Station;
 import pro.grain.admin.repository.LocationToBaseStationRepository;
 import pro.grain.admin.repository.PriceUpdateQueueRepository;
 import pro.grain.admin.repository.search.PriceUpdateQueueSearchRepository;
 import pro.grain.admin.service.dto.PriceUpdateQueueDTO;
+import pro.grain.admin.service.dto.StationDTO;
 import pro.grain.admin.service.mapper.PriceUpdateQueueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +51,9 @@ public class PriceUpdateQueueService {
     @Inject
     EntityManager entityManager;
 
+    @Inject
+    private GrainProAdminProperties grainProAdminProperties;
+
     /**
      * Save a priceUpdateQueue.
      *
@@ -88,6 +93,18 @@ public class PriceUpdateQueueService {
         log.debug("Request to get PriceUpdateQueue : {}", id);
         PriceUpdateQueue priceUpdateQueue = priceUpdateQueueRepository.findOne(id);
         return priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue);
+    }
+
+    public PriceUpdateQueueDTO findNextAvailable() {
+        log.debug("Request to get next available Price Update Queue");
+
+        PriceUpdateQueue priceUpdateQueue = priceUpdateQueueRepository.findNextAvailable();
+
+        return priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue);
+    }
+
+    public void markAsUnavailable(Long priceUpdateQueueId) {
+        priceUpdateQueueRepository.markAsUnavailable(priceUpdateQueueId);
     }
 
     /**
@@ -139,7 +156,7 @@ public class PriceUpdateQueueService {
         }
 
         long order = from*100;
-        int to = from + 30000;
+        int to = from + grainProAdminProperties.getPriceUpload().getDownloadBucketSize();
 
         for (int i = from; i < to && i < queue.size(); i++) {
             Pair<Station, Station> pair = queue.get(i);

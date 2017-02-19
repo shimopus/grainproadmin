@@ -110,3 +110,12 @@ jhipster:
     ribbon:
         # comma seperated list of profiles to show a ribbon on the GUI
         displayOnActiveProfiles: dev
+
+# ===================================================================
+# Grain.Pro Admin specific properties
+# ===================================================================
+grainproadmin:
+    price:
+        currentVersionNumber: 1
+    priceUpload:
+        downloadBucketSize: 30000

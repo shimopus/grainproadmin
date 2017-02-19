@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.TransportationPrice;
+import pro.grain.admin.repository.StationRepository;
 import pro.grain.admin.repository.TransportationPriceRepository;
 import pro.grain.admin.service.PriceDownloadService;
-import pro.grain.admin.service.dto.StationDTO;
 
+import javax.inject.Inject;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,12 @@ public class PriceResource {
     private final TransportationPriceRepository transportationPriceRepository;
 
     private final PriceDownloadService priceDownloadService;
+
+    @Inject
+    private GrainProAdminProperties grainProAdminProperties;
+
+    @Inject
+    private StationRepository stationRepository;
 
     @Autowired
     public PriceResource(TransportationPriceRepository transportationPriceRepository, PriceDownloadService priceDownloadService) {
@@ -40,7 +48,8 @@ public class PriceResource {
     public ResponseEntity<String> getPrice(@RequestParam("from") String stationFromName,
                                             @RequestParam("to") String stationToName,
                                             @RequestParam(value = "priceWithNDS", required = false) Boolean isPriceWithNDS) {
-        TransportationPrice transportationPrice = transportationPriceRepository.findByStationNames(stationFromName, stationToName);
+        TransportationPrice transportationPrice = transportationPriceRepository.findByStationNames(
+            stationFromName, stationToName, grainProAdminProperties.getPrice().getCurrentVersionNumber());
         if (transportationPrice != null) {
             return new ResponseEntity<>(
                 (isPriceWithNDS ? transportationPrice.getPriceNds() : transportationPrice.getPrice()).toString(),
@@ -50,12 +59,43 @@ public class PriceResource {
         }
     }
 
-    @RequestMapping(value = "/price/getNextStations",
+    @RequestMapping(value = "/price/new",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<StationDTO>> getNextStations() {
-        return null;
+    public ResponseEntity<Void> setPrice(@RequestParam("from_station") String stationFromName,
+                                           @RequestParam("to_station") String stationToName,
+                                           @RequestParam("price") Float price,
+                                           @RequestParam("price_nds") Float priceWithNDS,
+                                           @RequestParam("distance") Long distance) {
+
+        TransportationPrice tp = new TransportationPrice();
+        tp.setStationFrom(stationRepository.findByName(stationFromName));
+        tp.setStationTo(stationRepository.findByName(stationToName));
+        tp.setPrice(price.longValue());
+        tp.setPriceNds(priceWithNDS.longValue());
+        tp.setDistance(distance.intValue());
+
+        priceDownloadService.addNewPrice(tp);
+
+        return ResponseEntity.ok().build();
+    }
+
+    @RequestMapping(value = "/price/nextStations",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<String>> getNextStations() {
+        List<String> pair = priceDownloadService.getNextStations();
+
+        if (pair != null) {
+            return new ResponseEntity<>(
+                pair,
+                HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @RequestMapping(value = "/price/downloadStart",

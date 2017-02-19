@@ -15,6 +15,9 @@ public interface StationRepository extends JpaRepository<Station,Long> {
     @Query("select distinct station from Station station where code = :code")
     Station findByCode (@Param("code") String code);
 
+    @Query("select distinct station from Station station where name = :name")
+    Station findByName (@Param("name") String name);
+
     @Query("select distinct station from Station station where code in " +
         "(select code from StationToLocation station_location where " +
         "region_id = :region_id and " +

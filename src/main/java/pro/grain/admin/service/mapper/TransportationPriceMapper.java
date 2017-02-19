@@ -16,12 +16,16 @@ public interface TransportationPriceMapper {
     @Mapping(source = "stationFrom.code", target = "stationFromCode")
 //    @Mapping(source = "stationTo.id", target = "stationToId")
     @Mapping(source = "stationTo.code", target = "stationToCode")
+    @Mapping(target = "versionNumber", ignore = true)
+    @Mapping(target = "loadingDate", ignore = true)
     TransportationPriceDTO transportationPriceToTransportationPriceDTO(TransportationPrice transportationPrice);
 
     List<TransportationPriceDTO> transportationPricesToTransportationPriceDTOs(List<TransportationPrice> transportationPrices);
 
     @Mapping(source = "stationFromCode", target = "stationFrom")
     @Mapping(source = "stationToCode", target = "stationTo")
+    @Mapping(target = "versionNumber", ignore = true)
+    @Mapping(target = "loadingDate", ignore = true)
     TransportationPrice transportationPriceDTOToTransportationPrice(TransportationPriceDTO transportationPriceDTO);
 
     List<TransportationPrice> transportationPriceDTOsToTransportationPrices(List<TransportationPriceDTO> transportationPriceDTOs);

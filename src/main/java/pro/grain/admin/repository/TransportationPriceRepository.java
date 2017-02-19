@@ -17,6 +17,10 @@ public interface TransportationPriceRepository extends JpaRepository<Transportat
             "(tp.stationFrom.name like :stationFrom and " +
             "tp.stationTo.name like :stationTo) or " +
             "(tp.stationFrom.name like :stationTo and " +
-            "tp.stationTo.name like :stationFrom)")
-    TransportationPrice findByStationNames(@Param("stationFrom") String stationFromName, @Param("stationTo") String stationToName);
+            "tp.stationTo.name like :stationFrom) and " +
+            "tp.versionNumber = :versionNumber")
+    TransportationPrice findByStationNames(
+        @Param("stationFrom") String stationFromName,
+        @Param("stationTo") String stationToName,
+        @Param("versionNumber") Integer versionNumber);
 }

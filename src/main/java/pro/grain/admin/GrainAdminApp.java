@@ -2,6 +2,7 @@ package pro.grain.admin;
 
 import pro.grain.admin.config.Constants;
 import pro.grain.admin.config.DefaultProfileUtil;
+import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.config.JHipsterProperties;
 
 import org.slf4j.Logger;
@@ -23,7 +24,7 @@ import java.util.Collection;
 
 @ComponentScan
 @EnableAutoConfiguration(exclude = { MetricFilterAutoConfiguration.class, MetricRepositoryAutoConfiguration.class })
-@EnableConfigurationProperties({ JHipsterProperties.class, LiquibaseProperties.class })
+@EnableConfigurationProperties({ JHipsterProperties.class, GrainProAdminProperties.class, LiquibaseProperties.class })
 public class GrainAdminApp {
 
     private static final Logger log = LoggerFactory.getLogger(GrainAdminApp.class);

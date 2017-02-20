@@ -78,6 +78,8 @@ public class PriceResource {
 
         priceDownloadService.addNewPrice(tp);
 
+        log.warn("!!! SQL !!! Save {} -> {}", tp.getStationFrom().getName(), tp.getStationTo().getName());
+
         return ResponseEntity.ok().build();
     }
 
@@ -89,6 +91,7 @@ public class PriceResource {
         List<String> pair = priceDownloadService.getNextStations();
 
         if (pair != null) {
+            log.warn("!!! SQL !!! Next {} -> {}", pair.get(0), pair.get(1));
             return new ResponseEntity<>(
                 pair,
                 HttpStatus.OK

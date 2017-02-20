@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 @Transactional
@@ -24,7 +24,7 @@ public class PriceDownloadService {
     @Inject
     private PriceUpdateQueueService priceUpdateQueueService;
 
-    private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
+    private static final ReentrantLock lock = new ReentrantLock(true);
 
     @Inject
     private GrainProAdminProperties grainProAdminProperties;
@@ -47,30 +47,22 @@ public class PriceDownloadService {
     public List<String> getNextStations() {
         PriceUpdateQueueDTO priceUpdateQueue;
 
-        readWriteLock.readLock().lock();
+        log.warn("!!! SQL !!! {}", System.identityHashCode(lock));
+
+        lock.lock();
         try {
             priceUpdateQueue = priceUpdateQueueService.findNextAvailable();
             if (priceUpdateQueue == null) return null;
-        } finally {
-            readWriteLock.readLock().unlock();
-        }
 
-        readWriteLock.writeLock().lock();
-
-        try {
             priceUpdateQueueService.markAsUnavailable(priceUpdateQueue.getId());
-            readWriteLock.readLock().lock();
         } finally {
-            readWriteLock.writeLock().unlock();
+            lock.unlock();
         }
-        try {
-            List<String> result = new ArrayList<>(2);
-            result.add(priceUpdateQueue.getStationFromName());
-            result.add(priceUpdateQueue.getStationToName());
-            return result;
-        } finally {
-            readWriteLock.readLock().unlock();
-        }
+
+        List<String> result = new ArrayList<>(2);
+        result.add(priceUpdateQueue.getStationFromName());
+        result.add(priceUpdateQueue.getStationToName());
+        return result;
     }
 
     public void addNewPrice(TransportationPrice transportationPrice) {

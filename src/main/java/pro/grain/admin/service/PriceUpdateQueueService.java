@@ -95,10 +95,17 @@ public class PriceUpdateQueueService {
         return priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue);
     }
 
-    public PriceUpdateQueueDTO findNextAvailable() {
+    public synchronized PriceUpdateQueueDTO findNextAvailable() {
         log.debug("Request to get next available Price Update Queue");
 
+        entityManager.clear();
+
         PriceUpdateQueue priceUpdateQueue = priceUpdateQueueRepository.findNextAvailable();
+
+        if (priceUpdateQueue == null) return null;
+
+        priceUpdateQueue.setLoaded(true);
+        priceUpdateQueueRepository.save(priceUpdateQueue);
 
         return priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue);
     }

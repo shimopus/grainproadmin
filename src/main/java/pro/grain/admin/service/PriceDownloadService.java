@@ -53,8 +53,6 @@ public class PriceDownloadService {
         try {
             priceUpdateQueue = priceUpdateQueueService.findNextAvailable();
             if (priceUpdateQueue == null) return null;
-
-            priceUpdateQueueService.markAsUnavailable(priceUpdateQueue.getId());
         } finally {
             lock.unlock();
         }

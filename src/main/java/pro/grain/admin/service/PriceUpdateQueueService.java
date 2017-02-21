@@ -105,7 +105,7 @@ public class PriceUpdateQueueService {
         if (priceUpdateQueue == null) return null;
 
         priceUpdateQueue.setLoaded(true);
-        priceUpdateQueueRepository.save(priceUpdateQueue);
+        priceUpdateQueueRepository.saveAndFlush(priceUpdateQueue);
 
         return priceUpdateQueueMapper.priceUpdateQueueToPriceUpdateQueueDTO(priceUpdateQueue);
     }

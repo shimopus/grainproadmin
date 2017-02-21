@@ -7,6 +7,7 @@ import pro.grain.admin.domain.PriceUpdateQueue;
 
 import org.springframework.data.jpa.repository.*;
 
+import javax.persistence.LockModeType;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public interface PriceUpdateQueueRepository extends JpaRepository<PriceUpdateQue
         "where " +
         "puq.loaded = false " +
         "order by puq.loadingOrder asc")
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     List<PriceUpdateQueue> findNextAvailable(Pageable pageable);
 
     default PriceUpdateQueue findNextAvailable() {

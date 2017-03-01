@@ -51,8 +51,12 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
 
         //Проверяем в другом
         "   (tp.stationTo.code = lts.baseStation.code and " +
-        "   tp.stationFrom.code = :code))")
-    List<BidPrice> findAllCurrentBidsWithTransportationPrice(@Param("code") String code);
+        "   tp.stationFrom.code = :code)) and " +
+
+        //Цены только текущей версии
+        "   tp.versionNumber = :versionNumber")
+    List<BidPrice> findAllCurrentBidsWithTransportationPrice(@Param("code") String code,
+                                                             @Param("versionNumber") Integer versionNumber);
 
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid) from Bid bid " +
         "left join bid.qualityParameters " +

@@ -1,8 +1,8 @@
 package pro.grain.admin.service;
 
+import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
-import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
 import pro.grain.admin.service.dto.BidDTO;
@@ -42,13 +42,16 @@ public class BidService {
 
     private final BidSearchRepository bidSearchRepository;
 
+    private final GrainProAdminProperties grainProAdminProperties;
+
     @Inject
-    public BidService(BidRepository bidRepository, BidMapper bidMapper, BidFullMapper bidFullMapper, BidPriceMapper bidPriceMapper, BidSearchRepository bidSearchRepository) {
+    public BidService(BidRepository bidRepository, BidMapper bidMapper, BidFullMapper bidFullMapper, BidPriceMapper bidPriceMapper, BidSearchRepository bidSearchRepository, GrainProAdminProperties grainProAdminProperties) {
         this.bidRepository = bidRepository;
         this.bidMapper = bidMapper;
         this.bidFullMapper = bidFullMapper;
         this.bidPriceMapper = bidPriceMapper;
         this.bidSearchRepository = bidSearchRepository;
+        this.grainProAdminProperties = grainProAdminProperties;
     }
 
     /**
@@ -134,10 +137,11 @@ public class BidService {
      *
      * @param code station code
      */
-    public List<BidPriceDTO> getAllCurrentBidsForStation(String code) {
+    List<BidPriceDTO> getAllCurrentBidsForStation(String code) {
         log.debug("Request to get all current Bids for station : {}", code);
 
-        List<BidPrice> bids = bidRepository.findAllCurrentBidsWithTransportationPrice(code);
+        List<BidPrice> bids = bidRepository.findAllCurrentBidsWithTransportationPrice(code,
+            grainProAdminProperties.getPrice().getCurrentVersionNumber());
 
         return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
     }
@@ -146,7 +150,7 @@ public class BidService {
      * get all current bids in a sorted map like
      * Map<QualityClass, List<BidPriceDTO>>
      */
-    public List<BidPriceDTO> getAllCurrentBids() {
+    List<BidPriceDTO> getAllCurrentBids() {
         log.debug("Request to get all current Bids");
 
         List<BidPrice> bids = bidRepository.findAllCurrentBids();

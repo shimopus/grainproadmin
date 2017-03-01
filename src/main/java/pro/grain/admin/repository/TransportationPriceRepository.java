@@ -14,10 +14,10 @@ import java.util.List;
 public interface TransportationPriceRepository extends JpaRepository<TransportationPrice,Long> {
     @Query("select distinct tp from TransportationPrice tp " +
         "where " +
-            "(tp.stationFrom.name like :stationFrom and " +
+            "((tp.stationFrom.name like :stationFrom and " +
             "tp.stationTo.name like :stationTo) or " +
             "(tp.stationFrom.name like :stationTo and " +
-            "tp.stationTo.name like :stationFrom) and " +
+            "tp.stationTo.name like :stationFrom)) and " +
             "tp.versionNumber = :versionNumber")
     TransportationPrice findByStationNames(
         @Param("stationFrom") String stationFromName,

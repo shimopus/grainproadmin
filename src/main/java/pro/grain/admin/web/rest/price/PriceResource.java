@@ -29,16 +29,16 @@ public class PriceResource {
 
     private final PriceDownloadService priceDownloadService;
 
-    @Inject
-    private GrainProAdminProperties grainProAdminProperties;
+    private final GrainProAdminProperties grainProAdminProperties;
 
-    @Inject
-    private StationRepository stationRepository;
+    private final StationRepository stationRepository;
 
     @Autowired
-    public PriceResource(TransportationPriceRepository transportationPriceRepository, PriceDownloadService priceDownloadService) {
+    public PriceResource(TransportationPriceRepository transportationPriceRepository, PriceDownloadService priceDownloadService, GrainProAdminProperties grainProAdminProperties, StationRepository stationRepository) {
         this.transportationPriceRepository = transportationPriceRepository;
         this.priceDownloadService = priceDownloadService;
+        this.grainProAdminProperties = grainProAdminProperties;
+        this.stationRepository = stationRepository;
     }
 
     @RequestMapping(value = "/price",

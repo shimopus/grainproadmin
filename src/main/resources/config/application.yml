@@ -116,6 +116,6 @@ jhipster:
 # ===================================================================
 grainproadmin:
     price:
-        currentVersionNumber: 1
+        currentVersionNumber: 2
     priceUpload:
         downloadBucketSize: 30000

@@ -10,7 +10,6 @@ import pro.grain.admin.repository.LocationToBaseStationRepository;
 import pro.grain.admin.repository.PriceUpdateQueueRepository;
 import pro.grain.admin.repository.search.PriceUpdateQueueSearchRepository;
 import pro.grain.admin.service.dto.PriceUpdateQueueDTO;
-import pro.grain.admin.service.dto.StationDTO;
 import pro.grain.admin.service.mapper.PriceUpdateQueueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,6 +144,7 @@ public class PriceUpdateQueueService {
     }
 
     @Async
+    @Transactional
     public CompletableFuture<Integer> initializeQueue(int from) {
         log.warn("!!!!!!!!!!! Initialize Download Queue !!!!!!!!!!!!!!!");
 
@@ -165,30 +165,52 @@ public class PriceUpdateQueueService {
         long order = from*100;
         int to = from + grainProAdminProperties.getPriceUpload().getDownloadBucketSize();
 
+        log.warn("Iteration queue size: {}, to: {}", queue.size(), to);
+
         for (int i = from; i < to && i < queue.size(); i++) {
+            log.warn("Get item: {}", i);
             Pair<Station, Station> pair = queue.get(i);
 
             if (pair.getRight().equals(pair.getLeft())) {
                 continue;
             }
 
-            priceUpdateQueueRepository.save(new PriceUpdateQueue(
-                false,
-                order,
-                pair.getLeft(),
-                pair.getRight()
-            ));
+            int prices = priceUpdateQueueRepository.findByStationCodes(
+                pair.getLeft().getCode(),
+                pair.getRight().getCode(),
+                grainProAdminProperties.getPrice().getCurrentVersionNumber());
 
-            order += 100;
+            if (prices == 0) {
+                log.warn("Adding new in queue from {} to {}. Prices {}", pair.getLeft().getName(), pair.getRight().getName(), prices);
+                priceUpdateQueueRepository.save(new PriceUpdateQueue(
+                    false,
+                    order,
+                    pair.getLeft(),
+                    pair.getRight()
+                ));
+
+                order += 100;
+            } else {
+                log.warn("Check price from {} to {}. Price count: {}", pair.getLeft().getName(), pair.getRight().getName(), prices);
+            }
 
             if (i % 50 == 0) {
-                entityManager.flush();
-                entityManager.clear();
+                try {
+                    log.warn("Try to flush");
+                    entityManager.flush();
+                    entityManager.clear();
+                } catch (Throwable e) {
+                    log.error("Can not flush1 ", e);
+                }
             }
         }
 
-        entityManager.flush();
-        entityManager.clear();
+        try {
+            entityManager.flush();
+            entityManager.clear();
+        } catch (Exception e) {
+            log.error("Can not flush2 ", e);
+        }
 
         log.warn("!!!!!!!!!!! Download Queue is initialized with size {} !!!!!!!!!!!!!", priceUpdateQueueRepository.count());
 

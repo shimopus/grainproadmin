@@ -14,8 +14,10 @@ public interface PriceUpdateQueueMapper {
 
     @Mapping(source = "stationFrom.id", target = "stationFromId")
     @Mapping(source = "stationFrom.name", target = "stationFromName")
+    @Mapping(source = "stationFrom.code", target = "stationFromCode")
     @Mapping(source = "stationTo.id", target = "stationToId")
     @Mapping(source = "stationTo.name", target = "stationToName")
+    @Mapping(source = "stationTo.code", target = "stationToCode")
     PriceUpdateQueueDTO priceUpdateQueueToPriceUpdateQueueDTO(PriceUpdateQueue priceUpdateQueue);
 
     List<PriceUpdateQueueDTO> priceUpdateQueuesToPriceUpdateQueueDTOs(List<PriceUpdateQueue> priceUpdateQueues);

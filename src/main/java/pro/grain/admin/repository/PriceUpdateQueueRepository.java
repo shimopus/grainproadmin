@@ -33,6 +33,18 @@ public interface PriceUpdateQueueRepository extends JpaRepository<PriceUpdateQue
         }
     }
 
+    @Query("select count(distinct tp) from TransportationPrice tp " +
+        "where " +
+        "((tp.stationFrom.code like :stationFromCode and " +
+        "tp.stationTo.code like :stationToCode) or " +
+        "(tp.stationFrom.code like :stationToCode and " +
+        "tp.stationTo.code like :stationFromCode)) and " +
+        "tp.versionNumber = :versionNumber")
+    int findByStationCodes(
+        @Param("stationFromCode") String stationFromCode,
+        @Param("stationToCode") String stationToCode,
+        @Param("versionNumber") Integer versionNumber);
+
     @Modifying
     @Query("update PriceUpdateQueue puq " +
         "set " +

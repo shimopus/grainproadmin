@@ -1,4 +1,4 @@
-package pro.grain.admin.web.rest.price;
+package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
@@ -17,7 +17,6 @@ import pro.grain.admin.repository.StationRepository;
 import pro.grain.admin.repository.TransportationPriceRepository;
 import pro.grain.admin.service.PriceDownloadService;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @RestController

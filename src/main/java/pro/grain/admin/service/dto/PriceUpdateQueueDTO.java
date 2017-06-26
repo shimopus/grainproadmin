@@ -19,16 +19,17 @@ public class PriceUpdateQueueDTO implements Serializable {
 
     private Long loadingOrder;
 
-
     private Long stationFromId;
-    
 
     private String stationFromName;
 
+    private String stationFromCode;
+
     private Long stationToId;
-    
 
     private String stationToName;
+
+    private String stationToCode;
 
     public Long getId() {
         return id;
@@ -60,13 +61,20 @@ public class PriceUpdateQueueDTO implements Serializable {
         this.stationFromId = stationId;
     }
 
-
     public String getStationFromName() {
         return stationFromName;
     }
 
     public void setStationFromName(String stationName) {
         this.stationFromName = stationName;
+    }
+
+    public String getStationFromCode() {
+        return stationFromCode;
+    }
+
+    public void setStationFromCode(String stationFromCode) {
+        this.stationFromCode = stationFromCode;
     }
 
     public Long getStationToId() {
@@ -77,6 +85,13 @@ public class PriceUpdateQueueDTO implements Serializable {
         this.stationToId = stationId;
     }
 
+    public String getStationToCode() {
+        return stationToCode;
+    }
+
+    public void setStationToCode(String stationToCode) {
+        this.stationToCode = stationToCode;
+    }
 
     public String getStationToName() {
         return stationToName;

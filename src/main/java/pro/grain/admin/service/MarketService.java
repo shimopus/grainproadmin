@@ -130,7 +130,7 @@ public class MarketService {
                         try {
                             baseStationFromCode = calculateDestinationStation(stationFromCode);
                         } catch (KeySelectorException e) {
-                            errors.add("Не возможно вычислить базовую станцию для станции " + stationFromCode +
+                            errors.add("Невозможно вычислить базовую станцию для станции " + stationFromCode +
                                 " (" + bid.getElevator().getStationName() + ")");
                             continue;
                         }

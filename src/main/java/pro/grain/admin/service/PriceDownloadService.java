@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.TransportationPrice;
-import pro.grain.admin.repository.TransportationPriceRepository;
 import pro.grain.admin.service.dto.PriceUpdateQueueDTO;
 
 import javax.inject.Inject;
@@ -21,17 +20,24 @@ import java.util.concurrent.locks.ReentrantLock;
 public class PriceDownloadService {
     private final Logger log = LoggerFactory.getLogger(PriceDownloadService.class);
 
-    @Inject
-    private PriceUpdateQueueService priceUpdateQueueService;
+    private final PriceUpdateQueueService priceUpdateQueueService;
 
     private static final ReentrantLock lock = new ReentrantLock(true);
 
-    @Inject
-    private GrainProAdminProperties grainProAdminProperties;
+    private final GrainProAdminProperties grainProAdminProperties;
+
+    private final TransportationPriceService transportationPriceService;
 
     @Inject
-    private TransportationPriceRepository transportationPriceRepository;
+    public PriceDownloadService(PriceUpdateQueueService priceUpdateQueueService,
+                                GrainProAdminProperties grainProAdminProperties,
+                                TransportationPriceService transportationPriceService) {
+        this.priceUpdateQueueService = priceUpdateQueueService;
+        this.grainProAdminProperties = grainProAdminProperties;
+        this.transportationPriceService = transportationPriceService;
+    }
 
+    @Transactional
     public void initializeQueue() {
         log.debug("Initialize Queue");
 
@@ -67,16 +73,17 @@ public class PriceDownloadService {
         transportationPrice.setVersionNumber(grainProAdminProperties.getPrice().getCurrentVersionNumber() + 1);
         transportationPrice.setLoadingDate(LocalDate.now());
 
-        transportationPriceRepository.save(transportationPrice);
+        transportationPriceService.save(transportationPrice);
     }
 
-    private void updatePriceUpdateQueueService(int from) {
+    @Transactional
+    void updatePriceUpdateQueueService(int from) {
         log.debug("Initialize async update Queue from: {}", from);
         CompletableFuture<Integer> futureResult = priceUpdateQueueService.initializeQueue(from);
 
         futureResult.thenRun(() -> {
             int newFrom = futureResult.join();
-            log.debug("Next initialization from {}", newFrom);
+            log.warn("Next initialization from {}", newFrom);
             if (newFrom > 0) {
                 updatePriceUpdateQueueService(newFrom);
             }

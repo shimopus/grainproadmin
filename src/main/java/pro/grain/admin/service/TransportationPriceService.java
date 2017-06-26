@@ -1,5 +1,6 @@
 package pro.grain.admin.service;
 
+import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.TransportationPrice;
 import pro.grain.admin.repository.TransportationPriceRepository;
 import pro.grain.admin.repository.search.TransportationPriceSearchRepository;
@@ -13,10 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -28,15 +25,25 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class TransportationPriceService {
 
     private final Logger log = LoggerFactory.getLogger(TransportationPriceService.class);
-    
-    @Inject
-    private TransportationPriceRepository transportationPriceRepository;
+
+    private final TransportationPriceRepository transportationPriceRepository;
+
+    private final TransportationPriceMapper transportationPriceMapper;
+
+    private final TransportationPriceSearchRepository transportationPriceSearchRepository;
+
+    private final GrainProAdminProperties grainProAdminProperties;
 
     @Inject
-    private TransportationPriceMapper transportationPriceMapper;
-
-    @Inject
-    private TransportationPriceSearchRepository transportationPriceSearchRepository;
+    public TransportationPriceService(TransportationPriceRepository transportationPriceRepository,
+                                      TransportationPriceMapper transportationPriceMapper,
+                                      TransportationPriceSearchRepository transportationPriceSearchRepository,
+                                      GrainProAdminProperties grainProAdminProperties) {
+        this.transportationPriceRepository = transportationPriceRepository;
+        this.transportationPriceMapper = transportationPriceMapper;
+        this.transportationPriceSearchRepository = transportationPriceSearchRepository;
+        this.grainProAdminProperties = grainProAdminProperties;
+    }
 
     /**
      * Save a transportationPrice.
@@ -47,19 +54,30 @@ public class TransportationPriceService {
     public TransportationPriceDTO save(TransportationPriceDTO transportationPriceDTO) {
         log.debug("Request to save TransportationPrice : {}", transportationPriceDTO);
         TransportationPrice transportationPrice = transportationPriceMapper.transportationPriceDTOToTransportationPrice(transportationPriceDTO);
-        transportationPrice = transportationPriceRepository.save(transportationPrice);
+        transportationPrice = save(transportationPrice);
         TransportationPriceDTO result = transportationPriceMapper.transportationPriceToTransportationPriceDTO(transportationPrice);
         transportationPriceSearchRepository.save(transportationPrice);
         return result;
     }
 
     /**
+     * Save a transportationPrice.
+     *
+     * @param transportationPrice the entity to save
+     * @return the persisted entity
+     */
+    public TransportationPrice save(TransportationPrice transportationPrice) {
+        transportationPrice = transportationPriceRepository.save(transportationPrice);
+        return transportationPrice;
+    }
+
+    /**
      *  Get all the transportationPrices.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<TransportationPriceDTO> findAll(Pageable pageable) {
         log.debug("Request to get all TransportationPrices");
         Page<TransportationPrice> result = transportationPriceRepository.findAll(pageable);
@@ -72,12 +90,30 @@ public class TransportationPriceService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public TransportationPriceDTO findOne(Long id) {
         log.debug("Request to get TransportationPrice : {}", id);
         TransportationPrice transportationPrice = transportationPriceRepository.findOne(id);
-        TransportationPriceDTO transportationPriceDTO = transportationPriceMapper.transportationPriceToTransportationPriceDTO(transportationPrice);
-        return transportationPriceDTO;
+        return transportationPriceMapper.transportationPriceToTransportationPriceDTO(transportationPrice);
+    }
+
+    /**
+     *  Get transportationPrice from stationA to stationB .
+     *
+     *  @param stationACode the Station code
+     *  @param stationBCode the Station code
+     *  @return the entity
+     */
+    @Transactional(readOnly = true)
+    public TransportationPriceDTO findOne(String stationACode, String stationBCode) {
+        log.debug("Request to get TransportationPrice from {} to {}", stationACode, stationBCode);
+
+        TransportationPrice transportationPrice =
+            transportationPriceRepository.findByStationCodes(stationACode,
+                stationBCode,
+                grainProAdminProperties.getPrice().getCurrentVersionNumber());
+
+        return transportationPriceMapper.transportationPriceToTransportationPriceDTO(transportationPrice);
     }
 
     /**

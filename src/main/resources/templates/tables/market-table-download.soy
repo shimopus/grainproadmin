@@ -15,7 +15,7 @@
         {param station: $station /}
         {param baseUrl: $baseUrl /}
         {param adminBaseUrl: $adminBaseUrl /}
-        {param passportVariant: 'default' /}
+        {param passportVariant: 'download' /}
         {param urlTarget: '_blank' /}
         {param bids: $bids /}
     {/call}
@@ -34,6 +34,7 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         </head>
         <body>
+            <div><img src="https://mc.yandex.ru/watch/45230970" style="position:absolute; left:-9999px;" alt="" /></div>
             <header>
             <hgroup style="margin-bottom: 30px; padding-bottom: 30px; max-width: 700px;">
             	<div style="float: left">
@@ -56,3 +57,31 @@
         </body>
     </html>
 {/template}
+
+/**
+ * Создает ссылку на картинки по дефолту
+  * @param adminBaseUrl Базовый URL для админки
+  * @param baseUrl Базовый URL для ссылок
+  * @param urlTarget
+  * @param bid заявкa для отображения.
+ */
+{deltemplate passport.link variant="'download'"}
+<a style="color: #315597"
+    href="{$baseUrl}#/market/{$bid.id}/carousel?from=email" target="{$urlTarget}">карта анализа</a>
+{/deltemplate}
+
+/**
+ * Создает ссылку на картинки по дефолту
+  * @param partnerId партнер
+  * @param partnerName
+  * @param partnerOrgType
+  * @param partnerCard
+  * @param baseUrl Базовый URL для ссылок
+  * @param urlTarget
+ */
+{deltemplate partner.card variant="'download'"}
+<a style="color: #315597; -webkit-text-size-adjust:none"
+    href="{$baseUrl}#/market/{$partnerId}/card?from=email" target="{$urlTarget}">
+    {$partnerName} {$partnerOrgType}
+</a>
+{/deltemplate}

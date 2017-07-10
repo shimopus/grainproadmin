@@ -21,6 +21,7 @@
             "volume": "Volume",
             "price": "Price",
             "nds": "Nds",
+            "bidType": "Bid Type",
             "isActive": "Is Active",
             "archiveDate": "Archive Date",
             "agentContact": "Agent Contact",

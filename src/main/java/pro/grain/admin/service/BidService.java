@@ -3,6 +3,7 @@ package pro.grain.admin.service;
 import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
+import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
 import pro.grain.admin.service.dto.BidDTO;
@@ -136,11 +137,13 @@ public class BidService {
      * get all current bids for the station.
      *
      * @param code station code
+     * @param bidType which type of bid
      */
-    List<BidPriceDTO> getAllCurrentBidsForStation(String code) {
+    List<BidPriceDTO> getAllCurrentBidsForStation(String code, BidType bidType) {
         log.debug("Request to get all current Bids for station : {}", code);
 
         List<BidPrice> bids = bidRepository.findAllCurrentBidsWithTransportationPrice(code,
+            bidType,
             grainProAdminProperties.getPrice().getCurrentVersionNumber());
 
         return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
@@ -150,10 +153,10 @@ public class BidService {
      * get all current bids in a sorted map like
      * Map<QualityClass, List<BidPriceDTO>>
      */
-    List<BidPriceDTO> getAllCurrentBids() {
+    List<BidPriceDTO> getAllCurrentBids(BidType bidType) {
         log.debug("Request to get all current Bids");
 
-        List<BidPrice> bids = bidRepository.findAllCurrentBids();
+        List<BidPrice> bids = bidRepository.findAllCurrentBids(bidType);
 
         return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
     }

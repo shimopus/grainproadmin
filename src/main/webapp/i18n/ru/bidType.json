@@ -1,0 +1,9 @@
+{
+    "grainAdminApp": {
+        "BidType" : {
+            "null": "",
+            "SELL": "Продажа",
+            "BUY": "Покупка"
+        }
+    }
+}

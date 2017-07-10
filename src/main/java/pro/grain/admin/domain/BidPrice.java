@@ -16,6 +16,7 @@ public class BidPrice extends Bid {
         this.setElevator(bid.getElevator());
         this.setIsActive(bid.isIsActive());
         this.setNds(bid.getNds());
+        this.setBidType(bid.getBidType());
         this.setPrice(bid.getPrice());
         this.setQualityClass(bid.getQualityClass());
         this.setQualityParameters(bid.getQualityParameters());

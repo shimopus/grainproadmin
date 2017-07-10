@@ -5,6 +5,7 @@ import pro.grain.admin.domain.BidPrice;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
+import pro.grain.admin.domain.enumeration.BidType;
 
 import java.util.List;
 
@@ -53,9 +54,13 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
         "   (tp.stationTo.code = lts.baseStation.code and " +
         "   tp.stationFrom.code = :code)) and " +
 
+        //Определяем тип доставок
+        "   bid.bidType = :bidType and " +
+
         //Цены только текущей версии
         "   tp.versionNumber = :versionNumber")
     List<BidPrice> findAllCurrentBidsWithTransportationPrice(@Param("code") String code,
+                                                             @Param("bidType") BidType bidType,
                                                              @Param("versionNumber") Integer versionNumber);
 
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid) from Bid bid " +
@@ -63,8 +68,9 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
         "left join bid.qualityPassports " +
         "where " +
         "   bid.isActive = true and" +
-        "   bid.archiveDate is null")
-    List<BidPrice> findAllCurrentBids();
+        "   bid.archiveDate is null and" +
+        "   bid.bidType = :bidType")
+    List<BidPrice> findAllCurrentBids(@Param("bidType") BidType bidType);
 
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid) from Bid bid left join bid.qualityParameters left join bid.qualityPassports " +
         "where bid.isActive = true and bid.archiveDate is null")

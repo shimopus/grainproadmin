@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.domain.enumeration.NDS;
-import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.service.dto.BidPriceDTO;
 import pro.grain.admin.service.dto.StationDTO;
 import pro.grain.admin.service.error.MarketGenerationException;
@@ -57,12 +57,12 @@ public class MarketService {
         }
     }
 
-    public String getMarketTableHTML(String stationCode, String templateName, String baseUrl) {
+    public String getMarketTableHTML(String stationCode, BidType bidType, String templateName, String baseUrl) {
         log.debug("Generate market HTML table for station code which should be downloaded {}", stationCode);
 
         SoyMapData templateData;
         try {
-            templateData = generateCommonParameters(stationCode, baseUrl);
+            templateData = generateCommonParameters(stationCode, bidType, baseUrl);
         } catch (MarketGenerationException e) {
             return tofu.newRenderer("tables.error")
                 .setData(new SoyMapData("errors", SoyTemplatesUtils.objectToSoyData(e.getErrors())))
@@ -73,8 +73,8 @@ public class MarketService {
             .render();
     }
 
-    private SoyMapData generateCommonParameters(String stationCode, String baseUrl) throws MarketGenerationException {
-        Collection<ArrayList<BidPriceDTO>> bids = getBids(stationCode);
+    private SoyMapData generateCommonParameters(String stationCode, BidType bidType, String baseUrl) throws MarketGenerationException {
+        Collection<ArrayList<BidPriceDTO>> bids = getBids(stationCode, bidType);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
 
@@ -87,7 +87,7 @@ public class MarketService {
         );
     }
 
-    private Collection<ArrayList<BidPriceDTO>> getBids(String stationCode) throws MarketGenerationException {
+    private Collection<ArrayList<BidPriceDTO>> getBids(String stationCode, BidType bidType) throws MarketGenerationException {
         String newCode;
         List<BidPriceDTO> bids;
         List<String> errors = new ArrayList<>();
@@ -95,8 +95,8 @@ public class MarketService {
         if (stationCode != null) {
             try {
                 newCode = calculateDestinationStation(stationCode);
-                bids = bidService.getAllCurrentBidsForStation(newCode);
-                List<BidPriceDTO> fullBids = bidService.getAllCurrentBids();
+                bids = bidService.getAllCurrentBidsForStation(newCode, bidType);
+                List<BidPriceDTO> fullBids = bidService.getAllCurrentBids(bidType);
 
                 //Check for errors
                 List<BidPriceDTO> errorForBids = new ArrayList<>(bids.size());
@@ -152,7 +152,7 @@ public class MarketService {
                     , e);
             }
         } else {
-            return enrichAndSortMarket(bidService.getAllCurrentBids(), null, null);
+            return enrichAndSortMarket(bidService.getAllCurrentBids(bidType), null, null);
         }
     }
 
@@ -181,14 +181,18 @@ public class MarketService {
         if (bids == null) return null;
 
         return bids.stream()
-            .map(bid -> {
+            .peek(bid -> {
                 if (!isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
-                    bid.setFcaPrice(getFCAPrice(bid));
-                    if (stationCode != null) {
-                        bid.setCptPrice(getCPTPrice(bid));
+                    Long price = getFCAPrice(bid, stationCode);
+                    if (price != Long.MIN_VALUE) {
+                        bid.setFcaPrice(price);
+                    }
+
+                    price = getCPTPrice(bid, stationCode);
+                    if (price != Long.MIN_VALUE) {
+                        bid.setCptPrice(price);
                     }
                 }
-                return bid;
             })
             .collect(Collectors.groupingBy(BidPriceDTO::getQualityClass, TreeMap::new,
                 Collectors.collectingAndThen(
@@ -202,30 +206,67 @@ public class MarketService {
     }
 
     private Long getPriceToCompare(BidPriceDTO bid, String stationCode, String baseStationCode) {
-        if (stationCode == null) {
-            return getFCAPrice(bid);
-        } else {
-            //Если станция отгрузки равна станции доставки
-            if (isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
-                return bid.getPrice();
+        if (bid.getBidType() == BidType.SELL) {
+            if (stationCode == null) {
+                return getFCAPrice(bid, null);
             } else {
-                return getCPTPrice(bid);
+                //Если станция отгрузки равна станции доставки
+                if (isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
+                    return bid.getPrice();
+                } else {
+                    return getCPTPrice(bid, stationCode);
+                }
+            }
+        } else if (bid.getBidType() == BidType.BUY) {
+            if (stationCode == null || isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
+                return getCPTPrice(bid, stationCode);
+            } else {
+                return getFCAPrice(bid, stationCode);
             }
         }
+
+        return 0L;
     }
 
-    private Long getFCAPrice(BidPriceDTO bid) {
-        Long selfPrice = bid.getPrice();
-        Long loadPrice = 0L;
+    private Long getFCAPrice(BidPriceDTO bid, String stationCode) {
+        log.debug("BID {}", bid.getBidType());
+        if (bid.getBidType() == BidType.SELL) {
+            Long selfPrice = bid.getPrice();
+            log.debug("BID price {}", selfPrice);
+            Long loadPrice = 0L;
 
-        if (bid.getElevator().getServicePrices() != null && bid.getElevator().getServicePrices().size() > 0) {
-            loadPrice = bid.getElevator().getServicePrices().iterator().next().getPrice();
+            if (bid.getElevator().getServicePrices() != null && bid.getElevator().getServicePrices().size() > 0) {
+                loadPrice = bid.getElevator().getServicePrices().iterator().next().getPrice();
+            }
+
+            log.debug("BID load price {}", loadPrice);
+
+            return selfPrice + loadPrice;
+        } else if (bid.getBidType() == BidType.BUY) {
+            log.debug("BID {}", bid.getBidType());
+            if (stationCode == null) return Long.MIN_VALUE;
+
+            return getCPTPrice(bid, stationCode) - getTransportationPrice(bid);
         }
 
-        return selfPrice + loadPrice;
+        return Long.MIN_VALUE;
     }
 
-    private Long getCPTPrice(BidPriceDTO bid) {
+    private Long getCPTPrice(BidPriceDTO bid, String stationCode) {
+        if (bid.getBidType() == BidType.SELL) {
+
+            if (stationCode == null) return Long.MIN_VALUE;
+
+            return getFCAPrice(bid, stationCode) + getTransportationPrice(bid);
+        } else if (bid.getBidType() == BidType.BUY) {
+            return bid.getPrice();
+        }
+
+        return Long.MIN_VALUE;
+    }
+
+    private Long getTransportationPrice(BidPriceDTO bid) {
+
         Long transpPrice = 0L;
 
         if (bid.getNds().equals(NDS.EXCLUDED) && bid.getTransportationPricePrice() != null) {
@@ -234,7 +275,7 @@ public class MarketService {
             transpPrice = bid.getTransportationPricePriceNds();
         }
 
-        return getFCAPrice(bid) + transpPrice;
+        return transpPrice;
     }
 
     private boolean isStationFromEqualsStationTo(BidPriceDTO bid, String stationTo, String baseStationTo) {

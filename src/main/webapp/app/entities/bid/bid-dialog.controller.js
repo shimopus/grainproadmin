@@ -40,6 +40,7 @@
         vm.formatSelection = formatSelection;
         vm.addQualityPassport = addQualityPassport;
         vm.files = null;
+        vm.bid.bidType = vm.bid.bidType || 'SELL';
 
         var emptyQualityValue = {
             qualityParameter: null,

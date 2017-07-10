@@ -68,6 +68,7 @@ public class BidFullDTO extends BidDTO {
             ", volume='" + getVolume() + "'" +
             ", price='" + getPrice() + "'" +
             ", nds='" + getNds() + "'" +
+            ", bidType='" + getBidType() + "'" +
             ", isActive='" + getIsActive() + "'" +
             ", archiveDate='" + getArchiveDate() + "'" +
             "  elevator=" + elevator +

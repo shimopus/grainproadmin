@@ -48,6 +48,7 @@
                     $translatePartialLoader.addPart('bid');
                     $translatePartialLoader.addPart('qualityClass');
                     $translatePartialLoader.addPart('nDS');
+                    $translatePartialLoader.addPart('bidType');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
@@ -72,6 +73,7 @@
                     $translatePartialLoader.addPart('bid');
                     $translatePartialLoader.addPart('qualityClass');
                     $translatePartialLoader.addPart('nDS');
+                    $translatePartialLoader.addPart('bidType');
                     return $translate.refresh();
                 }],
                 entity: ['$stateParams', 'Bid', function($stateParams, Bid) {

@@ -3,6 +3,7 @@ package pro.grain.admin.web.rest;
 import pro.grain.admin.GrainAdminApp;
 
 import pro.grain.admin.domain.Bid;
+import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.service.BidService;
 import pro.grain.admin.repository.search.BidSearchRepository;
@@ -61,6 +62,9 @@ public class BidResourceIntTest {
     private static final NDS DEFAULT_NDS = NDS.INCLUDED;
     private static final NDS UPDATED_NDS = NDS.EXCLUDED;
 
+    private static final BidType DEFAULT_BID_TYPE = BidType.SELL;
+    private static final BidType UPDATED_BID_TYPE = BidType.SELL;
+
     private static final Boolean DEFAULT_IS_ACTIVE = false;
     private static final Boolean UPDATED_IS_ACTIVE = true;
 
@@ -115,6 +119,7 @@ public class BidResourceIntTest {
                 .volume(DEFAULT_VOLUME)
                 .price(DEFAULT_PRICE)
                 .nds(DEFAULT_NDS)
+                .bidType(DEFAULT_BID_TYPE)
                 .isActive(DEFAULT_IS_ACTIVE)
                 .archiveDate(DEFAULT_ARCHIVE_DATE);
         return bid;
@@ -148,6 +153,7 @@ public class BidResourceIntTest {
         assertThat(testBid.getVolume()).isEqualTo(DEFAULT_VOLUME);
         assertThat(testBid.getPrice()).isEqualTo(DEFAULT_PRICE);
         assertThat(testBid.getNds()).isEqualTo(DEFAULT_NDS);
+        assertThat(testBid.getBidType()).isEqualTo(DEFAULT_BID_TYPE);
         assertThat(testBid.isIsActive()).isEqualTo(DEFAULT_IS_ACTIVE);
         assertThat(testBid.getArchiveDate()).isEqualTo(DEFAULT_ARCHIVE_DATE);
 
@@ -253,6 +259,25 @@ public class BidResourceIntTest {
 
     @Test
     @Transactional
+    public void checkBidTypeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = bidRepository.findAll().size();
+        // set the field null
+        bid.setBidType(null);
+
+        // Create the Bid, which fails.
+        BidDTO bidDTO = bidMapper.bidToBidDTO(bid);
+
+        restBidMockMvc.perform(post("/api/bids")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(bidDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Bid> bids = bidRepository.findAll();
+        assertThat(bids).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllBids() throws Exception {
         // Initialize the database
         bidRepository.saveAndFlush(bid);
@@ -267,6 +292,7 @@ public class BidResourceIntTest {
                 .andExpect(jsonPath("$.[*].volume").value(hasItem(DEFAULT_VOLUME)))
                 .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
                 .andExpect(jsonPath("$.[*].nds").value(hasItem(DEFAULT_NDS.toString())))
+                .andExpect(jsonPath("$.[*].bidType").value(hasItem(DEFAULT_BID_TYPE.toString())))
                 .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())))
                 .andExpect(jsonPath("$.[*].archiveDate").value(hasItem(DEFAULT_ARCHIVE_DATE.toString())));
     }
@@ -287,6 +313,7 @@ public class BidResourceIntTest {
             .andExpect(jsonPath("$.volume").value(DEFAULT_VOLUME))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()))
             .andExpect(jsonPath("$.nds").value(DEFAULT_NDS.toString()))
+            .andExpect(jsonPath("$.bidType").value(DEFAULT_BID_TYPE.toString()))
             .andExpect(jsonPath("$.isActive").value(DEFAULT_IS_ACTIVE.booleanValue()))
             .andExpect(jsonPath("$.archiveDate").value(DEFAULT_ARCHIVE_DATE.toString()));
     }
@@ -315,6 +342,7 @@ public class BidResourceIntTest {
                 .volume(UPDATED_VOLUME)
                 .price(UPDATED_PRICE)
                 .nds(UPDATED_NDS)
+                .bidType(UPDATED_BID_TYPE)
                 .isActive(UPDATED_IS_ACTIVE)
                 .archiveDate(UPDATED_ARCHIVE_DATE);
         BidDTO bidDTO = bidMapper.bidToBidDTO(updatedBid);
@@ -333,6 +361,7 @@ public class BidResourceIntTest {
         assertThat(testBid.getVolume()).isEqualTo(UPDATED_VOLUME);
         assertThat(testBid.getPrice()).isEqualTo(UPDATED_PRICE);
         assertThat(testBid.getNds()).isEqualTo(UPDATED_NDS);
+        assertThat(testBid.getBidType()).isEqualTo(UPDATED_BID_TYPE);
         assertThat(testBid.isIsActive()).isEqualTo(UPDATED_IS_ACTIVE);
         assertThat(testBid.getArchiveDate()).isEqualTo(UPDATED_ARCHIVE_DATE);
 
@@ -380,6 +409,7 @@ public class BidResourceIntTest {
             .andExpect(jsonPath("$.[*].volume").value(hasItem(DEFAULT_VOLUME)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].nds").value(hasItem(DEFAULT_NDS.toString())))
+            .andExpect(jsonPath("$.[*].bidType").value(hasItem(DEFAULT_BID_TYPE.toString())))
             .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())))
             .andExpect(jsonPath("$.[*].archiveDate").value(hasItem(DEFAULT_ARCHIVE_DATE.toString())));
     }

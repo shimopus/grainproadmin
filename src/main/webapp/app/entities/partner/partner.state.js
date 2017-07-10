@@ -73,6 +73,7 @@
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('partner');
                         $translatePartialLoader.addPart('nDS');
+                        $translatePartialLoader.addPart('bidType');
                         $translatePartialLoader.addPart('contact');
                         $translatePartialLoader.addPart('servicePrice');
                         $translatePartialLoader.addPart('email');
@@ -235,6 +236,7 @@
                             }],
                             translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                                 $translatePartialLoader.addPart('nDS');
+                                $translatePartialLoader.addPart('bidType');
                                 $translatePartialLoader.addPart('contact');
                                 $translatePartialLoader.addPart('bid');
                                 $translatePartialLoader.addPart('qualityClass');

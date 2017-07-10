@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.service.MarketService;
 
 import javax.inject.Inject;
@@ -36,7 +37,7 @@ public class MarketTableController {
         log.debug("REST request to get a list of bids for station code on site {}", code);
 
         return ResponseEntity.ok()
-            .body(marketService.getMarketTableHTML(code, "market_table_admin", ""));
+            .body(marketService.getMarketTableHTML(code, BidType.SELL,"market_table_admin", ""));
     }
 
     @RequestMapping(value = "/market-table/site",
@@ -48,7 +49,7 @@ public class MarketTableController {
         log.debug("REST request to get a list of bids for station code on site {}", code);
 
         return ResponseEntity.ok()
-            .body(marketService.getMarketTableHTML(code, "market_table_site", ""));
+            .body(marketService.getMarketTableHTML(code, BidType.SELL,"market_table_site", ""));
     }
 
     @RequestMapping(value = "/market-table/download",
@@ -61,6 +62,6 @@ public class MarketTableController {
 
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .body(marketService.getMarketTableHTML(code, "market_table_download", "http://grain.pro/"));
+            .body(marketService.getMarketTableHTML(code, BidType.SELL,"market_table_download", "http://grain.pro/"));
     }
 }

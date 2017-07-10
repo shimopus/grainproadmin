@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.domain.enumeration.QualityClass;
 import pro.grain.admin.domain.enumeration.NDS;
 
@@ -32,22 +33,25 @@ public class BidDTO implements Serializable {
     @NotNull
     private NDS nds;
 
+    @NotNull
+    private BidType bidType;
+
     private Boolean isActive;
 
     private LocalDate archiveDate;
 
 
     private Long agentContactId;
-    
+
     private Set<QualityValueDTO> qualityParameters = new HashSet<>();
 
     private Long agentId;
-    
+
 
     private String agentName;
 
     private Long elevatorId;
-    
+
 
     private String elevatorName;
 
@@ -95,6 +99,15 @@ public class BidDTO implements Serializable {
     public void setNds(NDS nds) {
         this.nds = nds;
     }
+
+    public BidType getBidType() {
+        return bidType;
+    }
+
+    public void setBidType(BidType bidType) {
+        this.bidType = bidType;
+    }
+
     public Boolean getIsActive() {
         return isActive;
     }

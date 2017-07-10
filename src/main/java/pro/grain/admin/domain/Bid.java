@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
 
+import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.domain.enumeration.QualityClass;
 
 import pro.grain.admin.domain.enumeration.NDS;
@@ -52,6 +53,11 @@ public class Bid implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "nds", nullable = false)
     private NDS nds;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "bid_type", nullable = false)
+    private BidType bidType;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -153,6 +159,19 @@ public class Bid implements Serializable {
 
     public void setNds(NDS nds) {
         this.nds = nds;
+    }
+
+    public BidType getBidType() {
+        return bidType;
+    }
+
+    public void setBidType(BidType bidType) {
+        this.bidType = bidType;
+    }
+
+    public Bid bidType(BidType bidType) {
+        this.bidType = bidType;
+        return this;
     }
 
     public Boolean isIsActive() {
@@ -295,6 +314,7 @@ public class Bid implements Serializable {
             ", volume='" + volume + "'" +
             ", price='" + price + "'" +
             ", nds='" + nds + "'" +
+            ", bidType='" + bidType + "'" +
             ", isActive='" + isActive + "'" +
             ", archiveDate='" + archiveDate + "'" +
             '}';

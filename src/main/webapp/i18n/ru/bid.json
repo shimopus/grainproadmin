@@ -28,6 +28,7 @@
             "qualityParameters": "Качество",
             "agent": "Агент",
             "elevator": "Размещение",
+            "gruz": "Грузополучатель",
             "qualityPassports": "Карта анализа"
         }
     }

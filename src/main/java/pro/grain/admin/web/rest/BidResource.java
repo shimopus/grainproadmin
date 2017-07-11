@@ -2,6 +2,7 @@ package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import org.springframework.security.access.annotation.Secured;
+import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.security.AuthoritiesConstants;
 import pro.grain.admin.service.BidService;
 import pro.grain.admin.service.dto.BidFullDTO;
@@ -126,14 +127,16 @@ public class BidResource {
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public ResponseEntity<List<BidFullDTO>> getBids(@RequestParam("partnerId") Long id, @RequestParam("isArchived") Boolean isArchived) throws URISyntaxException {
+    public ResponseEntity<List<BidFullDTO>> getBids(@RequestParam("partnerId") Long id,
+                                                    @RequestParam(value = "bidType", required = false) BidType bidType,
+                                                    @RequestParam("isArchived") Boolean isArchived) throws URISyntaxException {
         log.debug("REST request to get all Bids for a Partner with id={}", id);
         List<BidFullDTO> bidsDTO;
 
         if (isArchived) {
             bidsDTO = bidService.findByPartnerArchived(id);
         } else {
-            bidsDTO = bidService.findByPartnerNotArchived(id);
+            bidsDTO = bidService.findByPartnerNotArchived(id, bidType);
         }
 
         return new ResponseEntity<>(bidsDTO, HttpStatus.OK);

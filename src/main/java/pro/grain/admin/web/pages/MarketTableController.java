@@ -32,36 +32,36 @@ public class MarketTableController {
         method = RequestMethod.GET,
         produces = MediaType.TEXT_HTML_VALUE)
     @Timed
-    public ResponseEntity<String> getAllRegionsForAdmin(@RequestParam(value = "code", required = false) String code)
+    public ResponseEntity<String> getAllRegionsForAdmin(@RequestParam(value = "code", required = false) String code, @RequestParam("bidType") BidType bidType)
         throws URISyntaxException {
         log.debug("REST request to get a list of bids for station code on site {}", code);
 
         return ResponseEntity.ok()
-            .body(marketService.getMarketTableHTML(code, BidType.SELL,"market_table_admin", ""));
+            .body(marketService.getMarketTableHTML(code, bidType,"market_table_admin", ""));
     }
 
     @RequestMapping(value = "/market-table/site",
         method = RequestMethod.GET,
         produces = MediaType.TEXT_HTML_VALUE)
     @Timed
-    public ResponseEntity<String> getAllRegionsForSite(@RequestParam(value = "code", required = false) String code)
+    public ResponseEntity<String> getAllRegionsForSite(@RequestParam(value = "code", required = false) String code, @RequestParam("bidType") BidType bidType)
         throws URISyntaxException {
         log.debug("REST request to get a list of bids for station code on site {}", code);
 
         return ResponseEntity.ok()
-            .body(marketService.getMarketTableHTML(code, BidType.SELL,"market_table_site", ""));
+            .body(marketService.getMarketTableHTML(code, bidType,"market_table_site", ""));
     }
 
     @RequestMapping(value = "/market-table/download",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @Timed
-    public ResponseEntity<String> downloadAllRegions(@RequestParam(value = "code", required = false) String code)
+    public ResponseEntity<String> downloadAllRegions(@RequestParam(value = "code", required = false) String code, @RequestParam("bidType") BidType bidType)
         throws URISyntaxException/*, UnsupportedEncodingException*/ {
         log.debug("REST request to download list of bids for station code {}", code);
 
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .body(marketService.getMarketTableHTML(code, BidType.SELL,"market_table_download", "http://grain.pro/"));
+            .body(marketService.getMarketTableHTML(code, bidType,"market_table_download", "http://grain.pro/"));
     }
 }

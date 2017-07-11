@@ -83,7 +83,8 @@ public class MarketService {
             "station", SoyTemplatesUtils.objectToSoyData(stationService.findOne(stationCode)),
             "baseUrl", baseUrl,
             "adminBaseUrl", "https://grainpro.herokuapp.com/",
-            "bids", SoyTemplatesUtils.objectToSoyData(bids)
+            "bids", SoyTemplatesUtils.objectToSoyData(bids),
+            "bidType", SoyTemplatesUtils.objectToSoyData(bidType)
         );
     }
 

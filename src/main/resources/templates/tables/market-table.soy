@@ -9,11 +9,13 @@
  * @param passportVariant вариант ссылки на качественное
  * @param urlTarget где открывать ссылки
  * @param bids Список заявок для отображения.
+ * @param bidType Тип заявок в таблице - SELL, BUY
  */
 {template .table}
 {call .title}
   {param currentDate: $currentDate /}
   {param station: $station /}
+  {param bidType: $bidType /}
 {/call}
 
 {foreach $bidsGroup in $bids}
@@ -31,14 +33,12 @@
                         <col width="128px">
 
                         <tr style="height: 23px; font-size: 11px; color: white; background-color: #94aa72;">
-                            <td style="padding-left: 10px;"
-                                /*data-translate="grainAdminApp.bid.elevator"*/>Размещение
+                            <td style="padding-left: 10px;">
+                            {$bidType == 'SELL' ? 'Размещение' : 'Грузополучатель'}
                             </td>
-                            <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                /*data-translate="grainAdminApp.bid.agent"*/>Агент
+                            <td style="padding-left: 10px; -webkit-text-size-adjust:none">Агент
                             </td>
-                            <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                /*data-translate="grainAdminApp.bid.qualityParameters"*/>
+                            <td style="padding-left: 10px; -webkit-text-size-adjust:none">
                                 <table border="0" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial; font-size: 12px;">
                                     <col width="93px">
                                     <col width="35px">
@@ -52,11 +52,9 @@
                                     </tr>
                                 </table>
                             </td>
-                            <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                /*data-translate="grainAdminApp.bid.volume"*/>Объем, т
+                            <td style="padding-left: 10px; -webkit-text-size-adjust:none">Объем, т
                             </td>
-                            <td style="padding-left: 10px; -webkit-text-size-adjust:none"
-                                /*data-translate="grainAdminApp.bid.price"*/>Цена р/т
+                            <td style="padding-left: 10px; -webkit-text-size-adjust:none">Цена р/т
                             </td>
                             <td></td>
                             <td style="padding-left: 8px; padding-right: 8px; -webkit-text-size-adjust:none"></td>
@@ -99,6 +97,7 @@
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 {delcall passport.link variant="$passportVariant"}
                                     {param bid: $bid /}
+                                    {param bidType: $bidType /}
                                     {param adminBaseUrl: $adminBaseUrl /}
                                     {param baseUrl: $baseUrl /}
                                     {param urlTarget: $urlTarget /}
@@ -108,29 +107,44 @@
                                 {$bid.volume}
                             </td>
                             <td style="padding-left: 10px; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.cptPrice != null}
-                                    {$bid.cptPrice}
-                                {elseif $station == null}
-                                    {$bid.fcaPrice}
-                                {else}
-                                    {$bid.price}
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null}
+                                        {$bid.cptPrice}
+                                    {elseif $station == null}
+                                        {$bid.fcaPrice}
+                                    {else}
+                                        {$bid.price}
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $bid.cptPrice != null}
+                                        {$bid.cptPrice}
+                                    {elseif $bid.fcaPrice != null}
+                                        {$bid.fcaPrice}
+                                    {/if}
                                 {/if}
                             </td>
                             <td style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                        <span style="display: block; font-size: 10px; line-height: 17px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"
-                              /*data-translate="{{'grainAdminApp.NDS.' + bid.nds}}"*/>
+                        <span style="display: block; font-size: 10px; line-height: 17px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                             {call .nds}
                                 {param nds: $bid.nds /}
                             {/call}
                         </span>
                             </td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.cptPrice != null}
-                                    СРТ с доставкой ж/д до
-                                {elseif $station == null}
-                                    FCA с погрузкой ж/д на
-                                {else}
-                                    EXW по переписи
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null}
+                                        СРТ с доставкой ж/д до
+                                    {elseif $station == null}
+                                        FCA с погрузкой ж/д на
+                                    {else}
+                                        EXW по переписи
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $bid.cptPrice != null}
+                                        СРТ с доставкой ж/д до
+                                    {elseif $bid.fcaPrice != null}
+                                        FCA с погрузкой ж/д на
+                                    {/if}
                                 {/if}
                             </td>
                         </tr>
@@ -156,10 +170,18 @@
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                         <span style="font-size: 10px; -webkit-text-size-adjust:none">
-                            {if $bid.cptPrice != null}
-                                ст. {$station.name}
-                            {elseif $station == null}
-                                ст. {$elevator.stationName}
+                            {if $bidType == 'SELL'}
+                                {if $bid.cptPrice != null}
+                                    ст. {$station.name}
+                                {elseif $station == null}
+                                    ст. {$elevator.stationName}
+                                {/if}
+                            {elseif $bidType == 'BUY'}
+                                {if $bid.cptPrice != null}
+                                    ст. {$elevator.stationName}
+                                {elseif $bid.fcaPrice != null}
+                                    ст. {$station.name}
+                                {/if}
                             {/if}
                         </span>
                             </td>
@@ -190,15 +212,31 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
-                                    {$bid.price}
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        {$bid.price}
+                                    {/if}
+                                {elseif $bidType == 'BUY' and $station != null and $station != $elevator.stationName}
+                                    {if $bid.transportationPricePrice and $bid.nds == 'EXCLUDED'}
+                                        {$bid.transportationPricePrice}
+                                    {elseif $bid.transportationPricePriceNds and $bid.nds == 'INCLUDED'}
+                                        {$bid.transportationPricePriceNds}
+                                    {/if}
                                 {/if}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
-                                    <span style="font-size: 10px; -webkit-text-size-adjust:none">EXW по переписи </span>
+                                <span style="font-size: 10px; -webkit-text-size-adjust:none">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        EXW по переписи
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $station != null and $station != $elevator.stationName}
+                                        доставка ж/д (Русагротранс)
+                                    {/if}
                                 {/if}
+                                </span>
                             </td>
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
@@ -224,15 +262,29 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
-                                    {$bid.elevator.servicePrices[0].price}
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        {$bid.elevator.servicePrices[0].price}
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $station != null and $station != $elevator.stationName}
+                                        {$bid.cptPrice}
+                                    {/if}
                                 {/if}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.cptPrice != null or $bid.fcaPrice != null}
-                                    <span style="font-size: 10px; -webkit-text-size-adjust:none">погрузка ж/д </span>
+                                <span style="font-size: 10px; -webkit-text-size-adjust:none">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        погрузка ж/д
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $station != null and $station != $elevator.stationName}
+                                        СРТ с доставкой ж/д до
+                                    {/if}
                                 {/if}
+                                 </span>
                             </td>
                         </tr>
                         <tr style="height: 18px; font-size: 12px; line-height: 16px; color: black; vertical-align: top;">
@@ -265,17 +317,25 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; font-size: 10px; line-height: 18px; -webkit-text-size-adjust:none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {if $bid.transportationPricePrice and $bid.nds == 'EXCLUDED'}
-                                    {$bid.transportationPricePrice}
-                                {elseif $bid.transportationPricePriceNds and $bid.nds == 'INCLUDED'}
-                                    {$bid.transportationPricePriceNds}
+                                {if $bidType == 'SELL'}
+                                    {if $bid.transportationPricePrice and $bid.nds == 'EXCLUDED'}
+                                        {$bid.transportationPricePrice}
+                                    {elseif $bid.transportationPricePriceNds and $bid.nds == 'INCLUDED'}
+                                        {$bid.transportationPricePriceNds}
+                                    {/if}
                                 {/if}
                             </td>
                             <td style="font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></td>
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                 <span style="font-size: 10px; -webkit-text-size-adjust:none">
-                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
-                                        доставка ж/д (Русагротранс)
+                                    {if $bidType == 'SELL'}
+                                        {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                            доставка ж/д (Русагротранс)
+                                        {/if}
+                                    {elseif $bidType == 'BUY'}
+                                        {if $station != null and $station != $elevator.stationName}
+                                            ст. {$elevator.stationName}
+                                        {/if}
                                     {/if}
                                 </span>
                             </td>
@@ -289,7 +349,7 @@
                                 <table border="0" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial; font-size: 12px;">
                                     <col width="93px">
                                     <col width="35px">
-                                    <tr ng-init="qualityParameter3 = bid.qualityParameters[3]">
+                                    <tr>
                                         <td style="text-align: left; line-height: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                             {isNonnull($bid.qualityParameters[3]?.qualityParameterName) ? $bid.qualityParameters[3].qualityParameterName : ''}
                                         </td>
@@ -320,6 +380,7 @@
  * Заголовок таблицы с указанием даты создания и станции расчета
  * @param currentDate Текущая дата
  * @param station Станция для расчета цены. Может быть null.
+ * @param bidType Тип заявок в таблице - SELL, BUY
  */
 {template .title}
 
@@ -337,7 +398,7 @@
 <table border="0" width="700px" cellpadding="0" cellspacing="0"
        style="width: 700px; table-layout:fixed; border-collapse: collapse; margin:0; padding:0; overflow: scroll; font-family: Arial;">
     <tr style="font-size: 14px;">
-        <td>ПШЕНИЦА. Предложение на {$currentDate} {$station != null ? 'ст.' + $station.name : ''}</td>
+        <td>ПШЕНИЦА. {$bidType == 'SELL' ? 'Предложение' : 'Закупка'} на {$currentDate} {$station != null ? 'ст.' + $station.name : ''}</td>
     </tr>
 </table>
 {/template}
@@ -348,10 +409,11 @@
   * @param baseUrl Базовый URL для ссылок
   * @param urlTarget
   * @param bid заявкa для отображения.
+  * @param bidType Тип заявок в таблице - SELL, BUY
  */
 {deltemplate passport.link variant="'default'"}
 <a style="color: #315597"
-    href="{$baseUrl}#/market/{$bid.id}/carousel" target="{$urlTarget}">карта анализа</a>
+    href="{$baseUrl}#/market/{$bid.id}/carousel" target="{$urlTarget}">{$bidType == 'SELL' ? 'карта анализа' : 'спецификация'}</a>
 {/deltemplate}
 
 /**

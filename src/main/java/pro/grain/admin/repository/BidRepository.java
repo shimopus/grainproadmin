@@ -21,9 +21,12 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
     @Query("select distinct bid from Bid bid " +
         "left join fetch bid.qualityParameters " +
         "left join fetch bid.qualityPassports " +
-        "where bid.agent.id =:id and bid.archiveDate is null " +
+        "where " +
+        "   bid.agent.id =:id and " +
+        "   bid.archiveDate is null and " +
+        "   bid.bidType = :bidType " +
         "order by bid.creationDate desc")
-    List<Bid> findAllNotArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId);
+    List<Bid> findAllNotArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId, @Param("bidType") BidType bidType);
 
     @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters left join fetch bid.qualityPassports " +
         "where bid.agent.id =:id and bid.archiveDate is not null " +

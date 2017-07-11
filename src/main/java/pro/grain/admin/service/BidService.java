@@ -90,9 +90,9 @@ public class BidService {
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<BidFullDTO> findByPartnerNotArchived(Long partnerId) {
+    public List<BidFullDTO> findByPartnerNotArchived(Long partnerId, BidType bidType) {
         log.debug("Request to get all Bids by partner");
-        List<Bid> result = bidRepository.findAllNotArchivedWithEagerRelationshipsByPartner(partnerId);
+        List<Bid> result = bidRepository.findAllNotArchivedWithEagerRelationshipsByPartner(partnerId, bidType);
         return bidFullMapper.bidsToBidFullDTOs(result);
     }
 

@@ -18,7 +18,8 @@
         vm.previousState = previousState.name;
         vm.isPartnerDetailsOpened = false;
         vm.isArrowClicked = false;
-        vm.notArchivedBids = getBids(false);
+        vm.notArchivedBidsSell = getBids(false, 'SELL');
+        vm.notArchivedBidsBuy = getBids(false, 'BUY');
         vm.archivedBids = getBids(true);
         vm.getContact = getContact;
         vm.arrowClick = arrowClick;
@@ -31,14 +32,16 @@
         $scope.$on('$destroy', unsubscribe);
 
         var unsubscribeBid = $rootScope.$on('grainAdminApp:bidUpdate', function(event, result) {
-            vm.notArchivedBids = getBids(false);
+            vm.notArchivedBidsSell = getBids(false, 'SELL');
+            vm.notArchivedBidsBuy = getBids(false, 'BUY');
             vm.archivedBids = getBids(true);
         });
         $scope.$on('$destroy', unsubscribeBid);
 
-        function getBids(isArchived) {
+        function getBids(isArchived, bidType) {
             return Bid.queryByPartner({
                 partnerId: vm.partner.id,
+                bidType: bidType,
                 isArchived: isArchived || false
             });
         }
@@ -76,7 +79,9 @@
         function archiveBid(event, bid) {
             var archivedBid;
 
-            vm.notArchivedBids = vm.notArchivedBids.filter(function (bidItem) {
+            var bidsToFilter = bid.bidType === 'SELL' ? vm.notArchivedBidsSell : vm.notArchivedBidsBuy;
+
+            bidsToFilter = bidsToFilter.filter(function (bidItem) {
                 if (bidItem.id === bid.id) {
                     archivedBid = bidItem;
                     return false;

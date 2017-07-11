@@ -18,6 +18,8 @@
         vm.splitFirstLetter = splitFirstLetter;
         vm.currentDate = new Date();
         vm.exportToHTML = exportToHTML;
+        vm.currentBidType = 'SELL';
+        vm.changeBidType = changeBidType;
         vm.marketTable = LOADING_STR;
         loadTableData();
 
@@ -38,6 +40,11 @@
             }
         }
 
+        function changeBidType(bidType) {
+            vm.currentBidType = bidType;
+            onSelectStation();
+        }
+
         function showCardDialog(partner) {
             PartnerCard.showDialog(partner);
         }
@@ -55,7 +62,8 @@
                 {
                     url: '/pages/market-table/admin',
                     method: "GET",
-                    params: {'code': code}
+                    params: {'code': code,
+                            'bidType': vm.currentBidType}
                 }
             ).then(function(response) {
                 vm.marketTable = $sce.trustAsHtml(response.data);
@@ -67,7 +75,8 @@
                 {
                     url: '/pages/market-table/download',
                     method: "GET",
-                    params: {'code': code}
+                    params: {'code': code,
+                        'bidType': vm.currentBidType}
                 }
             )
                 .success(function(data, status, headers, config) {
@@ -79,6 +88,9 @@
                         href: 'data:attachment/html;charset=utf-8,' + encodeURI(data),
                         download: $filter('date')(new Date(), "yyyyMMdd") +
                         " пшеница" +
+                        (vm.currentBidType === 'SELL' ?
+                            " продавцы" :
+                            " покупатели") +
                         (vm.station ?
                             " " + vm.station.name +
                             " (" + vm.station.code + ")"

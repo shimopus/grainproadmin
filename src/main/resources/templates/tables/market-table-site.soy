@@ -7,6 +7,7 @@
  * @param baseUrl Базовый URL для ссылок
  * @param adminBaseUrl Базовый URL админки
  * @param bids Список заявок для отображения.
+ * @param bidType Тип заявок в таблице - SELL, BUY
  */
 {template .market_table_site}
     {call tables.table}
@@ -17,6 +18,7 @@
         {param passportVariant: 'site' /}
         {param urlTarget: '' /}
         {param bids: $bids /}
+        {param bidType: $bidType /}
     {/call}
 {/template}
 
@@ -26,6 +28,7 @@
  * @param baseUrl Базовый URL для ссылок
  * @param urlTarget
  * @param bid заявкa для отображения.
+ * @param bidType Тип заявок в таблице - SELL, BUY
  */
 {deltemplate passport.link variant="'site'"}
 
@@ -38,7 +41,7 @@
     <a style="color: #315597; display:{$display};" href="javascript:;"
         data-fancybox="{$bid.id}" data-type="image"
         data-src="{$adminBaseUrl}pages/passport/{$passport.id}/{$passport.title}"
-        id="{$id}">карта анализа</a>
+        id="{$id}">{$bidType == 'SELL' ? 'карта анализа' : 'спецификация'}</a>
 {/foreach}
 
 {/deltemplate}

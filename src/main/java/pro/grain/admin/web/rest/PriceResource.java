@@ -19,7 +19,8 @@ import pro.grain.admin.service.PriceDownloadService;
 
 import java.util.List;
 
-@RestController
+//Do not share this api to the internet. Price Download will not work without this api
+//@RestController
 @RequestMapping("/api")
 public class PriceResource {
     private final Logger log = LoggerFactory.getLogger(PriceResource.class);

@@ -116,10 +116,10 @@
                                         {$bid.price}
                                     {/if}
                                 {elseif $bidType == 'BUY'}
-                                    {if $bid.cptPrice != null}
-                                        {$bid.cptPrice}
-                                    {elseif $bid.fcaPrice != null}
+                                    {if $bid.fcaPrice != null}
                                         {$bid.fcaPrice}
+                                    {elseif $bid.cptPrice != null}
+                                        {$bid.cptPrice}
                                     {/if}
                                 {/if}
                             </td>
@@ -140,10 +140,10 @@
                                         EXW по переписи
                                     {/if}
                                 {elseif $bidType == 'BUY'}
-                                    {if $bid.cptPrice != null}
-                                        СРТ с доставкой ж/д до
-                                    {elseif $bid.fcaPrice != null}
+                                    {if $bid.fcaPrice != null}
                                         FCA с погрузкой ж/д на
+                                    {elseif $bid.cptPrice != null}
+                                        СРТ с доставкой ж/д до
                                     {/if}
                                 {/if}
                             </td>

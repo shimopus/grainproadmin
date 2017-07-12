@@ -18,7 +18,7 @@
     -->
     <changeSet id="20170710144425-1" author="jhipster">
         <addColumn tableName="bid">
-            <column  name="bid_type" type="varchar(255)" value="SELL">
+            <column  name="bid_type" type="varchar(255)" defaultValue="SELL">
                 <constraints nullable="false" />
             </column>
         </addColumn>

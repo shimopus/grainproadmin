@@ -183,7 +183,7 @@ public class MarketService {
 
         return bids.stream()
             .peek(bid -> {
-                if (!isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
+                if (!isStationFromEqualsStationTo(bid, stationCode, baseStationCode) || bid.getBidType() == BidType.BUY) {
                     Long price = getFCAPrice(bid, stationCode);
                     if (price != Long.MIN_VALUE) {
                         bid.setFcaPrice(price);
@@ -219,7 +219,7 @@ public class MarketService {
                 }
             }
         } else if (bid.getBidType() == BidType.BUY) {
-            if (stationCode == null || isStationFromEqualsStationTo(bid, stationCode, baseStationCode)) {
+            if (stationCode == null) {
                 return getCPTPrice(bid, stationCode);
             } else {
                 return getFCAPrice(bid, stationCode);

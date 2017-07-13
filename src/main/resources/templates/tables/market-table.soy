@@ -116,7 +116,7 @@
                                         {$bid.price}
                                     {/if}
                                 {elseif $bidType == 'BUY'}
-                                    {if $bid.fcaPrice != null}
+                                    {if $bid.fcaPrice != null or $station.name == $elevator.stationName}
                                         {$bid.fcaPrice}
                                     {elseif $bid.cptPrice != null}
                                         {$bid.cptPrice}
@@ -140,7 +140,7 @@
                                         EXW по переписи
                                     {/if}
                                 {elseif $bidType == 'BUY'}
-                                    {if $bid.fcaPrice != null}
+                                    {if $bid.fcaPrice != null or $station.name == $elevator.stationName}
                                         FCA с погрузкой ж/д на
                                     {elseif $bid.cptPrice != null}
                                         СРТ с доставкой ж/д до
@@ -177,10 +177,10 @@
                                     ст. {$elevator.stationName}
                                 {/if}
                             {elseif $bidType == 'BUY'}
-                                {if $bid.cptPrice != null}
-                                    ст. {$elevator.stationName}
-                                {elseif $bid.fcaPrice != null}
+                                {if $bid.fcaPrice != null or ($station != null and $station.name == $elevator.stationName)}
                                     ст. {$station.name}
+                                {elseif $bid.cptPrice != null}
+                                    ст. {$elevator.stationName}
                                 {/if}
                             {/if}
                         </span>
@@ -216,7 +216,7 @@
                                     {if $bid.cptPrice != null or $bid.fcaPrice != null}
                                         {$bid.price}
                                     {/if}
-                                {elseif $bidType == 'BUY' and $station != null and $station != $elevator.stationName}
+                                {elseif $bidType == 'BUY' and $station != null and $station.name != $elevator.stationName}
                                     {if $bid.transportationPricePrice and $bid.nds == 'EXCLUDED'}
                                         {$bid.transportationPricePrice}
                                     {elseif $bid.transportationPricePriceNds and $bid.nds == 'INCLUDED'}
@@ -232,7 +232,7 @@
                                         EXW по переписи
                                     {/if}
                                 {elseif $bidType == 'BUY'}
-                                    {if $station != null and $station != $elevator.stationName}
+                                    {if $station != null and $station.name != $elevator.stationName}
                                         доставка ж/д (Русагротранс)
                                     {/if}
                                 {/if}
@@ -267,7 +267,7 @@
                                         {$bid.elevator.servicePrices[0].price}
                                     {/if}
                                 {elseif $bidType == 'BUY'}
-                                    {if $station != null and $station != $elevator.stationName}
+                                    {if $station != null and $station.name != $elevator.stationName}
                                         {$bid.cptPrice}
                                     {/if}
                                 {/if}
@@ -280,7 +280,7 @@
                                         погрузка ж/д
                                     {/if}
                                 {elseif $bidType == 'BUY'}
-                                    {if $station != null and $station != $elevator.stationName}
+                                    {if $station != null and $station.name != $elevator.stationName}
                                         СРТ с доставкой ж/д до
                                     {/if}
                                 {/if}
@@ -333,7 +333,7 @@
                                             доставка ж/д (Русагротранс)
                                         {/if}
                                     {elseif $bidType == 'BUY'}
-                                        {if $station != null and $station != $elevator.stationName}
+                                        {if $station != null and $station.name != $elevator.stationName}
                                             ст. {$elevator.stationName}
                                         {/if}
                                     {/if}

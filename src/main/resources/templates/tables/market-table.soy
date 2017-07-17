@@ -87,7 +87,7 @@
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 {delcall partner.card variant="$passportVariant"}
                                     {param partnerId: $bid.agentId /}
-                                    {param partnerName: $bid.agentName /}
+                                    {param partnerName: $bid.agentShortName /}
                                     {param partnerOrgType: $bid.agentOrganisationType /}
                                     {param partnerCard: $bid.agentCard /}
                                     {param baseUrl: $baseUrl /}
@@ -291,7 +291,7 @@
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 {delcall partner.card variant="$passportVariant"}
                                     {param partnerId: $elevator.id /}
-                                    {param partnerName: $elevator.name /}
+                                    {param partnerName: $elevator.shortName /}
                                     {param partnerOrgType: $elevator.organisationTypeType /}
                                     {param partnerCard: $elevator.card /}
                                     {param baseUrl: $baseUrl /}

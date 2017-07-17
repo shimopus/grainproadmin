@@ -57,11 +57,13 @@ public class MarketTableController {
         produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @Timed
     public ResponseEntity<String> downloadAllRegions(@RequestParam(value = "code", required = false) String code, @RequestParam("bidType") BidType bidType)
-        throws URISyntaxException/*, UnsupportedEncodingException*/ {
+        throws URISyntaxException {
         log.debug("REST request to download list of bids for station code {}", code);
+
+        String baseUrl = bidType == BidType.SELL ? "http://grain.pro/" : "http://grain.pro/grain-buy/";
 
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
-            .body(marketService.getMarketTableHTML(code, bidType,"market_table_download", "http://grain.pro/"));
+            .body(marketService.getMarketTableHTML(code, bidType,"market_table_download", baseUrl));
     }
 }

@@ -2,6 +2,7 @@ package pro.grain.admin.service.dto;
 
 public class BidPriceDTO extends BidFullDTO {
     private String agentCard;
+    private String agentShortName;
     private Long transportationPricePrice;
     private Long transportationPricePriceNds;
     private Long transportationPriceId;
@@ -15,6 +16,14 @@ public class BidPriceDTO extends BidFullDTO {
     public BidPriceDTO setAgentCard(String agentCard) {
         this.agentCard = agentCard;
         return this;
+    }
+
+    public String getAgentShortName() {
+        return agentShortName;
+    }
+
+    public void setAgentShortName(String agentShortName) {
+        this.agentShortName = agentShortName;
     }
 
     public Long getTransportationPricePrice() {

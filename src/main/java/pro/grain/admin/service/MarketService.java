@@ -199,9 +199,12 @@ public class MarketService {
                 Collectors.collectingAndThen(
                     Collectors.toCollection(ArrayList::new),
                     l -> {
-                        l.sort(Comparator.comparingLong(bid -> getPriceToCompare(bid, stationCode, baseStationCode)));
+                        if (l.get(0).getBidType() == BidType.BUY) {
+                            l.sort(Comparator.comparingLong(bid -> getPriceToCompare((BidPriceDTO)bid, stationCode, baseStationCode)).reversed());
+                        } else {
+                            l.sort(Comparator.comparingLong(bid -> getPriceToCompare(bid, stationCode, baseStationCode)));
+                        }
                         return l;
-
                     }
                 ))).values();
     }

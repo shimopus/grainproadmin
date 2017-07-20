@@ -285,9 +285,9 @@
                     <input class="form-control" id="field_contactEmail{{::$index}}" name="contactEmail{{::$index}}"
                            ng-model="contact.emailEmail"
                            type="email"
-                           validate-on="blur"
-                           required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'Email\'}'}}'"
-                           required>
+                           validate-on="blur">
+                           <!--required-message="'{{'grainAdminApp.contact.validations.fieldShouldBeFilled' | translate : '{field: \'Email\'}'}}'"-->
+                           <!--required>-->
                 </div>
                 <div class="col-sm-3 form-group">
                     <label class="control-label" for="field_contactSkype{{::$index}}"

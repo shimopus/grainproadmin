@@ -40,13 +40,15 @@
                                    autocomplete="off"
                                    ng-if="vm.partners.$resolved"
                                    ng-model="vm.selectedElevator"
-                                   uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | propsFilter: {name: $viewValue}"
+                                   uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions($viewValue)"
                                    typeahead-editable="false"
                                    typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
+                                   typeahead-loading="loadingLocations"
                                    validate-on="dirty"
                                    required-message="'{{'entity.validation.required' | translate}}'"
                                    required
                             />
+                            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
                         </div>
                     </div>
                 </div>

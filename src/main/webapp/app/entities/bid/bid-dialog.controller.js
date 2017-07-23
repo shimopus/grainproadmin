@@ -6,10 +6,10 @@
         .controller('BidDialogController', BidDialogController);
 
     BidDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'partner',
-        'Bid', 'QualityParameter', 'Partner', 'QualityValue', '$q', 'Passport', 'DataUtils'];
+        'Bid', 'QualityParameter', 'Partner', 'QualityValue', '$q', 'Passport', 'DataUtils', "PartnerSearch"];
 
     function BidDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, partner,
-                                 Bid, QualityParameter, Partner, QualityValue, $q, Passport, DataUtils) {
+                                 Bid, QualityParameter, Partner, QualityValue, $q, Passport, DataUtils, PartnerSearch) {
         var vm = this;
 
         if (entity.id) {
@@ -150,10 +150,13 @@
             vm.isSaving = false;
         }
 
-        function getPartnersSuggestions() {
-            return vm.partners/*.filter(function (partner) {
-                return partner.id !== vm.currentPartner.id;
-            })*/;
+        function getPartnersSuggestions(partnerName) {
+            return PartnerSearch.query({
+                query: partnerName,
+                page: 0,
+                size: 20,
+                sort: 'asc'
+            }).$promise;
         }
 
         function formatSelection(selectedValue, objects, parameterName) {

@@ -42,7 +42,7 @@
                                    ng-model="vm.selectedElevator"
                                    uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions($viewValue)"
                                    typeahead-editable="false"
-                                   typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
+                                   typeahead-input-formatter="$model.name"
                                    typeahead-loading="loadingLocations"
                                    validate-on="dirty"
                                    required-message="'{{'entity.validation.required' | translate}}'"

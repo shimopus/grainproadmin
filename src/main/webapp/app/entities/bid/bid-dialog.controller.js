@@ -117,6 +117,7 @@
             bid.qualityPassports.forEach(function (qualityPassport) {
                 qualityPassport.id = null;
             });
+            bid.creationDate = new Date();
             Bid.save(bid, onSaveSuccess, onSaveError);
         }
 

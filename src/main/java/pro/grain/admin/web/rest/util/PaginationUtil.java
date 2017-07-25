@@ -1,10 +1,14 @@
 package pro.grain.admin.web.rest.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 
 /**
  * Utility class for handling pagination.
@@ -14,6 +18,8 @@ import java.net.URISyntaxException;
  * and follow <a href="http://tools.ietf.org/html/rfc5988">RFC 5988 (Link header)</a>.
  */
 public final class PaginationUtil {
+
+    private static final Logger log = LoggerFactory.getLogger(PaginationUtil.class);
 
     private PaginationUtil(){
     }
@@ -52,20 +58,28 @@ public final class PaginationUtil {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Count", "" + page.getTotalElements());
         String link = "";
+        String escapedQuery = query;
+
+        try {
+            escapedQuery = URLEncoder.encode(query, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            log.error("Can not encode search query", e);
+        }
+
         if ((page.getNumber() + 1) < page.getTotalPages()) {
-            link = "<" + generateUri(baseUrl, page.getNumber() + 1, page.getSize()) + "&query=" + query + ">; rel=\"next\",";
+            link = "<" + generateUri(baseUrl, page.getNumber() + 1, page.getSize()) + "&query=" + escapedQuery + ">; rel=\"next\",";
         }
         // prev link
         if ((page.getNumber()) > 0) {
-            link += "<" + generateUri(baseUrl, page.getNumber() - 1, page.getSize()) + "&query=" + query + ">; rel=\"prev\",";
+            link += "<" + generateUri(baseUrl, page.getNumber() - 1, page.getSize()) + "&query=" + escapedQuery + ">; rel=\"prev\",";
         }
         // last and first link
         int lastPage = 0;
         if (page.getTotalPages() > 0) {
             lastPage = page.getTotalPages() - 1;
         }
-        link += "<" + generateUri(baseUrl, lastPage, page.getSize()) + "&query=" + query + ">; rel=\"last\",";
-        link += "<" + generateUri(baseUrl, 0, page.getSize()) + "&query=" + query + ">; rel=\"first\"";
+        link += "<" + generateUri(baseUrl, lastPage, page.getSize()) + "&query=" + escapedQuery + ">; rel=\"last\",";
+        link += "<" + generateUri(baseUrl, 0, page.getSize()) + "&query=" + escapedQuery + ">; rel=\"first\"";
         headers.add(HttpHeaders.LINK, link);
         return headers;
     }

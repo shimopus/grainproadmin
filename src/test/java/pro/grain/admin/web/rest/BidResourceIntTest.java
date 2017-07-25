@@ -29,7 +29,11 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,8 +51,8 @@ import pro.grain.admin.domain.enumeration.NDS;
 @SpringBootTest(classes = GrainAdminApp.class)
 public class BidResourceIntTest {
 
-    private static final LocalDate DEFAULT_CREATION_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_CREATION_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDateTime DEFAULT_CREATION_DATE = LocalDateTime.parse("1970-01-01T00:00");
+    private static final LocalDateTime UPDATED_CREATION_DATE = LocalDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.MILLIS);
 
     private static final QualityClass DEFAULT_QUALITY_CLASS = QualityClass.BKL;
     private static final QualityClass UPDATED_QUALITY_CLASS = QualityClass.ONE;
@@ -68,8 +72,8 @@ public class BidResourceIntTest {
     private static final Boolean DEFAULT_IS_ACTIVE = false;
     private static final Boolean UPDATED_IS_ACTIVE = true;
 
-    private static final LocalDate DEFAULT_ARCHIVE_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_ARCHIVE_DATE = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDateTime DEFAULT_ARCHIVE_DATE = LocalDateTime.parse("1970-01-01T00:00");
+    private static final LocalDateTime UPDATED_ARCHIVE_DATE = LocalDateTime.now(ZoneId.systemDefault()).truncatedTo(ChronoUnit.MILLIS);
 
     @Inject
     private BidRepository bidRepository;
@@ -287,14 +291,14 @@ public class BidResourceIntTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.[*].id").value(hasItem(bid.getId().intValue())))
-                .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
+                .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))))
                 .andExpect(jsonPath("$.[*].qualityClass").value(hasItem(DEFAULT_QUALITY_CLASS.toString())))
                 .andExpect(jsonPath("$.[*].volume").value(hasItem(DEFAULT_VOLUME)))
                 .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
                 .andExpect(jsonPath("$.[*].nds").value(hasItem(DEFAULT_NDS.toString())))
                 .andExpect(jsonPath("$.[*].bidType").value(hasItem(DEFAULT_BID_TYPE.toString())))
                 .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())))
-                .andExpect(jsonPath("$.[*].archiveDate").value(hasItem(DEFAULT_ARCHIVE_DATE.toString())));
+                .andExpect(jsonPath("$.[*].archiveDate").value(hasItem(DEFAULT_ARCHIVE_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))));
     }
 
     @Test
@@ -308,14 +312,14 @@ public class BidResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(bid.getId().intValue()))
-            .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE.toString()))
+            .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)))
             .andExpect(jsonPath("$.qualityClass").value(DEFAULT_QUALITY_CLASS.toString()))
             .andExpect(jsonPath("$.volume").value(DEFAULT_VOLUME))
             .andExpect(jsonPath("$.price").value(DEFAULT_PRICE.intValue()))
             .andExpect(jsonPath("$.nds").value(DEFAULT_NDS.toString()))
             .andExpect(jsonPath("$.bidType").value(DEFAULT_BID_TYPE.toString()))
             .andExpect(jsonPath("$.isActive").value(DEFAULT_IS_ACTIVE.booleanValue()))
-            .andExpect(jsonPath("$.archiveDate").value(DEFAULT_ARCHIVE_DATE.toString()));
+            .andExpect(jsonPath("$.archiveDate").value(DEFAULT_ARCHIVE_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)));
     }
 
     @Test
@@ -404,13 +408,13 @@ public class BidResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(bid.getId().intValue())))
-            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))))
             .andExpect(jsonPath("$.[*].qualityClass").value(hasItem(DEFAULT_QUALITY_CLASS.toString())))
             .andExpect(jsonPath("$.[*].volume").value(hasItem(DEFAULT_VOLUME)))
             .andExpect(jsonPath("$.[*].price").value(hasItem(DEFAULT_PRICE.intValue())))
             .andExpect(jsonPath("$.[*].nds").value(hasItem(DEFAULT_NDS.toString())))
             .andExpect(jsonPath("$.[*].bidType").value(hasItem(DEFAULT_BID_TYPE.toString())))
             .andExpect(jsonPath("$.[*].isActive").value(hasItem(DEFAULT_IS_ACTIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].archiveDate").value(hasItem(DEFAULT_ARCHIVE_DATE.toString())));
+            .andExpect(jsonPath("$.[*].archiveDate").value(hasItem(DEFAULT_ARCHIVE_DATE.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME))));
     }
 }

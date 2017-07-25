@@ -1,8 +1,8 @@
 package pro.grain.admin.service.dto;
 
-import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -19,7 +19,7 @@ public class BidDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @NotNull
     private QualityClass qualityClass;
@@ -38,7 +38,7 @@ public class BidDTO implements Serializable {
 
     private Boolean isActive;
 
-    private LocalDate archiveDate;
+    private LocalDateTime archiveDate;
 
 
     private Long agentContactId;
@@ -64,11 +64,11 @@ public class BidDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
     public QualityClass getQualityClass() {
@@ -115,11 +115,11 @@ public class BidDTO implements Serializable {
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
-    public LocalDate getArchiveDate() {
+    public LocalDateTime getArchiveDate() {
         return archiveDate;
     }
 
-    public void setArchiveDate(LocalDate archiveDate) {
+    public void setArchiveDate(LocalDateTime archiveDate) {
         this.archiveDate = archiveDate;
     }
 

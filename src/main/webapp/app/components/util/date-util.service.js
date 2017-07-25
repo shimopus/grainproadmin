@@ -13,6 +13,7 @@
             convertDateTimeFromServer : convertDateTimeFromServer,
             convertLocalDateFromServer : convertLocalDateFromServer,
             convertLocalDateToServer : convertLocalDateToServer,
+            convertDateTimeToServer : convertDateTimeToServer,
             dateformat : dateformat
         };
 
@@ -21,6 +22,14 @@
         function convertDateTimeFromServer (date) {
             if (date) {
                 return new Date(date);
+            } else {
+                return null;
+            }
+        }
+
+        function convertDateTimeToServer (date) {
+            if (date) {
+                return $filter('date')(date, 'yyyy-MM-ddTHH:mm:ss');
             } else {
                 return null;
             }

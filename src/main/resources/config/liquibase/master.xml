@@ -46,4 +46,5 @@
     <include file="changelog/20170219144423_changed_entity_TransportationPrice_added_fields.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20170219144424_changed_entity_TransportationPrice_changedIndex.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20170710144425_changed_entity_Bid_added_BidType.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20170724144425_changed_entity_Bid_changed_CreationDate.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

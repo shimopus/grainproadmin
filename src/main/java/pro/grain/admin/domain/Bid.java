@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
@@ -34,7 +34,7 @@ public class Bid implements Serializable {
 
     @NotNull
     @Column(name = "creation_date", nullable = false)
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -63,7 +63,7 @@ public class Bid implements Serializable {
     private Boolean isActive;
 
     @Column(name = "archive_date")
-    private LocalDate archiveDate;
+    private LocalDateTime archiveDate;
 
     @ManyToOne
     private Contact agentContact;
@@ -96,16 +96,16 @@ public class Bid implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public Bid creationDate(LocalDate creationDate) {
+    public Bid creationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
         return this;
     }
 
-    public void setCreationDate(LocalDate creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -187,16 +187,16 @@ public class Bid implements Serializable {
         this.isActive = isActive;
     }
 
-    public LocalDate getArchiveDate() {
+    public LocalDateTime getArchiveDate() {
         return archiveDate;
     }
 
-    public Bid archiveDate(LocalDate archiveDate) {
+    public Bid archiveDate(LocalDateTime archiveDate) {
         this.archiveDate = archiveDate;
         return this;
     }
 
-    public void setArchiveDate(LocalDate archiveDate) {
+    public void setArchiveDate(LocalDateTime archiveDate) {
         this.archiveDate = archiveDate;
     }
 

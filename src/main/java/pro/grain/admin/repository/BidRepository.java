@@ -1,5 +1,6 @@
 package pro.grain.admin.repository;
 
+import org.springframework.data.domain.Pageable;
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
 
@@ -21,17 +22,19 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
     @Query("select distinct bid from Bid bid " +
         "left join fetch bid.qualityParameters " +
         "left join fetch bid.qualityPassports " +
+        "left join fetch bid.elevator " +
         "where " +
         "   bid.agent.id =:id and " +
         "   bid.archiveDate is null and " +
-        "   bid.bidType = :bidType " +
-        "order by bid.creationDate desc")
-    List<Bid> findAllNotArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId, @Param("bidType") BidType bidType);
+        "   bid.bidType = :bidType ")
+    List<Bid> findAllNotArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId,
+                                                                @Param("bidType") BidType bidType,
+                                                                Pageable pageable);
 
     @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters left join fetch bid.qualityPassports " +
         "where bid.agent.id =:id and bid.archiveDate is not null " +
         "order by bid.archiveDate desc")
-    List<Bid> findAllArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId);
+    List<Bid> findAllArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId, Pageable pageable);
 
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid, tp) " +
         "from Bid bid, TransportationPrice tp, LocationToBaseStation lts " +

@@ -129,14 +129,15 @@ public class BidResource {
     @Timed
     public ResponseEntity<List<BidFullDTO>> getBids(@RequestParam("partnerId") Long id,
                                                     @RequestParam(value = "bidType", required = false) BidType bidType,
-                                                    @RequestParam("isArchived") Boolean isArchived) throws URISyntaxException {
+                                                    @RequestParam("isArchived") Boolean isArchived,
+                                                    Pageable pageable) throws URISyntaxException {
         log.debug("REST request to get all Bids for a Partner with id={}", id);
         List<BidFullDTO> bidsDTO;
 
         if (isArchived) {
-            bidsDTO = bidService.findByPartnerArchived(id);
+            bidsDTO = bidService.findByPartnerArchived(id, pageable);
         } else {
-            bidsDTO = bidService.findByPartnerNotArchived(id, bidType);
+            bidsDTO = bidService.findByPartnerNotArchived(id, bidType, pageable);
         }
 
         return new ResponseEntity<>(bidsDTO, HttpStatus.OK);

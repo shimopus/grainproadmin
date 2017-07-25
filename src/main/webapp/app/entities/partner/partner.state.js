@@ -57,7 +57,7 @@
             })
             .state('partner-detail', {
                 parent: 'entity',
-                url: '/partner/{id}',
+                url: '/partner/{id}?sort',
                 data: {
                     authorities: ['ROLE_USER'],
                     pageTitle: 'grainAdminApp.partner.detail.title'
@@ -69,7 +69,27 @@
                         controllerAs: 'vm'
                     }
                 },
+                params: {
+                    sort: {
+                        value: 'creationDate,desc',
+                        squash: true
+                    }
+                },
                 resolve: {
+                    pagingParamsBuy: ['$stateParams', 'PaginationUtil', function ($stateParams, PaginationUtil) {
+                        return {
+                            sort: $stateParams.sort,
+                            predicate: PaginationUtil.parsePredicate($stateParams.sort),
+                            ascending: PaginationUtil.parseAscending($stateParams.sort)
+                        };
+                    }],
+                    pagingParamsSell: ['$stateParams', 'PaginationUtil', function ($stateParams, PaginationUtil) {
+                        return {
+                            sort: $stateParams.sort,
+                            predicate: PaginationUtil.parsePredicate($stateParams.sort),
+                            ascending: PaginationUtil.parseAscending($stateParams.sort)
+                        };
+                    }],
                     translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                         $translatePartialLoader.addPart('partner');
                         $translatePartialLoader.addPart('nDS');
@@ -256,7 +276,7 @@
                 data: {
                     authorities: ['ROLE_USER']
                 },
-                onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
                     $uibModal.open({
                         templateUrl: 'app/entities/bid/bid-dialog.html',
                         controller: 'BidDialogController',

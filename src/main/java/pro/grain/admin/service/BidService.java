@@ -90,9 +90,9 @@ public class BidService {
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<BidFullDTO> findByPartnerNotArchived(Long partnerId, BidType bidType) {
+    public List<BidFullDTO> findByPartnerNotArchived(Long partnerId, BidType bidType, Pageable pageable) {
         log.debug("Request to get all Bids by partner");
-        List<Bid> result = bidRepository.findAllNotArchivedWithEagerRelationshipsByPartner(partnerId, bidType);
+        List<Bid> result = bidRepository.findAllNotArchivedWithEagerRelationshipsByPartner(partnerId, bidType, pageable);
         return bidFullMapper.bidsToBidFullDTOs(result);
     }
 
@@ -103,9 +103,9 @@ public class BidService {
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<BidFullDTO> findByPartnerArchived(Long partnerId) {
+    public List<BidFullDTO> findByPartnerArchived(Long partnerId, Pageable pageable) {
         log.debug("Request to get all Bids by partner");
-        List<Bid> result = bidRepository.findAllArchivedWithEagerRelationshipsByPartner(partnerId);
+        List<Bid> result = bidRepository.findAllArchivedWithEagerRelationshipsByPartner(partnerId, pageable);
         return bidFullMapper.bidsToBidFullDTOs(result);
     }
 

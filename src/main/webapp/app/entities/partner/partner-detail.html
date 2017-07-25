@@ -98,13 +98,13 @@
         <h2>Продажа</h2>
         <table class="jh-table bid-table table table-striped" table-actions-ondemand>
             <thead>
-            <tr>
-                <th><span data-translate="grainAdminApp.bid.elevator">Elevator</span></th>
+            <tr jh-sort="vm.predicateSell" ascending="vm.reverseSell" callback="vm.transitionSell()">
+                <th jh-sort-by="elevator.name"><span data-translate="grainAdminApp.bid.elevator">Elevator</span>  <span class="glyphicon glyphicon-sort"></span></th>
                 <th><span data-translate="grainAdminApp.bid.agent">Agent</span></th>
                 <th><span data-translate="grainAdminApp.bid.qualityParameters">Quality</span></th>
                 <th><span data-translate="grainAdminApp.bid.volume">Volume</span></th>
                 <th><span data-translate="grainAdminApp.bid.price">Price</span></th>
-                <th><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span></th>
+                <th jh-sort-by="creationDate"><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span>  <span class="glyphicon glyphicon-sort"></span></th>
                 <th>
                     <div class="btn-group flex-btn-group-container" style="visibility: hidden">
                         <button type="submit" class="btn btn-info btn-sm">
@@ -186,13 +186,13 @@
         <h2>Закупка</h2>
         <table class="jh-table bid-table table table-striped" table-actions-ondemand>
             <thead>
-            <tr>
-                <th><span data-translate="grainAdminApp.bid.gruz">Gruz</span></th>
+            <tr jh-sort="vm.predicateBuy" ascending="vm.reverseBuy" callback="vm.transitionBuy()">
+                <th jh-sort-by="elevator.name"><span data-translate="grainAdminApp.bid.gruz">Gruz</span>  <span class="glyphicon glyphicon-sort"></span></th>
                 <th><span data-translate="grainAdminApp.bid.agent">Agent</span></th>
                 <th><span data-translate="grainAdminApp.bid.qualityParameters">Quality</span></th>
                 <th><span data-translate="grainAdminApp.bid.volume">Volume</span></th>
                 <th><span data-translate="grainAdminApp.bid.price">Price</span></th>
-                <th><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span></th>
+                <th jh-sort-by="creationDate"><span data-translate="grainAdminApp.bid.creationDate">Creation Date</span>  <span class="glyphicon glyphicon-sort"></th>
                 <th>
                     <div class="btn-group flex-btn-group-container" style="visibility: hidden">
                         <button type="submit" class="btn btn-info btn-sm">

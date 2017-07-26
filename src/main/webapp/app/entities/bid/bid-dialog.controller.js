@@ -1,4 +1,4 @@
-(function() {
+(function () {
     'use strict';
 
     angular
@@ -31,7 +31,7 @@
         vm.save = save;
         vm.qualityParameters = QualityParameter.query();
         vm.qualityParametersMaskOptions = {
-            maskDefinitions : {
+            maskDefinitions: {
                 '9': /[0-9,.]/
             }
         };
@@ -78,11 +78,7 @@
         vm.selectedElevator = null;
 
         if (vm.bid.elevatorId) {
-            vm.partners.$promise.then(function (partners) {
-                vm.selectedElevator = partners.find(function (partner) {
-                    return partner.id === vm.bid.elevatorId;
-                });
-            });
+            vm.selectedElevator = Partner.get({id: vm.bid.elevatorId});
         }
 
         $timeout(function () {
@@ -112,7 +108,7 @@
             //create new edited bid
             bid.id = null;
             bid.qualityParameters.forEach(function (qualityParameter) {
-               qualityParameter.id = null;
+                qualityParameter.id = null;
             });
             bid.qualityPassports.forEach(function (qualityPassport) {
                 qualityPassport.id = null;
@@ -190,8 +186,8 @@
                 title: file.name
             };
 
-            DataUtils.toBase64(file, function(base64Data) {
-                $scope.$apply(function() {
+            DataUtils.toBase64(file, function (base64Data) {
+                $scope.$apply(function () {
                     passport.image = base64Data;
                 });
             });

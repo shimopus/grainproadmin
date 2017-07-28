@@ -292,7 +292,7 @@
                             }]
                         }
                     }).result.then(function () {
-                        $state.go('^', {}, {reload: false});
+                        $state.go('^', {}, {reload: false, notify: false});
                     }, function () {
                         $state.go('^');
                     });

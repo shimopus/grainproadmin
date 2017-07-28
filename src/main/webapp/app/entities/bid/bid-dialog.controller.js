@@ -96,7 +96,10 @@
             if (vm.bid.id !== null) {
                 updateBid(vm.bid);
             } else {
-                Bid.save(vm.bid, onSaveSuccess, onSaveError);
+                Bid.save(vm.bid,
+                    function(resultBid) {
+                        onSaveSuccess(resultBid);
+                    }, onSaveError);
             }
         }
 
@@ -114,7 +117,18 @@
                 qualityPassport.id = null;
             });
             bid.creationDate = new Date();
-            Bid.save(bid, onSaveSuccess, onSaveError);
+            Bid.save(bid,
+                function(resultBid) {
+                    //modify Bids just to be displayed on the screen
+                    resultBid.elevator = {
+                        name: vm.initialBid.elevatorName
+                    };
+                    vm.initialBid.elevator = {
+                        name: vm.initialBid.elevatorName
+                    };
+                    onSaveSuccess(resultBid, vm.initialBid);
+                },
+                onSaveError);
         }
 
         function updateQualityParameters() {
@@ -135,11 +149,15 @@
 
         function updateElevatorParameter() {
             vm.bid.elevatorId = vm.selectedElevator.id;
+            vm.bid.elevatorName = vm.selectedElevator.name;
         }
 
-        function onSaveSuccess(result) {
-            $scope.$emit('grainAdminApp:bidUpdate', result);
-            $uibModalInstance.close(result);
+        function onSaveSuccess(newBid, initialBid) {
+            $scope.$emit('grainAdminApp:bidUpdate', {
+                newBid: newBid,
+                initialBid: initialBid
+            });
+            $uibModalInstance.close(newBid);
             vm.isSaving = false;
         }
 

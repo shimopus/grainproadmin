@@ -41,12 +41,33 @@
         });
         $scope.$on('$destroy', unsubscribe);
 
-        var unsubscribeBid = $rootScope.$on('grainAdminApp:bidUpdate', function(event, result) {
-            vm.notArchivedBidsSell = getBids(false, 'SELL', sortSell());
-            vm.notArchivedBidsBuy = getBids(false, 'BUY', sortBuy());
-            vm.archivedBids = getBids(true);
+        var unsubscribeBid = $rootScope.$on('grainAdminApp:bidUpdate', function(event, data) {
+            if (data.initialBid) { //if update
+                vm.notArchivedBidsSell.some(function (bid, index) {
+                    updateBidIfEquals(bid, index, vm.notArchivedBidsSell, data.newBid, data.initialBid);
+                });
+                vm.notArchivedBidsBuy.some(function (bid, index) {
+                    updateBidIfEquals(bid, index, vm.notArchivedBidsBuy, data.newBid, data.initialBid);
+                });
+                vm.archivedBids.unshift(data.initialBid)
+            } else { //Create
+                var bid = data.newBid;
+                if (bid.bidType === "SELL") {
+                    vm.notArchivedBidsSell.unshift(bid);
+                } else {
+                    vm.notArchivedBidsBuy.unshift(bid);
+                }
+            }
         });
+
         $scope.$on('$destroy', unsubscribeBid);
+
+        function updateBidIfEquals (bidItem, index, array, newBid, initialBid) {
+            if (bidItem.id === initialBid.id) {
+                array[index] = newBid;
+                return true;
+            }
+        }
 
         function getBids(isArchived, bidType, sort) {
             return Bid.queryByPartner({
@@ -92,9 +113,10 @@
 
             var bidsToFilter = bid.bidType === 'SELL' ? vm.notArchivedBidsSell : vm.notArchivedBidsBuy;
 
-            bidsToFilter = bidsToFilter.filter(function (bidItem) {
+            bidsToFilter.filter(function (bidItem, index) {
                 if (bidItem.id === bid.id) {
                     archivedBid = bidItem;
+                    bidsToFilter = bidsToFilter.splice(index, 1);
                     return false;
                 }
                 return true;

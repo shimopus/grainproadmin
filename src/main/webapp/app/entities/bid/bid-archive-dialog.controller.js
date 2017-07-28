@@ -22,6 +22,7 @@
             bid.archiveDate = new Date();
 
             Bid.update(bid, function (bid) {
+                bid.archiveDate = new Date();
                 $scope.$emit('grainAdminApp:bidArchived', bid);
                 $uibModalInstance.close(true);
             });

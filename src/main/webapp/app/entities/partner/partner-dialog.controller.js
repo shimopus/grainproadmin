@@ -6,12 +6,13 @@
         .controller('PartnerDialogController', PartnerDialogController);
 
     PartnerDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'Partner',
-        'OrganisationType', 'RegionSearch', 'LocalitySearch', 'StationSearch', 'DistrictSearch', 'ServiceType'
+        'OrganisationType', 'RegionSearch', 'LocalitySearch', 'StationSearch', 'DistrictSearch', 'ServiceType',
+        'PartnerSearch'
     ];
 
     function PartnerDialogController($timeout, $scope, $stateParams, $uibModalInstance, entity, Partner,
                                      OrganisationType, RegionSearch, LocalitySearch, StationSearch, DistrictSearch,
-                                     ServiceType) {
+                                     ServiceType, PartnerSearch) {
         var vm = this;
 
         vm.partner = entity;
@@ -42,7 +43,6 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.partners = Partner.query();
         vm.getPartnersSuggestions = getPartnersSuggestions;
         vm.refreshStationSuggestions = refreshStationSuggestions;
         vm.refreshDistrictSuggestions = refreshDistrictSuggestions;
@@ -65,12 +65,12 @@
             }
         });
 
-        vm.formatSelection = formatSelection;
         vm.doShowChildren = vm.partner.id !== null && vm.partner.ownedBies.length > 0 ? true : false; //just do not watch this formula
         vm.doShowParent = vm.partner.id !== null && vm.partner.ownerForId ? true : false; //just do not watch this formula
         vm.isAddChild = vm.children.length > 0 && vm.children[0].obj;
         vm.addChild = addChild;
         vm.onSelectChild = onSelectChild;
+        vm.onSelectParent = onSelectParent;
         vm.addContact = addContact;
         vm.deleteContact = deleteContact;
         vm.selectedNDS = {
@@ -148,14 +148,6 @@
             vm.datePickerOpenStatus[date] = true;
         }
 
-        function formatSelection(selectedValue, objects, parameterName) {
-            if (!selectedValue) return "";
-
-            return objects.find(function (object) {
-                return object.id === selectedValue;
-            })[parameterName];
-        }
-
         function addChild() {
             vm.children.push({obj: null});
             vm.isAddChild = false;
@@ -167,16 +159,21 @@
             }
         }
 
-        function getPartnersSuggestions() {
-            return vm.partners.filter(function (partner) {
-                return partner.id !== vm.partner.id &&
-                    partner.id !== vm.partner.ownerForId &&
-                    vm.partner.ownedBies.filter(
-                        function (child) {
-                            return child.id === partner.id;
-                        }
-                    ).length <= 0;
-            });
+        function onSelectParent($model) {
+            if ($model !== null) {
+                vm.partner.ownerForId = $model.id;
+            } else {
+                vm.partner.ownerForId = null;
+            }
+        }
+
+        function getPartnersSuggestions(partnerName) {
+            return PartnerSearch.query({
+                query: partnerName,
+                page: 0,
+                size: 20,
+                sort: 'asc'
+            }).$promise;
         }
 
         function addContact() {

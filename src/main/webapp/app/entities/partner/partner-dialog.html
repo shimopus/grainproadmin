@@ -159,11 +159,11 @@
                 </div>
                 <div class="form-group" ng-if="vm.doShowParent">
                     <input class="form-control" autocomplete="off" id="field_ownerFor" name="ownerFor"
-                           ng-if="vm.partners.$resolved"
-                           ng-model="vm.partner.ownerForId"
-                           uib-typeahead="partner.id as partner.name for partner in vm.getPartnersSuggestions() | filter:$viewValue"
+                           ng-model="vm.ownerFor"
+                           uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions($viewValue)"
                            typeahead-editable="false"
-                           typeahead-input-formatter="vm.formatSelection($model, vm.partners, 'name')"
+                           typeahead-input-formatter="$model.name"
+                           typeahead-on-select="vm.onSelectParent($model)"
                         >
                 </div>
             </div>
@@ -179,11 +179,11 @@
                     <label><!-- just spacing --></label>
                 </div>
                 <div class="form-group" ng-repeat="child in vm.children" ng-if="vm.doShowChildren">
-                    <input class="form-control" autocomplete="off" ng-if="vm.partners.$resolved"
+                    <input class="form-control" autocomplete="off"
                            ng-model="child.obj"
-                           uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions() | filter: $viewValue"
+                           uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions($viewValue)"
                            typeahead-editable="false"
-                           typeahead-input-formatter="vm.formatSelection($model.id, vm.partners, 'name')"
+                           typeahead-input-formatter="$model.name"
                            typeahead-on-select="vm.onSelectChild($model)"
                         >
                 </div>

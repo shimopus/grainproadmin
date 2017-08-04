@@ -138,7 +138,7 @@ public class PartnerService {
                 )
         );
 
-        QueryBuilder myQuery = boolQuery().should(queryStringQuery("*" + query + "*").analyzeWildcard(true).field("name").field("inn").field("card")).
+        QueryBuilder myQuery = boolQuery().should(queryStringQuery("*" + query + "*").analyzeWildcard(true).field("name").field("inn")).
             should(nestedQuery);
 
         log.debug("My Query: " + myQuery);

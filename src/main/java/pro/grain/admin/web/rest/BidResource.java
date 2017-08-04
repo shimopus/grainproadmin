@@ -1,6 +1,7 @@
 package pro.grain.admin.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.security.AuthoritiesConstants;
@@ -137,7 +138,7 @@ public class BidResource {
         if (isArchived) {
             bidsDTO = bidService.findByPartnerArchived(id, pageable);
         } else {
-            bidsDTO = bidService.findByPartnerNotArchived(id, bidType, pageable);
+            bidsDTO = bidService.findByPartnerNotArchived(id, bidType, pageable.getSort());
         }
 
         return new ResponseEntity<>(bidsDTO, HttpStatus.OK);

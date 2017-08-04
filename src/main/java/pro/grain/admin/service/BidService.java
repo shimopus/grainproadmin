@@ -1,5 +1,6 @@
 package pro.grain.admin.service;
 
+import org.springframework.data.domain.Sort;
 import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
@@ -90,9 +91,9 @@ public class BidService {
      * @return the list of entities
      */
     @Transactional(readOnly = true)
-    public List<BidFullDTO> findByPartnerNotArchived(Long partnerId, BidType bidType, Pageable pageable) {
+    public List<BidFullDTO> findByPartnerNotArchived(Long partnerId, BidType bidType, Sort sort) {
         log.debug("Request to get all Bids by partner");
-        List<Bid> result = bidRepository.findAllNotArchivedWithEagerRelationshipsByPartner(partnerId, bidType, pageable);
+        List<Bid> result = bidRepository.findAllNotArchivedWithEagerRelationshipsByPartner(partnerId, bidType, sort);
         return bidFullMapper.bidsToBidFullDTOs(result);
     }
 

@@ -7,8 +7,12 @@ import pro.grain.admin.domain.BidPrice;
 
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
+import pro.grain.admin.domain.TransportationPrice;
 import pro.grain.admin.domain.enumeration.BidType;
 
+import javax.persistence.EntityResult;
+import javax.persistence.FieldResult;
+import javax.persistence.SqlResultSetMapping;
 import java.util.List;
 
 /**
@@ -37,47 +41,20 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
         "order by bid.archiveDate desc")
     List<Bid> findAllArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId, Pageable pageable);
 
-    @Query("select distinct new pro.grain.admin.domain.BidPrice(bid, tp) " +
-        "from Bid bid, TransportationPrice tp, LocationToBaseStation lts " +
-        //"left join bid.qualityParameters " +
-        //"left join bid.qualityPassports " +
-        "where " +
-        //Только активные заявки
-        "   bid.isActive = true and" +
-        "   bid.archiveDate is null and" +
-        //Высчитываем базовую станцию
-        "   lts.pk.region = bid.elevator.station.region and" +
-        "   lts.pk.district = bid.elevator.station.district and" +
-        "   (bid.elevator.station.locality is null or" +
-        "   lts.pk.locality = bid.elevator.station.locality) and" +
-
-        //Проверяем в одном направлении
-        "   ((tp.stationFrom.code = lts.baseStation.code and " +
-        "   tp.stationTo.code = :code)" +
-
-        " or " +
-
-        //Проверяем в другом
-        "   (tp.stationTo.code = lts.baseStation.code and " +
-        "   tp.stationFrom.code = :code)) and " +
-
-        //Определяем тип доставок
-        "   bid.bidType = :bidType and " +
-
-        //Цены только текущей версии
-        "   tp.versionNumber = :versionNumber")
-    List<BidPrice> findAllCurrentBidsWithTransportationPrice(@Param("code") String code,
-                                                             @Param("bidType") BidType bidType,
-                                                             @Param("versionNumber") Integer versionNumber);
-
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid) from Bid bid " +
-        "left join bid.qualityParameters " +
-        "left join bid.qualityPassports " +
+//        "left join bid.qualityParameters " +
+//        "left join bid.qualityPassports " +
         "where " +
         "   bid.isActive = true and" +
         "   bid.archiveDate is null and" +
         "   bid.bidType = :bidType")
     List<BidPrice> findAllCurrentBids(@Param("bidType") BidType bidType);
+
+
+    //The query is defined as a named query on a Bid class.
+    List<Object[]> findAllCurrentBidsWithTransportationPrice(@Param("code") String code,
+                                 @Param("bidType") String bidType,
+                                 @Param("versionNumber") Integer versionNumber);
 
     @Query("select distinct new pro.grain.admin.domain.BidPrice(bid) from Bid bid left join bid.qualityParameters left join bid.qualityPassports " +
         "where bid.isActive = true and bid.archiveDate is null")

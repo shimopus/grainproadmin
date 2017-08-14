@@ -21,6 +21,47 @@ import pro.grain.admin.domain.enumeration.NDS;
  * A Bid.
  */
 @Entity
+@SqlResultSetMapping(name="bid_price",
+    entities= {
+        @EntityResult(entityClass = Bid.class),
+    },
+    columns = {
+        @ColumnResult(name = "tp_price", type = Long.class),
+        @ColumnResult(name = "tp_priceNds", type = Long.class)
+    }
+)
+@NamedNativeQuery(name="Bid.findAllCurrentBidsWithTransportationPrice",
+    query = "select bid.*, tp.price as tp_price, tp.price_nds as tp_priceNds " +
+        "from bid, transportation_price tp, station_location lts, partner part, station stat " +
+        "where " +
+        //Только активные заявки
+        "   bid.is_active = true and" +
+        "   bid.archive_date is null and " +
+        "   part.id = bid.elevator_id and " +
+        "   part.station_id = stat.id and " +
+
+        //Высчитываем базовую станцию
+        "   lts.region_id = stat.region_id and " +
+        "   lts.district_id = stat.district_id and " +
+        "   (stat.locality_id is null or " +
+        "   lts.locality_id = stat.locality_id) and " +
+
+        //Проверяем в одном направлении
+        "   ((cast(tp.station_from_code as text) = lts.code and " +
+        "     cast(tp.station_to_code as text) = cast(:code as text)) " +
+
+        " or " +
+
+        //Проверяем в другом
+        "    (cast(tp.station_to_code as text) = lts.code and " +
+        "     cast(tp.station_from_code as text) = cast(:code as text))) and " +
+
+        //Определяем тип доставок
+        "    cast(bid.bid_type as text) like cast(:bidType as text) and " +
+
+        //Цены только текущей версии
+        "    cast(tp.version_number as int) = cast(:versionNumber as int)",
+    resultSetMapping="bid_price")
 @Table(name = "bid")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "bid")

@@ -4,6 +4,7 @@ import org.springframework.data.domain.Sort;
 import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.Bid;
 import pro.grain.admin.domain.BidPrice;
+import pro.grain.admin.domain.TransportationPrice;
 import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.repository.BidRepository;
 import pro.grain.admin.repository.search.BidSearchRepository;
@@ -22,6 +23,7 @@ import pro.grain.admin.service.mapper.BidPriceMapper;
 
 import javax.inject.Inject;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -47,7 +49,9 @@ public class BidService {
     private final GrainProAdminProperties grainProAdminProperties;
 
     @Inject
-    public BidService(BidRepository bidRepository, BidMapper bidMapper, BidFullMapper bidFullMapper, BidPriceMapper bidPriceMapper, BidSearchRepository bidSearchRepository, GrainProAdminProperties grainProAdminProperties) {
+    public BidService(BidRepository bidRepository, BidMapper bidMapper, BidFullMapper bidFullMapper,
+                      BidPriceMapper bidPriceMapper, BidSearchRepository bidSearchRepository,
+                      GrainProAdminProperties grainProAdminProperties) {
         this.bidRepository = bidRepository;
         this.bidMapper = bidMapper;
         this.bidFullMapper = bidFullMapper;
@@ -141,11 +145,23 @@ public class BidService {
      * @param bidType which type of bid
      */
     List<BidPriceDTO> getAllCurrentBidsForStation(String code, BidType bidType) {
-        log.debug("Request to get all current Bids for station : {}", code);
+        log.debug("Request to get all current Bids for station : code {}, bidType {}, versionNum {}", code, bidType, grainProAdminProperties.getPrice().getCurrentVersionNumber());
 
-        List<BidPrice> bids = bidRepository.findAllCurrentBidsWithTransportationPrice(code,
-            bidType,
+        List<Object[]> result = bidRepository.findAllCurrentBidsWithTransportationPrice(code,
+            bidType.toString(),
             grainProAdminProperties.getPrice().getCurrentVersionNumber());
+
+        log.debug("Result of request: {}", result);
+
+        List<BidPrice> bids = result.stream()
+            .map(record -> {
+                log.warn("Resulting of quety: {}", record);
+                TransportationPrice transportationPrice = new TransportationPrice();
+                transportationPrice.setPrice((Long) record[1]);
+                transportationPrice.setPriceNds((Long) record[2]);
+                return new BidPrice((Bid)record[0], transportationPrice);
+            })
+            .collect(Collectors.toList());
 
         return bidPriceMapper.bidPricesToBidPriceDTOs(bids);
     }

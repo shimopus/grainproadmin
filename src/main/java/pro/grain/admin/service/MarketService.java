@@ -1,5 +1,6 @@
 package pro.grain.admin.service;
 
+import com.google.common.base.Stopwatch;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SoyMapData;
 import com.google.template.soy.tofu.SoyTofu;
@@ -23,6 +24,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,12 +98,24 @@ public class MarketService {
         if (stationCode != null) {
             try {
                 newCode = calculateDestinationStation(stationCode);
+                log.warn("Price calc: station code {}", stationCode);
+                Stopwatch timer = Stopwatch.createStarted();
                 bids = bidService.getAllCurrentBidsForStation(newCode, bidType);
+                timer.stop();
+                log.warn("Price calc: get bids with price {}ms", timer.elapsed(TimeUnit.MILLISECONDS));
+
+                timer = timer.reset();
+                timer.start();
                 List<BidPriceDTO> fullBids = bidService.getAllCurrentBids(bidType);
+                timer.stop();
+                log.warn("Price calc: get all bids {}ms", timer.elapsed(TimeUnit.MILLISECONDS));
 
                 //Check for errors
                 List<BidPriceDTO> errorForBids = new ArrayList<>(bids.size());
 
+
+                timer = timer.reset();
+                timer.start();
                 for (BidPriceDTO fullBidPriceDTO : fullBids) {
                     boolean exists = false;
 
@@ -122,6 +136,8 @@ public class MarketService {
                     }
 //                    }
                 }
+                timer.stop();
+                log.warn("Price calc: sort and check for errors {}ms", timer.elapsed(TimeUnit.MILLISECONDS));
 
                 if (errorForBids.size() != 0) {
                     log.error("Some bids could not be calculated for station " + newCode);
@@ -143,7 +159,13 @@ public class MarketService {
                         errors);
                 }
 
-                return enrichAndSortMarket(bids, stationCode, newCode);
+                timer = timer.reset();
+                timer.start();
+                Collection<ArrayList<BidPriceDTO>> res = enrichAndSortMarket(bids, stationCode, newCode);
+                timer.stop();
+                log.warn("Price calc: sort and enrich {}ms", timer.elapsed(TimeUnit.MILLISECONDS));
+
+                return res;
 
             } catch (KeySelectorException e) {
                 log.error("Could not calculate destination station", e);

@@ -41,9 +41,9 @@ public class PriceResource {
         this.stationRepository = stationRepository;
     }
 
-    @RequestMapping(value = "/price",
+    /*@RequestMapping(value = "/price",
         method = RequestMethod.GET,
-        produces = MediaType.APPLICATION_JSON_VALUE)
+        produces = MediaType.APPLICATION_JSON_VALUE)*/
     @Timed
     public ResponseEntity<String> getPrice(@RequestParam("from") String stationFromName,
                                             @RequestParam("to") String stationToName,

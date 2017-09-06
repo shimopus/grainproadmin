@@ -57,6 +57,8 @@ public class PartnerDTO implements Serializable {
 
     private String stationCode;
 
+    private String baseStationCode;
+
     private String stationName;
 
     private Set<ContactDTO> contacts = new HashSet<>();
@@ -219,6 +221,14 @@ public class PartnerDTO implements Serializable {
 
     public void setStationCode(String stationCode) {
         this.stationCode = stationCode;
+    }
+
+    public String getBaseStationCode() {
+        return baseStationCode;
+    }
+
+    public void setBaseStationCode(String baseStationCode) {
+        this.baseStationCode = baseStationCode;
     }
 
     public Set<ContactDTO> getContacts() {

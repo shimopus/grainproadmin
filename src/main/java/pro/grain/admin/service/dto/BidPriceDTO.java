@@ -1,6 +1,9 @@
 package pro.grain.admin.service.dto;
 
+import javax.validation.constraints.NotNull;
+
 public class BidPriceDTO extends BidFullDTO {
+    private String creationDateStr;
     private String agentCard;
     private String agentShortName;
     private Long transportationPricePrice;
@@ -68,5 +71,13 @@ public class BidPriceDTO extends BidFullDTO {
     public BidPriceDTO setCptPrice(Long cptPrice) {
         this.cptPrice = cptPrice;
         return this;
+    }
+
+    public String getCreationDateStr() {
+        return creationDateStr;
+    }
+
+    public void setCreationDateStr(String creationDateStr) {
+        this.creationDateStr = creationDateStr;
     }
 }

@@ -7,6 +7,8 @@ import pro.grain.admin.domain.Passport;
 import pro.grain.admin.domain.TransportationPrice;
 import pro.grain.admin.service.dto.BidPriceDTO;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {QualityValueMapper.class, PartnerMapper.class, PassportNoImageMapper.class})
@@ -24,6 +26,8 @@ public interface BidPriceMapper {
     @Mapping(source = "transportationPrice.id", target = "transportationPriceId")
     @Mapping(source = "transportationPrice.price", target = "transportationPricePrice")
     @Mapping(source = "transportationPrice.priceNds", target = "transportationPricePriceNds")
+    @Mapping(source = "creationDate", target = "creationDateStr")
+    @Mapping(source = "creationDate", target = "creationDate")
     @Mapping(target = "fcaPrice", ignore = true)
     @Mapping(target = "cptPrice", ignore = true)
     BidPriceDTO bidPriceToBidPriceDTO(BidPrice bid);
@@ -45,5 +49,14 @@ public interface BidPriceMapper {
         TransportationPrice transportationPrice = new TransportationPrice();
         transportationPrice.setId(id);
         return transportationPrice;
+    }
+
+    default String creationDateToCreationDateStr(LocalDateTime creationDate) {
+        if (creationDate == null) {
+            return null;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        return creationDate.format(formatter);
     }
 }

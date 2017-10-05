@@ -123,12 +123,14 @@
             <tbody>
             <tr ng-repeat="bid in vm.notArchivedBidsSell track by bid.id" id="{{bid.id}}" class="non-archived-bid">
                 <td ng-init="elevator = bid.elevator">
-                    {{elevator.district.name}}<br/>
-                    {{elevator.region.name}}<br/>
-                    {{elevator.locality.name}}<br/>
-                    {{elevator.station.name}}<br/>
-                    {{elevator.station.code}}<br/>
-                    {{elevator.name + " " + elevator.organisationType.type}}
+                    {{elevator.name + " " + elevator.organisationType.type}}<br/>
+                    <small>
+                        {{elevator.districtName}}<br/>
+                        {{elevator.regionName}}<br/>
+                        {{elevator.localityName}}<br/>
+                        {{elevator.stationName}}<br/>
+                        {{elevator.stationCode}}
+                    </small>
                 </td>
                 <td ng-init="contact = vm.getContact(bid)">
                     {{vm.partner.organisationTypeType + " " + vm.partner.name}}<br/>
@@ -211,12 +213,14 @@
             <tbody>
             <tr ng-repeat="bid in vm.notArchivedBidsBuy track by bid.id" id="{{bid.id}}" class="non-archived-bid">
                 <td ng-init="elevator = bid.elevator">
-                    {{elevator.district.name}}<br/>
-                    {{elevator.region.name}}<br/>
-                    {{elevator.locality.name}}<br/>
-                    {{elevator.station.name}}<br/>
-                    {{elevator.station.code}}<br/>
-                    {{elevator.name + " " + elevator.organisationType.type}}
+                    {{elevator.name + " " + elevator.organisationType.type}}<br/>
+                    <small>
+                        {{elevator.districtName}}<br/>
+                        {{elevator.regionName}}<br/>
+                        {{elevator.localityName}}<br/>
+                        {{elevator.stationName}}<br/>
+                        {{elevator.stationCode}}
+                    </small>
                 </td>
                 <td ng-init="contact = vm.getContact(bid)">
                     {{vm.partner.organisationTypeType + " " + vm.partner.name}}<br/>
@@ -286,12 +290,14 @@
             <tbody>
             <tr ng-repeat="bid in vm.archivedBids track by bid.id" id="archived-{{bid.id}}" class="archived-bid">
                 <td ng-init="elevator = bid.elevator">
-                    {{elevator.district.name}}<br/>
-                    {{elevator.region.name}}<br/>
-                    {{elevator.locality.name}}<br/>
-                    {{elevator.station.name}}<br/>
-                    {{elevator.station.code}}<br/>
-                    {{elevator.name + " " + elevator.organisationType.type}}
+                    {{elevator.name + " " + elevator.organisationType.type}}<br/>
+                    <small>
+                        {{elevator.districtName}}<br/>
+                        {{elevator.regionName}}<br/>
+                        {{elevator.localityName}}<br/>
+                        {{elevator.stationName}}<br/>
+                        {{elevator.stationCode}}
+                    </small>
                 </td>
                 <td ng-init="contact = vm.getContact(bid)">
                     {{vm.partner.name + " " + vm.partner.organisationTypeType}}<br/>

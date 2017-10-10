@@ -36,13 +36,13 @@
     <cache name="pro.grain.admin.domain.User.persistentTokens"
            timeToLiveSeconds="3600">
     </cache>
-    
+
 
     <cache name="pro.grain.admin.social.SocialUserConnection"
            timeToLiveSeconds="3600">
     </cache>
 
-    <cache name="pro.grain.admin.domain.Bid"
+    <!--<cache name="pro.grain.admin.domain.Bid"
         timeToLiveSeconds="3600">
     </cache>
 
@@ -132,7 +132,7 @@
 
     <cache name="pro.grain.admin.domain.PriceUpdateQueue"
         timeToLiveSeconds="3600">
-    </cache>
+    </cache> -->
 
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

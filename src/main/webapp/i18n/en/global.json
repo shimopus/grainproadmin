@@ -24,6 +24,7 @@
                 "email": "Email",
                 "passport": "Passport",
                 "priceUpdateQueue": "Price Update Queue",
+                "tracking": "Tracking",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

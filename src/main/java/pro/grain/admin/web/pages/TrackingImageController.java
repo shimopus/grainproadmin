@@ -21,9 +21,9 @@ public class TrackingImageController {
         method = RequestMethod.GET)
     @Timed
     public ResponseEntity<byte[]> getPassportImage(
-        @PathVariable(value = "agentId") Long agentId,
-        @RequestParam(value = "date") String mailDate,
-        @RequestParam(value = "type") MailOpenType openType) {
+        @PathVariable(value = "agentId", required = false) Long agentId,
+        @RequestParam(value = "date", required = false) String mailDate,
+        @RequestParam(value = "type", required = false) MailOpenType openType) {
 
         if (agentId != null && mailDate != null && openType != null) {
 

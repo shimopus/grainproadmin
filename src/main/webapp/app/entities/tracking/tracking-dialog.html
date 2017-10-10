@@ -1,0 +1,55 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myTrackingLabel" data-translate="grainAdminApp.tracking.home.createOrEditLabel">Create or edit a Tracking</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.tracking.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.tracking.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="grainAdminApp.tracking.mailDate" for="field_mailDate">Mail Date</label>
+                <div class="input-group">
+                    <input id="field_mailDate" type="text" class="form-control" name="mailDate" uib-datepicker-popup="{{dateformat}}" ng-model="vm.tracking.mailDate" is-open="vm.datePickerOpenStatus.mailDate"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('mailDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="grainAdminApp.tracking.openType" for="field_openType">Open Type</label>
+            <select class="form-control" name="openType" ng-model="vm.tracking.openType" id="field_openType">
+                <option value="OPEN" data-translate="grainAdminApp.MailOpenType.OPEN">OPEN</option>
+                <option value="FILE_OPEN" data-translate="grainAdminApp.MailOpenType.FILE_OPEN">FILE_OPEN</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="grainAdminApp.tracking.openCount" for="field_openCount">Open Count</label>
+            <input type="number" class="form-control" name="openCount" id="field_openCount"
+                    ng-model="vm.tracking.openCount"
+                     />
+        </div>
+
+        <div class="form-group">
+            <label data-translate="grainAdminApp.tracking.partner" for="field_partner">Partner</label>
+            <select class="form-control" id="field_partner" name="partner" ng-model="vm.tracking.partnerId" ng-options="partner.id as partner.name for partner in vm.partners"            >
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

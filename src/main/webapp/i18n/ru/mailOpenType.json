@@ -1,0 +1,9 @@
+{
+    "grainAdminApp": {
+        "MailOpenType" : {
+            "null": "",
+            "OPEN": "Писем открыто",
+            "FILE_OPEN": "Файлов открыто"
+        }
+    }
+}

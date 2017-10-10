@@ -1,0 +1,31 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "partner",
+            "otherEntityName": "partner",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "name"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "mailDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "openType",
+            "fieldType": "MailOpenType",
+            "fieldValues": "OPEN,FILE_OPEN"
+        },
+        {
+            "fieldName": "openCount",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20171010204721",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "tracking",
+    "pagination": "pagination"
+}

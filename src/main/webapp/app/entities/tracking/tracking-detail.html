@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span data-translate="grainAdminApp.tracking.detail.title">Tracking</span> {{vm.tracking.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="grainAdminApp.tracking.mailDate">Mail Date</span></dt>
+        <dd>
+            <span>{{vm.tracking.mailDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.tracking.openType">Open Type</span></dt>
+        <dd>
+            <span data-translate="{{'grainAdminApp.MailOpenType.' + vm.tracking.openType}}">{{vm.tracking.openType}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.tracking.openCount">Open Count</span></dt>
+        <dd>
+            <span>{{vm.tracking.openCount}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.tracking.partner">Partner</span></dt>
+        <dd>
+            <a ui-sref="partner-detail({id:vm.tracking.partnerId})">{{vm.tracking.partnerName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="tracking-detail.edit({id:vm.tracking.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

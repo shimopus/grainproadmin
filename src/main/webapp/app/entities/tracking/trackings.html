@@ -38,7 +38,7 @@
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="mailDate"><span data-translate="grainAdminApp.tracking.mailDate">Mail Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="openType"><span data-translate="grainAdminApp.tracking.openType">Open Type</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="openCount"><span data-translate="grainAdminApp.tracking.openCount">Open Count</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="eventDate"><span data-translate="grainAdminApp.tracking.eventDate">Event Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="partnerName"><span data-translate="grainAdminApp.tracking.partner">Partner</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
@@ -48,7 +48,7 @@
                     <td><a ui-sref="tracking-detail({id:tracking.id})">{{tracking.id}}</a></td>
                         <td>{{tracking.mailDate | date:'mediumDate'}}</td>
                     <td data-translate="{{'grainAdminApp.MailOpenType.' + tracking.openType}}">{{tracking.openType}}</td>
-                    <td>{{tracking.openCount}}</td>
+                    <td>{{tracking.eventDate | date:'medium'}}</td>
                     <td>
                         <a ui-sref="partner-detail({id:tracking.partnerId})">{{tracking.partnerName}}</a>
                     </td>

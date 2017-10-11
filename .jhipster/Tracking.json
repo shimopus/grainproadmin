@@ -19,8 +19,8 @@
             "fieldValues": "OPEN,FILE_OPEN"
         },
         {
-            "fieldName": "openCount",
-            "fieldType": "Integer"
+            "fieldName": "eventDate",
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20171010204721",

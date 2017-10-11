@@ -29,14 +29,18 @@ public class TrackingService {
 
     private final Logger log = LoggerFactory.getLogger(TrackingService.class);
 
-    @Inject
-    private TrackingRepository trackingRepository;
+    private final TrackingRepository trackingRepository;
+
+    private final TrackingMapper trackingMapper;
+
+    private final TrackingSearchRepository trackingSearchRepository;
 
     @Inject
-    private TrackingMapper trackingMapper;
-
-    @Inject
-    private TrackingSearchRepository trackingSearchRepository;
+    public TrackingService(TrackingRepository trackingRepository, TrackingMapper trackingMapper, TrackingSearchRepository trackingSearchRepository) {
+        this.trackingRepository = trackingRepository;
+        this.trackingMapper = trackingMapper;
+        this.trackingSearchRepository = trackingSearchRepository;
+    }
 
     /**
      * Save a tracking.

@@ -28,6 +28,9 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -51,8 +54,9 @@ public class TrackingResourceIntTest {
     private static final MailOpenType DEFAULT_OPEN_TYPE = MailOpenType.OPEN;
     private static final MailOpenType UPDATED_OPEN_TYPE = MailOpenType.FILE_OPEN;
 
-    private static final Integer DEFAULT_OPEN_COUNT = 1;
-    private static final Integer UPDATED_OPEN_COUNT = 2;
+    private static final ZonedDateTime DEFAULT_EVENT_DATE = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault());
+    private static final ZonedDateTime UPDATED_EVENT_DATE = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final String DEFAULT_EVENT_DATE_STR = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(DEFAULT_EVENT_DATE);
 
     @Inject
     private TrackingRepository trackingRepository;
@@ -99,7 +103,7 @@ public class TrackingResourceIntTest {
         Tracking tracking = new Tracking()
                 .mailDate(DEFAULT_MAIL_DATE)
                 .openType(DEFAULT_OPEN_TYPE)
-                .openCount(DEFAULT_OPEN_COUNT);
+                .eventDate(DEFAULT_EVENT_DATE);
         return tracking;
     }
 
@@ -128,7 +132,7 @@ public class TrackingResourceIntTest {
         Tracking testTracking = trackings.get(trackings.size() - 1);
         assertThat(testTracking.getMailDate()).isEqualTo(DEFAULT_MAIL_DATE);
         assertThat(testTracking.getOpenType()).isEqualTo(DEFAULT_OPEN_TYPE);
-        assertThat(testTracking.getOpenCount()).isEqualTo(DEFAULT_OPEN_COUNT);
+        assertThat(testTracking.getEventDate()).isEqualTo(DEFAULT_EVENT_DATE);
 
         // Validate the Tracking in ElasticSearch
         Tracking trackingEs = trackingSearchRepository.findOne(testTracking.getId());
@@ -148,7 +152,7 @@ public class TrackingResourceIntTest {
                 .andExpect(jsonPath("$.[*].id").value(hasItem(tracking.getId().intValue())))
                 .andExpect(jsonPath("$.[*].mailDate").value(hasItem(DEFAULT_MAIL_DATE.toString())))
                 .andExpect(jsonPath("$.[*].openType").value(hasItem(DEFAULT_OPEN_TYPE.toString())))
-                .andExpect(jsonPath("$.[*].openCount").value(hasItem(DEFAULT_OPEN_COUNT)));
+                .andExpect(jsonPath("$.[*].eventDate").value(hasItem(DEFAULT_EVENT_DATE_STR)));
     }
 
     @Test
@@ -164,7 +168,7 @@ public class TrackingResourceIntTest {
             .andExpect(jsonPath("$.id").value(tracking.getId().intValue()))
             .andExpect(jsonPath("$.mailDate").value(DEFAULT_MAIL_DATE.toString()))
             .andExpect(jsonPath("$.openType").value(DEFAULT_OPEN_TYPE.toString()))
-            .andExpect(jsonPath("$.openCount").value(DEFAULT_OPEN_COUNT));
+            .andExpect(jsonPath("$.eventDate").value(DEFAULT_EVENT_DATE_STR));
     }
 
     @Test
@@ -188,7 +192,7 @@ public class TrackingResourceIntTest {
         updatedTracking
                 .mailDate(UPDATED_MAIL_DATE)
                 .openType(UPDATED_OPEN_TYPE)
-                .openCount(UPDATED_OPEN_COUNT);
+                .eventDate(UPDATED_EVENT_DATE);
         TrackingDTO trackingDTO = trackingMapper.trackingToTrackingDTO(updatedTracking);
 
         restTrackingMockMvc.perform(put("/api/trackings")
@@ -202,7 +206,7 @@ public class TrackingResourceIntTest {
         Tracking testTracking = trackings.get(trackings.size() - 1);
         assertThat(testTracking.getMailDate()).isEqualTo(UPDATED_MAIL_DATE);
         assertThat(testTracking.getOpenType()).isEqualTo(UPDATED_OPEN_TYPE);
-        assertThat(testTracking.getOpenCount()).isEqualTo(UPDATED_OPEN_COUNT);
+        assertThat(testTracking.getEventDate()).isEqualTo(UPDATED_EVENT_DATE);
 
         // Validate the Tracking in ElasticSearch
         Tracking trackingEs = trackingSearchRepository.findOne(testTracking.getId());
@@ -245,6 +249,6 @@ public class TrackingResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(tracking.getId().intValue())))
             .andExpect(jsonPath("$.[*].mailDate").value(hasItem(DEFAULT_MAIL_DATE.toString())))
             .andExpect(jsonPath("$.[*].openType").value(hasItem(DEFAULT_OPEN_TYPE.toString())))
-            .andExpect(jsonPath("$.[*].openCount").value(hasItem(DEFAULT_OPEN_COUNT)));
+            .andExpect(jsonPath("$.[*].eventDate").value(hasItem(DEFAULT_EVENT_DATE_STR)));
     }
 }

@@ -1,6 +1,7 @@
 package pro.grain.admin.service.dto;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,7 @@ public class TrackingDTO implements Serializable {
 
     private MailOpenType openType;
 
-    private Integer openCount;
+    private ZonedDateTime eventDate;
 
 
     private Long partnerId;
@@ -48,12 +49,12 @@ public class TrackingDTO implements Serializable {
     public void setOpenType(MailOpenType openType) {
         this.openType = openType;
     }
-    public Integer getOpenCount() {
-        return openCount;
+    public ZonedDateTime getEventDate() {
+        return eventDate;
     }
 
-    public void setOpenCount(Integer openCount) {
-        this.openCount = openCount;
+    public void setEventDate(ZonedDateTime eventDate) {
+        this.eventDate = eventDate;
     }
 
     public Long getPartnerId() {
@@ -100,7 +101,7 @@ public class TrackingDTO implements Serializable {
             "id=" + id +
             ", mailDate='" + mailDate + "'" +
             ", openType='" + openType + "'" +
-            ", openCount='" + openCount + "'" +
+            ", eventDate='" + eventDate + "'" +
             '}';
     }
 }

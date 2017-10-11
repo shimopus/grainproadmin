@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 import pro.grain.admin.domain.enumeration.MailOpenType;
@@ -33,8 +34,8 @@ public class Tracking implements Serializable {
     @Column(name = "open_type")
     private MailOpenType openType;
 
-    @Column(name = "open_count")
-    private Integer openCount;
+    @Column(name = "event_date")
+    private ZonedDateTime eventDate;
 
     @ManyToOne
     private Partner partner;
@@ -73,17 +74,17 @@ public class Tracking implements Serializable {
         this.openType = openType;
     }
 
-    public Integer getOpenCount() {
-        return openCount;
+    public ZonedDateTime getEventDate() {
+        return eventDate;
     }
 
-    public Tracking openCount(Integer openCount) {
-        this.openCount = openCount;
+    public Tracking eventDate(ZonedDateTime eventDate) {
+        this.eventDate = eventDate;
         return this;
     }
 
-    public void setOpenCount(Integer openCount) {
-        this.openCount = openCount;
+    public void setEventDate(ZonedDateTime eventDate) {
+        this.eventDate = eventDate;
     }
 
     public Partner getPartner() {
@@ -125,7 +126,7 @@ public class Tracking implements Serializable {
             "id=" + id +
             ", mailDate='" + mailDate + "'" +
             ", openType='" + openType + "'" +
-            ", openCount='" + openCount + "'" +
+            ", eventDate='" + eventDate + "'" +
             '}';
     }
 }

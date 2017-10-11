@@ -17,6 +17,7 @@
                     if (data) {
                         data = angular.fromJson(data);
                         data.mailDate = DateUtils.convertLocalDateFromServer(data.mailDate);
+                        data.eventDate = DateUtils.convertDateTimeFromServer(data.eventDate);
                     }
                     return data;
                 }

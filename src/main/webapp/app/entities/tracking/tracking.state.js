@@ -128,7 +128,7 @@
                             return {
                                 mailDate: null,
                                 openType: null,
-                                openCount: null,
+                                eventDate: null,
                                 id: null
                             };
                         }

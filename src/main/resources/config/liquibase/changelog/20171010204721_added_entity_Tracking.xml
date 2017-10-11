@@ -24,21 +24,21 @@
             <column name="mail_date" type="date">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="open_type" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
-            <column name="open_count" type="integer">
+
+            <column name="event_date" type="timestamp">
                 <constraints nullable="true" />
             </column>
-            
+
             <column name="partner_id" type="bigint">
                 <constraints nullable="true" />
             </column>
 
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>

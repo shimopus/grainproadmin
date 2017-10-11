@@ -12,9 +12,9 @@
         <dd>
             <span data-translate="{{'grainAdminApp.MailOpenType.' + vm.tracking.openType}}">{{vm.tracking.openType}}</span>
         </dd>
-        <dt><span data-translate="grainAdminApp.tracking.openCount">Open Count</span></dt>
+        <dt><span data-translate="grainAdminApp.tracking.eventDate">Event Date</span></dt>
         <dd>
-            <span>{{vm.tracking.openCount}}</span>
+            <span>{{vm.tracking.eventDate | date:'medium'}}</span>
         </dd>
         <dt><span data-translate="grainAdminApp.tracking.partner">Partner</span></dt>
         <dd>

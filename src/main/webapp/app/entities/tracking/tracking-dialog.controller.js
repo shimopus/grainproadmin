@@ -45,6 +45,7 @@
         }
 
         vm.datePickerOpenStatus.mailDate = false;
+        vm.datePickerOpenStatus.eventDate = false;
 
         function openCalendar (date) {
             vm.datePickerOpenStatus[date] = true;

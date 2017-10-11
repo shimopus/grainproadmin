@@ -18,7 +18,7 @@
             },
             "mailDate": "Mail Date",
             "openType": "Open Type",
-            "openCount": "Open Count",
+            "eventDate": "Event Date",
             "partner": "Partner"
         }
     }

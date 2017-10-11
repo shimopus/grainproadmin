@@ -37,6 +37,11 @@
                     copy.mailDate = DateUtils.convertLocalDateToServer(copy.mailDate);
                     return angular.toJson(copy);
                 }
+            },
+            'statisticsByPartner': {
+                url: "tracking/byPartner",
+                method: 'GET',
+                isArray: true
             }
         });
     }

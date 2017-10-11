@@ -154,7 +154,7 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         source.registerCorsConfiguration("/v2/api-docs", config);
         source.registerCorsConfiguration("/oauth/**", config);
         source.registerCorsConfiguration("/pages/**", config);
-        source.registerCorsConfiguration("/tracking/**", priceConfig);
+        source.registerCorsConfiguration("/tracking/image/**", priceConfig);
         return new CorsFilter(source);
     }
 

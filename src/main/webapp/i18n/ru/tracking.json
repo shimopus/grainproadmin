@@ -2,7 +2,7 @@
     "grainAdminApp": {
         "tracking" : {
             "home": {
-                "title": "Trackings",
+                "title": "Отслеживание рассылки",
                 "createLabel": "Создать новый Tracking",
                 "createOrEditLabel": "Создать или отредактировать Tracking",
                 "search": "Найти Tracking"
@@ -10,16 +10,17 @@
             "created": "Новый Tracking создан с идентификатором {{ param }}",
             "updated": "Tracking обновлен с идентификатором {{ param }}",
             "deleted": "Tracking удален с идентификатором {{ param }}",
+            "selectPartner": "Выберите контрагента:",
             "delete": {
                 "question": "Вы уверены что хотите удалить Tracking {{ id }}?"
             },
             "detail": {
                 "title": "Tracking"
             },
-            "mailDate": "Mail Date",
-            "openType": "Open Type",
-            "eventDate": "Event Date",
-            "partner": "Partner"
+            "mailDate": "Дата письма",
+            "openType": "Тип открытия",
+            "eventDate": "Дата открытия",
+            "partner": "Контрагент"
         }
     }
 }

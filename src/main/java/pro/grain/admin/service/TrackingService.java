@@ -1,9 +1,12 @@
 package pro.grain.admin.service;
 
+import com.google.common.base.Objects;
 import pro.grain.admin.domain.Tracking;
+import pro.grain.admin.domain.enumeration.MailOpenType;
 import pro.grain.admin.repository.TrackingRepository;
 import pro.grain.admin.repository.search.TrackingSearchRepository;
 import pro.grain.admin.service.dto.TrackingDTO;
+import pro.grain.admin.service.dto.TrackingOpenItemDTO;
 import pro.grain.admin.service.mapper.TrackingMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.LinkedList;
-import java.util.List;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -68,7 +71,7 @@ public class TrackingService {
     public Page<TrackingDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Trackings");
         Page<Tracking> result = trackingRepository.findAll(pageable);
-        return result.map(tracking -> trackingMapper.trackingToTrackingDTO(tracking));
+        return result.map(trackingMapper::trackingToTrackingDTO);
     }
 
     /**
@@ -81,8 +84,7 @@ public class TrackingService {
     public TrackingDTO findOne(Long id) {
         log.debug("Request to get Tracking : {}", id);
         Tracking tracking = trackingRepository.findOne(id);
-        TrackingDTO trackingDTO = trackingMapper.trackingToTrackingDTO(tracking);
-        return trackingDTO;
+        return trackingMapper.trackingToTrackingDTO(tracking);
     }
 
     /**
@@ -106,6 +108,59 @@ public class TrackingService {
     public Page<TrackingDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Trackings for query {}", query);
         Page<Tracking> result = trackingSearchRepository.search(queryStringQuery(query), pageable);
-        return result.map(tracking -> trackingMapper.trackingToTrackingDTO(tracking));
+        return result.map(trackingMapper::trackingToTrackingDTO);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TrackingOpenItemDTO> findAllByPartner(Long partnerId){
+        List<Object[]> statistics;
+        if (partnerId != null) {
+            statistics = trackingRepository.findAllByPartner(partnerId);
+        } else {
+            statistics = trackingRepository.findAllCombined();
+        }
+        Map<Date, StatisticValue> statisticsBase = new HashMap<>();
+
+        for (Object[] statistic : statistics) {
+            Date mailDate = (Date) statistic[1];
+            MailOpenType openType = MailOpenType.valueOf((String)statistic[0]);
+            int count = ((BigInteger)statistic[2]).intValue();
+
+            StatisticValue value = statisticsBase.get(mailDate);
+
+            if (value != null) {
+                updateValue(value, openType, count);
+            } else {
+                value = new StatisticValue();
+                statisticsBase.put(mailDate, value);
+                updateValue(value, openType, count);
+            }
+        }
+
+        return statisticsBase.entrySet().stream()
+            .sorted(Map.Entry.comparingByKey())
+            .map((entry) -> new TrackingOpenItemDTO(
+                entry.getKey(),
+                entry.getValue().openCount,
+                entry.getValue().fileOpenCount))
+            .collect(Collectors.toList());
+    }
+
+    private void updateValue(StatisticValue value, MailOpenType openType, int count) {
+        switch (openType) {
+            case OPEN : {
+                value.openCount = count;
+                break;
+            }
+            case FILE_OPEN: {
+                value.fileOpenCount = count;
+                break;
+            }
+        }
+    }
+
+    private class StatisticValue {
+        int openCount;
+        int fileOpenCount;
     }
 }

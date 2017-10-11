@@ -10,6 +10,7 @@
             "created": "A new Tracking is created with identifier {{ param }}",
             "updated": "A Tracking is updated with identifier {{ param }}",
             "deleted": "A Tracking is deleted with identifier {{ param }}",
+            "selectPartner": "Please select a partner",
             "delete": {
                 "question": "Are you sure you want to delete Tracking {{ id }}?"
             },

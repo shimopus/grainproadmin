@@ -3,6 +3,29 @@
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="control-label" data-translate="grainAdminApp.tracking.selectPartner"
+                           for="field_partner">Elevator</label>
+                    <input type="text" class="form-control" id="field_partner" name="partner"
+                           autocomplete="off"
+                           ng-if="vm.partners.$resolved"
+                           ng-model="vm.selectedPartner"
+                           uib-typeahead="partner as partner.name for partner in vm.getPartnersSuggestions($viewValue)"
+                           typeahead-editable="false"
+                           typeahead-input-formatter="$model.name"
+                           typeahead-loading="loadingLocations"
+                    />
+                    <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" style="padding-bottom: 80px">
+                <am-chart id="myFirstChart" options="vm.amChartOptions" height = "400px" width="600px"></am-chart>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-xs-4 no-padding-left">
                 <button class="btn btn-primary" ui-sref="tracking.new" >
                     <span class="glyphicon glyphicon-plus"></span>

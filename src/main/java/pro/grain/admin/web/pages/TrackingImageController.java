@@ -14,13 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pro.grain.admin.domain.enumeration.MailOpenType;
 import pro.grain.admin.service.TrackingService;
 import pro.grain.admin.service.dto.TrackingDTO;
+import pro.grain.admin.service.dto.TrackingOpenItemDTO;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/tracking")
@@ -56,5 +55,19 @@ public class TrackingImageController {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.valueOf("image/gif"));
         return new ResponseEntity<>(trackingGif, headers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/byPartner",
+        method = RequestMethod.GET)
+    @Timed
+    public ResponseEntity<List<TrackingOpenItemDTO>> getStatisticsByPartner(
+        @RequestParam(value = "partnerId", required = false) Long partnerId) {
+        trackingService.findAllByPartner(partnerId);
+
+//        if (partnerId == null) {
+//
+//        }
+
+        return new ResponseEntity<>(trackingService.findAllByPartner(partnerId), HttpStatus.OK);
     }
 }

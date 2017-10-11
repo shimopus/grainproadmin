@@ -22,7 +22,8 @@
             'ui.select',
             'ngSanitize',
             'clickOut',
-            'ngAnimate'
+            'ngAnimate',
+            'amChartsDirective'
         ])
         .run(run);
 

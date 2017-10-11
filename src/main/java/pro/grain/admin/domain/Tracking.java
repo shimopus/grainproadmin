@@ -1,10 +1,14 @@
 package pro.grain.admin.domain;
 
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.NamedNativeQueries;
+import javax.persistence.NamedNativeQuery;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -19,6 +23,24 @@ import pro.grain.admin.domain.enumeration.MailOpenType;
 @Table(name = "tracking")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "tracking")
+
+@NamedNativeQueries(
+    {
+        @NamedNativeQuery(name = "Tracking.findAllByPartner",
+            query = "select open_type, mail_date, count(*) as open_count " +
+                "from tracking " +
+                "where " +
+                "   partner_id = :partnerId " +
+                "group by open_type, mail_date"
+        ),
+        @NamedNativeQuery(name = "Tracking.findAllCombined",
+            query = "select open_type, mail_date, count(*) as open_count " +
+                "from tracking " +
+                "group by open_type, mail_date"
+        ),
+    }
+)
+
 public class Tracking implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -109,7 +131,7 @@ public class Tracking implements Serializable {
             return false;
         }
         Tracking tracking = (Tracking) o;
-        if(tracking.id == null || id == null) {
+        if (tracking.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, tracking.id);

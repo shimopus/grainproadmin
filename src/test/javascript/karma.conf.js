@@ -27,6 +27,8 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/messageformat/messageformat.js',
             'src/main/webapp/bower_components/json3/lib/json3.js',
             'src/main/webapp/bower_components/amcharts/dist/amcharts/amcharts.js',
+            'src/main/webapp/bower_components/amcharts/dist/amcharts/serial.js',
+            'src/main/webapp/bower_components/amcharts/dist/amcharts/themes/light.js',
             'src/main/webapp/bower_components/angular/angular.js',
             'src/main/webapp/bower_components/angular-aria/angular-aria.js',
             'src/main/webapp/bower_components/angular-bootstrap/ui-bootstrap-tpls.js',

@@ -42,7 +42,7 @@
            timeToLiveSeconds="3600">
     </cache>
 
-    <!--<cache name="pro.grain.admin.domain.Bid"
+    <cache name="pro.grain.admin.domain.Bid"
         timeToLiveSeconds="3600">
     </cache>
 
@@ -136,7 +136,7 @@
 
     <cache name="pro.grain.admin.domain.Tracking"
         timeToLiveSeconds="3600">
-    </cache> -->
+    </cache>
 
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

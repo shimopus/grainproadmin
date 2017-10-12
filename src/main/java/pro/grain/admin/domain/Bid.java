@@ -63,7 +63,7 @@ import pro.grain.admin.domain.enumeration.NDS;
         "    cast(tp.version_number as int) = cast(:versionNumber as int)",
     resultSetMapping="bid_price")
 @Table(name = "bid")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 @Document(indexName = "bid")
 public class Bid implements Serializable {
 

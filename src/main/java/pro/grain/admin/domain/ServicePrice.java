@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "service_price")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 @Document(indexName = "serviceprice")
 public class ServicePrice implements Serializable {
 

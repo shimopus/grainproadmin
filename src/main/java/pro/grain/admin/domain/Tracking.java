@@ -21,7 +21,7 @@ import pro.grain.admin.domain.enumeration.MailOpenType;
  */
 @Entity
 @Table(name = "tracking")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 @Document(indexName = "tracking")
 
 @NamedNativeQueries(

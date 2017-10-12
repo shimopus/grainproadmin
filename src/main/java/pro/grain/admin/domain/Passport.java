@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "passport")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONE)
 @Document(indexName = "passport")
 public class Passport implements Serializable {
 

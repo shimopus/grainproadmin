@@ -625,7 +625,7 @@
                     </options>
                 </configuration>
             </plugin>
-            <plugin>
+            <!--<plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-maven-plugin.version}</version>
@@ -636,11 +636,11 @@
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
-                            <!-- Sets the path to the file which contains the execution data. -->
+                            &lt;!&ndash; Sets the path to the file which contains the execution data. &ndash;&gt;
                             <destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created after unit tests have been run -->
+                    &lt;!&ndash; Ensures that the code coverage report for unit tests is created after unit tests have been run &ndash;&gt;
                     <execution>
                         <id>post-unit-test</id>
                         <phase>test</phase>
@@ -653,7 +653,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin>-->
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>

@@ -25,9 +25,6 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
     List<Bid> findAllWithEagerRelationships();
 
     @Query("select distinct bid from Bid bid " +
-        "left join fetch bid.qualityParameters " +
-        "left join fetch bid.qualityPassports " +
-        "left join fetch bid.elevator " +
         "where " +
         "   bid.agent.id =:id and " +
         "   bid.archiveDate is null and " +
@@ -36,7 +33,7 @@ public interface BidRepository extends JpaRepository<Bid,Long> {
                                                                 @Param("bidType") BidType bidType,
                                                                 Sort sort);
 
-    @Query("select distinct bid from Bid bid left join fetch bid.qualityParameters left join fetch bid.qualityPassports " +
+    @Query("select distinct bid from Bid bid " +
         "where bid.agent.id =:id and bid.archiveDate is not null " +
         "order by bid.archiveDate desc")
     List<Bid> findAllArchivedWithEagerRelationshipsByPartner(@Param("id") Long partnerId, Pageable pageable);

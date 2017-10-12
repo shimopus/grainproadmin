@@ -70,12 +70,18 @@
         }
 
         function getBids(isArchived, bidType, sort) {
-            return Bid.queryByPartner({
+            var params = {
                 partnerId: vm.partner.id,
                 bidType: bidType,
                 isArchived: isArchived || false,
                 sort: sort
-            });
+            };
+            if (isArchived) {
+                params.page = 0;
+                params.size = 20;
+            }
+
+            return Bid.queryByPartner(params);
         }
 
         function getContact(bid) {

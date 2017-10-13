@@ -25,6 +25,7 @@
                 "passport": "Passport",
                 "priceUpdateQueue": "Price Update Queue",
                 "tracking": "Tracking",
+                "subscriptionConfig": "Subscription Config",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

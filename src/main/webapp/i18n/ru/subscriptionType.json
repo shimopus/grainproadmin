@@ -1,0 +1,9 @@
+{
+    "grainAdminApp": {
+        "SubscriptionType" : {
+            "null": "",
+            "SELL": "Предложение",
+            "BUY": "Спрос"
+        }
+    }
+}

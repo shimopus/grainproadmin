@@ -1,0 +1,27 @@
+{
+    "grainAdminApp": {
+        "subscriptionConfig" : {
+            "home": {
+                "title": "Subscription Configs",
+                "createLabel": "Создать новый Subscription Config",
+                "createOrEditLabel": "Создать или отредактировать Subscription Config",
+                "search": "Найти Subscription Config"
+            },
+            "created": "Новый Subscription Config создан с идентификатором {{ param }}",
+            "updated": "Subscription Config обновлен с идентификатором {{ param }}",
+            "deleted": "Subscription Config удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Subscription Config {{ id }}?"
+            },
+            "detail": {
+                "title": "Subscription Config"
+            },
+            "subscriptionType": "Subscription Type",
+            "isActive": "Is Active",
+            "creationDate": "Creation Date",
+            "lastUpdateDate": "Last Update Date",
+            "contact": "Contact",
+            "station": "Station"
+        }
+    }
+}

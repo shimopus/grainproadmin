@@ -25,6 +25,7 @@
                 "passport": "Passport",
                 "priceUpdateQueue": "Очередь обновления цен",
                 "tracking": "Отслеживание рассылки",
+                "subscriptionConfig": "Подписки",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

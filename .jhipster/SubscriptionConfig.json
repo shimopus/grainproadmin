@@ -1,0 +1,45 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "contact",
+            "otherEntityName": "contact",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "email",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "subscriptionConfig"
+        },
+        {
+            "relationshipName": "station",
+            "otherEntityName": "station",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "subscriptionConfig"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "subscriptionType",
+            "fieldType": "SubscriptionType",
+            "fieldValues": "SELL,BUY"
+        },
+        {
+            "fieldName": "isActive",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "ZonedDateTime"
+        },
+        {
+            "fieldName": "lastUpdateDate",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20171013081224",
+    "dto": "mapstruct",
+    "service": "serviceClass",
+    "entityTableName": "subscription_config",
+    "pagination": "pagination"
+}

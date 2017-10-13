@@ -1,0 +1,43 @@
+
+<div>
+    <h2><span data-translate="grainAdminApp.subscriptionConfig.detail.title">Subscription Config</span> {{vm.subscriptionConfig.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="grainAdminApp.subscriptionConfig.subscriptionType">Subscription Type</span></dt>
+        <dd>
+            <span data-translate="{{'grainAdminApp.SubscriptionType.' + vm.subscriptionConfig.subscriptionType}}">{{vm.subscriptionConfig.subscriptionType}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.subscriptionConfig.isActive">Is Active</span></dt>
+        <dd>
+            <span>{{vm.subscriptionConfig.isActive}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.subscriptionConfig.creationDate">Creation Date</span></dt>
+        <dd>
+            <span>{{vm.subscriptionConfig.creationDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.subscriptionConfig.lastUpdateDate">Last Update Date</span></dt>
+        <dd>
+            <span>{{vm.subscriptionConfig.lastUpdateDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="grainAdminApp.subscriptionConfig.contact">Contact</span></dt>
+        <dd>
+            <a ui-sref="contact-detail({id:vm.subscriptionConfig.contactId})">{{vm.subscriptionConfig.contactEmail}}</a>
+        </dd>
+        <dt><span data-translate="grainAdminApp.subscriptionConfig.station">Station</span></dt>
+        <dd>
+            <a ui-sref="station-detail({id:vm.subscriptionConfig.stationId})">{{vm.subscriptionConfig.stationName}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="subscription-config-detail.edit({id:vm.subscriptionConfig.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

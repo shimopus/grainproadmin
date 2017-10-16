@@ -99,6 +99,7 @@
                         $translatePartialLoader.addPart('email');
                         $translatePartialLoader.addPart('bid');
                         $translatePartialLoader.addPart('qualityClass');
+                        $translatePartialLoader.addPart('subscriptionConfig');
                         return $translate.refresh();
                     }],
                     entity: ['$stateParams', 'Partner', function ($stateParams, Partner) {

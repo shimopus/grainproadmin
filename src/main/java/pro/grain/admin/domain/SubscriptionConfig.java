@@ -40,12 +40,16 @@ public class SubscriptionConfig implements Serializable {
     private ZonedDateTime lastUpdateDate;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn()
     private Contact contact;
 
     @OneToOne
-    @JoinColumn(unique = true)
+    @JoinColumn()
     private Station station;
+
+    @OneToOne
+    @JoinColumn()
+    private Partner partner;
 
     public Long getId() {
         return id;
@@ -131,6 +135,19 @@ public class SubscriptionConfig implements Serializable {
 
     public void setStation(Station station) {
         this.station = station;
+    }
+
+    public Partner getPartner() {
+        return partner;
+    }
+
+    public SubscriptionConfig partner(Partner partner) {
+        this.partner = partner;
+        return this;
+    }
+
+    public void setPartner(Partner partner) {
+        this.partner = partner;
     }
 
     @Override

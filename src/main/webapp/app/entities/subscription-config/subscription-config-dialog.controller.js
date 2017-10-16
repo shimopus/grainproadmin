@@ -5,9 +5,9 @@
         .module('grainAdminApp')
         .controller('SubscriptionConfigDialogController', SubscriptionConfigDialogController);
 
-    SubscriptionConfigDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'SubscriptionConfig', 'Contact', 'Station'];
+    SubscriptionConfigDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'SubscriptionConfig', 'Contact', 'Station', 'Partner'];
 
-    function SubscriptionConfigDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, SubscriptionConfig, Contact, Station) {
+    function SubscriptionConfigDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, SubscriptionConfig, Contact, Station, Partner) {
         var vm = this;
 
         vm.subscriptionConfig = entity;
@@ -32,6 +32,15 @@
             return Station.get({id : vm.subscriptionConfig.stationId}).$promise;
         }).then(function(station) {
             vm.stations.push(station);
+        });
+        vm.partners = Partner.query({filter: 'subscriptionconfig-is-null'});
+        $q.all([vm.subscriptionConfig.$promise, vm.partners.$promise]).then(function() {
+            if (!vm.subscriptionConfig.partnerId) {
+                return $q.reject();
+            }
+            return Partner.get({id : vm.subscriptionConfig.partnerId}).$promise;
+        }).then(function(partner) {
+            vm.partners.push(partner);
         });
 
         $timeout(function (){

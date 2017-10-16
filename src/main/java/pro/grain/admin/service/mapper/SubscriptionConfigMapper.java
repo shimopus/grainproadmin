@@ -17,12 +17,15 @@ public interface SubscriptionConfigMapper {
     @Mapping(source = "contact.email.email", target = "contactEmail")
     @Mapping(source = "station.id", target = "stationId")
     @Mapping(source = "station.name", target = "stationName")
+    @Mapping(source = "partner.id", target = "partnerId")
+    @Mapping(source = "partner.name", target = "partnerName")
     SubscriptionConfigDTO subscriptionConfigToSubscriptionConfigDTO(SubscriptionConfig subscriptionConfig);
 
     List<SubscriptionConfigDTO> subscriptionConfigsToSubscriptionConfigDTOs(List<SubscriptionConfig> subscriptionConfigs);
 
     @Mapping(source = "contactId", target = "contact")
     @Mapping(source = "stationId", target = "station")
+    @Mapping(source = "partnerId", target = "partner")
     SubscriptionConfig subscriptionConfigDTOToSubscriptionConfig(SubscriptionConfigDTO subscriptionConfigDTO);
 
     List<SubscriptionConfig> subscriptionConfigDTOsToSubscriptionConfigs(List<SubscriptionConfigDTO> subscriptionConfigDTOs);
@@ -43,5 +46,14 @@ public interface SubscriptionConfigMapper {
         Station station = new Station();
         station.setId(id);
         return station;
+    }
+
+    default Partner partnerFromId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Partner partner = new Partner();
+        partner.setId(id);
+        return partner;
     }
 }

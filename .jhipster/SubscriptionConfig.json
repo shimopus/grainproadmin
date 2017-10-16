@@ -16,6 +16,14 @@
             "otherEntityField": "name",
             "ownerSide": true,
             "otherEntityRelationshipName": "subscriptionConfig"
+        },
+        {
+            "relationshipName": "partner",
+            "otherEntityName": "partner",
+            "relationshipType": "one-to-one",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "subscriptionConfig"
         }
     ],
     "fields": [

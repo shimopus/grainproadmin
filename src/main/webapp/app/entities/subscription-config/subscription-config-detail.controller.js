@@ -5,9 +5,9 @@
         .module('grainAdminApp')
         .controller('SubscriptionConfigDetailController', SubscriptionConfigDetailController);
 
-    SubscriptionConfigDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'SubscriptionConfig', 'Contact', 'Station'];
+    SubscriptionConfigDetailController.$inject = ['$scope', '$rootScope', '$stateParams', 'previousState', 'entity', 'SubscriptionConfig', 'Contact', 'Station', 'Partner'];
 
-    function SubscriptionConfigDetailController($scope, $rootScope, $stateParams, previousState, entity, SubscriptionConfig, Contact, Station) {
+    function SubscriptionConfigDetailController($scope, $rootScope, $stateParams, previousState, entity, SubscriptionConfig, Contact, Station, Partner) {
         var vm = this;
 
         vm.subscriptionConfig = entity;

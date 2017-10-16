@@ -59,6 +59,12 @@
                 <option value=""></option>
             </select>
         </div>
+        <div class="form-group">
+            <label data-translate="grainAdminApp.subscriptionConfig.partner" for="field_partner">Partner</label>
+            <select class="form-control" id="field_partner" name="partner" ng-model="vm.subscriptionConfig.partnerId" ng-options="partner.id as partner.name for partner in vm.partners | orderBy:'id'">
+                <option value=""></option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">

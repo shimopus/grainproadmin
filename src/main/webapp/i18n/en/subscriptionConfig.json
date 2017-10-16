@@ -21,7 +21,8 @@
             "creationDate": "Creation Date",
             "lastUpdateDate": "Last Update Date",
             "contact": "Contact",
-            "station": "Station"
+            "station": "Station",
+            "partner": "Partner"
         }
     }
 }

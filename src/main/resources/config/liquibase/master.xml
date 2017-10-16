@@ -51,4 +51,6 @@
     <include file="changelog/20171010204721_added_entity_constraints_Tracking.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20171013081224_added_entity_SubscriptionConfig.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20171013081224_added_entity_constraints_SubscriptionConfig.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20171013081224_edited_entity_SubscriptionConfig.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20171013081224_edited_entity_constraints_SubscriptionConfig.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

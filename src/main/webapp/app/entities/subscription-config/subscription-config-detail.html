@@ -28,6 +28,10 @@
         <dd>
             <a ui-sref="station-detail({id:vm.subscriptionConfig.stationId})">{{vm.subscriptionConfig.stationName}}</a>
         </dd>
+        <dt><span data-translate="grainAdminApp.subscriptionConfig.partner">Partner</span></dt>
+        <dd>
+            <a ui-sref="partner-detail({id:vm.subscriptionConfig.partnerId})">{{vm.subscriptionConfig.partnerName}}</a>
+        </dd>
     </dl>
 
     <button type="submit"

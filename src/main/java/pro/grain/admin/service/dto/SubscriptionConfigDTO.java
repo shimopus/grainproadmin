@@ -35,6 +35,10 @@ public class SubscriptionConfigDTO implements Serializable {
 
     private String stationName;
 
+    private Long partnerId;
+
+    private String partnerName;
+
     public Long getId() {
         return id;
     }
@@ -113,6 +117,22 @@ public class SubscriptionConfigDTO implements Serializable {
         this.contactPersonName = contactPersonName;
     }
 
+    public Long getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(Long partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public String getPartnerName() {
+        return partnerName;
+    }
+
+    public void setPartnerName(String partnerName) {
+        this.partnerName = partnerName;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -144,5 +164,4 @@ public class SubscriptionConfigDTO implements Serializable {
             ", lastUpdateDate='" + lastUpdateDate + "'" +
             '}';
     }
-
 }

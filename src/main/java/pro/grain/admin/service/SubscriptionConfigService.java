@@ -54,10 +54,10 @@ public class SubscriptionConfigService {
     }
 
     /**
-     *  Get all the subscriptionConfigs.
+     * Get all the subscriptionConfigs.
      *
-     *  @param pageable the pagination information
-     *  @return the list of entities
+     * @param pageable the pagination information
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<SubscriptionConfigDTO> findAll(Pageable pageable) {
@@ -67,10 +67,10 @@ public class SubscriptionConfigService {
     }
 
     /**
-     *  Get one subscriptionConfig by id.
+     * Get one subscriptionConfig by id.
      *
-     *  @param id the id of the entity
-     *  @return the entity
+     * @param id the id of the entity
+     * @return the entity
      */
     @Transactional(readOnly = true)
     public SubscriptionConfigDTO findOne(Long id) {
@@ -81,9 +81,9 @@ public class SubscriptionConfigService {
     }
 
     /**
-     *  Delete the  subscriptionConfig by id.
+     * Delete the  subscriptionConfig by id.
      *
-     *  @param id the id of the entity
+     * @param id the id of the entity
      */
     public void delete(Long id) {
         log.debug("Request to delete SubscriptionConfig : {}", id);
@@ -94,8 +94,8 @@ public class SubscriptionConfigService {
     /**
      * Search for the subscriptionConfig corresponding to the query.
      *
-     *  @param query the query of the search
-     *  @return the list of entities
+     * @param query the query of the search
+     * @return the list of entities
      */
     @Transactional(readOnly = true)
     public Page<SubscriptionConfigDTO> search(String query, Pageable pageable) {
@@ -108,7 +108,14 @@ public class SubscriptionConfigService {
     public SubscriptionConfigDTO findByPartner(Long partnerId) {
         log.debug("Request to get SubscriptionConfig by partner: {}", partnerId);
         SubscriptionConfig subscriptionConfig = subscriptionConfigRepository.findByPartner(partnerId);
-        SubscriptionConfigDTO subscriptionConfigDTO = subscriptionConfigMapper.subscriptionConfigToSubscriptionConfigDTO(subscriptionConfig);
+        SubscriptionConfigDTO subscriptionConfigDTO = null;
+
+        if (subscriptionConfig != null) {
+            subscriptionConfigMapper.subscriptionConfigToSubscriptionConfigDTO(subscriptionConfig);
+        } else {
+            subscriptionConfigDTO = new SubscriptionConfigDTO();
+            subscriptionConfigDTO.setPartnerId(partnerId);
+        }
         return subscriptionConfigDTO;
     }
 }

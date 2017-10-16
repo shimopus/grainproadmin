@@ -100,6 +100,7 @@
                         $translatePartialLoader.addPart('bid');
                         $translatePartialLoader.addPart('qualityClass');
                         $translatePartialLoader.addPart('subscriptionConfig');
+                        $translatePartialLoader.addPart('subscriptionType');
                         return $translate.refresh();
                     }],
                     entity: ['$stateParams', 'Partner', function ($stateParams, Partner) {

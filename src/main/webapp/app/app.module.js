@@ -23,7 +23,8 @@
             'ngSanitize',
             'clickOut',
             'ngAnimate',
-            'amChartsDirective'
+            'amChartsDirective',
+            'ui.toggle'
         ])
         .run(run);
 

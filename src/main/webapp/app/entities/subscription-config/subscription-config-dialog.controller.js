@@ -5,9 +5,11 @@
         .module('grainAdminApp')
         .controller('SubscriptionConfigDialogController', SubscriptionConfigDialogController);
 
-    SubscriptionConfigDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q', 'entity', 'SubscriptionConfig', 'Contact', 'Station', 'Partner'];
+    SubscriptionConfigDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', '$q',
+        'entity', 'SubscriptionConfig', 'Contact', 'Station', 'Partner', 'StationSearch'];
 
-    function SubscriptionConfigDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q, entity, SubscriptionConfig, Contact, Station, Partner) {
+    function SubscriptionConfigDialogController ($timeout, $scope, $stateParams, $uibModalInstance, $q,
+                                                 entity, SubscriptionConfig, Contact, Station, Partner, StationSearch) {
         var vm = this;
 
         vm.subscriptionConfig = entity;
@@ -15,37 +17,34 @@
         vm.datePickerOpenStatus = {};
         vm.openCalendar = openCalendar;
         vm.save = save;
-        vm.contacts = Contact.query({filter: 'subscriptionconfig-is-null'});
-        $q.all([vm.subscriptionConfig.$promise, vm.contacts.$promise]).then(function() {
-            if (!vm.subscriptionConfig.contactId) {
-                return $q.reject();
-            }
-            return Contact.get({id : vm.subscriptionConfig.contactId}).$promise;
-        }).then(function(contact) {
-            vm.contacts.push(contact);
-        });
-        vm.stations = Station.query({filter: 'subscriptionconfig-is-null'});
-        $q.all([vm.subscriptionConfig.$promise, vm.stations.$promise]).then(function() {
-            if (!vm.subscriptionConfig.stationId) {
-                return $q.reject();
-            }
-            return Station.get({id : vm.subscriptionConfig.stationId}).$promise;
-        }).then(function(station) {
-            vm.stations.push(station);
-        });
-        vm.partners = Partner.query({filter: 'subscriptionconfig-is-null'});
-        $q.all([vm.subscriptionConfig.$promise, vm.partners.$promise]).then(function() {
+
+        vm.stations = [];
+        vm.refreshStationSuggestions = refreshStationSuggestions;
+
+        vm.currentPartner = null;
+        vm.subscriptionConfig.$promise.then(function() {
             if (!vm.subscriptionConfig.partnerId) {
                 return $q.reject();
             }
             return Partner.get({id : vm.subscriptionConfig.partnerId}).$promise;
         }).then(function(partner) {
-            vm.partners.push(partner);
+            vm.currentPartner = partner;
+
+            if (vm.currentPartner.contacts.length === 1) {
+                vm.subscriptionConfig.contactId = vm.currentPartner.contacts[0].id;
+            }
         });
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
         });
+
+        function refreshStationSuggestions(term) {
+            if (term) {
+                vm.stations = StationSearch.query({query: term});
+            }
+            return null;
+        }
 
         function clear () {
             $uibModalInstance.dismiss('cancel');

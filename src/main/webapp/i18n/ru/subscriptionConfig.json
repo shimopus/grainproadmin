@@ -2,27 +2,27 @@
     "grainAdminApp": {
         "subscriptionConfig" : {
             "home": {
-                "title": "Subscription Configs",
-                "createLabel": "Создать новый Subscription Config",
-                "createOrEditLabel": "Создать или отредактировать Subscription Config",
-                "search": "Найти Subscription Config"
+                "title": "Подписки",
+                "createLabel": "Создать новую подписку",
+                "createOrEditLabel": "Создать или отредактировать подписку",
+                "search": "Найти подписку"
             },
-            "created": "Новый Subscription Config создан с идентификатором {{ param }}",
-            "updated": "Subscription Config обновлен с идентификатором {{ param }}",
-            "deleted": "Subscription Config удален с идентификатором {{ param }}",
+            "created": "Новая подписка создана с идентификатором {{ param }}",
+            "updated": "Подписка с идентификатором {{ param }} обновлена",
+            "deleted": "Подписка с идентификатором {{ param }} удалена",
             "delete": {
-                "question": "Вы уверены что хотите удалить Subscription Config {{ id }}?"
+                "question": "Вы уверены что хотите удалить подписку {{ id }}?"
             },
             "detail": {
-                "title": "Subscription Config"
+                "title": "Подписка"
             },
-            "subscriptionType": "Subscription Type",
-            "isActive": "Is Active",
-            "creationDate": "Creation Date",
-            "lastUpdateDate": "Last Update Date",
-            "contact": "Contact",
-            "station": "Station",
-            "partner": "Partner"
+            "subscriptionType": "Тип подписки",
+            "isActive": "Активность",
+            "creationDate": "Дата создания",
+            "lastUpdateDate": "Дата обновления",
+            "contact": "Получатель подписки",
+            "station": "Станция пересчета",
+            "partner": "Контрагент"
         }
     }
 }

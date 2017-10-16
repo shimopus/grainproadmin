@@ -27,6 +27,10 @@
             vm.bid.nds = vm.currentPartner.nds;
         }
 
+        if (vm.currentPartner.contacts.length === 1) {
+            vm.bid.agentContactId = vm.currentPartner.contacts[0].id;
+        }
+
         vm.clear = clear;
         vm.save = save;
         vm.qualityParameters = QualityParameter.query();

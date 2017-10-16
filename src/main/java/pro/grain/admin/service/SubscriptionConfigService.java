@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,9 +48,15 @@ public class SubscriptionConfigService {
     public SubscriptionConfigDTO save(SubscriptionConfigDTO subscriptionConfigDTO) {
         log.debug("Request to save SubscriptionConfig : {}", subscriptionConfigDTO);
         SubscriptionConfig subscriptionConfig = subscriptionConfigMapper.subscriptionConfigDTOToSubscriptionConfig(subscriptionConfigDTO);
+
+        if (subscriptionConfig.getId() == null) {
+            subscriptionConfig.setCreationDate(ZonedDateTime.now());
+        }
+        subscriptionConfig.setLastUpdateDate(ZonedDateTime.now());
+
         subscriptionConfig = subscriptionConfigRepository.save(subscriptionConfig);
         SubscriptionConfigDTO result = subscriptionConfigMapper.subscriptionConfigToSubscriptionConfigDTO(subscriptionConfig);
-        subscriptionConfigSearchRepository.save(subscriptionConfig);
+//        subscriptionConfigSearchRepository.save(subscriptionConfig);
         return result;
     }
 
@@ -108,12 +115,13 @@ public class SubscriptionConfigService {
     public SubscriptionConfigDTO findByPartner(Long partnerId) {
         log.debug("Request to get SubscriptionConfig by partner: {}", partnerId);
         SubscriptionConfig subscriptionConfig = subscriptionConfigRepository.findByPartner(partnerId);
-        SubscriptionConfigDTO subscriptionConfigDTO = null;
+        SubscriptionConfigDTO subscriptionConfigDTO;
 
         if (subscriptionConfig != null) {
-            subscriptionConfigMapper.subscriptionConfigToSubscriptionConfigDTO(subscriptionConfig);
+            subscriptionConfigDTO = subscriptionConfigMapper.subscriptionConfigToSubscriptionConfigDTO(subscriptionConfig);
         } else {
             subscriptionConfigDTO = new SubscriptionConfigDTO();
+            subscriptionConfigDTO.setIsActive(true);
             subscriptionConfigDTO.setPartnerId(partnerId);
         }
         return subscriptionConfigDTO;

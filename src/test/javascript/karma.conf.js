@@ -53,6 +53,7 @@ module.exports = function (config) {
             'src/main/webapp/bower_components/angular-clickout/angular-clickout.js',
             'src/main/webapp/bower_components/angular-animate/angular-animate.js',
             'src/main/webapp/bower_components/amcharts-angular/dist/amChartsDirective.js',
+            'src/main/webapp/bower_components/angular-bootstrap-toggle/dist/angular-bootstrap-toggle.min.js',
             'src/main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'src/main/webapp/app/app.module.js',

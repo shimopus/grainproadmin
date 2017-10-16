@@ -87,6 +87,10 @@
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="hidden-xs hidden-sm" data-translate="grainAdminApp.partner.action.edit">Edit</span>
             </button>
+            <button type="button" ui-sref="partner-detail.subscriptionConfig({id:vm.partner.id})" class="btn btn-success">
+                <span class="glyphicon glyphicon-envelope"></span>
+                <span class="hidden-xs hidden-sm" data-translate="grainAdminApp.partner.action.subscriptionConfiguration">Subscription Configuration</span>
+            </button>
             <button type="button" class="btn btn-primary" ui-sref="bid.addFor({partner: vm.partner})">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="hidden-md" data-translate="grainAdminApp.bid.home.createLabel">Add</span>

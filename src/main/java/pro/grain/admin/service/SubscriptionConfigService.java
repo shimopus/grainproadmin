@@ -28,7 +28,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class SubscriptionConfigService {
 
     private final Logger log = LoggerFactory.getLogger(SubscriptionConfigService.class);
-    
+
     @Inject
     private SubscriptionConfigRepository subscriptionConfigRepository;
 
@@ -55,11 +55,11 @@ public class SubscriptionConfigService {
 
     /**
      *  Get all the subscriptionConfigs.
-     *  
+     *
      *  @param pageable the pagination information
      *  @return the list of entities
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public Page<SubscriptionConfigDTO> findAll(Pageable pageable) {
         log.debug("Request to get all SubscriptionConfigs");
         Page<SubscriptionConfig> result = subscriptionConfigRepository.findAll(pageable);
@@ -72,7 +72,7 @@ public class SubscriptionConfigService {
      *  @param id the id of the entity
      *  @return the entity
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public SubscriptionConfigDTO findOne(Long id) {
         log.debug("Request to get SubscriptionConfig : {}", id);
         SubscriptionConfig subscriptionConfig = subscriptionConfigRepository.findOne(id);
@@ -102,5 +102,13 @@ public class SubscriptionConfigService {
         log.debug("Request to search for a page of SubscriptionConfigs for query {}", query);
         Page<SubscriptionConfig> result = subscriptionConfigSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(subscriptionConfig -> subscriptionConfigMapper.subscriptionConfigToSubscriptionConfigDTO(subscriptionConfig));
+    }
+
+    @Transactional(readOnly = true)
+    public SubscriptionConfigDTO findByPartner(Long partnerId) {
+        log.debug("Request to get SubscriptionConfig by partner: {}", partnerId);
+        SubscriptionConfig subscriptionConfig = subscriptionConfigRepository.findByPartner(partnerId);
+        SubscriptionConfigDTO subscriptionConfigDTO = subscriptionConfigMapper.subscriptionConfigToSubscriptionConfigDTO(subscriptionConfig);
+        return subscriptionConfigDTO;
     }
 }

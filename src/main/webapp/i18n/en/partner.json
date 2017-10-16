@@ -38,7 +38,8 @@
             "servicePrice": "Price, rub/ton",
 
             "action": {
-                "edit": "Edit partner's card"
+                "edit": "Edit partner's card",
+                "subscriptionConfiguration" : "Subscription Configuration"
             }
         }
     }

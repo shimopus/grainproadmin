@@ -38,7 +38,8 @@
             "servicePrice": "Цена, р/т",
 
             "action": {
-                "edit": "Изменить карту"
+                "edit": "Изменить карту",
+                "subscriptionConfiguration" : "Настройка рассылки"
             }
         }
     }

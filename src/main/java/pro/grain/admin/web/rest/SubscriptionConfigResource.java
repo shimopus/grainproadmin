@@ -34,7 +34,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
 public class SubscriptionConfigResource {
 
     private final Logger log = LoggerFactory.getLogger(SubscriptionConfigResource.class);
-        
+
     @Inject
     private SubscriptionConfigService subscriptionConfigService;
 
@@ -143,7 +143,7 @@ public class SubscriptionConfigResource {
      * SEARCH  /_search/subscription-configs?query=:query : search for the subscriptionConfig corresponding
      * to the query.
      *
-     * @param query the query of the subscriptionConfig search 
+     * @param query the query of the subscriptionConfig search
      * @param pageable the pagination information
      * @return the result of the search
      * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
@@ -160,5 +160,17 @@ public class SubscriptionConfigResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-
+    @RequestMapping(value = "/subscription-configs/getbypartner",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<SubscriptionConfigDTO> getByPartner(@RequestParam Long partnerId) {
+        log.debug("REST request to get SubscriptionConfig by partner: {}", partnerId);
+        SubscriptionConfigDTO subscriptionConfigDTO = subscriptionConfigService.findByPartner(partnerId);
+        return Optional.ofNullable(subscriptionConfigDTO)
+            .map(result -> new ResponseEntity<>(
+                result,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

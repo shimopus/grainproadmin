@@ -298,6 +298,31 @@
                     });
                 }]
             })
+            .state('partner-detail.subscriptionConfig', {
+                parent: 'partner-detail',
+                url: '/subscriptionConfig/edit',
+                data: {
+                    authorities: ['ROLE_USER']
+                },
+                onEnter: ['$stateParams', '$state', '$uibModal', function ($stateParams, $state, $uibModal) {
+                    $uibModal.open({
+                        templateUrl: 'app/entities/subscription-config/subscription-config-dialog.html',
+                        controller: 'SubscriptionConfigDialogController',
+                        controllerAs: 'vm',
+                        backdrop: 'static',
+                        size: 'lg',
+                        resolve: {
+                            entity: ['SubscriptionConfig', function (SubscriptionConfig) {
+                                return SubscriptionConfig.getByPartner({partnerId: $stateParams.id}).$promise;
+                            }]
+                        }
+                    }).result.then(function () {
+                        $state.go('^', {}, {reload: false});
+                    }, function () {
+                        $state.go('^');
+                    });
+                }]
+            })
             .state('partner-detail.quality-passport', {
                 parent: 'partner-detail',
                 url: '/bid/{bidId}/carousel',

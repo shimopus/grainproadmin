@@ -1,5 +1,6 @@
 package pro.grain.admin.repository;
 
+import org.springframework.data.repository.query.Param;
 import pro.grain.admin.domain.SubscriptionConfig;
 
 import org.springframework.data.jpa.repository.*;
@@ -12,4 +13,8 @@ import java.util.List;
 @SuppressWarnings("unused")
 public interface SubscriptionConfigRepository extends JpaRepository<SubscriptionConfig,Long> {
 
+    @Query("select distinct subscriptionConfig from SubscriptionConfig subscriptionConfig " +
+        "where " +
+        "   subscriptionConfig.partner.id = :partnerId")
+    SubscriptionConfig findByPartner(@Param("partnerId") Long partnerId);
 }

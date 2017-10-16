@@ -62,12 +62,6 @@ public class TrackingImageController {
     @Timed
     public ResponseEntity<List<TrackingOpenItemDTO>> getStatisticsByPartner(
         @RequestParam(value = "partnerId", required = false) Long partnerId) {
-        trackingService.findAllByPartner(partnerId);
-
-//        if (partnerId == null) {
-//
-//        }
-
         return new ResponseEntity<>(trackingService.findAllByPartner(partnerId), HttpStatus.OK);
     }
 }

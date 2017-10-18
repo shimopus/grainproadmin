@@ -1,6 +1,6 @@
 package pro.grain.admin.service.dto;
 
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,7 +14,7 @@ public class EmailCampaignDTO implements Serializable {
 
     private String name;
 
-    private LocalDate date;
+    private ZonedDateTime date;
 
 
     public Long getId() {
@@ -31,11 +31,11 @@ public class EmailCampaignDTO implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    public LocalDate getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

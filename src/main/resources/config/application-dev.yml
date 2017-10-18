@@ -96,3 +96,10 @@ jhipster:
             host: localhost
             port: 5000
             queueSize: 512
+
+# ===================================================================
+# Grain.Pro Admin specific properties
+# ===================================================================
+grainproadmin:
+    mailer:
+        url: "http://localhost:8080/"

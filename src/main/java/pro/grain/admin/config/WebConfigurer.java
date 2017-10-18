@@ -3,6 +3,8 @@ package pro.grain.admin.config;
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.servlet.InstrumentedFilter;
 import com.codahale.metrics.servlets.MetricsServlet;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestTemplate;
 import pro.grain.admin.web.filter.CachingHttpHeadersFilter;
 
 import org.slf4j.Logger;
@@ -156,6 +158,11 @@ public class WebConfigurer implements ServletContextInitializer, EmbeddedServlet
         source.registerCorsConfiguration("/pages/**", config);
         source.registerCorsConfiguration("/tracking/image/**", priceConfig);
         return new CorsFilter(source);
+    }
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
     }
 
     /**

@@ -16,12 +16,18 @@ public class GrainProAdminProperties {
 
     private final Price price = new Price();
 
+    private Mailer mailer = new Mailer();
+
     public PriceUpload getPriceUpload() {
         return priceUpload;
     }
 
     public Price getPrice() {
         return price;
+    }
+
+    public Mailer getMailer() {
+        return mailer;
     }
 
     public static class PriceUpload {
@@ -45,6 +51,18 @@ public class GrainProAdminProperties {
 
         public int getCurrentVersionNumber() {
             return currentVersionNumber;
+        }
+    }
+
+    public static class Mailer {
+        private String url = "";
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
         }
     }
 }

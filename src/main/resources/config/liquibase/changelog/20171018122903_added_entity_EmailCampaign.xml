@@ -24,13 +24,13 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            
-            <column name="date" type="date">
+
+            <column name="date" type="timestamp">
                 <constraints nullable="true" />
             </column>
-            
+
             <!-- jhipster-needle-liquibase-add-column - Jhipster will add columns here, do not remove-->
         </createTable>
-        
+
     </changeSet>
 </databaseChangeLog>

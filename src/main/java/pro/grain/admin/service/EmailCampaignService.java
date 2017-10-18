@@ -1,5 +1,8 @@
 package pro.grain.admin.service;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestTemplate;
+import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.EmailCampaign;
 import pro.grain.admin.repository.EmailCampaignRepository;
 import pro.grain.admin.repository.search.EmailCampaignSearchRepository;
@@ -38,6 +41,12 @@ public class EmailCampaignService {
     @Inject
     private EmailCampaignSearchRepository emailCampaignSearchRepository;
 
+    @Inject
+    private RestTemplate restTemplate;
+
+    @Inject
+    private GrainProAdminProperties grainProAdminProperties;
+
     /**
      * Save a emailCampaign.
      *
@@ -46,9 +55,21 @@ public class EmailCampaignService {
      */
     public EmailCampaignDTO save(EmailCampaignDTO emailCampaignDTO) {
         log.debug("Request to save EmailCampaign : {}", emailCampaignDTO);
+        boolean isNew = false;
+
         EmailCampaign emailCampaign = emailCampaignMapper.emailCampaignDTOToEmailCampaign(emailCampaignDTO);
+        if (emailCampaign.getId() == null) {
+            //new campaign is created
+            isNew = true;
+        }
         emailCampaign = emailCampaignRepository.save(emailCampaign);
         EmailCampaignDTO result = emailCampaignMapper.emailCampaignToEmailCampaignDTO(emailCampaign);
+
+        if (isNew) {
+            restTemplate.postForEntity(grainProAdminProperties.getMailer().getUrl() + "/emailCampaign/create",
+                result, String.class);
+        }
+
 //        emailCampaignSearchRepository.save(emailCampaign);
         return result;
     }

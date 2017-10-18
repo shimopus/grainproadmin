@@ -8,7 +8,7 @@
         },
         {
             "fieldName": "date",
-            "fieldType": "LocalDate"
+            "fieldType": "ZonedDateTime"
         }
     ],
     "changelogDate": "20171018122903",

@@ -22,8 +22,8 @@
         <div class="form-group">
             <label class="control-label" data-translate="grainAdminApp.emailCampaign.date" for="field_date">Date</label>
                 <div class="input-group">
-                    <input id="field_date" type="text" class="form-control" name="date" uib-datepicker-popup="{{dateformat}}" ng-model="vm.emailCampaign.date" is-open="vm.datePickerOpenStatus.date"
-                    />
+                    <input id="field_date" type="text" class="form-control" name="date" datetime-picker="{{dateformat}}" ng-model="vm.emailCampaign.date" is-open="vm.datePickerOpenStatus.date"
+                      />
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-default" ng-click="vm.openCalendar('date')"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>

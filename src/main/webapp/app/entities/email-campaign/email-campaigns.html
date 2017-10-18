@@ -45,7 +45,7 @@
                 <tr ng-repeat="emailCampaign in vm.emailCampaigns track by emailCampaign.id">
                     <td><a ui-sref="email-campaign-detail({id:emailCampaign.id})">{{emailCampaign.id}}</a></td>
                     <td>{{emailCampaign.name}}</td>
-                        <td>{{emailCampaign.date | date:'mediumDate'}}</td>
+                    <td>{{emailCampaign.date | date:'medium'}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

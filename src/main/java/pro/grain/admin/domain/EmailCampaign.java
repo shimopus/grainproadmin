@@ -6,7 +6,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 /**
@@ -14,7 +14,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "email_campaign")
-@Cache(usage = CacheConcurrencyStrategy.NONE)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "emailcampaign")
 public class EmailCampaign implements Serializable {
 
@@ -28,7 +28,7 @@ public class EmailCampaign implements Serializable {
     private String name;
 
     @Column(name = "date")
-    private LocalDate date;
+    private ZonedDateTime date;
 
     public Long getId() {
         return id;
@@ -51,16 +51,16 @@ public class EmailCampaign implements Serializable {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public EmailCampaign date(LocalDate date) {
+    public EmailCampaign date(ZonedDateTime date) {
         this.date = date;
         return this;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

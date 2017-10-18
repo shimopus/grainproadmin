@@ -26,6 +26,7 @@
                 "priceUpdateQueue": "Price Update Queue",
                 "tracking": "Tracking",
                 "subscriptionConfig": "Subscription Config",
+                "emailCampaign": "Email Campaign",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

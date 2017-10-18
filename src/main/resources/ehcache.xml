@@ -142,5 +142,9 @@
         timeToLiveSeconds="3600">
     </cache>
 
+    <cache name="pro.grain.admin.domain.EmailCampaign"
+        timeToLiveSeconds="3600">
+    </cache>
+
     <!-- jhipster-needle-ehcache-add-entry -->
 </ehcache>

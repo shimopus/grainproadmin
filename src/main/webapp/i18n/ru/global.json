@@ -26,6 +26,7 @@
                 "priceUpdateQueue": "Очередь обновления цен",
                 "tracking": "Отслеживание рассылки",
                 "subscriptionConfig": "Подписки",
+                "emailCampaign": "Рассылка",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

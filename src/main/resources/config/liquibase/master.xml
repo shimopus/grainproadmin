@@ -53,4 +53,5 @@
     <include file="changelog/20171013081224_added_entity_constraints_SubscriptionConfig.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20171013081224_edited_entity_SubscriptionConfig.xml" relativeToChangelogFile="true"/>
     <include file="changelog/20171013081224_edited_entity_constraints_SubscriptionConfig.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/20171018122903_added_entity_EmailCampaign.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

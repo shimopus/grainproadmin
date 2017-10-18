@@ -1,0 +1,23 @@
+{
+    "grainAdminApp": {
+        "emailCampaign" : {
+            "home": {
+                "title": "Email Campaigns",
+                "createLabel": "Создать новый Email Campaign",
+                "createOrEditLabel": "Создать или отредактировать Email Campaign",
+                "search": "Найти Email Campaign"
+            },
+            "created": "Новый Email Campaign создан с идентификатором {{ param }}",
+            "updated": "Email Campaign обновлен с идентификатором {{ param }}",
+            "deleted": "Email Campaign удален с идентификатором {{ param }}",
+            "delete": {
+                "question": "Вы уверены что хотите удалить Email Campaign {{ id }}?"
+            },
+            "detail": {
+                "title": "Email Campaign"
+            },
+            "name": "Name",
+            "date": "Date"
+        }
+    }
+}

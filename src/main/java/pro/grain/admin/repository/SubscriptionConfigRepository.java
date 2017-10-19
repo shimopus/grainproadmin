@@ -17,4 +17,9 @@ public interface SubscriptionConfigRepository extends JpaRepository<Subscription
         "where " +
         "   subscriptionConfig.partner.id = :partnerId")
     SubscriptionConfig findByPartner(@Param("partnerId") Long partnerId);
+
+    @Query("select distinct subscriptionConfig from SubscriptionConfig subscriptionConfig " +
+        "where " +
+        "   subscriptionConfig.isActive = true")
+    List<SubscriptionConfig> getAllActive();
 }

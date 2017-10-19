@@ -17,6 +17,7 @@ public interface SubscriptionConfigMapper {
     @Mapping(source = "contact.email.email", target = "contactEmail")
     @Mapping(source = "station.id", target = "stationId")
     @Mapping(source = "station.name", target = "stationName")
+    @Mapping(source = "station.code", target = "stationCode")
     @Mapping(source = "partner.id", target = "partnerId")
     @Mapping(source = "partner.name", target = "partnerName")
     SubscriptionConfigDTO subscriptionConfigToSubscriptionConfigDTO(SubscriptionConfig subscriptionConfig);

@@ -32,6 +32,7 @@ public class SubscriptionConfigDTO implements Serializable {
 
     private Long stationId;
 
+    private String stationCode;
 
     private String stationName;
 
@@ -131,6 +132,14 @@ public class SubscriptionConfigDTO implements Serializable {
 
     public void setPartnerName(String partnerName) {
         this.partnerName = partnerName;
+    }
+
+    public String getStationCode() {
+        return stationCode;
+    }
+
+    public void setStationCode(String stationCode) {
+        this.stationCode = stationCode;
     }
 
     @Override

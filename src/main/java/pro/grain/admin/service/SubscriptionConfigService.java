@@ -38,6 +38,7 @@ public class SubscriptionConfigService {
 
     @Inject
     private SubscriptionConfigSearchRepository subscriptionConfigSearchRepository;
+    private List<SubscriptionConfigDTO> allActive;
 
     /**
      * Save a subscriptionConfig.
@@ -125,5 +126,10 @@ public class SubscriptionConfigService {
             subscriptionConfigDTO.setPartnerId(partnerId);
         }
         return subscriptionConfigDTO;
+    }
+
+    public List<SubscriptionConfigDTO> getAllActive() {
+        List<SubscriptionConfig> subscriptionConfigs = subscriptionConfigRepository.getAllActive();
+        return subscriptionConfigMapper.subscriptionConfigsToSubscriptionConfigDTOs(subscriptionConfigs);
     }
 }

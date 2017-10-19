@@ -173,4 +173,18 @@ public class SubscriptionConfigResource {
                 HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @RequestMapping(value = "/subscription-configs/getactive",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<SubscriptionConfigDTO>> getAllActive() {
+        log.debug("REST request to get all active SubscriptionConfig");
+        List<SubscriptionConfigDTO> subscriptionConfigDTOs = subscriptionConfigService.getAllActive();
+        return Optional.ofNullable(subscriptionConfigDTOs)
+            .map(result -> new ResponseEntity<>(
+                result,
+                HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

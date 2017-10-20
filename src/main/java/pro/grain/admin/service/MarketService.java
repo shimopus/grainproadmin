@@ -46,6 +46,7 @@ public class MarketService {
             SoyFileSet sfs = SoyFileSet.builder()
                 .add(getFileFromResources("templates/tables/market-table.soy"))
                 .add(getFileFromResources("templates/tables/market-table-download.soy"))
+                .add(getFileFromResources("templates/tables/market-table-email-inside.soy"))
                 .add(getFileFromResources("templates/tables/market-table-admin.soy"))
                 .add(getFileFromResources("templates/tables/market-table-site.soy"))
                 .build();
@@ -60,11 +61,16 @@ public class MarketService {
     }
 
     public String getMarketTableHTML(String stationCode, BidType bidType, String templateName, String baseUrl) {
+        return getMarketTableHTML(stationCode, bidType, templateName, baseUrl, -1);
+    }
+
+    public String getMarketTableHTML(String stationCode, BidType bidType, String templateName,
+                                     String baseUrl, int rowsLimit) {
         log.debug("Generate market HTML table for station code which should be downloaded {}", stationCode);
 
         SoyMapData templateData;
         try {
-            templateData = generateCommonParameters(stationCode, bidType, baseUrl);
+            templateData = generateCommonParameters(stationCode, bidType, baseUrl, rowsLimit);
         } catch (MarketGenerationException e) {
             return tofu.newRenderer("tables.error")
                 .setData(new SoyMapData("errors", SoyTemplatesUtils.objectToSoyData(e.getErrors())))
@@ -75,8 +81,8 @@ public class MarketService {
             .render();
     }
 
-    private SoyMapData generateCommonParameters(String stationCode, BidType bidType, String baseUrl) throws MarketGenerationException {
-        Collection<ArrayList<BidPriceDTO>> bids = getBids(stationCode, bidType);
+    private SoyMapData generateCommonParameters(String stationCode, BidType bidType, String baseUrl, int rowsLimit) throws MarketGenerationException {
+        Collection<ArrayList<BidPriceDTO>> bids = getBids(stationCode, bidType, rowsLimit);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yy");
 
@@ -90,7 +96,7 @@ public class MarketService {
         );
     }
 
-    private Collection<ArrayList<BidPriceDTO>> getBids(String stationToCode, BidType bidType) throws MarketGenerationException {
+    private Collection<ArrayList<BidPriceDTO>> getBids(String stationToCode, BidType bidType, int rowsLimit) throws MarketGenerationException {
         String baseStationToCode;
         List<BidPriceDTO> bids;
         List<String> errors = new ArrayList<>();
@@ -164,7 +170,7 @@ public class MarketService {
 
                 timer = timer.reset();
                 timer.start();
-                Collection<ArrayList<BidPriceDTO>> res = enrichAndSortMarket(bids, stationToCode, baseStationToCode);
+                Collection<ArrayList<BidPriceDTO>> res = enrichAndSortMarket(bids, stationToCode, baseStationToCode, rowsLimit);
                 timer.stop();
                 log.warn("Price calc: sort and enrich {}ms", timer.elapsed(TimeUnit.MILLISECONDS));
 
@@ -178,7 +184,7 @@ public class MarketService {
                     , e);
             }
         } else {
-            return enrichAndSortMarket(bidService.getAllCurrentBids(bidType), null, null);
+            return enrichAndSortMarket(bidService.getAllCurrentBids(bidType), null, null, rowsLimit);
         }
     }
 
@@ -203,10 +209,11 @@ public class MarketService {
         return newStation.getCode();
     }
 
-    private Collection<ArrayList<BidPriceDTO>> enrichAndSortMarket(List<BidPriceDTO> bids, String stationToCode, String baseStationToCode) {
+    private Collection<ArrayList<BidPriceDTO>> enrichAndSortMarket(List<BidPriceDTO> bids, String stationToCode,
+                                                                   String baseStationToCode, int rowsLimit) {
         if (bids == null) return null;
 
-        return bids.stream()
+        Collection<ArrayList<BidPriceDTO>> result = bids.stream()
             .peek(bid -> {
                 if (baseStationToCode == null || !baseStationToCode.equals(bid.getElevator().getBaseStationCode()) || bid.getBidType() == BidType.BUY) {
                     Long price = getFCAPrice(bid, stationToCode);
@@ -225,13 +232,36 @@ public class MarketService {
                     Collectors.toCollection(ArrayList::new),
                     l -> {
                         if (l.get(0).getBidType() == BidType.BUY) {
-                            l.sort(Comparator.comparingLong(bid -> getPriceToCompare((BidPriceDTO)bid, stationToCode, baseStationToCode)).reversed());
+                            l.sort(Comparator.comparingLong(bid -> getPriceToCompare((BidPriceDTO) bid, stationToCode, baseStationToCode)).reversed());
                         } else {
                             l.sort(Comparator.comparingLong(bid -> getPriceToCompare(bid, stationToCode, baseStationToCode)));
                         }
                         return l;
                     }
-                ))).values();
+                )))
+            .values();
+
+        if (rowsLimit >= 0) {
+            Collection<ArrayList<BidPriceDTO>> limitedResult = new ArrayList<>();
+            int alreadyIntake = 0;
+
+            for (ArrayList<BidPriceDTO> classGroup : result) {
+                if (alreadyIntake >= rowsLimit) {
+                    break;
+                }
+
+                if (classGroup.size() > rowsLimit - alreadyIntake) {
+                    limitedResult.add((ArrayList<BidPriceDTO>)classGroup.stream().limit(rowsLimit - alreadyIntake).collect(Collectors.toList()));
+                    alreadyIntake = rowsLimit;
+                } else {
+                    limitedResult.add(classGroup);
+                    alreadyIntake += classGroup.size();
+                }
+            }
+            return limitedResult;
+        } else {
+            return result;
+        }
     }
 
     private Long getPriceToCompare(BidPriceDTO bid, String stationToCode, String baseStationToCode) {

@@ -66,4 +66,20 @@ public class MarketTableController {
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .body(marketService.getMarketTableHTML(code, bidType,"market_table_download", baseUrl));
     }
+
+    @RequestMapping(value = "/market-table/email-inside",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @Timed
+    public ResponseEntity<String> emailInsideAllRegions(
+        @RequestParam(value = "code", required = false) String code,
+        @RequestParam("bidType") BidType bidType) {
+        log.debug("REST request to email inside list of bids for station code {}", code);
+
+        String baseUrl = bidType == BidType.SELL ? "http://grain.pro/" : "http://grain.pro/grain-buy/";
+
+        return ResponseEntity.ok()
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(marketService.getMarketTableHTML(code, bidType,"market_table_email_inside", baseUrl, 10));
+    }
 }

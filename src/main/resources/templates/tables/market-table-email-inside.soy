@@ -1,0 +1,23 @@
+{namespace tables}
+
+/**
+ * Создает таблицу со всеми заявками для рассылки и добавляет обвязку для создания полноценного файла для рассылки
+ * @param currentDate Текущая дата
+ * @param station Станция для расчета цены. Может быть null.
+ * @param baseUrl Базовый URL для ссылок
+ * @param adminBaseUrl Базовый URL админки
+ * @param bids Список заявок для отображения.
+ * @param bidType Тип заявок в таблице - SELL, BUY
+ */
+{template .market_table_email_inside}
+    {call tables.table}
+        {param currentDate: $currentDate /}
+        {param station: $station /}
+        {param baseUrl: $baseUrl /}
+        {param adminBaseUrl: $adminBaseUrl /}
+        {param passportVariant: 'download' /}
+        {param urlTarget: '_blank' /}
+        {param bids: $bids /}
+        {param bidType: $bidType /}
+    {/call}
+{/template}

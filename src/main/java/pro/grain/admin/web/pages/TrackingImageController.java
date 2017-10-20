@@ -24,6 +24,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/tracking")
 public class TrackingImageController {
+    public final static DateTimeFormatter TRACKING_IMAGE_DATE_FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
     private byte[] trackingGif = { 0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x1, 0x0, 0x1, 0x0, (byte) 0x80, 0x0, 0x0, (byte)  0xff, (byte)  0xff,  (byte) 0xff, 0x0, 0x0, 0x0, 0x2c, 0x0, 0x0, 0x0, 0x0, 0x1, 0x0, 0x1, 0x0, 0x0, 0x2, 0x2, 0x44, 0x1, 0x0, 0x3b };
 
     private final TrackingService trackingService;
@@ -43,8 +45,7 @@ public class TrackingImageController {
 
         if (partnerId != null && mailDate != null && openType != null) {
             TrackingDTO tracking = new TrackingDTO();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            LocalDate date = LocalDate.parse(mailDate, formatter);
+            LocalDate date = LocalDate.parse(mailDate, TRACKING_IMAGE_DATE_FORMATTER);
             tracking.setMailDate(date);
             tracking.setPartnerId(partnerId);
             tracking.setOpenType(openType);

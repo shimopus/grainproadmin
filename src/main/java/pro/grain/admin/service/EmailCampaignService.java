@@ -66,8 +66,12 @@ public class EmailCampaignService {
         EmailCampaignDTO result = emailCampaignMapper.emailCampaignToEmailCampaignDTO(emailCampaign);
 
         if (isNew) {
-            restTemplate.postForEntity(grainProAdminProperties.getMailer().getUrl() + "/emailCampaign/create",
-                result, String.class);
+            try {
+                restTemplate.postForEntity(grainProAdminProperties.getMailer().getUrl() + "/emailCampaign/create",
+                    result, String.class);
+            } catch (Exception e) {
+                log.warn("!!!!!!!!!!!!!!!!!!!!!!!!EMAIL CAMPAIGN WAS NOT PROPAGATED TO THE MAILER!!!!!!!!!!!!!!!!!!!!!");
+            }
         }
 
 //        emailCampaignSearchRepository.save(emailCampaign);

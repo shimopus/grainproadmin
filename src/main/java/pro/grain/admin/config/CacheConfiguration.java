@@ -63,6 +63,7 @@ public class CacheConfiguration {
                 reconfigureCache(name + "." + pluralAttribute.getName(), jHipsterProperties);
             }
         }
+        reconfigureCache("MarketReport", jHipsterProperties);
         EhCacheCacheManager ehCacheManager = new EhCacheCacheManager();
         ehCacheManager.setCacheManager(cacheManager);
         return ehCacheManager;

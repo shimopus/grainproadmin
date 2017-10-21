@@ -1,5 +1,7 @@
 package pro.grain.admin.service;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.Bid;
@@ -66,6 +68,7 @@ public class BidService {
      * @param bidDTO the entity to save
      * @return the persisted entity
      */
+    @CacheEvict(cacheNames="MarketReport", allEntries=true)
     public BidDTO save(BidDTO bidDTO) {
         log.debug("Request to save Bid : {}", bidDTO);
         Bid bid = bidMapper.bidDTOToBid(bidDTO);
@@ -151,11 +154,8 @@ public class BidService {
             bidType.toString(),
             grainProAdminProperties.getPrice().getCurrentVersionNumber());
 
-        log.debug("Result of request: {}", result);
-
         List<BidPrice> bids = result.stream()
             .map(record -> {
-                log.warn("Resulting of quety: {}", record);
                 TransportationPrice transportationPrice = new TransportationPrice();
                 transportationPrice.setPrice((Long) record[1]);
                 transportationPrice.setPriceNds((Long) record[2]);

@@ -7,6 +7,7 @@ import com.google.template.soy.tofu.SoyTofu;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,10 +61,12 @@ public class MarketService {
         }
     }
 
+    @Cacheable("MarketReport")
     public String getMarketTableHTML(String stationCode, BidType bidType, String templateName, String baseUrl) {
         return getMarketTableHTML(stationCode, bidType, templateName, baseUrl, -1);
     }
 
+    @Cacheable("MarketReport")
     public String getMarketTableHTML(String stationCode, BidType bidType, String templateName,
                                      String baseUrl, int rowsLimit) {
         log.debug("Generate market HTML table for station code which should be downloaded {}", stationCode);

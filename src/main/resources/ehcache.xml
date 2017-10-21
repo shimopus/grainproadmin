@@ -147,4 +147,7 @@
     </cache>
 
     <!-- jhipster-needle-ehcache-add-entry -->
+    <cache name="MarketReport"
+           timeToLiveSeconds="1440">
+    </cache>
 </ehcache>

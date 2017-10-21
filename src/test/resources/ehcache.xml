@@ -35,4 +35,8 @@
     <cache name="pro.grain.admin.domain.PersistentAuditEvent"
            timeToLiveSeconds="3600">
     </cache>
+
+    <cache name="MarketReport"
+           timeToLiveSeconds="1440">
+    </cache>
 </ehcache>

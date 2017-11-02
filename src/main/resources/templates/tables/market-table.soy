@@ -201,7 +201,9 @@
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">
                                 <a href="mailto:{$bid.agentContactEmail}" style="font-size: 10px; -webkit-text-size-adjust:none; color: #000000; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                    {$bid.agentContactEmail}
+                                    {if $bid.agentContactEmail != null}
+                                        {$bid.agentContactEmail}
+                                    {/if}
                                 </a>
                             </td>
                             <td style="padding-left: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; -webkit-text-size-adjust:none">

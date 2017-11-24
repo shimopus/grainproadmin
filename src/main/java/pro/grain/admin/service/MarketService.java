@@ -71,6 +71,10 @@ public class MarketService {
                                      String baseUrl, int rowsLimit) {
         log.debug("Generate market HTML table for station code which should be downloaded {}", stationCode);
 
+        if (stationCode != null && stationCode.equals("null")) {
+            stationCode = null;
+        }
+
         SoyMapData templateData;
         try {
             templateData = generateCommonParameters(stationCode, bidType, baseUrl, rowsLimit);

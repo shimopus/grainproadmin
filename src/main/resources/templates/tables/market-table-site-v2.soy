@@ -1,0 +1,318 @@
+{namespace tables}
+
+/**
+ * Создает таблицу со всеми заявками для рассылки
+ * @param station Станция для расчета цены. Может быть null.
+ * @param baseUrl Базовый URL для ссылок
+ * @param adminBaseUrl Базовый URL админки
+ * @param bids Список заявок для отображения.
+ * @param bidType Тип заявок в таблице - SELL, BUY
+ */
+{template .market_table_site_v2}
+    {let $passportVariant : 'site_v2' /}
+    {let $urlTarget : '' /}
+<div class="gn-table">
+
+    <div class="gn-table__header-wrapper">
+        <table class="gn-table__header">
+            <tr class="gn-table__header-row">
+                <td class="gn-table__header-cell">
+                    {$bidType == 'SELL' ? 'Размещение' : 'Грузополучатель'}
+                </td>
+                <td class="gn-table__header-cell">Агент</td>
+                <td class="gn-table__header-cell">Качество</td>
+                <td class="gn-table__header-cell">Объем, т</td>
+                <td class="gn-table__header-cell _right">Цена р/т</td>
+                <td class="gn-table__header-cell">без НДС</td>
+            </tr>
+        </table>
+    </div>
+
+{foreach $bidsGroup in $bids}
+    {foreach $bid in $bidsGroup}
+        {let $elevator : $bid.elevator /}
+        <div class="gn-table__item-wrapper">
+            <table class="gn-table__item">
+                <tr class="gn-table__item-row">
+                    <td class="gn-table__item-cell">
+                        <div class="gn-table__item-content gn-table__important">
+                            {$elevator.regionName}<br>
+                            {$elevator.districtName}<br>
+                            ст. {$elevator.stationName}<br>
+                            {$elevator.stationCode}
+                        </div>
+                        <div class="gn-table__item-content">
+                            {delcall partner.card variant="$passportVariant"}
+                                {param partnerId: $elevator.id /}
+                                {param partnerName: $elevator.shortName /}
+                                {param partnerOrgType: $elevator.organisationTypeType /}
+                                {param partnerCard: $elevator.card /}
+                                {param baseUrl: $baseUrl /}
+                                {param urlTarget: $urlTarget /}
+                            {/delcall}
+                        </div>
+                    </td>
+                    <td class="gn-table__item-cell">
+                        <div class="gn-table__item-content">
+                            {delcall partner.card variant="$passportVariant"}
+                                {param partnerId: $bid.agentId /}
+                                {param partnerName: $bid.agentShortName /}
+                                {param partnerOrgType: $bid.agentOrganisationType /}
+                                {param partnerCard: $bid.agentCard /}
+                                {param baseUrl: $baseUrl /}
+                                {param urlTarget: $urlTarget /}
+                            {/delcall}
+                        </div>
+
+                        <div class="gn-table__item-content _small">тел: {$bid.agentContactPhone}</div>
+
+                        <div class="gn-table__item-content _small">
+                            <a class="gn-table__link" href="mailto:{$bid.agentContactEmail}">
+                                {if $bid.agentContactEmail != null}
+                                    {$bid.agentContactEmail}
+                                {/if}
+                            </a>
+                        </div>
+                    </td>
+                    <td class="gn-table__item-cell">
+                        <div class="gn-table__item-content gn-table__important gn-table__big">
+                            {call .qualityClass_v2}
+                                {param qualityClass: $bid.qualityClass /}
+                            {/call}
+                        </div>
+
+                        <div class="gn-table__item-content">
+                            {delcall passport.link variant="$passportVariant"}
+                                {param bid: $bid /}
+                                {param bidType: $bidType /}
+                                {param adminBaseUrl: $adminBaseUrl /}
+                                {param baseUrl: $baseUrl /}
+                                {param urlTarget: $urlTarget /}
+                            {/delcall}
+                        </div>
+
+                        <div class="gn-table__item-content">
+                            <table class="gn-table__table">
+                                {foreach $bidParameter in $bid.qualityParameters}
+                                    <tr>
+                                        <td>
+                                            {isNonnull($bidParameter?.qualityParameterName) ? $bidParameter.qualityParameterName : ''}
+                                        </td>
+                                        <td>
+                                            {isNonnull($bidParameter?.value) ? $bidParameter.value : ''}
+                                            {isNonnull($bidParameter?.qualityParameterUnit) ? $bidParameter.qualityParameterUnit : ''}
+                                        </td>
+                                    </tr>
+                                {/foreach}
+                            </table>
+                        </div>
+                    </td>
+                    <td class="gn-table__item-cell">
+                        <div class="gn-table__item-content">
+                            <strong class="gn-table__medium-weight gn-table__important gn-table__big">{$bid.volume}</strong>
+                        </div>
+                    </td>
+                    <td class="gn-table__item-cell _right">
+                        <div class="gn-table__item-content">
+                            <strong class="gn-table__medium-weight gn-table__important gn-table__big">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null}
+                                        {$bid.cptPrice}
+                                    {elseif $station == null}
+                                        {$bid.fcaPrice}
+                                    {else}
+                                        {$bid.price}
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $bid.fcaPrice != null or $station.name == $elevator.stationName}
+                                        {$bid.fcaPrice}
+                                    {elseif $bid.cptPrice != null}
+                                        {$bid.cptPrice}
+                                    {/if}
+                                {/if}
+                            </strong>
+                        </div>
+                        <div class="gn-table__item-content _tiny">на {$bid.creationDateStr}</div>
+
+                        <div class="gn-table__infoblock">
+                            <div class="gn-table__item-content">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        {$bid.price}
+                                    {/if}
+                                {elseif $bidType == 'BUY' and $station != null and $station.name != $elevator.stationName}
+                                    {if $bid.transportationPricePrice and $bid.nds == 'EXCLUDED'}
+                                        {$bid.transportationPricePrice}
+                                    {elseif $bid.transportationPricePriceNds and $bid.nds == 'INCLUDED'}
+                                        {$bid.transportationPricePriceNds}
+                                    {/if}
+                                {/if}
+                            </div>
+                            <div class="gn-table__item-content">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        {$bid.elevator.servicePrices[0].price}
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $station != null and $station.name != $elevator.stationName}
+                                        {$bid.cptPrice}
+                                    {/if}
+                                {/if}
+                            </div>
+                            <div class="gn-table__item-content">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.transportationPricePrice and $bid.nds == 'EXCLUDED'}
+                                        {$bid.transportationPricePrice}
+                                    {elseif $bid.transportationPricePriceNds and $bid.nds == 'INCLUDED'}
+                                        {$bid.transportationPricePriceNds}
+                                    {/if}
+                                {/if}
+                            </div>
+                        </div>
+                    </td>
+                    <td class="gn-table__item-cell">
+                        <div class="gn-table__item-content">
+                            {if $bidType == 'SELL'}
+                                {if $bid.cptPrice != null}
+                                    СРТ с доставкой ж/д до
+                                {elseif $station == null}
+                                    FCA с погрузкой ж/д на
+                                {else}
+                                    EXW по переписи
+                                {/if}
+                            {elseif $bidType == 'BUY'}
+                                {if $bid.fcaPrice != null or $station.name == $elevator.stationName}
+                                    FCA с погрузкой ж/д на
+                                {elseif $bid.cptPrice != null}
+                                    СРТ с доставкой ж/д до
+                                {/if}
+                            {/if}<br>
+                            {if $bidType == 'SELL'}
+                                {if $bid.cptPrice != null}
+                                    ст. {$station.name}
+                                {elseif $station == null}
+                                    ст. {$elevator.stationName}
+                                {/if}
+                            {elseif $bidType == 'BUY'}
+                                {if $bid.fcaPrice != null or ($station != null and $station.name == $elevator.stationName)}
+                                    ст. {$station.name}
+                                {elseif $bid.cptPrice != null}
+                                    ст. {$elevator.stationName}
+                                {/if}
+                            {/if}
+                        </div>
+                        <div class="gn-table__infoblock">
+                            <div class="gn-table__item-content">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        EXW по переписи
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $station != null and $station.name != $elevator.stationName}
+                                        доставка ж/д (Русагротранс)
+                                    {/if}
+                                {/if}
+                            </div>
+                            <div class="gn-table__item-content">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        погрузка ж/д
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $station != null and $station.name != $elevator.stationName}
+                                        СРТ с доставкой ж/д до
+                                    {/if}
+                                {/if}
+                            </div>
+                            <div class="gn-table__item-content">
+                                {if $bidType == 'SELL'}
+                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        доставка ж/д Русагротранс
+                                    {/if}
+                                {elseif $bidType == 'BUY'}
+                                    {if $station != null and $station.name != $elevator.stationName}
+                                        ст. {$elevator.stationName}
+                                    {/if}
+                                {/if}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    {/foreach}
+{/foreach}
+</div>
+{/template}
+
+/**
+ * Создает ссылку на картинки по дефолту
+  * @param adminBaseUrl Базовый URL для админки
+  * @param baseUrl Базовый URL для ссылок
+  * @param urlTarget
+  * @param bid заявкa для отображения.
+  * @param bidType Тип заявок в таблице - SELL, BUY
+ */
+{deltemplate passport.link variant="'site_v2'"}
+<a href="{$baseUrl}#/market/{$bid.id}/carousel" target="{$urlTarget}">
+    {$bidType == 'SELL' ? 'карта анализа' : 'спецификация'}
+</a>
+{/deltemplate}
+
+/**
+ * Создает ссылку на картинки по дефолту
+  * @param partnerId партнер
+  * @param partnerName
+  * @param partnerOrgType
+  * @param partnerCard
+  * @param baseUrl Базовый URL для ссылок
+  * @param urlTarget
+ */
+{deltemplate partner.card variant="'site_v2'"}
+<a class="gn-table__link" href="{$baseUrl}#/market/{$partnerId}/card" target="{$urlTarget}">
+    {$partnerName} {$partnerOrgType}
+</a>
+{/deltemplate}
+
+/**
+ * Перевод QualityClass значений
+ * @param qualityClass Текущая дата
+ */
+{template .qualityClass_v2}
+    {switch $qualityClass}
+      {case 'BKL'}
+        ГОСТ Р 52554-2006
+        <span class="gn-table__class _gray">б/кл</span>
+      {case 'ONE'}
+        ГОСТ Р 52554-2006
+        <span class="gn-table__class">1кл</span>
+      {case 'TWO'}
+        ГОСТ Р 52554-2006
+        <span class="gn-table__class">2кл</span>
+      {case 'THREE'}
+        ГОСТ Р 52554-2006
+        <span class="gn-table__class _orange">3кл</span>
+      {case 'FOUR'}
+        ГОСТ Р 52554-2006
+        <span class="gn-table__class">4кл</span>
+      {case 'FIVE'}
+        ГОСТ Р 52554-2006
+        <span class="gn-table__class _red">5кл</span>
+      {case 'SIX'}
+        ГОСТ Р 54078-2010
+        <span class="gn-table__class _gray">б/кл</span>
+      {case 'SEVEN'}
+        ГОСТ Р 54078-2010
+        <span class="gn-table__class">1кл</span>
+      {case 'EIGHT'}
+        ГОСТ Р 54078-2010
+        <span class="gn-table__class">2кл</span>
+      {case 'NINE'}
+        ГОСТ Р 54078-2010
+        <span class="gn-table__class _orange">3кл</span>
+      {case 'TEN'}
+        TEN
+        <span class="gn-table__class">кл.</span>
+      {default}
+    {/switch}
+{/template}

@@ -44,12 +44,18 @@ public class MarketTableController {
         method = RequestMethod.GET,
         produces = MediaType.TEXT_HTML_VALUE)
     @Timed
-    public ResponseEntity<String> getAllRegionsForSite(@RequestParam(value = "code", required = false) String code, @RequestParam("bidType") BidType bidType)
+    public ResponseEntity<String> getAllRegionsForSite(@RequestParam(value = "code", required = false) String code,
+                                                       @RequestParam("bidType") BidType bidType,
+                                                       @RequestParam(value = "v", required = false) String version)
         throws URISyntaxException {
         log.debug("REST request to get a list of bids for station code on site {}", code);
 
         return ResponseEntity.ok()
-            .body(marketService.getMarketTableHTML(code, bidType,"market_table_site", ""));
+            .body(marketService.getMarketTableHTML(
+                code,
+                bidType,
+                "2".equalsIgnoreCase(version) ? "market_table_site_v2" : "market_table_site",
+                ""));
     }
 
     @RequestMapping(value = "/market-table/download",

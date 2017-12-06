@@ -55,7 +55,7 @@ public interface BidPriceMapper {
         if (creationDate == null) {
             return null;
         }
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy");
 
         return creationDate.format(formatter);
     }

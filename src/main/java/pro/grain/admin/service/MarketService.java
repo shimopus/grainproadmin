@@ -50,6 +50,7 @@ public class MarketService {
                 .add(getFileFromResources("templates/tables/market-table-email-inside.soy"))
                 .add(getFileFromResources("templates/tables/market-table-admin.soy"))
                 .add(getFileFromResources("templates/tables/market-table-site.soy"))
+                .add(getFileFromResources("templates/tables/market-table-site-v2.soy"))
                 .build();
 
             // Compile the template into a SoyTofu object.

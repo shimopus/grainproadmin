@@ -254,9 +254,19 @@
   * @param bidType Тип заявок в таблице - SELL, BUY
  */
 {deltemplate passport.link variant="'site_v2'"}
-<a href="{$baseUrl}#/market/{$bid.id}/carousel" target="{$urlTarget}">
-    {$bidType == 'SELL' ? 'карта анализа' : 'спецификация'}
-</a>
+
+{foreach $passport in $bid.qualityPassports}
+    {let $display kind="css"}
+        {isFirst($passport) ? 'inline' : 'none'}
+    {/let}
+    {let $id: isFirst($passport) ? $bid.id : '' /}
+
+    <a style="display:{$display};" href="javascript:;"
+        data-fancybox="{$bid.id}" data-type="image"
+        data-src="{$adminBaseUrl}pages/passport/{$passport.id}/{$passport.title}"
+        id="{$id}">{$bidType == 'SELL' ? 'карта анализа' : 'спецификация'}</a>
+{/foreach}
+
 {/deltemplate}
 
 /**
@@ -269,9 +279,20 @@
   * @param urlTarget
  */
 {deltemplate partner.card variant="'site_v2'"}
-<a class="gn-table__link" href="{$baseUrl}#/market/{$partnerId}/card" target="{$urlTarget}">
+
+{let $id: randomInt(1000000) /}
+<a class="gn-table__link"
+    href="{$baseUrl}#/market/{$partnerId}/card" target="{$urlTarget}"
+    data-fancybox data-src="#card{$id}" id="{$partnerId}">
     {$partnerName} {$partnerOrgType}
 </a>
+{let $card kind="text"}
+    {isNonnull($partnerCard) ? $partnerCard : 'Нет информации'}
+{/let}
+<div style="display:none" id="card{$id}">
+    {$card |changeNewlineToBr}
+</div>
+
 {/deltemplate}
 
 /**

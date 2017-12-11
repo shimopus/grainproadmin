@@ -242,6 +242,9 @@
         </div>
     {/foreach}
 {/foreach}
+    <div class="gn-table__footer">
+        ООО "База" Информация, носит исключительно информационный характер и ни при каких условиях не является публичной офертой, определяемой положениями статьи 437 Гражданского кодекса Российской Федерации. Для получения подробных сведений о стоимости товаров и условиях их поставки необходимо обратиться к продавцу.
+    </div>
 </div>
 {/template}
 
@@ -303,34 +306,34 @@
     {switch $qualityClass}
       {case 'BKL'}
         ГОСТ Р 52554-2006
-        <span class="gn-table__class _gray">б/кл</span>
+        <span class="gn-table__class _none">б/кл</span>
       {case 'ONE'}
         ГОСТ Р 52554-2006
-        <span class="gn-table__class">1кл</span>
+        <span class="gn-table__class _1st">1кл</span>
       {case 'TWO'}
         ГОСТ Р 52554-2006
-        <span class="gn-table__class">2кл</span>
+        <span class="gn-table__class _2nd">2кл</span>
       {case 'THREE'}
         ГОСТ Р 52554-2006
-        <span class="gn-table__class _orange">3кл</span>
+        <span class="gn-table__class _3rd">3кл</span>
       {case 'FOUR'}
         ГОСТ Р 52554-2006
-        <span class="gn-table__class">4кл</span>
+        <span class="gn-table__class _4th">4кл</span>
       {case 'FIVE'}
         ГОСТ Р 52554-2006
-        <span class="gn-table__class _red">5кл</span>
+        <span class="gn-table__class _5th">5кл</span>
       {case 'SIX'}
         ГОСТ Р 54078-2010
-        <span class="gn-table__class _gray">б/кл</span>
+        <span class="gn-table__class _none">б/кл</span>
       {case 'SEVEN'}
         ГОСТ Р 54078-2010
-        <span class="gn-table__class">1кл</span>
+        <span class="gn-table__class _1st">1кл</span>
       {case 'EIGHT'}
         ГОСТ Р 54078-2010
-        <span class="gn-table__class">2кл</span>
+        <span class="gn-table__class _2nd">2кл</span>
       {case 'NINE'}
         ГОСТ Р 54078-2010
-        <span class="gn-table__class _orange">3кл</span>
+        <span class="gn-table__class _3rd">3кл</span>
       {case 'TEN'}
         TEN
         <span class="gn-table__class">кл.</span>

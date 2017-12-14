@@ -86,7 +86,7 @@ jhipster:
         maxPoolSize: 50
         queueCapacity: 10000
     cors: #By default CORS are not enabled. Uncomment to enable.
-        allowed-origins: "http://grain.pro, http://grainpro.dev"
+        allowed-origins: "http://grain.pro, http://new.grain.pro"
         allowed-methods: GET
         allowed-headers: "*"
         exposed-headers:

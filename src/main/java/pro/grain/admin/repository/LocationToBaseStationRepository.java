@@ -12,4 +12,13 @@ public interface LocationToBaseStationRepository extends JpaRepository<LocationT
 
     @Query("select distinct ltbs.baseStation from LocationToBaseStation ltbs")
     List<Station> getAllBaseStatons();
+
+    @Query("select distinct lts.baseStation from Partner part, Station part_st, LocationToBaseStation lts " +
+        "where " +
+        "part.station.id = part_st.id and " +
+        "lts.pk.region.id = part_st.region.id and " +
+        "lts.pk.district.id = part_st.district.id and " +
+        "(part_st.locality is null or " +
+        "lts.pk.locality.id = part_st.locality.id)")
+    List<Station> getBaseStationsForCurrentPartners();
 }

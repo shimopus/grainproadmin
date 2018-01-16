@@ -150,7 +150,7 @@ public class PriceUpdateQueueService {
 
         List<Pair<Station, Station>> queue = new ArrayList<>();
 
-        List<Station> baseStations = locationToBaseStationRepository.getAllBaseStatons();
+        List<Station> baseStations = locationToBaseStationRepository.getBaseStationsForCurrentPartners();
 
         for (int i = 0; i < baseStations.size(); i++) {
             Station stationFrom = baseStations.get(i);
@@ -178,7 +178,7 @@ public class PriceUpdateQueueService {
             int prices = priceUpdateQueueRepository.findByStationCodes(
                 pair.getLeft().getCode(),
                 pair.getRight().getCode(),
-                grainProAdminProperties.getPrice().getCurrentVersionNumber());
+                grainProAdminProperties.getPrice().getCurrentVersionNumber()+1);
 
             if (prices == 0) {
                 log.warn("Adding new in queue from {} to {}. Prices {}", pair.getLeft().getName(), pair.getRight().getName(), prices);

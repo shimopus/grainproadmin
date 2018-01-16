@@ -27,11 +27,12 @@ import pro.grain.admin.domain.enumeration.NDS;
     },
     columns = {
         @ColumnResult(name = "tp_price", type = Long.class),
-        @ColumnResult(name = "tp_priceNds", type = Long.class)
+        @ColumnResult(name = "tp_priceNds", type = Long.class),
+        @ColumnResult(name = "tp_ver", type = Integer.class),
     }
 )
 @NamedNativeQuery(name="Bid.findAllCurrentBidsWithTransportationPrice",
-    query = "select bid.*, tp.price as tp_price, tp.price_nds as tp_priceNds " +
+    query = "select bid.*, tp.price as tp_price, tp.price_nds as tp_priceNds, tp.version_number as tp_ver " +
         "from bid, transportation_price tp, station_location lts, partner part, station stat " +
         "where " +
         //Только активные заявки
@@ -46,6 +47,7 @@ import pro.grain.admin.domain.enumeration.NDS;
         "   (stat.locality_id is null or " +
         "   lts.locality_id = stat.locality_id) and " +
 
+        "((" +
         //Проверяем в одном направлении
         "   ((cast(tp.station_from_code as text) = lts.code and " +
         "     cast(tp.station_to_code as text) = cast(:code as text)) " +
@@ -56,11 +58,27 @@ import pro.grain.admin.domain.enumeration.NDS;
         "    (cast(tp.station_to_code as text) = lts.code and " +
         "     cast(tp.station_from_code as text) = cast(:code as text))) and " +
 
-        //Определяем тип доставок
-        "    cast(bid.bid_type as text) like cast(:bidType as text) and " +
+        //Цены только новой версии
+        "    cast(tp.version_number as int) = cast(:versionNumber as int) + 1" +
+        ") or " +
+
+        "(" +
+        //Проверяем в одном направлении
+        "   ((cast(tp.station_from_code as text) = lts.code and " +
+        "     cast(tp.station_to_code as text) = cast(:code as text)) " +
+
+        " or " +
+
+        //Проверяем в другом
+        "    (cast(tp.station_to_code as text) = lts.code and " +
+        "     cast(tp.station_from_code as text) = cast(:code as text))) and " +
 
         //Цены только текущей версии
-        "    cast(tp.version_number as int) = cast(:versionNumber as int)",
+        "    cast(tp.version_number as int) = cast(:versionNumber as int)" +
+        ")) and" +
+
+        //Определяем тип доставок
+        "    cast(bid.bid_type as text) like cast(:bidType as text)",
     resultSetMapping="bid_price")
 @Table(name = "bid")
 @Cache(usage = CacheConcurrencyStrategy.NONE)

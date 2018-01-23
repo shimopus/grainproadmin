@@ -150,7 +150,8 @@ public class PriceUpdateQueueService {
 
         List<Pair<Station, Station>> queue = new ArrayList<>();
 
-        List<Station> baseStations = locationToBaseStationRepository.getBaseStationsForCurrentPartners();
+//        List<Station> baseStations = locationToBaseStationRepository.getBaseStationsForCurrentPartners();
+        List<Station> baseStations = locationToBaseStationRepository.getAllBaseStatons();
 
         for (int i = 0; i < baseStations.size(); i++) {
             Station stationFrom = baseStations.get(i);

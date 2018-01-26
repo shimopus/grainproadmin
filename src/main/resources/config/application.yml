@@ -119,3 +119,7 @@ grainproadmin:
         currentVersionNumber: 2
     price-upload:
         downloadBucketSize: 30000
+    site:
+        baseUrl: "http://grain.pro"
+        sellPagePath: "/grain-sell/"
+        buyPagePath: "/grain-buy/"

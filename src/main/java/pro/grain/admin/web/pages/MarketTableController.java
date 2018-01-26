@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import pro.grain.admin.config.GrainProAdminProperties;
 import pro.grain.admin.domain.enumeration.BidType;
 import pro.grain.admin.service.MarketService;
 
@@ -23,9 +24,12 @@ public class MarketTableController {
 
     private final MarketService marketService;
 
+    private final GrainProAdminProperties grainProAdminProperties;
+
     @Inject
-    public MarketTableController(MarketService marketService) throws IOException {
+    public MarketTableController(MarketService marketService, GrainProAdminProperties grainProAdminProperties) throws IOException {
         this.marketService = marketService;
+        this.grainProAdminProperties = grainProAdminProperties;
     }
 
     @RequestMapping(value = "/market-table/admin",
@@ -66,7 +70,9 @@ public class MarketTableController {
         throws URISyntaxException {
         log.debug("REST request to download list of bids for station code {}", code);
 
-        String baseUrl = bidType == BidType.SELL ? "http://grain.pro/" : "http://grain.pro/grain-buy/";
+        String baseUrl = bidType == BidType.SELL ?
+            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getSellPagePath() :
+            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getBuyPagePath();
 
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -83,7 +89,9 @@ public class MarketTableController {
         @RequestParam("bidType") BidType bidType) {
         log.debug("REST request to email inside list of bids for station code {}", code);
 
-        String baseUrl = bidType == BidType.SELL ? "http://grain.pro/" : "http://grain.pro/grain-buy/";
+        String baseUrl = bidType == BidType.SELL ?
+            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getSellPagePath() :
+            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getBuyPagePath();
 
         int rowsLimitI = rowsLimit == null ? -1 : rowsLimit;
         return ResponseEntity.ok()

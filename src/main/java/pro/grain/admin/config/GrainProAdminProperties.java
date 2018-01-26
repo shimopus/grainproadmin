@@ -18,6 +18,8 @@ public class GrainProAdminProperties {
 
     private Mailer mailer = new Mailer();
 
+    private Site site = new Site();
+
     public PriceUpload getPriceUpload() {
         return priceUpload;
     }
@@ -28,6 +30,14 @@ public class GrainProAdminProperties {
 
     public Mailer getMailer() {
         return mailer;
+    }
+
+    public Site getSite() {
+        return site;
+    }
+
+    public void setSite(Site site) {
+        this.site = site;
     }
 
     public static class PriceUpload {
@@ -63,6 +73,36 @@ public class GrainProAdminProperties {
 
         public void setUrl(String url) {
             this.url = url;
+        }
+    }
+
+    public static class Site {
+        private String baseUrl = "";
+        private String sellPagePath = "";
+        private String buyPagePath = "";
+
+        public String getSellPagePath() {
+            return sellPagePath;
+        }
+
+        public void setSellPagePath(String sellPagePath) {
+            this.sellPagePath = sellPagePath;
+        }
+
+        public String getBuyPagePath() {
+            return buyPagePath;
+        }
+
+        public void setBuyPagePath(String buyPagePath) {
+            this.buyPagePath = buyPagePath;
+        }
+
+        public String getBaseUrl() {
+            return baseUrl;
+        }
+
+        public void setBaseUrl(String baseUrl) {
+            this.baseUrl = baseUrl;
         }
     }
 }

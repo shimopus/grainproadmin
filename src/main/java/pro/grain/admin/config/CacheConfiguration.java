@@ -73,8 +73,8 @@ public class CacheConfiguration {
         net.sf.ehcache.Cache cache = cacheManager.getCache(name);
         if (cache != null) {
             cache.getCacheConfiguration().setTimeToLiveSeconds(jHipsterProperties.getCache().getTimeToLiveSeconds());
-            net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
-            cacheManager.replaceCacheWithDecoratedCache(cache, decoratedCache);
+//            net.sf.ehcache.Ehcache decoratedCache = InstrumentedEhcache.instrument(metricRegistry, cache);
+//            cacheManager.replaceCacheWithDecoratedCache(cache, decoratedCache);
         }
     }
 

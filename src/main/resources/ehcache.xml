@@ -3,19 +3,20 @@
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
          name="CM1"
          updateCheck="false"
-         maxBytesLocalHeap="16M">
+         maxBytesLocalHeap="16M"
+         maxBytesLocalDisk="200M"
+>
 
     <!--
       This is a default configuration, it is re-configured by the CacheConfiguration Spring Bean, using the
       properties from the resources/config/*.yml files.
     -->
+    <defaultCache
+        overflowToDisk="true"
+        eternal="false"
+    />
 
     <diskStore path="java.io.tmpdir"/>
-
-    <defaultCache
-            eternal="false"
-            overflowToDisk="false"
-            />
 
     <cache name="pro.grain.admin.domain.User"
            timeToLiveSeconds="3600">
@@ -148,6 +149,7 @@
 
     <!-- jhipster-needle-ehcache-add-entry -->
     <cache name="MarketReport"
-           timeToLiveSeconds="1440">
+           timeToLiveSeconds="1440"
+    >
     </cache>
 </ehcache>

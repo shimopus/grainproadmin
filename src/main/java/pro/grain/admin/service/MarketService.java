@@ -62,12 +62,12 @@ public class MarketService {
         }
     }
 
-    @Cacheable("MarketReport")
+//    @Cacheable("MarketReport")
     public String getMarketTableHTML(String stationCode, BidType bidType, String templateName, String baseUrl) {
         return getMarketTableHTML(stationCode, bidType, templateName, baseUrl, -1);
     }
 
-    @Cacheable("MarketReport")
+    @Cacheable(value = "MarketReport", condition = "#stationCode==null")
     public String getMarketTableHTML(String stationCode, BidType bidType, String templateName,
                                      String baseUrl, int rowsLimit) {
         log.debug("Generate market HTML table for station code which should be downloaded {}", stationCode);
@@ -186,7 +186,7 @@ public class MarketService {
 
             } catch (KeySelectorException e) {
                 log.error("Could not calculate destination station", e);
-                errors.add("Не возможно вычислить базовую станцию для станции " + stationToCode);
+                errors.add("Невозможно вычислить базовую станцию для станции " + stationToCode);
                 throw new MarketGenerationException("Could not calculate destination station",
                     errors
                     , e);

@@ -333,7 +333,7 @@
                             <td style="padding-left: 10px; padding-right: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                 <span style="font-size: 10px; -webkit-text-size-adjust:none">
                                     {if $bidType == 'SELL'}
-                                        {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                        {if $station != null and ($bid.cptPrice != null or $bid.fcaPrice != null)}
                                             доставка ж/д (Русагротранс)
                                         {/if}
                                     {elseif $bidType == 'BUY'}

@@ -226,7 +226,7 @@
                             </div>
                             <div class="gn-table__item-content">
                                 {if $bidType == 'SELL'}
-                                    {if $bid.cptPrice != null or $bid.fcaPrice != null}
+                                    {if $station != null and ($bid.cptPrice != null or $bid.fcaPrice != null)}
                                         доставка ж/д Русагротранс
                                     {/if}
                                 {elseif $bidType == 'BUY'}

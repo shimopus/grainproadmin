@@ -84,7 +84,7 @@
  */
 {deltemplate passport.link variant="'download'"}
 <a style="color: #315597"
-    href="{$baseUrl}#/market/{$bid.id}/carousel?from=email" target="{$urlTarget}">{$bidType == 'SELL' ? 'карта анализа' : 'спецификация'}</a>
+    href="{$baseUrl}#/market/{$bid.id}/carousel" target="{$urlTarget}">{$bidType == 'SELL' ? 'карта анализа' : 'спецификация'}</a>
 {/deltemplate}
 
 /**
@@ -98,7 +98,7 @@
  */
 {deltemplate partner.card variant="'download'"}
 <a style="color: #315597; -webkit-text-size-adjust:none"
-    href="{$baseUrl}#/market/{$partnerId}/card?from=email" target="{$urlTarget}">
+    href="{$baseUrl}#/market/{$partnerId}/card" target="{$urlTarget}">
     {$partnerName} {$partnerOrgType}
 </a>
 {/deltemplate}

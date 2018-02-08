@@ -70,9 +70,11 @@ public class MarketTableController {
         throws URISyntaxException {
         log.debug("REST request to download list of bids for station code {}", code);
 
-        String baseUrl = bidType == BidType.SELL ?
-            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getSellPagePath() :
-            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getBuyPagePath();
+        String baseUrl = grainProAdminProperties.getSite().getBaseUrl()
+            + (bidType == BidType.SELL ?
+            grainProAdminProperties.getSite().getSellPagePath() :
+            grainProAdminProperties.getSite().getBuyPagePath())
+            + (code != null && !"".equals(code) ? "?code=" + code : "");
 
         return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
@@ -89,9 +91,11 @@ public class MarketTableController {
         @RequestParam("bidType") BidType bidType) {
         log.debug("REST request to email inside list of bids for station code {}", code);
 
-        String baseUrl = bidType == BidType.SELL ?
-            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getSellPagePath() :
-            grainProAdminProperties.getSite().getBaseUrl() + grainProAdminProperties.getSite().getBuyPagePath();
+        String baseUrl = grainProAdminProperties.getSite().getBaseUrl()
+            + (bidType == BidType.SELL ?
+                grainProAdminProperties.getSite().getSellPagePath() :
+                grainProAdminProperties.getSite().getBuyPagePath())
+            + (code != null && !"".equals(code) ? "?code=" + code : "");
 
         int rowsLimitI = rowsLimit == null ? -1 : rowsLimit;
         return ResponseEntity.ok()

@@ -75,24 +75,25 @@
                         </div>
                     </td>
                     <td class="gn-table__item-cell">
-                        <div class="gn-table__item-content gn-table__important gn-table__big">
-                            {call .qualityClass_v2}
-                                {param qualityClass: $bid.qualityClass /}
-                            {/call}
-                        </div>
-
-                        <div class="gn-table__item-content">
-                            {delcall passport.link variant="$passportVariant"}
-                                {param bid: $bid /}
-                                {param bidType: $bidType /}
-                                {param adminBaseUrl: $adminBaseUrl /}
-                                {param baseUrl: $baseUrl /}
-                                {param urlTarget: $urlTarget /}
-                            {/delcall}
-                        </div>
-
                         <div class="gn-table__item-content">
                             <table class="gn-table__table">
+                                <tr>
+                                    {call .qualityClass_v2}
+                                        {param qualityClass: $bid.qualityClass /}
+                                    {/call}
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {delcall passport.link variant="$passportVariant"}
+                                            {param bid: $bid /}
+                                            {param bidType: $bidType /}
+                                            {param adminBaseUrl: $adminBaseUrl /}
+                                            {param baseUrl: $baseUrl /}
+                                            {param urlTarget: $urlTarget /}
+                                        {/delcall}
+                                    </td>
+                                    <td></td>
+                                </tr>
                                 {foreach $bidParameter in $bid.qualityParameters}
                                     <tr>
                                         <td>
@@ -305,38 +306,104 @@
 {template .qualityClass_v2}
     {switch $qualityClass}
       {case 'BKL'}
-        ГОСТ Р 52554-2006
-        <span class="gn-table__class _none">б/кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 52554-2006
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _none">б/кл</span>
+        </td>
       {case 'ONE'}
-        ГОСТ Р 52554-2006
-        <span class="gn-table__class _1st">1кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 52554-2006
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _1st">1кл</span>
+        </td>
       {case 'TWO'}
-        ГОСТ Р 52554-2006
-        <span class="gn-table__class _2nd">2кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 52554-2006
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _2nd">2кл</span>
+        </td>
       {case 'THREE'}
-        ГОСТ Р 52554-2006
-        <span class="gn-table__class _3rd">3кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 52554-2006
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _3rd">3кл</span>
+        </td>
       {case 'FOUR'}
-        ГОСТ Р 52554-2006
-        <span class="gn-table__class _4th">4кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 52554-2006
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _4th">4кл</span>
+        </td>
       {case 'FIVE'}
-        ГОСТ Р 52554-2006
-        <span class="gn-table__class _5th">5кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 52554-2006
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _5th">5кл</span>
+        </td>
       {case 'SIX'}
-        ГОСТ Р 54078-2010
-        <span class="gn-table__class _none">б/кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 54078-2010
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _none">б/кл</span>
+        </td>
       {case 'SEVEN'}
-        ГОСТ Р 54078-2010
-        <span class="gn-table__class _1st">1кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 54078-2010
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _1st">1кл</span>
+        </td>
       {case 'EIGHT'}
-        ГОСТ Р 54078-2010
-        <span class="gn-table__class _2nd">2кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 54078-2010
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _2nd">2кл</span>
+        </td>
       {case 'NINE'}
-        ГОСТ Р 54078-2010
-        <span class="gn-table__class _3rd">3кл</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                ГОСТ Р 54078-2010
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class _3rd">3кл</span>
+        </td>
       {case 'TEN'}
-        TEN
-        <span class="gn-table__class">кл.</span>
+        <td>
+            <div class="gn-table__item-content gn-table__important gn-table__big">
+                TEN
+            </div>
+        </td>
+        <td>
+            <span class="gn-table__class">кл.</span>
+        </td>
       {default}
     {/switch}
 {/template}
